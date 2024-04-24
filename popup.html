@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+<html>
+<script src="popup.js"></script>
+<script src="sections.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css">
+
+<body>
+    <!-- Разделы -->
+    <div class="tab">
+        <button class="tablinks" id="tablink-Основные ссылки">Основные ссылки</button>
+        <button class="tablinks" id="tablink-Полезное">Полезное</button>
+        <!--<button class="tablinks" id="tablink-Роутеры">Роутеры</button>
+        <button class="tablinks" id="tablink-Приставки">Приставки</button> -->
+    </div>
+
+    <!-- Контент раздела Полезное-->
+    <div id="Полезное" class="tabcontent">
+        <h4>Данные от Rotek:</h4>
+        Интерфейс:
+        http://192.168.0.1/connect5 <br />
+        admin / CCzxNRBN7y <br />
+        admin / 2Y6aAy6Nvy <br />
+        admin / admin <br /><br />
+        <h4>Данные от DASAN</h4>
+        Интерфейс: <br />
+        192.168.55.1 <br />
+        192.168.55.1:80 <br />
+        192.168.55.1:85 <br />
+        192.168.55.1:8080 <br /><br />
+        Суперпользователь: admin<br />
+        Пароль: crocus23 / vorkun28 / vertex25 / crimas37 / admin
+        <br /><br />
+
+        <h4>Проверка MAC-адреса</h4>
+        <form id="form">
+            <input type="text" id="inputField" name="inputField" placeholder="Введи мак" maxlength="17" autofocus />
+            <button id="submit">Найти</button>
+        </form>
+    </div>
+    <div id="Основные ссылки" class="tabcontent">
+        <div class="row">
+            <div class="column">
+                <h4>Главное</h4>
+                <a href="http://genesys-app1.cc4.ertelecom.ru:82/ui/ad/v1/index.html" target="_blank">Генезис</a>
+                <br />
+                <a href="https://perm.db.ertelecom.ru/cgi-bin/ppo/excells/wcc_main.entry_continue"
+                    target="_blank">Веб-АРМ</a>
+                <br />
+                <a href="https://mail.domru.ru/owa/" target="_blank">Почта</a>
+                <br /><br />
+                <h4>Линии</h4>
+                <a href="https://okc.ertelecom.ru/stats/genesys-ntp/line" target="_blank">НЦК</a>
+                <br />
+                <a href="https://okc.ertelecom.ru/stats/line_ts/ntp1/index" target="_blank">НТП1</a>
+                <br />
+                <a href="https://okc.ertelecom.ru/stats/line_ts/ntp2/index" target="_blank">НТП2</a>
+                <br />
+                <a href="https://okc.ertelecom.ru/stats/line/okc2wfm_okc" target="_blank">ОЦК</a>
+                <br /><br />
+                <h4>Перерывы</h4>
+                <a href="https://okc.ertelecom.ru/stats/breaks/ntp-nck-one" target="_blank">НЦК1</a>
+                <br />
+                <a href="https://okc.ertelecom.ru/stats/breaks/ntp-nck-two" target="_blank">НЦК2</a>
+                <br /><br />
+                <h4>Графики</h4>
+                <a href="https://okc2.ertelecom.ru/wfm/vueapp/personal" target="_blank">Личный</a>
+                <br />
+                <a href="https://okc2.ertelecom.ru/wfm/vueapp/day" target="_blank">На день</a>
+                <br />
+                <a href="https://okc2.ertelecom.ru/wfm/vueapp/month" target="_blank">На месяц</a>
+                <br /><br />
+            </div>
+            <div class="column">
+                <h4>Базы знаний</h4>
+                <a href="https://kbn.ertelecom.ru" target="_blank">KBN</a>
+                <br />
+                <a href="https://clever.ertelecom.ru" target="_blank">Clever</a>
+                <br /><br />
+                <h4>Статистика</h4>
+                <a href="https://okc.ertelecom.ru/stats/ure/main/ure" target="_blank">Единая отчетная среда</a>
+                <br />
+                <a href="https://okc.ertelecom.ru/test/gok/ntp-nck-one/" target="_blank">Гок | НЦК1</a>
+                <br />
+                <a href="https://okc.ertelecom.ru/test/gok/ntp-nck-two/" target="_blank">Гок | НЦК2</a>
+                <br />
+                <a href="https://okc.ertelecom.ru/stats/csi/csi/index" target="_blank">Оценки CSI</a>
+                <br />
+                <a href="https://okc.ertelecom.ru/stats/premium/ntp-nck1/spec_month" target="_blank">Премия |
+                    НЦК1</a>
+                <br />
+                <a href="https://okc.ertelecom.ru/stats/premium/ntp-nck2/spec_month" target="_blank">Премия |
+                    НЦК2</a>
+            </div>
+            <div class="column">
+                <h4>Для работы</h4>
+                <h5>Интернет</h5>
+                <a href="http://octptest.corp.ertelecom.loc/diagnostic-results/" target="_blank">FTP-сервер</a>
+                <br />
+                <a href="http://octptest.corp.ertelecom.loc/diagnostic-results/mobile/" target="_blank">Тест с
+                    мобилы</a>
+                <br />
+                <a href="http://octptest.corp.ertelecom.loc/diagnostic-results/perm/" target="_blank">Тест с ПК</a>
+                <br />
+                <a href="https://provisioning.ertelecom.ru/devices/" target="_blank">Провижининг</a>
+                <br /><br />
+                <h5>Приставки</h5>
+                <a href="http://cpe.domru.ru/tv/swupdate_primary/STB/add_nuid_and_version.php" target="_blank">Прошивки приставок</a> (thinktwice)
+                <br />
+                <a href="https://okc.ertelecom.ru/stats/emulator/index" target="_blank">Эмулятор приставок</a>
+                <br />
+                <a href="https://cms.ertelecom.ru" target="_blank">Сброс пин-кода</a>
+                <br /><br />
+                <h5>Другое</h5>
+                <a href="http://cm.roool.ru/" target="_blank">Чат мастер</a>
+                <br />
+                <a href="https://okc.ertelecom.ru/stats/appl/chart/index" target="_blank">Обращения в КЦ</a>
+                <br />
+                <a href="http://kbn.ertelecom.ru/download/attachments/26169803/Разблокировка логинов.pdf" target="_blank">Разблокировка логинов</a>
+                <br />
+                <a href="https://mh-dashboard-erth.proptech.ru/web/" target="_blank">Дашборд домофонии</a>
+                <br />
+                <a href="http://10.121.5.198/lenta" target="_blank">Генератор ленты</a>
+                (lentagen:genpass)
+            </div>
+        </div>
+    </div>
+    <!--<div id="Роутеры" class="tabcontent" style="overflow-x:auto;">
+        <table style="width:100%">
+            <caption>TP-Link</caption>
+            <tr>
+                <th>Модель</th>
+                <th>БЗ</th>
+                <th>Сброс</th>
+                <th>PPPoE</th>
+                <th>DHCP</th>
+                <th>Static IP</th>
+                <th>VPN</th>
+                <th>PPPoE Relay</th>
+                <th>IPv6</th>
+                <th>WDS</th>
+                <th>Проброс портов</th>
+                <th>Род. контроль</th>
+                <th>IGMP</th>
+                <th>Настройка Wi-Fi</th>
+                <th>Смена каналов</th>
+                <th>Привязка IP и MAC-адресов</th>
+            </tr>
+            <tr>
+                <td>Зеленый интерфейс</td>
+                <td><a href=""
+                        target="_blank">Тык</a></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Archer С5/С9/EC220</td>
+                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/460/article/1495" target="_blank">Тык</a></td>
+                <td><a href="https://oren.dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_003" target="_blank">Тык</a></td>
+                <td><a href="https://oren.dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_003" target="_blank">Тык</a></td>
+                <td><a href="https://oren.dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_003" target="_blank">Тык</a></td>
+                <td><a href="https://oren.dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_003" target="_blank">Тык</a></td>
+                <td><a href="https://oren.dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_003" target="_blank">Тык</a></td>
+                <td><a href="https://oren.dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_003" target="_blank">Тык</a></td>
+                <td><a href="https://oren.dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_003" target="_blank">Тык</a></td>
+            </tr>
+        </table>
+    </div> -->
+</body>
+
+</html>

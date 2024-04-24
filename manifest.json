@@ -1,0 +1,20 @@
+﻿{
+  "manifest_version": 2,
+  "name": "Помощник",
+  "description": "",
+  "version": "1.2",
+
+  "content_scripts": [
+    {
+      "all_frames": true,
+      "js": ["background.js", "highlights.js", "popup.js", "sections.js"],
+      "matches": ["http://*/*", "https://*/*"]
+    }
+  ],
+  "permissions": ["http://*/*", "https://*/*", "contextMenus", "tabs"],
+  "browser_action": {
+    "default_title": "Помощник",
+    "default_icon": "domru.png",
+    "default_popup": "popup.html"
+  }
+}
