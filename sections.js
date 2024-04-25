@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Получаем все кнопки с классом "tablinks"
   var tablinks = document.getElementsByClassName("tablinks");
 
+  document.getElementById("tablink-Основные ссылки").click();
   // Добавляем обработчик событий для каждой кнопки
   for (var i = 0; i < tablinks.length; i++) {
     tablinks[i].addEventListener("click", function (event) {
@@ -13,16 +14,15 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function openSection(evt, sectionName) {
-  // Declare all variables
   var i, tabcontent, tablinks;
 
-  // Get all elements with class="tabcontent" and hide them
+  // Получаем все элементы с классом "tabcontent" и прячем их
   tabcontent = document.getElementsByClassName("tabcontent");
   for (i = 0; i < tabcontent.length; i++) {
     tabcontent[i].style.display = "none";
   }
 
-  // Get all elements with class="tablinks" and remove the class "active"
+  // Получаем все элементы с классом "tablinks" и удаляем класс "active"
   tablinks = document.getElementsByClassName("tablinks");
   for (i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" active", "");

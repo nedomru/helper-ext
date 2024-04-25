@@ -9,34 +9,13 @@
     <div class="tab">
         <button class="tablinks" id="tablink-Основные ссылки">Основные ссылки</button>
         <button class="tablinks" id="tablink-Полезное">Полезное</button>
+        <button class="tablinks" id="tablink-MnA">MnA</button>
+        <!--<button class="tablinks" id="tablink-Регламенты">Регламенты</button> -->
         <!--<button class="tablinks" id="tablink-Роутеры">Роутеры</button>
         <button class="tablinks" id="tablink-Приставки">Приставки</button> -->
     </div>
 
     <!-- Контент раздела Полезное-->
-    <div id="Полезное" class="tabcontent">
-        <h4>Данные от Rotek:</h4>
-        Интерфейс:
-        http://192.168.0.1/connect5 <br />
-        admin / CCzxNRBN7y <br />
-        admin / 2Y6aAy6Nvy <br />
-        admin / admin <br /><br />
-        <h4>Данные от DASAN</h4>
-        Интерфейс: <br />
-        192.168.55.1 <br />
-        192.168.55.1:80 <br />
-        192.168.55.1:85 <br />
-        192.168.55.1:8080 <br /><br />
-        Суперпользователь: admin<br />
-        Пароль: crocus23 / vorkun28 / vertex25 / crimas37 / admin
-        <br /><br />
-
-        <h4>Проверка MAC-адреса</h4>
-        <form id="form">
-            <input type="text" id="inputField" name="inputField" placeholder="Введи мак" maxlength="17" autofocus />
-            <button id="submit">Найти</button>
-        </form>
-    </div>
     <div id="Основные ссылки" class="tabcontent">
         <div class="row">
             <div class="column">
@@ -104,7 +83,8 @@
                 <a href="https://provisioning.ertelecom.ru/devices/" target="_blank">Провижининг</a>
                 <br /><br />
                 <h5>Приставки</h5>
-                <a href="http://cpe.domru.ru/tv/swupdate_primary/STB/add_nuid_and_version.php" target="_blank">Прошивки приставок</a> (thinktwice)
+                <a href="http://cpe.domru.ru/tv/swupdate_primary/STB/add_nuid_and_version.php" target="_blank">Прошивки
+                    приставок</a> (thinktwice)
                 <br />
                 <a href="https://okc.ertelecom.ru/stats/emulator/index" target="_blank">Эмулятор приставок</a>
                 <br />
@@ -115,7 +95,8 @@
                 <br />
                 <a href="https://okc.ertelecom.ru/stats/appl/chart/index" target="_blank">Обращения в КЦ</a>
                 <br />
-                <a href="http://kbn.ertelecom.ru/download/attachments/26169803/Разблокировка логинов.pdf" target="_blank">Разблокировка логинов</a>
+                <a href="http://kbn.ertelecom.ru/download/attachments/26169803/Разблокировка логинов.pdf"
+                    target="_blank">Разблокировка логинов</a>
                 <br />
                 <a href="https://mh-dashboard-erth.proptech.ru/web/" target="_blank">Дашборд домофонии</a>
                 <br />
@@ -123,6 +104,159 @@
                 (lentagen:genpass)
             </div>
         </div>
+    </div>
+    <div id="Полезное" class="tabcontent">
+        <h4>Данные от Rotek:</h4>
+        Интерфейс:
+        http://192.168.0.1/connect5 <br />
+        admin / CCzxNRBN7y <br />
+        admin / 2Y6aAy6Nvy <br />
+        admin / admin <br /><br />
+        <h4>Данные от DASAN</h4>
+        Интерфейс: <br />
+        192.168.55.1 <br />
+        192.168.55.1:80 <br />
+        192.168.55.1:85 <br />
+        192.168.55.1:8080 <br /><br />
+        Суперпользователь: admin<br />
+        Пароль: crocus23 / vorkun28 / vertex25 / crimas37 / admin
+        <br /><br />
+
+
+        <h4>Проверка MAC-адреса</h4>
+        <form id="form">
+            <input type="text" id="inputField" name="inputField" placeholder="Введи мак" maxlength="17" autofocus />
+            <button id="submit">Найти</button>
+        </form>
+    </div>
+    <div id="MnA" class="tabcontent">
+        <table>
+            <tr>
+                <th>Провайдер</th>
+                <th>Авторизация</th>
+                <th>Подключение</th>
+            </tr>
+            <tr>
+                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3289" target="_blank">Interzet</a></td>
+                <td>IPoE Static</td>
+                <td>Ethernet</td>
+            </tr>
+            <tr>
+                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3280" target="_blank">Тура-Telecom</a></td>
+                <td>PPPoE, DHCP opt82</td>
+                <td>Ethernet</td>
+            </tr>
+            <tr>
+                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3136" target="_blank">Ярославль Телесеть (ЯТС)</a></td>
+                <td>PPPoE, DHCP opt82</td>
+                <td>Ethernet</td>
+            </tr>
+            <tr>
+                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3192" target="_blank">Иркнет</a></td>
+                <td>PPPoE</td>
+                <td>ADSL, GPON, FTTH</td>
+            </tr>
+            <tr>
+                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3282" target="_blank">Контакт (Тула)</a></td>
+                <td>PPPoE</td>
+                <td>ADSL</td>
+            </tr>
+            <tr>
+                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/2761" target="_blank">Коламбия Телеком</a></td>
+                <td>PPPoE, DHCP opt82</td>
+                <td>Ethernet, ADSL</td>
+            </tr>
+            <tr>
+                <td><a href="https://clever.ertelecom.ru/content/space/4/article/3191" target="_blank">Телемир (Липецк)</a></td>
+                <td>PPPoE, DHCP opt82</td>
+                <td>Ethernet</td>
+            </tr>
+            <tr>
+                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3291" target="_blank">Акадо (СПБ)</a></td>
+                <td>DHCP MAC+VLAN</td>
+                <td>Ethernet</td>
+            </tr>
+            <tr>
+                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/2760" target="_blank">БКС (Брянск)</a></td>
+                <td>DHCP MAC+VLAN, DHCP opt82</td>
+                <td>Ethernet, PON</td>
+            </tr>
+            <tr>
+                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3285" target="_blank">Инфоцентр (Сосновый бор)</a></td>
+                <td>IPoE Static</td>
+                <td>Ethernet</td>
+            </tr>
+            <tr>
+                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/2769" target="_blank">Конвекс/ТКС (ЕКБ)</a></td>
+                <td>IPoE Static, PPTP (общежития)</td>
+                <td>Ethernet</td>
+            </tr>
+            <tr>
+                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3106" target="_blank">Дельта-Телеком</a></td>
+                <td>PPPoE</td>
+                <td>ADSL</td>
+            </tr>
+            <tr>
+                <td><a href="https://clever.ertelecom.ru/content/space/4/article/3189" target="_blank">Мегаполис-Телеком</a></td>
+                <td>PPPoE</td>
+                <td>PON</td>
+            </tr>
+            <tr>
+                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3121" target="_blank">СибТелеКом (СТК)</a></td>
+                <td>PPPoE, DHCP opt82</td>
+                <td>Ethernet, ADSL</td>
+            </tr>
+            <tr>
+                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3288" target="_blank">Westcall / N-Link (Рязань)</a></td>
+                <td>IPoE DHCP, PPPoE</td>
+                <td>Ethernet, ADSL, PON</td>
+            </tr>
+            <tr>
+                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/2768" target="_blank">Акадо (ЕКБ)</a></td>
+                <td>L2TP</td>
+                <td>Ethernet</td>
+            </tr>
+            <tr>
+                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/6528" target="_blank">Сатурн (Пермь)</a></td>
+                <td>PPPoE</td>
+                <td>FTTH</td>
+            </tr>
+            <tr>
+                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3286" target="_blank">Westcall (СПб)</a></td>
+                <td>DHCP MAC+VLAN</td>
+                <td>Ethernet</td>
+            </tr>
+            <tr>
+                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3283" target="_blank">Кредолинк (СПб)</a></td>
+                <td>DHCP MAC+VLAN</td>
+                <td>Ethernet</td>
+            </tr>
+            <tr>
+                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3287" target="_blank">MSNet (СПБ)</a></td>
+                <td>DHCP MAC+VLAN</td>
+                <td>Ethernet</td>
+            </tr>
+            <tr>
+                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3246" target="_blank">RiNet</a></td>
+                <td>DHCP MAC+VLAN</td>
+                <td>Ethernet</td>
+            </tr>
+            <tr>
+                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3172" target="_blank">Стрела (Димитровград)</a></td>
+                <td>DHCP opt82</td>
+                <td>Ethernet</td>
+            </tr>
+            <tr>
+                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3238" target="_blank">С-Телеком МСК (Самолет)</a></td>
+                <td>PPPoE, DHCP opt82</td>
+                <td>Ethernet</td>
+            </tr>
+            <tr>
+                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/2646" target="_blank">Дианэт (Барнаул и область)</a></td>
+                <td>L2TP</td>
+                <td>Ethernet</td>
+            </tr>
+        </table>
     </div>
     <!--<div id="Роутеры" class="tabcontent" style="overflow-x:auto;">
         <table style="width:100%">
@@ -164,6 +298,57 @@
             </tr>
         </table>
     </div> -->
+    <!-- <div id="Приставки" class="tabcontent">
+    </div> -->
+    <!--<div id="Регламенты" class="tabcontent">
+        <div class="row">
+            <div class="column">
+                <h4>Регламенты НЦК1</h4>
+                <a href="https://clever.ertelecom.ru/content/space/4/folder/1089/article/6770/page/0">Требования к
+                    обслуживанию</a>
+                <br />
+                <a href="https://clever.ertelecom.ru/content/space/4/folder/1089/article/6948/page/0">Регистрация
+                    обращений</a>
+                <br />
+                <a href="https://clever.ertelecom.ru/content/space/4/folder/1089/article/3641">Переводы на другую
+                    линию</a>
+                <br />
+                <a href="https://clever.ertelecom.ru/content/space/4/folder/1089/article/5823">Прочие особенности</a>
+                <br />
+                <a href="https://clever.ertelecom.ru/content/space/4/folder/1089/article/5822">Дублирование диалогов</a>
+                <br />
+                <a href="https://clever.ertelecom.ru/content/space/4/folder/1089/article/6367">Конфликтные клиенты</a>
+                <br />
+                <a href="https://clever.ertelecom.ru/content/space/4/folder/1089/article/5828">Перезвоны клиентам</a>
+                <br />
+            </div>
+            <div class="column">
+                <h4>Регламенты НЦК2</h4>
+                <a href="https://clever.ertelecom.ru/content/space/4/folder/1089/article/8870/page/0"
+                    target="_blank">Обработка чатов</a>
+                <br />
+                <a href="https://clever.ertelecom.ru/content/space/4/folder/1089/article/8870/page/1"
+                    target="_blank">Запрос помощи</a>
+                <br />
+                <a href="https://clever.ertelecom.ru/content/space/4/folder/1089/article/8870/page/5"
+                    target="_blank">Перерывы</a>
+                <br />
+                <a href="https://clever.ertelecom.ru/content/space/4/folder/1089/article/8870/page/9"
+                    target="_blank">Регистрация обращений</a>
+                <br />
+                <a href="https://clever.ertelecom.ru/content/space/4/folder/1089/article/8870/page/10"
+                    target="_blank">Действия последнего</a>
+                <br />
+                <a href="https://clever.ertelecom.ru/content/space/4/folder/1089/article/8870/page/12"
+                    target="_blank">Outmessages</a>
+                <br />
+                <a href="https://clever.ertelecom.ru/content/space/4/folder/1089/article/8870/page/13"
+                    target="_blank">Поиск аварий</a>
+                <br />
+
+            </div>
+        </div> -->
 </body>
+
 
 </html>
