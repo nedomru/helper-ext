@@ -14,7 +14,12 @@
   "content_scripts": [
     {
       "all_frames": true,
-      "js": ["background.js", "highlights.js", "popup.js", "sections.js"],
+      "js": [
+        "scripts/background.js",
+        "scripts/highlights.js",
+        "scripts/popup.js",
+        "scripts/sections.js"
+      ],
       "matches": ["http://*/*", "https://*/*"]
     }
   ],
