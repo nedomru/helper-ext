@@ -1,6 +1,7 @@
 /* Подсветка Контакт сорвался, Обращение из Email*/
 var textToFind_cs = "Контакт сорвался";
 var textToFind_email = "Обращение из Email";
+var textToFind_octp = "ОЦТП - Входящая связь";
 
 if (
   document.URL.indexOf("wcc_request_appl_support.change_request_appl") != -1
@@ -37,6 +38,15 @@ setInterval(function () {
         el.innerHTML = el.innerHTML.replace(
           textToFind_email,
           "<span style='color: red; font-weight:bold'>Обращение из Email</span>"
+        );
+      }
+      if (
+        el.innerText.indexOf(textToFind_octp) != -1 &&
+        el.querySelector("span") == null
+      ) {
+        el.innerHTML = el.innerHTML.replace(
+          textToFind_octp,
+          "<span style='color: teal; font-weight:bold'>ОЦТП - Входящая связь</span>"
         );
       }
     });
