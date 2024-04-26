@@ -39,6 +39,16 @@ td {
   text-align: left;
 }
 
+#searchProvider {
+  background-position: 10px 12px; /* Расположите значок поиска */
+  background-repeat: no-repeat; /* Не повторяйте изображение значка */
+  width: auto; /* Полная ширина */
+  font-size: 14px; /* Увеличить размер шрифта */
+  padding: 6px 20px 6px 20px; /* Добавить немного отступов */
+  border: 1px solid #ddd; /* Добавить серую границу */
+  margin-bottom: 6px; /* Добавить некоторое пространство под входом */
+}
+
 /* Style the tab */
 .tab {
   overflow: hidden;

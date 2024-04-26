@@ -126,7 +126,8 @@
         Пароль: crocus23 / vorkun28 / vertex25 / crimas37 / admin
     </div>
     <div id="MnA" class="tabcontent">
-        <table>
+        <input type="text" id="searchProvider" onkeyup="searchProvider()" placeholder="Поиск провайдера">
+        <table id="providersTable">
             <tr>
                 <th>Провайдер</th>
                 <th>Авторизация</th>
@@ -282,12 +283,17 @@
         <h4>Проверка MAC-адреса</h4>
         <form id="form-mac">
             <input type="text" id="input-mac" name="input-mac" placeholder="Введи мак" maxlength="17" />
-            <button id="submit-mac">Найти</button>
+            <button id="submit-mac">Проверить</button>
         </form>
         <h4>Сокращатель ссылок</h4>
         <form id="form-link">
             <input type="text" id="input-link" name="input-link" placeholder="Введи ссылку" />
             <button id="submit-link" class="submit-link-button">Сократить</button>
+        </form>
+        <h4>Проверка IP</h4>
+        <form id="form-ip">
+            <input type="text" id="input-ip" name="input-ip" placeholder="Введи IP-адрес" />
+            <button id="submit-ip" class="submit-ip-button">Проверить</button>
         </form>
     </div>
     <!--<div id="Роутеры" class="tabcontent" style="overflow-x:auto;">
