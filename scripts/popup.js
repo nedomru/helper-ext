@@ -37,9 +37,8 @@ async function handleFormSubmitMac(event) {
     const companyName = result[0]?.company;
 
     if (companyName) {
-      document.getElementById("input-mac").value = companyName;
-    } else {
-      document.getElementById("input-mac").value = "Не найдено";
+      $.notify(companyName, "info");
+      document.getElementById("input-mac").value = "";
     }
   } catch (error) {
     console.error("Fetch error:", error);

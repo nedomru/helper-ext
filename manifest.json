@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Помощник",
   "description": "",
-  "version": "1.4.1",
+  "version": "1.5",
   "icons": {
     "16": "icons/icon16.png",
     "32": "icons/icon32.png",
