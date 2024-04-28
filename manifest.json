@@ -33,7 +33,7 @@
   ],
   "permissions": ["http://*/*", "https://*/*", "contextMenus", "tabs"],
   "browser_action": {
-    "default_title": "Помощник-тест",
+    "default_title": "Помощник",
     "default_icon": "icons/ext_icon.png",
     "default_popup": "popup.html"
   }

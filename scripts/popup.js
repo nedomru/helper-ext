@@ -13,7 +13,15 @@ async function handleFormSubmitMac(event) {
   event.preventDefault();
   const formData = new FormData(event.target);
   const inputField = formData.get("input-mac");
+  const mac_regex = new RegExp("^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$");
 
+  // Проверка корректности ввода MAC адреса
+  if (mac_regex.test(inputField) == false) {
+    $.notify("Это не MAC", "error");
+    return;
+  }
+
+  $.notify("Проверяю", "info");
   try {
     const response = await fetch(
       `https://www.macvendorlookup.com/api/v2/${inputField}`,
@@ -25,9 +33,9 @@ async function handleFormSubmitMac(event) {
         },
       }
     );
-
-    if (!response.ok) {
-      console.error("Network response was not ok", response.status);
+    console.log(response.status);
+    if (response.status != 200) {
+      $.notify("Не удалось найти", "error");
       return;
     }
 
@@ -37,34 +45,8 @@ async function handleFormSubmitMac(event) {
     const companyName = result[0]?.company;
 
     if (companyName) {
-      $.notify(companyName, "info");
+      $.notify(companyName, "success");
       document.getElementById("input-mac").value = "";
-    }
-  } catch (error) {
-    console.error("Fetch error:", error);
-  }
-}
-
-async function handleFormSubmitLink(event) {
-  event.preventDefault();
-  const formData = new FormData(event.target);
-  const inputField = formData.get("input-link");
-
-  try {
-    const response = await fetch(`https://clck.ru/--?url=${inputField}`, {
-      method: "GET",
-    });
-    if (!response.ok) {
-      console.error("Network response was not ok", response.status);
-      return;
-    }
-
-    const result = await response.text();
-
-    if (result) {
-      await navigator.clipboard.writeText(result);
-      $.notify("Скопировано", "success");
-      document.getElementById("input-link").value = result;
     }
   } catch (error) {
     console.error("Fetch error:", error);
@@ -75,7 +57,17 @@ async function handleFormSubmitIP(event) {
   event.preventDefault();
   const formData = new FormData(event.target);
   const inputField = formData.get("input-ip");
+  const ip_regex = new RegExp(
+    "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+  );
 
+  // Проверка корректности ввода IP
+  if (ip_regex.test(inputField) == false) {
+    $.notify("IP некорректный", "error");
+    return;
+  }
+
+  $.notify("Проверяю", "info");
   try {
     const response = await fetch(
       `http://ip-api.com/json/${inputField}?fields=country,regionName,city,org&lang=ru`,
@@ -84,8 +76,8 @@ async function handleFormSubmitIP(event) {
       }
     );
 
-    if (!response.ok) {
-      console.error("Network response was not ok", response.status);
+    if (response.status != 200) {
+      $.notify("Ошибка", "error");
       return;
     }
 
@@ -94,9 +86,50 @@ async function handleFormSubmitIP(event) {
     if (result) {
       $.notify(
         `Страна: ${result["country"]}\nГород: ${result["city"]}\nОрганизация: ${result["org"]}`,
-        "info"
+        "success"
       );
       document.getElementById("input-ip").value = "";
+    }
+  } catch (error) {
+    console.error("Fetch error:", error);
+  }
+}
+
+async function handleFormSubmitLink(event) {
+  event.preventDefault();
+  const formData = new FormData(event.target);
+  const inputField = formData.get("input-link");
+  const url_regex = new RegExp(
+    "^(https?:\\/\\/)?" + // protocol
+      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name and extension
+      "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+      "(\\?[;&a-z\\d%_.~+=-]*)?(\\#[-a-z\\d_]*)?$",
+    "i"
+  );
+
+  // Проверка корректности ввода ссылки
+  if (url_regex.test(inputField) == false) {
+    $.notify("Это не ссылка", "error");
+    return;
+  }
+
+  $.notify("Сокращаю", "info");
+  try {
+    const response = await fetch(`https://clck.ru/--?url=${inputField}`, {
+      method: "GET",
+    });
+    if (response.status != 200) {
+      $.notify("Ошибка", "error");
+      return;
+    }
+
+    const result = await response.text();
+
+    if (result) {
+      await navigator.clipboard.writeText(result);
+      $.notify("Скопировано", "success");
+      document.getElementById("input-link").value = result;
     }
   } catch (error) {
     console.error("Fetch error:", error);
