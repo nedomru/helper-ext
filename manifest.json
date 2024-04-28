@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Помощник",
   "description": "",
-  "version": "1.5",
+  "version": "1.5.1",
   "browser_specific_settings": {
     "gecko": {
       "update_url": "https://authf.xyz/helper_updates.json"
@@ -33,7 +33,7 @@
   ],
   "permissions": ["http://*/*", "https://*/*", "contextMenus", "tabs"],
   "browser_action": {
-    "default_title": "Помощник",
+    "default_title": "Помощник-тест",
     "default_icon": "icons/ext_icon.png",
     "default_popup": "popup.html"
   }
