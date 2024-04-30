@@ -9,6 +9,11 @@ if (
       "hideTabMVNO",
       "hideTabAVTOSP",
       "hideTabPORTRET",
+      "hideTabABONEMENT",
+      "hideTabPL",
+      "hideTabPayments",
+      "hideTabInvoices",
+      "hideTabAutopayment",
     ])
     .then((result) => {
       if (result.hideSPAS == true) {
@@ -26,16 +31,62 @@ if (
       if (result.hideTabPORTRET == true) {
         hideAgreementTab("Портрет клиента");
       }
+      if (result.hideTabABONEMENT == true) {
+        hideAgreementTab("Абонемент");
+      }
+      if (result.hideTabPL == true) {
+        hideAgreementTab("Новая ПЛ");
+      }
+      if (result.hideTabInvoices == true) {
+        hideAgreementTab("Счета");
+      }
+      if (result.hideTabPayments == true) {
+        hideAgreementTab("Платежи");
+      }
+      if (result.hideTabAutopayment == true) {
+        hideAgreementTab("Карты и автоплатеж");
+      }
     });
 }
 
 function hideSPAS() {
-  var top3_button = document.getElementsByClassName(
+  var button = document.getElementsByClassName(
     "btn btn-primary top_3_butt btn-xs"
   )[0];
-  if (top3_button) {
-    top3_button.click();
+
+  // Скрываем СПАС
+  document.getElementById("collapse-top-3").className = "collapse";
+  button.append(" | Поиск СПАСа");
+  button.style.backgroundColor = "#696969";
+
+  function checkForSPAS(node) {
+    if (
+      node.nodeType === Node.ELEMENT_NODE &&
+      node.classList.contains("spas_body")
+    ) {
+      button.style.backgroundColor = "#cc3300";
+      button.innerHTML = "Топ 3 | СПАС есть";
+      observer.disconnect();
+      clearTimeout(timeoutId);
+    }
   }
+
+  const observer = new MutationObserver((mutationsList, observer) => {
+    for (const mutation of mutationsList) {
+      if (mutation.type === "childList") {
+        mutation.addedNodes.forEach(checkForSPAS);
+      }
+    }
+  });
+
+  // Запуск поиска СПАСа
+  observer.observe(document.body, { childList: true, subtree: true });
+
+  const timeoutId = setTimeout(() => {
+    button.style.backgroundColor = "#008000";
+    button.innerHTML = "Топ 3 | СПАСа нет";
+    observer.disconnect();
+  }, 500);
 }
 
 function hideAgreementTab(tabName) {

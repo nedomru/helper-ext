@@ -7,40 +7,49 @@
       "hideTabMVNO",
       "hideTabAVTOSP",
       "hideTabPORTRET",
+      "hideTabABONEMENT",
+      "hideTabPL",
+      "hideTabInvoices",
+      "hideTabPayments",
+      "hideTabAutopayment",
     ])
     .then((result) => {
       document.getElementById("hideSPAS").checked = result.hideSPAS || false;
+
       document.getElementById("hideTabIPTV").checked =
         result.hideTabIPTV || false;
+
       document.getElementById("hideTabMVNO").checked =
         result.hideTabMVNO || false;
+
       document.getElementById("hideTabAVTOSP").checked =
         result.hideTabAVTOSP || false;
+
       document.getElementById("hideTabPORTRET").checked =
         result.hideTabPORTRET || false;
+
+      document.getElementById("hideTabABONEMENT").checked =
+        result.hideTabABONEMENT || false;
+
+      document.getElementById("hideTabPL").checked = result.hideTabPL || false;
+
+      document.getElementById("hideTabInvoices").checked =
+        result.hideTabInvoices || false;
+
+      document.getElementById("hideTabPayments").checked =
+        result.hideTabPayments || false;
+
+      document.getElementById("hideTabAutopayment").checked =
+        result.hideTabAutopayment || false;
     });
 
-  // Сохранение настроек по клику на кнопку
   document
-    .getElementById("saveSettings")
-    .addEventListener("click", function () {
-      const hideSPAS = document.getElementById("hideSPAS").checked;
-      const hideTabIPTV = document.getElementById("hideTabIPTV").checked;
-      const hideTabMVNO = document.getElementById("hideTabMVNO").checked;
-      const hideTabAVTOSP = document.getElementById("hideTabAVTOSP").checked;
-      const hideTabPORTRET = document.getElementById("hideTabPORTRET").checked;
-      browser.storage.local
-        .set({
-          hideSPAS: hideSPAS,
-          hideTabIPTV: hideTabIPTV,
-          hideTabMVNO: hideTabMVNO,
-          hideTabAVTOSP: hideTabAVTOSP,
-          hideTabPORTRET: hideTabPORTRET,
-        })
-        .then(() => {
-          console.log("Настройки сохранены");
-          $.notify("Настройки сохранены", "info");
-        }, onError);
+    .querySelectorAll(".custom-control-input")
+    .forEach(function (checkbox) {
+      checkbox.addEventListener("click", function (event) {
+        const setting = checkbox.id;
+        browser.storage.local.set({ [setting]: checkbox.checked });
+      });
     });
 });
 
