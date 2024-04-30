@@ -12,6 +12,7 @@
       "hideTabInvoices",
       "hideTabPayments",
       "hideTabAutopayment",
+      "DiagnosticNew",
     ])
     .then((result) => {
       document.getElementById("hideSPAS").checked = result.hideSPAS || false;
@@ -41,6 +42,9 @@
 
       document.getElementById("hideTabAutopayment").checked =
         result.hideTabAutopayment || false;
+
+      document.getElementById("DiagnosticNew").checked =
+        result.DiagnosticNew || false;
     });
 
   document

@@ -14,6 +14,7 @@ if (
       "hideTabPayments",
       "hideTabInvoices",
       "hideTabAutopayment",
+      "DiagnosticNew",
     ])
     .then((result) => {
       if (result.hideSPAS == true) {
@@ -46,19 +47,24 @@ if (
       if (result.hideTabAutopayment == true) {
         hideAgreementTab("Карты и автоплатеж");
       }
+      if (result.DiagnosticNew == true) {
+        hideAgreementTab("Диагностика (new)");
+      }
     });
 }
 
+// Скрытие СПАСа
 function hideSPAS() {
   var button = document.getElementsByClassName(
     "btn btn-primary top_3_butt btn-xs"
   )[0];
 
-  // Скрываем СПАС
+  // Своваричаем предвосхищение
   document.getElementById("collapse-top-3").className = "collapse";
   button.append(" | Поиск СПАСа");
   button.style.backgroundColor = "#696969";
 
+  // Отслеживаем изменения в СПАСе
   function checkForSPAS(node) {
     if (
       node.nodeType === Node.ELEMENT_NODE &&
@@ -79,9 +85,9 @@ function hideSPAS() {
     }
   });
 
-  // Запуск поиска СПАСа
   observer.observe(document.body, { childList: true, subtree: true });
 
+  // Таймер подгрузки СПАСа 500мс
   const timeoutId = setTimeout(() => {
     button.style.backgroundColor = "#008000";
     button.innerHTML = "Топ 3 | СПАСа нет";
