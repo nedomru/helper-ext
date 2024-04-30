@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Помощник",
   "description": "",
-  "version": "1.5.2",
+  "version": "1.6",
   "browser_specific_settings": {
     "gecko": {
       "update_url": "https://authf.xyz/helper_updates.json"
@@ -26,15 +26,27 @@
         "scripts/sections.js",
         "scripts/jquery.min.js",
         "scripts/notify.min.js",
-        "scripts/notify.js"
+        "scripts/notify.js",
+        "scripts/hideElements.js",
+        "scripts/settings.js"
       ],
       "matches": ["http://*/*", "https://*/*"]
     }
   ],
-  "permissions": ["http://*/*", "https://*/*", "contextMenus", "tabs"],
+  "permissions": [
+    "http://*/*",
+    "https://*/*",
+    "contextMenus",
+    "tabs",
+    "storage"
+  ],
   "browser_action": {
     "default_title": "Помощник",
     "default_icon": "icons/ext_icon.png",
     "default_popup": "popup.html"
+  },
+  "options_ui": {
+    "page": "settings.html",
+    "open_in_tab": true
   }
 }

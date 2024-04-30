@@ -2,14 +2,17 @@ document.addEventListener("DOMContentLoaded", function () {
   // Получаем все кнопки с классом "tablinks"
   var tablinks = document.getElementsByClassName("tablinks");
 
-  document.getElementById("tablink-Основные ссылки").click();
   // Добавляем обработчик событий для каждой кнопки
   for (var i = 0; i < tablinks.length; i++) {
     tablinks[i].addEventListener("click", function (event) {
-      // Получаем имя раздела из id кнопки
+      // Получаем имя разделов из id кнопок
       var sectionName = this.id.split("-")[1];
       openSection(event, sectionName);
     });
+  }
+  var firstTabLink = document.querySelector(".tablinks");
+  if (firstTabLink) {
+    firstTabLink.click();
   }
 });
 
@@ -28,7 +31,7 @@ function openSection(evt, sectionName) {
     tablinks[i].className = tablinks[i].className.replace(" active", "");
   }
 
-  // Show the current tab, and add an "active" class to the button that opened the tab
+  // Отображение текущей вкладки, добавления класса "active" кнопке
   document.getElementById(sectionName).style.display = "block";
   evt.currentTarget.className += " active";
 }

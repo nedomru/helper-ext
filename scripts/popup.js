@@ -7,6 +7,11 @@
   form_link.addEventListener("submit", handleFormSubmitLink);
   form_ip.addEventListener("submit", handleFormSubmitIP);
   search_provider.addEventListener("input", searchProvider);
+  document
+    .getElementById("openSettings")
+    .addEventListener("click", function () {
+      browser.runtime.openOptionsPage();
+    });
 });
 
 async function handleFormSubmitMac(event) {

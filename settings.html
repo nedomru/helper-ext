@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Помощник | Настройки</title>
+    <script src="scripts/settings.js"></script>
+    <script src="scripts/jquery.min.js"></script>
+    <script src="scripts/notify.min.js"></script>
+    <script src="scripts/notify.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles/settings.css">
+</head>
+
+<body>
+    <div class="settings-container">
+        <h1>Автоскрытие элементов</h1>
+        <form id="settings-form">
+            <h2>Вкладки</h2>
+            <div class="setting">
+                <label for="hideSPAS">СПАС</label>
+                <input type="checkbox" id="hideSPAS">
+            </div>
+            <h2>Кнопки</h2>
+            <div class="setting">
+                <label for="hideTabIPTV">Агентское IPTV</label>
+                <input type="checkbox" id="hideTabIPTV">
+            </div>
+            <div class="setting">
+                <label for="hideTabMVNO">MVNO</label>
+                <input type="checkbox" id="hideTabMVNO">
+            </div>
+            <div class="setting">
+                <label for="hideTabAVTOSP">АвтоСП</label>
+                <input type="checkbox" id="hideTabAVTOSP">
+            </div>
+            <div class="setting">
+                <label for="hideTabPORTRET">Портрет клиента</label>
+                <input type="checkbox" id="hideTabPORTRET">
+            </div>
+            <button type="submit" id="saveSettings">Сохранить</button>
+        </form>
+    </div>
+</body>
+
+</html>
