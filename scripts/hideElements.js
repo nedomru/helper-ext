@@ -14,7 +14,9 @@ if (
       "hideTabPayments",
       "hideTabInvoices",
       "hideTabAutopayment",
-      "DiagnosticNew",
+      "diagnosticNew",
+      "specialOffers",
+      "balanceLimit",
     ])
     .then((result) => {
       if (result.hideSPAS == true) {
@@ -47,8 +49,14 @@ if (
       if (result.hideTabAutopayment == true) {
         hideAgreementTab("Карты и автоплатеж");
       }
-      if (result.DiagnosticNew == true) {
+      if (result.diagnosticNew == true) {
         hideAgreementTab("Диагностика (new)");
+      }
+      if (result.specialOffers == true) {
+        hideAgreementTab("Спецпредложения");
+      }
+      if (result.balanceLimit == true) {
+        hideAgreementTab("Ограничение по балансу");
       }
     });
 }

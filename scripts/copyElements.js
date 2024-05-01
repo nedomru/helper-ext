@@ -3,18 +3,24 @@ if (
   document.URL.indexOf("wcc_request_appl_support.change_request_appl") == -1
 ) {
   const address = document.querySelector("#dr");
+  var lineBreak = document.createElement("br");
 
-  const copyButton = document.createElement("button");
+  // Обманка АРМа, чтобы не думал, что это кнопка
+  var copyButton = document.createElement("button");
   copyButton.textContent = "Копировать";
-  copyButton.style.marginLeft = "5px"; // Add some margin to the button for spacing
+  copyButton.classList.add("btn", "btn-outline-warning", "btn-sm"); // Добавляем классы для стилизации
 
-  copyButton.addEventListener("mousedown", (event) => {
+  copyButton.addEventListener("click", (event) => {
     event.preventDefault();
     event.stopPropagation();
-    // Create a temporary textarea to copy the text
-    console.log(address.textContent);
-    const text_to_copy = address.textContent;
-    navigator.clipboard.writeText(text_to_copy);
+
+    address.removeChild(copyButton);
+    var text_to_copy = address.textContent;
+    text_to_copy = text_to_copy.slice(6);
+    navigator.clipboard.writeText(text_to_copy.slice(2));
+    address.appendChild(copyButton);
   });
+
+  address.appendChild(lineBreak);
   address.appendChild(copyButton);
 }

@@ -17,14 +17,13 @@
     "128": "icons/icon128.png"
   },
   "background": {
-    "scripts": ["scripts/contextMenus.js"],
+    "scripts": ["scripts/contextMenus.js", "scripts/background.js"],
     "persistent": false
   },
   "content_scripts": [
     {
       "all_frames": true,
       "js": [
-        "scripts/background.js",
         "scripts/highlights.js",
         "scripts/popup.js",
         "scripts/sections.js",

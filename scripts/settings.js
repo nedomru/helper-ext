@@ -12,7 +12,9 @@
       "hideTabInvoices",
       "hideTabPayments",
       "hideTabAutopayment",
-      "DiagnosticNew",
+      "diagnosticNew",
+      "specialOffers",
+      "balanceLimit",
     ])
     .then((result) => {
       document.getElementById("hideSPAS").checked = result.hideSPAS || false;
@@ -43,8 +45,14 @@
       document.getElementById("hideTabAutopayment").checked =
         result.hideTabAutopayment || false;
 
-      document.getElementById("DiagnosticNew").checked =
-        result.DiagnosticNew || false;
+      document.getElementById("diagnosticNew").checked =
+        result.diagnosticNew || false;
+
+      document.getElementById("specialOffers").checked =
+        result.specialOffers || false;
+
+      document.getElementById("balanceLimit").checked =
+        result.balanceLimit || false;
     });
 
   document
