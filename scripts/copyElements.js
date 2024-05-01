@@ -18,6 +18,7 @@ if (
     var text_to_copy = address.textContent;
     text_to_copy = text_to_copy.slice(6);
     navigator.clipboard.writeText(text_to_copy.slice(2));
+    $.notify("Скопировано", "success");
     address.appendChild(copyButton);
   });
 
