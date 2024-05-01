@@ -87,12 +87,12 @@ function hideSPAS() {
 
   observer.observe(document.body, { childList: true, subtree: true });
 
-  // Таймер подгрузки СПАСа 500мс
+  // Таймер подгрузки СПАСа 2 секунды
   const timeoutId = setTimeout(() => {
     button.style.backgroundColor = "#008000";
     button.innerHTML = "Топ 3 | СПАСа нет";
     observer.disconnect();
-  }, 500);
+  }, 2000);
 }
 
 function hideAgreementTab(tabName) {
