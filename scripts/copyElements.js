@@ -8,7 +8,7 @@ if (
   // Обманка АРМа, чтобы не думал, что это кнопка
   var copyButton = document.createElement("button");
   copyButton.textContent = "Копировать";
-  copyButton.classList.add("btn", "btn-outline-warning", "btn-sm"); // Добавляем классы для стилизации
+  copyButton.classList.add("btn", "btn-primary", "btn-sm"); // Добавляем классы для стилизации
 
   copyButton.addEventListener("click", (event) => {
     event.preventDefault();
