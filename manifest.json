@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Помощник",
   "description": "",
-  "version": "1.6",
+  "version": "1.7",
   "browser_specific_settings": {
     "gecko": {
       "update_url": "https://authf.xyz/helper_updates.json"
@@ -17,13 +17,14 @@
     "128": "icons/icon128.png"
   },
   "background": {
-    "scripts": ["scripts/contextMenus.js", "scripts/background.js"],
+    "scripts": ["scripts/contextMenus.js"],
     "persistent": false
   },
   "content_scripts": [
     {
       "all_frames": true,
       "js": [
+        "scripts/background.js",
         "scripts/highlights.js",
         "scripts/popup.js",
         "scripts/sections.js",
