@@ -22,7 +22,21 @@ function copyTextToClipboard(text) {
 }
 
 function copyAddress() {
-  const address_text = document.querySelector("#dr");
+  var address_text = document.getElementById("dr").textContent;
+  if (!address_text) {
+    address_text = document.getElementById("#dr").textContent;
+  }
+
+  // Проверка наличия индекса
+  const postcode_regex = /\d{6}/;
+  const match = address_text.match(postcode_regex);
+  console.log(address_text);
+  if (match) {
+    const postalCode = match[0] + ", ";
+    address_text = address_text.replace(postalCode, "");
+  }
+
+  // Поиск клетки Адрес для добавления кнопки
   const address = document.querySelector("#dr").previousElementSibling;
   var lineBreak = document.createElement("br");
 
@@ -31,14 +45,13 @@ function copyAddress() {
   copyButton.textContent = "Копировать";
   copyButton.classList.add("btn", "btn-primary", "btn-sm"); // Добавляем классы для стилизации
 
+  // Отслеживание кликов на кнопку для копирования текста
   copyButton.addEventListener("click", (event) => {
     event.preventDefault();
     event.stopPropagation();
 
     address.removeChild(copyButton);
-    var text_to_copy = address_text.textContent;
-    text_to_copy = text_to_copy.slice(6);
-    copyTextToClipboard(text_to_copy.slice(2));
+    copyTextToClipboard(address_text);
     $.notify("Адрес скопирован", "success");
     address.appendChild(copyButton);
   });
