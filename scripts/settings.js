@@ -15,6 +15,7 @@
       "diagnosticNew",
       "specialOffers",
       "balanceLimit",
+      "hideChatHeader",
     ])
     .then((result) => {
       document.getElementById("hideSPAS").checked = result.hideSPAS || false;
@@ -53,6 +54,9 @@
 
       document.getElementById("balanceLimit").checked =
         result.balanceLimit || false;
+
+      document.getElementById("hideChatHeader").checked =
+        result.hideChatHeader || false;
     });
 
   document

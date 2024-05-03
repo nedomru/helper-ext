@@ -17,6 +17,7 @@ if (
       "diagnosticNew",
       "specialOffers",
       "balanceLimit",
+      "hideChatHeader",
     ])
     .then((result) => {
       if (result.hideSPAS == true) {
@@ -59,6 +60,7 @@ if (
         hideAgreementTab("Ограничение по балансу");
       }
     });
+  hideChatHeader();
 }
 
 // Скрытие СПАСа
@@ -128,4 +130,9 @@ function hideAgreementTopButton(buttonName) {
       item.remove();
     }
   });
+}
+
+function hideChatHeader() {
+  const chatHeader = document.getElementsByClassName("wwe-data-container")[0];
+  chatHeader.style["display"] = none;
 }
