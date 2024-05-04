@@ -16,10 +16,6 @@
     "96": "icons/icon96.png",
     "128": "icons/icon128.png"
   },
-  "background": {
-    "scripts": ["scripts/contextMenus.js"],
-    "persistent": false
-  },
   "content_scripts": [
     {
       "all_frames": true,
@@ -35,17 +31,10 @@
         "scripts/copyElements.js",
         "scripts/settings.js"
       ],
-      "matches": ["http://*/*", "https://*/*"]
+      "matches": ["<all_urls>"]
     }
   ],
-  "permissions": [
-    "http://*/*",
-    "https://*/*",
-    "contextMenus",
-    "tabs",
-    "storage",
-    "activeTab"
-  ],
+  "permissions": ["http://*/*", "https://*/*", "tabs", "storage", "activeTab"],
   "browser_action": {
     "default_title": "Помощник",
     "default_icon": "icons/ext_icon.png",

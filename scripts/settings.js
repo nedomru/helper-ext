@@ -3,6 +3,7 @@
   browser.storage.local
     .get([
       "hideSPAS",
+      "hideChatHeader",
       "hideTabIPTV",
       "hideTabMVNO",
       "hideTabAVTOSP",
@@ -15,7 +16,8 @@
       "diagnosticNew",
       "specialOffers",
       "balanceLimit",
-      "hideChatHeader",
+      "MNP",
+      "mainSales",
     ])
     .then((result) => {
       document.getElementById("hideSPAS").checked = result.hideSPAS || false;
@@ -57,6 +59,10 @@
 
       document.getElementById("hideChatHeader").checked =
         result.hideChatHeader || false;
+
+      document.getElementById("MNP").checked = result.MNP || false;
+
+      document.getElementById("mainSales").checked = result.mainSales || false;
     });
 
   document

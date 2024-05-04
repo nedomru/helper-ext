@@ -1,7 +1,6 @@
 if (
   document.URL.indexOf("db.ertelecom.ru/cgi-bin") != -1 &&
-  document.URL.indexOf("wcc_request_appl_support.change_request_appl") == -1 &&
-  document.URL.indexOf("genesys-app1") == -1
+  document.URL.indexOf("wcc_request_appl_support.change_request_appl") == -1
 ) {
   copyAddress();
 }
@@ -14,7 +13,6 @@ function copyTextToClipboard(text) {
   try {
     var successful = document.execCommand("copy");
     var msg = successful ? "successful" : "unsuccessful";
-    console.log("Copying text command was " + msg);
   } catch (err) {
     console.error("Oops, unable to copy", err);
   }
@@ -30,7 +28,6 @@ function copyAddress() {
   // Проверка наличия индекса
   const postcode_regex = /\d{6}/;
   const match = address_text.match(postcode_regex);
-  console.log(address_text);
   if (match) {
     const postalCode = match[0] + ", ";
     address_text = address_text.replace(postalCode, "");

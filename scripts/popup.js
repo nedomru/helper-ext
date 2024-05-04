@@ -44,7 +44,6 @@ async function handleFormSubmitMac(event) {
         },
       }
     );
-    console.log(response.status);
     if (response.status != 200) {
       $.notify("Не удалось найти", "error");
       return;

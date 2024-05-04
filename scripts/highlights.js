@@ -37,7 +37,7 @@ setInterval(function () {
       ) {
         el.innerHTML = el.innerHTML.replace(
           textToFind_email,
-          "<span style='color: red; font-weight:bold'>Обращение из Email</span>"
+          "<span style='color: darkgreen; font-weight:bold'>Обращение из Email</span>"
         );
       }
       if (

@@ -17,7 +17,8 @@ if (
       "diagnosticNew",
       "specialOffers",
       "balanceLimit",
-      "hideChatHeader",
+      "MNP",
+      "mainSales",
     ])
     .then((result) => {
       if (result.hideSPAS == true) {
@@ -59,8 +60,13 @@ if (
       if (result.balanceLimit == true) {
         hideAgreementTab("Ограничение по балансу");
       }
+      if (result.MNP == true) {
+        hideAgreementTab("MNP");
+      }
+      if (result.mainSales == true) {
+        hideAgreementTab("Основные продажи");
+      }
     });
-  hideChatHeader();
 }
 
 // Скрытие СПАСа
@@ -105,6 +111,7 @@ function hideSPAS() {
   }, 2000);
 }
 
+// Скрытие кнопок договора
 function hideAgreementTab(tabName) {
   const listItems = document.querySelectorAll(".tabs_new");
 
@@ -118,6 +125,7 @@ function hideAgreementTab(tabName) {
   });
 }
 
+// Скрытие ссылок в хедере АРМа
 function hideAgreementTopButton(buttonName) {
   const boldElements = document.querySelectorAll("b");
 
@@ -130,9 +138,4 @@ function hideAgreementTopButton(buttonName) {
       item.remove();
     }
   });
-}
-
-function hideChatHeader() {
-  const chatHeader = document.getElementsByClassName("wwe-data-container")[0];
-  chatHeader.style["display"] = none;
 }
