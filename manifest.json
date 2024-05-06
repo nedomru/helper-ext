@@ -31,10 +31,10 @@
         "scripts/copyElements.js",
         "scripts/settings.js"
       ],
-      "matches": ["<all_urls>"]
+      "matches": ["*://*.ertelecom.ru/*"]
     }
   ],
-  "permissions": ["http://*/*", "https://*/*", "tabs", "storage", "activeTab"],
+  "permissions": ["*://*.ertelecom.ru/*", "tabs", "storage", "activeTab"],
   "browser_action": {
     "default_title": "Помощник",
     "default_icon": "icons/ext_icon.png",

@@ -3,6 +3,7 @@ if (
   document.URL.indexOf("wcc_request_appl_support.change_request_appl") == -1
 ) {
   copyAddress();
+  copyClientCard();
 }
 
 function copyTextToClipboard(text) {
@@ -39,7 +40,7 @@ function copyAddress() {
 
   // Обманка АРМа, чтобы не думал, что это кнопка
   var copyButton = document.createElement("button");
-  copyButton.textContent = "Копировать";
+  copyButton.textContent = "Копировать адрес";
   copyButton.classList.add("btn", "btn-primary", "btn-sm"); // Добавляем классы для стилизации
 
   // Отслеживание кликов на кнопку для копирования текста
@@ -47,12 +48,43 @@ function copyAddress() {
     event.preventDefault();
     event.stopPropagation();
 
-    address.removeChild(copyButton);
     copyTextToClipboard(address_text);
     $.notify("Адрес скопирован", "success");
-    address.appendChild(copyButton);
   });
 
   address.appendChild(lineBreak);
   address.appendChild(copyButton);
+}
+
+function copyClientCard() {
+  var clientCardRow = document.getElementById("namcl");
+  var clientCardShowButton = document.getElementById("write_let");
+
+  // Раскрываем карточку
+  clientCardShowButton.click();
+
+  var clienCardText = $("#to_copy").val();
+
+  // Скрываем карточки
+  clientCardShowButton.click();
+
+  const clientCard = clientCardRow.previousElementSibling;
+  var lineBreak = document.createElement("br");
+
+  // Обманка АРМа, чтобы не думал, что это кнопка
+  var copyButton = document.createElement("button");
+  copyButton.textContent = "Копировать карточку";
+  copyButton.classList.add("btn", "btn-primary", "btn-sm"); // Добавляем классы для стилизации
+
+  // Отслеживание кликов на кнопку для копирования текста
+  copyButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    copyTextToClipboard(clienCardText);
+    $.notify("Карточка скопирована", "success");
+  });
+
+  clientCard.appendChild(lineBreak);
+  clientCard.appendChild(copyButton);
 }

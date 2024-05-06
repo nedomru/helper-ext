@@ -10,13 +10,7 @@
   document
     .getElementById("openSettings")
     .addEventListener("click", function () {
-      if (typeof browser !== "undefined") {
-        // Это Firefox
-        browser.runtime.openOptionsPage();
-      } else if (typeof chrome !== "undefined") {
-        // Это Chrome
-        chrome.runtime.openOptionsPage();
-      }
+      browser.runtime.openOptionsPage();
     });
 });
 
