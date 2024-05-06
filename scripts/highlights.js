@@ -22,6 +22,7 @@ setInterval(function () {
   ) {
     const child = document.querySelectorAll("td");
     child.forEach((el) => {
+      // Контакт сорвался
       if (
         el.innerText.indexOf(textToFind_cs) != -1 &&
         el.querySelector("span") == null
@@ -31,6 +32,7 @@ setInterval(function () {
           "<span style='color: red; font-weight:bold'>Контакт сорвался</span>"
         );
       }
+      // Обращение из Email
       if (
         el.innerText.indexOf(textToFind_email) != -1 &&
         el.querySelector("span") == null
@@ -40,6 +42,7 @@ setInterval(function () {
           "<span style='color: darkgreen; font-weight:bold'>Обращение из Email</span>"
         );
       }
+      // ОЦТП - Входящая связь
       if (
         el.innerText.indexOf(textToFind_octp) != -1 &&
         el.querySelector("span") == null

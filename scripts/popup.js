@@ -10,7 +10,11 @@
   document
     .getElementById("openSettings")
     .addEventListener("click", function () {
-      browser.runtime.openOptionsPage();
+      if (navigator.userAgent.includes("Chrome") == false) {
+        browser.runtime.openOptionsPage();
+      } else {
+        chrome.runtime.openOptionsPage();
+      }
     });
 });
 

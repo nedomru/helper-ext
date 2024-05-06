@@ -2,71 +2,142 @@ if (
   document.URL.indexOf("db.ertelecom.ru/cgi-bin") != -1 &&
   document.URL.indexOf("wcc_request_appl_support.change_request_appl") == -1
 ) {
-  browser.storage.local
-    .get([
-      "hideSPAS",
-      "hideTabIPTV",
-      "hideTabMVNO",
-      "hideTabAVTOSP",
-      "hideTabPORTRET",
-      "hideTabABONEMENT",
-      "hideTabPL",
-      "hideTabPayments",
-      "hideTabInvoices",
-      "hideTabAutopayment",
-      "diagnosticNew",
-      "specialOffers",
-      "balanceLimit",
-      "MNP",
-      "mainSales",
-    ])
-    .then((result) => {
-      if (result.hideSPAS == true) {
-        hideSPAS();
+  if (navigator.userAgent.includes("Chrome") == false) {
+    browser.storage.local
+      .get([
+        "hideSPAS",
+        "hideChatHeader",
+        "hideTabIPTV",
+        "hideTabMVNO",
+        "hideTabAVTOSP",
+        "hideTabPORTRET",
+        "hideTabABONEMENT",
+        "hideTabPL",
+        "hideTabInvoices",
+        "hideTabPayments",
+        "hideTabAutopayment",
+        "hideTabDiagnosticNew",
+        "hideTabSpecialOffers",
+        "hideTabBalanceLimit",
+        "hideTabMNP",
+        "hideTabMainSales",
+      ])
+      .then((result) => {
+        if (result.hideSPAS == true) {
+          hideSPAS();
+        }
+        if (result.hideTabIPTV == true) {
+          hideAgreementTab("Агентское IPTV");
+        }
+        if (result.hideTabMVNO == true) {
+          hideAgreementTab("MVNO");
+        }
+        if (result.hideTabAVTOSP == true) {
+          hideAgreementTab("АвтоСП");
+        }
+        if (result.hideTabPORTRET == true) {
+          hideAgreementTab("Портрет клиента");
+        }
+        if (result.hideTabABONEMENT == true) {
+          hideAgreementTab("Абонемент");
+        }
+        if (result.hideTabPL == true) {
+          hideAgreementTab("Новая ПЛ");
+        }
+        if (result.hideTabInvoices == true) {
+          hideAgreementTab("Счета");
+        }
+        if (result.hideTabPayments == true) {
+          hideAgreementTab("Платежи");
+        }
+        if (result.hideTabAutopayment == true) {
+          hideAgreementTab("Карты и автоплатеж");
+        }
+        if (result.hideTabDiagnosticNew == true) {
+          hideAgreementTab("Диагностика (new)");
+        }
+        if (result.hideTabSpecialOffers == true) {
+          hideAgreementTab("Спецпредложения");
+        }
+        if (result.hideTabBalanceLimit == true) {
+          hideAgreementTab("Ограничение по балансу");
+        }
+        if (result.hideTabMNP == true) {
+          hideAgreementTab("hideTabMNP");
+        }
+        if (result.hideTabMainSales == true) {
+          hideAgreementTab("Основные продажи");
+        }
+      });
+  } else {
+    chrome.storage.local.get(
+      [
+        "hideSPAS",
+        "hideChatHeader",
+        "hideTabIPTV",
+        "hideTabMVNO",
+        "hideTabAVTOSP",
+        "hideTabPORTRET",
+        "hideTabABONEMENT",
+        "hideTabPL",
+        "hideTabInvoices",
+        "hideTabPayments",
+        "hideTabAutopayment",
+        "hideTabDiagnosticNew",
+        "hideTabSpecialOffers",
+        "hideTabBalanceLimit",
+        "hideTabMNP",
+        "hideTabMainSales",
+      ],
+      function (result) {
+        if (result.hideSPAS == true) {
+          hideSPAS();
+        }
+        if (result.hideTabIPTV == true) {
+          hideAgreementTab("Агентское IPTV");
+        }
+        if (result.hideTabMVNO == true) {
+          hideAgreementTab("MVNO");
+        }
+        if (result.hideTabAVTOSP == true) {
+          hideAgreementTab("АвтоСП");
+        }
+        if (result.hideTabPORTRET == true) {
+          hideAgreementTab("Портрет клиента");
+        }
+        if (result.hideTabABONEMENT == true) {
+          hideAgreementTab("Абонемент");
+        }
+        if (result.hideTabPL == true) {
+          hideAgreementTab("Новая ПЛ");
+        }
+        if (result.hideTabInvoices == true) {
+          hideAgreementTab("Счета");
+        }
+        if (result.hideTabPayments == true) {
+          hideAgreementTab("Платежи");
+        }
+        if (result.hideTabAutopayment == true) {
+          hideAgreementTab("Карты и автоплатеж");
+        }
+        if (result.hideTabDiagnosticNew == true) {
+          hideAgreementTab("Диагностика (new)");
+        }
+        if (result.hideTabSpecialOffers == true) {
+          hideAgreementTab("Спецпредложения");
+        }
+        if (result.hideTabBalanceLimit == true) {
+          hideAgreementTab("Ограничение по балансу");
+        }
+        if (result.hideTabMNP == true) {
+          hideAgreementTab("hideTabMNP");
+        }
+        if (result.hideTabMainSales == true) {
+          hideAgreementTab("Основные продажи");
+        }
       }
-      if (result.hideTabIPTV == true) {
-        hideAgreementTab("Агентское IPTV");
-      }
-      if (result.hideTabMVNO == true) {
-        hideAgreementTab("MVNO");
-      }
-      if (result.hideTabAVTOSP == true) {
-        hideAgreementTab("АвтоСП");
-      }
-      if (result.hideTabPORTRET == true) {
-        hideAgreementTab("Портрет клиента");
-      }
-      if (result.hideTabABONEMENT == true) {
-        hideAgreementTab("Абонемент");
-      }
-      if (result.hideTabPL == true) {
-        hideAgreementTab("Новая ПЛ");
-      }
-      if (result.hideTabInvoices == true) {
-        hideAgreementTab("Счета");
-      }
-      if (result.hideTabPayments == true) {
-        hideAgreementTab("Платежи");
-      }
-      if (result.hideTabAutopayment == true) {
-        hideAgreementTab("Карты и автоплатеж");
-      }
-      if (result.diagnosticNew == true) {
-        hideAgreementTab("Диагностика (new)");
-      }
-      if (result.specialOffers == true) {
-        hideAgreementTab("Спецпредложения");
-      }
-      if (result.balanceLimit == true) {
-        hideAgreementTab("Ограничение по балансу");
-      }
-      if (result.MNP == true) {
-        hideAgreementTab("MNP");
-      }
-      if (result.mainSales == true) {
-        hideAgreementTab("Основные продажи");
-      }
-    });
+    );
+  }
 }
 
 // Скрытие СПАСа
