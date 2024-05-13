@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Помощник",
   "description": "",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "browser_specific_settings": {
     "gecko": {
       "update_url": "https://authf.xyz/helper_updates.json"
@@ -31,7 +31,7 @@
         "scripts/copyElements.js",
         "scripts/settings.js"
       ],
-      "matches": ["*://*.ertelecom.ru/*"]
+      "matches": ["http://*/*", "https://*/*"]
     }
   ],
   "permissions": ["*://*.ertelecom.ru/*", "tabs", "storage", "activeTab"],
