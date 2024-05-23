@@ -130,7 +130,7 @@ if (
           hideAgreementTab("Ограничение по балансу");
         }
         if (result.hideTabMNP == true) {
-          hideAgreementTab("hideTabMNP");
+          hideAgreementTab("MNP");
         }
         if (result.hideTabMainSales == true) {
           hideAgreementTab("Основные продажи");
