@@ -29,12 +29,19 @@
         "scripts/notify.js",
         "scripts/hideElements.js",
         "scripts/copyElements.js",
+        "scripts/lineEssentials.js",
         "scripts/settings.js"
       ],
       "matches": ["http://*/*", "https://*/*"]
     }
   ],
-  "permissions": ["*://*.ertelecom.ru/*", "tabs", "storage", "activeTab"],
+  "permissions": [
+    "*://*.ertelecom.ru/*",
+    "*://46.146.231.248/*",
+    "tabs",
+    "storage",
+    "activeTab"
+  ],
   "browser_action": {
     "default_title": "Помощник",
     "default_icon": "icons/ext_icon.png",
