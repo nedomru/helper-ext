@@ -19,7 +19,7 @@ if (document.URL.indexOf("genesys-ntp") != -1) {
   ];
   dutyButtons();
   highlightOperators();
-  tgLinkToDuty();
+  // tgLinkToDuty();
   // countGoToLine();
 }
 
@@ -138,7 +138,8 @@ function highlightOperators() {
   help = "Помощь смежному отделу";
 
   setInterval(function () {
-    const rows = document.querySelectorAll("table tr");
+    const appointmentsTable = document.getElementsByClassName("bottom-row")[0];
+    const rows = appointmentsTable.querySelectorAll("table tr");
 
     let isValueFound = false;
     rows.forEach((row) => {
