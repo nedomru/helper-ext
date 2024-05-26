@@ -31,7 +31,7 @@ function copyAddress() {
   const match = address_text.match(postcode_regex);
   if (match) {
     const postalCode = match[0] + ", ";
-    address_text = address_text.replace(postalCode, "");
+    address_text = address_text.replace(postalCode, "").trim();
   }
 
   // Поиск клетки Адрес для добавления кнопки
