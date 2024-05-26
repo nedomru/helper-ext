@@ -1,6 +1,25 @@
 if (document.URL.indexOf("genesys-ntp") != -1) {
+  const duty = [
+    { name: "Хохлов Сергей Евгеньевич", link: "https://t.me/viijko" },
+    { name: "Захарова Дарья Игоревна", link: "https://t.me/zakharovadi2" },
+    { name: "Шуваева Мария Сергеевна", link: "https://t.me/mariahajime" },
+    {
+      name: "Мерионкова Екатерина Сергеевна",
+      link: "https://t.me/ktmrnkv",
+    },
+    { name: "Чурсанова Дарья Алексеевна", link: "https://t.me/UtyugBB" },
+    {
+      name: "Беседнова Виктория Валерьевна",
+      link: "https://t.me/vikabesednova",
+    },
+    {
+      name: "Омельченко Артур Андреевич",
+      link: "https://t.me/ArthurOmelchenko",
+    },
+  ];
   dutyButtons();
   highlightOperators();
+  tgLinkToDuty();
   // countGoToLine();
 }
 
@@ -60,6 +79,33 @@ function dutyButtons() {
   stubLink.appendChild(iconStubDiv);
   stubLink.appendChild(titleStubDiv);
 
+  // Подтверждение назначений
+  const appointmentLink = document.createElement("a");
+  appointmentLink.tabIndex = "0";
+  appointmentLink.href = "https://okc2.ertelecom.ru/wfm/offers/duty/nsk_stp";
+  appointmentLink.target = "_blank";
+  appointmentLink.role = "menuitem";
+  appointmentLink.id = "list-item-742";
+  appointmentLink.className = "v-list-item v-list-item--link theme--light";
+
+  // Создаем иконку для бота вопросов
+  const iconappointmentDiv = document.createElement("div");
+  iconappointmentDiv.className = "v-list-item__icon";
+  const iconappointment = document.createElement("i");
+  iconappointment.setAttribute("aria-hidden", "true");
+  iconappointment.className =
+    "v-icon notranslate mdi mdi-account-multiple-outline theme--light";
+  iconappointmentDiv.appendChild(iconappointment);
+
+  // Создаем текст для бота вопросов
+  const titleappointmentDiv = document.createElement("div");
+  titleappointmentDiv.className = "v-list-item__title";
+  titleappointmentDiv.textContent = "Назначения";
+
+  // Вставляем иконку и текст в новый <a>
+  appointmentLink.appendChild(iconappointmentDiv);
+  appointmentLink.appendChild(titleappointmentDiv);
+
   // Создаем наблюдатель для изменений в DOM
   const observer = new MutationObserver((mutations, observer) => {
     // Пытаемся найти контейнер
@@ -71,6 +117,7 @@ function dutyButtons() {
     if (container) {
       container.appendChild(botLink);
       container.appendChild(stubLink);
+      container.appendChild(appointmentLink);
 
       // Отключаем наблюдателя, так как нужный элемент уже найден
       observer.disconnect();
@@ -93,27 +140,44 @@ function highlightOperators() {
   setInterval(function () {
     const rows = document.querySelectorAll("table tr");
 
+    let isValueFound = false;
     rows.forEach((row) => {
       // Находим все ячейки в текущей строке
       const cells = row.querySelectorAll("td, th");
       // Подсветка кол-ва чатов у рсг+проектов+обучений
-      cells.forEach((cell) => {
-        // Проверяем, содержит ли ячейка нужный текст
-        if (cell.innerText.includes(projects)) {
-          row.style.backgroundColor = "#F7DCB9";
+      try {
+        cells.forEach((cell) => {
+          // Проверяем, содержит ли ячейка нужный текст
+          if (cell.innerText.includes(projects)) {
+            row.style.backgroundColor = "#F7DCB9";
+            isValueFound == true;
+            throw new Error("Value found");
+          } else if (cell.innerText.includes(rsg)) {
+            row.style.backgroundColor = "#B3C8CF";
+            isValueFound == true;
+            throw new Error("Value found");
+          } else if (cell.innerText.includes(learning)) {
+            row.style.backgroundColor = "#EADBC8";
+            isValueFound == true;
+            throw new Error("Value found");
+          } else if (cell.innerText.includes(help)) {
+            row.style.backgroundColor = "#F3D0D7";
+            isValueFound == true;
+            throw new Error("Value found");
+          } else {
+            row.style.backgroundColor = "#FFFFFF";
+          }
+        });
+      } catch (e) {
+        if (e.message !== "Value found") {
+          throw e;
         }
-        if (cell.innerText.includes(rsg)) {
-          row.style.backgroundColor = "#B3C8CF";
-        }
-        if (cell.innerText.includes(learning)) {
-          row.style.backgroundColor = "#EADBC8";
-        }
-        if (cell.innerText.includes(help)) {
-          row.style.backgroundColor = "#F3D0D7";
-        }
-      });
+      }
+      if (isValueFound) {
+        return;
+      }
     });
-  }, 1000);
+  });
 }
 
 /* function countGoToLine() {
