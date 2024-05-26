@@ -1,7 +1,7 @@
 if (document.URL.indexOf("genesys-ntp") != -1) {
   dutyButtons();
   highlightOperators();
-  getCurrentDuty();
+  // countGoToLine();
 }
 
 // Добавление кнопок на линию
@@ -85,39 +85,73 @@ function dutyButtons() {
 }
 
 function highlightOperators() {
+  projects = "Проектная деятельность";
+  rsg = "Задачи от руководителя группы";
+  learning = "Обучение";
+  help = "Помощь смежному отделу";
+
   setInterval(function () {
+    const rows = document.querySelectorAll("table tr");
+
+    rows.forEach((row) => {
+      // Находим все ячейки в текущей строке
+      const cells = row.querySelectorAll("td, th");
+      // Подсветка кол-ва чатов у рсг+проектов+обучений
+      cells.forEach((cell) => {
+        // Проверяем, содержит ли ячейка нужный текст
+        if (cell.innerText.includes(projects)) {
+          row.style.backgroundColor = "#F7DCB9";
+        }
+        if (cell.innerText.includes(rsg)) {
+          row.style.backgroundColor = "#B3C8CF";
+        }
+        if (cell.innerText.includes(learning)) {
+          row.style.backgroundColor = "#EADBC8";
+        }
+        if (cell.innerText.includes(help)) {
+          row.style.backgroundColor = "#F3D0D7";
+        }
+      });
+    });
+  }, 1000);
+}
+
+/* function countGoToLine() {
+  setInterval(() => {
+    var on_rsg_operators = 0;
+    var on_project_operators = 0;
+    var on_learning_operators = 0;
     const child = document.querySelectorAll("td");
     child.forEach((el) => {
       // Проектная деятельность
-      if (
-        el.innerText.indexOf("Проектная деятельность") != -1 &&
-        el.querySelector("span") == null
-      ) {
-        el.innerHTML = el.innerHTML.replace(
-          "Проектная деятельность",
-          "<span style='color: #7B68EE; font-weight:bold'>Проектная деятельность</span>"
-        );
+      if (el.innerText == "Отсутствие на линии: Проектная деятельность") {
+        on_project_operators += 1;
       }
-      // Задачи от руководителя группы
       if (
-        el.innerText.indexOf("Задачи от руководителя группы") != -1 &&
-        el.querySelector("span") == null
+        el.innerText == "Отсутствие на линии: Задачи от руководителя группы"
       ) {
-        el.innerHTML = el.innerHTML.replace(
-          "Задачи от руководителя группы",
-          "<span style='color: #228B22; font-weight:bold'>Задачи от руководителя группы</span>"
-        );
+        on_rsg_operators += 1;
       }
-      // Обучение
-      if (
-        el.innerText.indexOf("Обучение") != -1 &&
-        el.querySelector("span") == null
-      ) {
-        el.innerHTML = el.innerHTML.replace(
-          "Обучение",
-          "<span style='color: #66CDAA; font-weight:bold'>Обучение</span>"
-        );
+      if (el.innerText == "Отсутствие на линии: Обучение") {
+        on_learning_operators += 1;
       }
     });
-  });
+
+    number_of_operators = document.querySelector(
+      ".ml-1 my-0 v-chip v-chip--outlined theme--light v-size--small primary lighten-1 primary--text text--lighten-1"
+    );
+    var on_project_operators_text = document.createTextNode(on_project_operators);
+    var newSpan = document.createElement("span");
+    newSpan.appendChild(on_project_operators_text);
+    number_of_operators.parentNode.insertBefore(
+      newSpan,
+      number_of_operators.nextSibling
+    );
+    console.log("операторов в проектах: " + on_project_operators);
+  }, 1000);
+
+
+  // Добавляем новый span после целевого элемента
+  element.parentNode.insertBefore(newSpan, element.nextSibling);
 }
+ */
