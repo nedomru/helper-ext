@@ -178,7 +178,7 @@ function highlightOperators() {
         return;
       }
     });
-  });
+  }, 1000);
 }
 
 /* function countGoToLine() {
