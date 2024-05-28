@@ -158,7 +158,7 @@ function highlightOperators() {
             isValueFound == true;
             throw new Error("Value found");
           } else if (cell.innerText.includes(learning)) {
-            row.style.backgroundColor = "#EADBC8";
+            row.style.backgroundColor = "#DFCCFB";
             isValueFound == true;
             throw new Error("Value found");
           } else if (cell.innerText.includes(help)) {
