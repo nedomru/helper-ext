@@ -34,7 +34,7 @@ function dutyButtons() {
   botLink.id = "list-item-742";
   botLink.className = "v-list-item v-list-item--link theme--light";
 
-  // Создаем иконку для бота вопросов
+  // Иконка бота
   const iconBotDiv = document.createElement("div");
   iconBotDiv.className = "v-list-item__icon";
   const iconBot = document.createElement("i");
@@ -42,7 +42,7 @@ function dutyButtons() {
   iconBot.className = "v-icon notranslate mdi mdi-robot-outline theme--light";
   iconBotDiv.appendChild(iconBot);
 
-  // Создаем текст для бота вопросов
+  // Текст бота
   const titleBotDiv = document.createElement("div");
   titleBotDiv.className = "v-list-item__title";
   titleBotDiv.textContent = "Очередь вопросов";
@@ -61,7 +61,7 @@ function dutyButtons() {
   stubLink.id = "list-item-742";
   stubLink.className = "v-list-item v-list-item--link theme--light";
 
-  // Создаем иконку для бота вопросов
+  // Иконка заглушки
   const iconStubDiv = document.createElement("div");
   iconStubDiv.className = "v-list-item__icon";
   const iconStub = document.createElement("i");
@@ -70,7 +70,7 @@ function dutyButtons() {
     "v-icon notranslate mdi mdi-alert-octagon-outline theme--light";
   iconStubDiv.appendChild(iconStub);
 
-  // Создаем текст для бота вопросов
+  // Текст заглушки
   const titleStubDiv = document.createElement("div");
   titleStubDiv.className = "v-list-item__title";
   titleStubDiv.textContent = "Заглушки";
@@ -79,7 +79,7 @@ function dutyButtons() {
   stubLink.appendChild(iconStubDiv);
   stubLink.appendChild(titleStubDiv);
 
-  // Подтверждение назначений
+  // Предложка назначений
   const appointmentLink = document.createElement("a");
   appointmentLink.tabIndex = "0";
   appointmentLink.href = "https://okc2.ertelecom.ru/wfm/offers/duty/nsk_stp";
@@ -88,7 +88,7 @@ function dutyButtons() {
   appointmentLink.id = "list-item-742";
   appointmentLink.className = "v-list-item v-list-item--link theme--light";
 
-  // Создаем иконку для бота вопросов
+  // Иконка предложки
   const iconappointmentDiv = document.createElement("div");
   iconappointmentDiv.className = "v-list-item__icon";
   const iconappointment = document.createElement("i");
@@ -97,10 +97,10 @@ function dutyButtons() {
     "v-icon notranslate mdi mdi-account-multiple-outline theme--light";
   iconappointmentDiv.appendChild(iconappointment);
 
-  // Создаем текст для бота вопросов
+  // Текст заглушки
   const titleappointmentDiv = document.createElement("div");
   titleappointmentDiv.className = "v-list-item__title";
-  titleappointmentDiv.textContent = "Назначения";
+  titleappointmentDiv.textContent = "Предложка";
 
   // Вставляем иконку и текст в новый <a>
   appointmentLink.appendChild(iconappointmentDiv);
