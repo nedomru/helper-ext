@@ -21,7 +21,7 @@
 async function handleFormSubmitMac(event) {
   event.preventDefault();
   const formData = new FormData(event.target);
-  const inputField = formData.get("input-mac");
+  const inputField = formData.get("input-mac").trim();
   const mac_regex = new RegExp("^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$");
 
   // Проверка корректности ввода MAC адреса
@@ -64,7 +64,7 @@ async function handleFormSubmitMac(event) {
 async function handleFormSubmitIP(event) {
   event.preventDefault();
   const formData = new FormData(event.target);
-  const inputField = formData.get("input-ip");
+  const inputField = formData.get("input-ip").trim();
   const ip_regex = new RegExp(
     "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
   );
