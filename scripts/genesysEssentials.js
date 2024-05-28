@@ -1,5 +1,26 @@
 if (document.URL.indexOf("genesys-app1") != -1) {
   genesysButtons();
+  hideGenesysButtons();
+  hideHeader();
+}
+
+function hideHeader() {
+  // FIXME не скрывается заголовок чата, скрипт не видит .wwe-case-information-header
+  setTimeout(() => {
+    var chatHeader = document.querySelector(".wwe-case-information-header");
+    console.log("пук" + chatHeader);
+    chatHeader.click();
+  }, 1000);
+}
+
+function hideGenesysButtons() {
+  const intervalId = setInterval(() => {
+    const genesys_help = document.querySelector("li.dropdown.account-help");
+    if (genesys_help) {
+      genesys_help.remove();
+      clearInterval(intervalId);
+    }
+  }, 100);
 }
 
 function genesysButtons() {
