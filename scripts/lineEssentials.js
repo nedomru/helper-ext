@@ -100,7 +100,7 @@ function dutyButtons() {
   // Текст заглушки
   const titleappointmentDiv = document.createElement("div");
   titleappointmentDiv.className = "v-list-item__title";
-  titleappointmentDiv.textContent = "Предложка";
+  titleappointmentDiv.textContent = "Назначения";
 
   // Вставляем иконку и текст в новый <a>
   appointmentLink.appendChild(iconappointmentDiv);
