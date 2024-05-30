@@ -5,7 +5,8 @@ if (document.URL.indexOf("genesys-app1") != -1) {
 }
 
 function hideHeader() {
-  // FIXME не скрывается заголовок чата, скрипт не видит .wwe-case-information-header
+  // TODO добавить выборочное скрытие заголовков
+  // TODO добавить включение/отключение опции в настройках
   setInterval(() => {
     var chatHeader = document.querySelector(".wwe-case-information-header");
     if (chatHeader.getAttribute("aria-expanded") == "true") {
