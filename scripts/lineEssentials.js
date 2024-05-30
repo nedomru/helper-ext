@@ -74,29 +74,32 @@ function highlightOperators() {
     [help]: "#F3D0D7",
   };
 
-  const interval = setInterval(() => {
-    const appointmentsTable = document.getElementsByClassName("bottom-row")[0];
-    const rows = appointmentsTable.querySelectorAll("table tr");
+  const appointmentsTable = document.getElementsByClassName("bottom-row")[0];
+  if (appointmentsTable) {
+    const interval = setInterval(() => {
+      const rows = appointmentsTable.querySelectorAll("table tr");
 
-    rows.forEach((row) => {
-      const cells = row.querySelectorAll("td, th");
-      let isValueFound = false;
+      rows.forEach((row) => {
+        const cells = row.querySelectorAll("td, th");
+        let isValueFound = false;
 
-      cells.forEach((cell) => {
         for (const key in colorMap) {
-          if (cell.textContent.includes(key)) {
-            row.style.backgroundColor = colorMap[key];
-            isValueFound = true;
-            return;
+          for (let i = 0; i < cells.length; i++) {
+            if (cells[i].textContent.includes(key)) {
+              row.style.backgroundColor = colorMap[key];
+              isValueFound = true;
+              break;
+            }
           }
+          if (isValueFound) break;
+        }
+
+        if (!isValueFound) {
+          row.style.backgroundColor = "#FFFFFF";
         }
       });
-
-      if (!isValueFound) {
-        row.style.backgroundColor = "#FFFFFF";
-      }
-    });
-  }, 2000);
+    }, 5000);
+  }
 
   return () => clearInterval(interval);
 }

@@ -8,9 +8,9 @@ function hideHeader() {
   // FIXME не скрывается заголовок чата, скрипт не видит .wwe-case-information-header
   setInterval(() => {
     var chatHeader = document.querySelector(".wwe-case-information-header");
-    // TODO добавить проверку открыто ли окно чата
-    // TODO добавить закрытие заголовка чата только при открытии самого чата, далее руками
-    chatHeader.click();
+    if (chatHeader.getAttribute("aria-expanded") == "true") {
+      chatHeader.click();
+    }
   }, 1000);
 }
 
@@ -89,6 +89,7 @@ function createGenesysLink(
   Object.assign(link.style, {
     fontSize: "1rem",
     color: "white",
+    lineHeight: "40px",
     marginRight: "10px",
     paddingRight: "10px",
     cursor: "pointer",
