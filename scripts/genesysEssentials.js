@@ -25,36 +25,36 @@ function hideGenesysHelp() {
 }
 
 function genesysButtons() {
-  const chatMaster = createStyledLink(
+  const chatMaster = createGenesysLink(
     "http://cm.roool.ru/",
     "ЧМ",
     { marginLeft: "20px" },
     true
   );
 
-  const setupRouter = createStyledLink(
+  const setupRouter = createGenesysLink(
     "https://interzet.dom.ru/service/knowledgebase/internet/kak-nastroit-router",
     "Роутеры"
   );
 
-  const setupTV = createStyledLink(
+  const setupTV = createGenesysLink(
     "https://oren.dom.ru/faq/televidenie/kak-nastroit-cifrovye-kanaly-na-televizore",
     "Телевизоры"
   );
 
-  const setupDecoder = createStyledLink(
+  const setupDecoder = createGenesysLink(
     "https://perm.dom.ru/service/knowledgebase/domru-tv/nastrojka-tv-pristavok",
     "Приставки",
     {},
     true
   );
 
-  const ftpPC = createStyledLink(
+  const ftpPC = createGenesysLink(
     "http://octptest.corp.ertelecom.loc/diagnostic-results/perm/",
     "FTP ПК"
   );
 
-  const ftpMobile = createStyledLink(
+  const ftpMobile = createGenesysLink(
     "http://octptest.corp.ertelecom.loc/diagnostic-results/mobile/",
     "FTP Мобила"
   );
@@ -73,7 +73,7 @@ function genesysButtons() {
   }, 100);
 }
 
-function createStyledLink(
+function createGenesysLink(
   href,
   textContent,
   additionalStyles = {},
