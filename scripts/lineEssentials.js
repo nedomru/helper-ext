@@ -25,160 +25,106 @@ if (document.URL.indexOf("genesys-ntp") != -1) {
 
 // Добавление кнопок на линию
 function dutyButtons() {
-  // Очередь бота вопросов
-  const botLink = document.createElement("a");
-  botLink.tabIndex = "0";
-  botLink.href = "http://46.146.231.248/linenck";
-  botLink.target = "_blank";
-  botLink.role = "menuitem";
-  botLink.id = "list-item-742";
-  botLink.className = "v-list-item v-list-item--link theme--light";
+  const botLink = createLinkTab(
+    "list-item-742",
+    "http://46.146.231.248/linenck",
+    "mdi mdi-robot-outline",
+    "Очередь вопросов"
+  );
 
-  // Иконка бота
-  const iconBotDiv = document.createElement("div");
-  iconBotDiv.className = "v-list-item__icon";
-  const iconBot = document.createElement("i");
-  iconBot.setAttribute("aria-hidden", "true");
-  iconBot.className = "v-icon notranslate mdi mdi-robot-outline theme--light";
-  iconBotDiv.appendChild(iconBot);
+  const stubLink = createLinkTab(
+    "list-item-742",
+    "http://genesys-stat.cc1.ertelecom.ru:9090/gax/#/!/view:com.cm.details/101/CfgTransaction/CfgFolder:196/CfgTransaction:312/gax:options",
+    "mdi mdi-alert-octagon-outline",
+    "Заглушки"
+  );
 
-  // Текст бота
-  const titleBotDiv = document.createElement("div");
-  titleBotDiv.className = "v-list-item__title";
-  titleBotDiv.textContent = "Очередь вопросов";
+  const appointmentLink = createLinkTab(
+    "list-item-742",
+    "https://okc2.ertelecom.ru/wfm/offers/duty/nsk_stp",
+    "mdi mdi-account-multiple-outline",
+    "Назначения"
+  );
 
-  // Вставляем иконку и текст в новый <a>
-  botLink.appendChild(iconBotDiv);
-  botLink.appendChild(titleBotDiv);
-
-  // Заглушки
-  const stubLink = document.createElement("a");
-  stubLink.tabIndex = "0";
-  stubLink.href =
-    "http://genesys-stat.cc1.ertelecom.ru:9090/gax/#/!/view:com.cm.details/101/CfgTransaction/CfgFolder:196/CfgTransaction:312/gax:options";
-  stubLink.target = "_blank";
-  stubLink.role = "menuitem";
-  stubLink.id = "list-item-742";
-  stubLink.className = "v-list-item v-list-item--link theme--light";
-
-  // Иконка заглушки
-  const iconStubDiv = document.createElement("div");
-  iconStubDiv.className = "v-list-item__icon";
-  const iconStub = document.createElement("i");
-  iconStub.setAttribute("aria-hidden", "true");
-  iconStub.className =
-    "v-icon notranslate mdi mdi-alert-octagon-outline theme--light";
-  iconStubDiv.appendChild(iconStub);
-
-  // Текст заглушки
-  const titleStubDiv = document.createElement("div");
-  titleStubDiv.className = "v-list-item__title";
-  titleStubDiv.textContent = "Заглушки";
-
-  // Вставляем иконку и текст в новый <a>
-  stubLink.appendChild(iconStubDiv);
-  stubLink.appendChild(titleStubDiv);
-
-  // Предложка назначений
-  const appointmentLink = document.createElement("a");
-  appointmentLink.tabIndex = "0";
-  appointmentLink.href = "https://okc2.ertelecom.ru/wfm/offers/duty/nsk_stp";
-  appointmentLink.target = "_blank";
-  appointmentLink.role = "menuitem";
-  appointmentLink.id = "list-item-742";
-  appointmentLink.className = "v-list-item v-list-item--link theme--light";
-
-  // Иконка предложки
-  const iconappointmentDiv = document.createElement("div");
-  iconappointmentDiv.className = "v-list-item__icon";
-  const iconappointment = document.createElement("i");
-  iconappointment.setAttribute("aria-hidden", "true");
-  iconappointment.className =
-    "v-icon notranslate mdi mdi-account-multiple-outline theme--light";
-  iconappointmentDiv.appendChild(iconappointment);
-
-  // Текст заглушки
-  const titleappointmentDiv = document.createElement("div");
-  titleappointmentDiv.className = "v-list-item__title";
-  titleappointmentDiv.textContent = "Назначения";
-
-  // Вставляем иконку и текст в новый <a>
-  appointmentLink.appendChild(iconappointmentDiv);
-  appointmentLink.appendChild(titleappointmentDiv);
-
-  // Создаем наблюдатель для изменений в DOM
-  const observer = new MutationObserver((mutations, observer) => {
-    // Пытаемся найти контейнер
+  const intervalId = setInterval(() => {
     const container = document.querySelector(
       ".v-list.v-sheet.theme--light.v-list--dense"
     );
-
-    // Если контейнер найден, выполняем действия и отключаем наблюдателя
     if (container) {
       container.appendChild(botLink);
       container.appendChild(stubLink);
       container.appendChild(appointmentLink);
-
-      // Отключаем наблюдателя, так как нужный элемент уже найден
-      observer.disconnect();
+      clearInterval(intervalId);
     }
-  });
-
-  // Настройки для наблюдателя: следить за всем деревом и за добавлением дочерних узлов
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true,
-  });
+  }, 1000);
 }
 
+// Подсветка операторов с определенными классами на линии
 function highlightOperators() {
-  projects = "Проектная деятельность";
-  rsg = "Задачи от руководителя группы";
-  learning = "Обучение";
-  help = "Помощь смежному отделу";
+  const projects = "Проектная деятельность";
+  const rsg = "Задачи от руководителя группы";
+  const learning = "Обучение";
+  const help = "Помощь смежному отделу";
 
-  setInterval(function () {
+  // Цвета для выделения
+  const colorMap = {
+    [projects]: "#F7DCB9",
+    [rsg]: "#B3C8CF",
+    [learning]: "#DFCCFB",
+    [help]: "#F3D0D7",
+  };
+
+  const interval = setInterval(() => {
     const appointmentsTable = document.getElementsByClassName("bottom-row")[0];
     const rows = appointmentsTable.querySelectorAll("table tr");
 
-    let isValueFound = false;
     rows.forEach((row) => {
-      // Находим все ячейки в текущей строке
       const cells = row.querySelectorAll("td, th");
-      // Подсветка кол-ва чатов у рсг+проектов+обучений
-      try {
-        cells.forEach((cell) => {
-          // Проверяем, содержит ли ячейка нужный текст
-          if (cell.innerText.includes(projects)) {
-            row.style.backgroundColor = "#F7DCB9";
-            isValueFound == true;
-            throw new Error("Value found");
-          } else if (cell.innerText.includes(rsg)) {
-            row.style.backgroundColor = "#B3C8CF";
-            isValueFound == true;
-            throw new Error("Value found");
-          } else if (cell.innerText.includes(learning)) {
-            row.style.backgroundColor = "#DFCCFB";
-            isValueFound == true;
-            throw new Error("Value found");
-          } else if (cell.innerText.includes(help)) {
-            row.style.backgroundColor = "#F3D0D7";
-            isValueFound == true;
-            throw new Error("Value found");
-          } else {
-            row.style.backgroundColor = "#FFFFFF";
+      let isValueFound = false;
+
+      cells.forEach((cell) => {
+        for (const key in colorMap) {
+          if (cell.textContent.includes(key)) {
+            row.style.backgroundColor = colorMap[key];
+            isValueFound = true;
+            return;
           }
-        });
-      } catch (e) {
-        if (e.message !== "Value found") {
-          throw e;
         }
-      }
-      if (isValueFound) {
-        return;
+      });
+
+      if (!isValueFound) {
+        row.style.backgroundColor = "#FFFFFF";
       }
     });
-  }, 1000);
+  }, 2000);
+
+  return () => clearInterval(interval);
+}
+
+function createLinkTab(id, href, iconClass, textContent) {
+  const link = document.createElement("a");
+  link.tabIndex = "0";
+  link.href = href;
+  link.target = "_blank";
+  link.role = "menuitem";
+  link.id = id;
+  link.className = "v-list-item v-list-item--link theme--light";
+
+  const iconDiv = document.createElement("div");
+  iconDiv.className = "v-list-item__icon";
+  const icon = document.createElement("i");
+  icon.setAttribute("aria-hidden", "true");
+  icon.className = `v-icon notranslate ${iconClass} theme--light`;
+  iconDiv.appendChild(icon);
+
+  const titleDiv = document.createElement("div");
+  titleDiv.className = "v-list-item__title";
+  titleDiv.textContent = textContent;
+
+  link.appendChild(iconDiv);
+  link.appendChild(titleDiv);
+
+  return link;
 }
 
 /* function countGoToLine() {
