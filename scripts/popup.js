@@ -3,10 +3,12 @@
   const form_link = document.getElementById("form-link");
   const form_ip = document.getElementById("form-ip");
   const search_provider = document.getElementById("searchProvider");
+  const search_router = document.getElementById("searchRouter");
   form_mac.addEventListener("submit", handleFormSubmitMac);
   form_link.addEventListener("submit", handleFormSubmitLink);
   form_ip.addEventListener("submit", handleFormSubmitIP);
   search_provider.addEventListener("input", searchProvider);
+  search_router.addEventListener("input", searchRouter);
   document
     .getElementById("openSettings")
     .addEventListener("click", function () {
@@ -150,6 +152,28 @@ function searchProvider() {
   input = document.getElementById("searchProvider");
   filter = input.value.toUpperCase();
   table = document.getElementById("providersTable");
+  tr = table.getElementsByTagName("tr");
+
+  // Перебирайте все строки таблицы и скрывайте тех, кто не соответствует поисковому запросу
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+
+function searchRouter() {
+  // Объявить переменные
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("searchRouter");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("routersTable");
   tr = table.getElementsByTagName("tr");
 
   // Перебирайте все строки таблицы и скрывайте тех, кто не соответствует поисковому запросу

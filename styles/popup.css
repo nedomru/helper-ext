@@ -4,7 +4,7 @@
 }
 
 body {
-  width: 500px;
+  width: 528px;
 }
 
 div {
@@ -39,7 +39,8 @@ td {
   text-align: left;
 }
 
-#searchProvider {
+#searchProvider,
+#searchRouter {
   background-position: 10px 12px; /* Расположите значок поиска */
   background-repeat: no-repeat; /* Не повторяйте изображение значка */
   width: auto; /* Полная ширина */
