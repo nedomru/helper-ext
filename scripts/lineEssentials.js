@@ -43,7 +43,7 @@ function dutyButtons() {
     "list-item-742",
     "https://okc2.ertelecom.ru/wfm/offers/duty/nsk_stp",
     "mdi mdi-account-multiple-outline",
-    "Назначения"
+    "Предложка"
   );
 
   const intervalId = setInterval(() => {
