@@ -20,7 +20,7 @@ if (document.URL.indexOf("genesys-ntp") != -1) {
   dutyButtons();
   highlightOperators();
   // tgLinkToDuty();
-  // countGoToLine();
+  countGoToLine();
 }
 
 // Добавление кнопок на линию
@@ -46,6 +46,13 @@ function dutyButtons() {
     "Предложка"
   );
 
+  const slForecastLink = createLinkTab(
+    "list-item-742",
+    "https://okc.ertelecom.ru/stats/genesys-reports/ntp/sl-forecast",
+    "mdi mdi-chart-line",
+    "Прогноз SL"
+  );
+
   const intervalId = setInterval(() => {
     const container = document.querySelector(
       ".v-list.v-sheet.theme--light.v-list--dense"
@@ -54,6 +61,7 @@ function dutyButtons() {
       container.appendChild(botLink);
       container.appendChild(stubLink);
       container.appendChild(appointmentLink);
+      container.appendChild(slForecastLink);
       clearInterval(intervalId);
     }
   }, 1000);
@@ -130,12 +138,24 @@ function createLinkTab(id, href, iconClass, textContent) {
   return link;
 }
 
-/* function countGoToLine() {
+function countGoToLine() {
   setInterval(() => {
+    const table = document.evaluate(
+      "/html/body/div/div[1]/main/div/div[2]/div[13]/div[4]/div/div[1]/div/div/div/div/div/div/div",
+      document,
+      null,
+      XPathResult.FIRST_ORDERED_NODE_TYPE,
+      null
+    ).singleNodeValue;
+
+    var total = 0;
+    total = table.querySelectorAll("tr").length - 1;
+
     var on_rsg_operators = 0;
     var on_project_operators = 0;
     var on_learning_operators = 0;
-    const child = document.querySelectorAll("td");
+
+    const child = table.querySelectorAll("td");
     child.forEach((el) => {
       // Проектная деятельность
       if (el.innerText == "Отсутствие на линии: Проектная деятельность") {
@@ -151,21 +171,24 @@ function createLinkTab(id, href, iconClass, textContent) {
       }
     });
 
-    number_of_operators = document.querySelector(
-      ".ml-1 my-0 v-chip v-chip--outlined theme--light v-size--small primary lighten-1 primary--text text--lighten-1"
-    );
-    var on_project_operators_text = document.createTextNode(on_project_operators);
-    var newSpan = document.createElement("span");
-    newSpan.appendChild(on_project_operators_text);
-    number_of_operators.parentNode.insertBefore(
-      newSpan,
-      number_of_operators.nextSibling
-    );
-    console.log("операторов в проектах: " + on_project_operators);
-  }, 1000);
+    // Находим элемент по XPath
+    const button = document.evaluate(
+      "/html/body/div/div/main/div/div[2]/div[13]/div[4]/div/div[1]/div/div/button",
+      document,
+      null,
+      XPathResult.FIRST_ORDERED_NODE_TYPE,
+      null
+    ).singleNodeValue;
 
+    // Находим элемент span внутри button
+    const chipElement = button.querySelector("span.v-chip__content");
 
-  // Добавляем новый span после целевого элемента
-  element.parentNode.insertBefore(newSpan, element.nextSibling);
+    // Заменяем текст
+    var new_text = `Всего: ${total} | 
+    ${on_rsg_operators > 0 ? `РСГ: ${on_rsg_operators}, ` : ""}
+    ${on_project_operators > 0 ? `Проекты: ${on_project_operators}, ` : ""}
+    ${on_learning_operators > 0 ? `Обучения: ${on_learning_operators}` : ""}`;
+
+    chipElement.textContent = new_text;
+  }, 5000);
 }
- */
