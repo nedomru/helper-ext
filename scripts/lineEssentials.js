@@ -54,9 +54,15 @@ function dutyButtons() {
   );
 
   const intervalId = setInterval(() => {
-    const container = document.querySelector(
-      ".v-list.v-sheet.theme--light.v-list--dense"
-    );
+    const xpath = "/html/body/div/div[2]/div";
+    const container = document.evaluate(
+      xpath,
+      document,
+      null,
+      XPathResult.FIRST_ORDERED_NODE_TYPE,
+      null
+    ).singleNodeValue;
+
     if (container) {
       container.appendChild(botLink);
       container.appendChild(stubLink);
@@ -185,9 +191,9 @@ function countGoToLine() {
 
     // Заменяем текст
     var new_text = `Всего: ${total} | 
-    ${on_rsg_operators > 0 ? `РСГ: ${on_rsg_operators}, ` : ""}
-    ${on_project_operators > 0 ? `Проекты: ${on_project_operators}, ` : ""}
-    ${on_learning_operators > 0 ? `Обучения: ${on_learning_operators}` : ""}`;
+    ${on_rsg_operators > 0 ? `РСГ: ${on_rsg_operators}` : ""}
+    ${on_project_operators > 0 ? `| Проекты: ${on_project_operators}` : ""}
+    ${on_learning_operators > 0 ? `| Обучения: ${on_learning_operators}` : ""}`;
 
     chipElement.textContent = new_text;
   }, 5000);
