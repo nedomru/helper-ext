@@ -140,31 +140,17 @@ if (
   }
 }
 
-// Скрытие СПАСа
+// Скрытие предвосхищения
 function hideSPAS() {
   var button = document.getElementsByClassName(
     "btn btn-primary top_3_butt btn-xs"
   )[0];
+  button.textContent = "Помощник";
 
   // Своваричаем предвосхищение
   document.getElementById("collapse-top-3").className = "collapse";
-  button.append(" | Поиск СПАСа");
-  button.style.backgroundColor = "#696969";
 
-  // Отслеживаем изменения в СПАСе
-  function checkForSPAS(node) {
-    if (
-      node.nodeType === Node.ELEMENT_NODE &&
-      node.classList.contains("spas_body")
-    ) {
-      button.style.backgroundColor = "#cc3300";
-      button.innerHTML = "Топ 3 | СПАС есть";
-      observer.disconnect();
-      clearTimeout(timeoutId);
-    }
-  }
-
-  const observer = new MutationObserver((mutationsList, observer) => {
+  const observerSPAS = new MutationObserver((mutationsList, observer) => {
     for (const mutation of mutationsList) {
       if (mutation.type === "childList") {
         mutation.addedNodes.forEach(checkForSPAS);
@@ -172,14 +158,113 @@ function hideSPAS() {
     }
   });
 
-  observer.observe(document.body, { childList: true, subtree: true });
+  const observerAccess = new MutationObserver((mutationsList, observer) => {
+    for (const mutation of mutationsList) {
+      if (mutation.type === "childList") {
+        mutation.addedNodes.forEach(checkForAccess);
+      }
+    }
+  });
 
-  // Таймер подгрузки СПАСа 2 секунды
-  const timeoutId = setTimeout(() => {
+  const observerAccident = new MutationObserver((mutationsList, observer) => {
+    for (const mutation of mutationsList) {
+      if (mutation.type === "childList") {
+        mutation.addedNodes.forEach(checkForAccident);
+      }
+    }
+  });
+
+  var problems = 0;
+  // СПАС
+  spas = document.querySelector(".spas_body");
+  if (spas) {
+    button.innerHTML += " | СПАС есть";
+    button.style.backgroundColor = "#cc3300";
+    problems++;
+  } else {
+    function checkForSPAS(node) {
+      if (
+        node.nodeType === Node.ELEMENT_NODE &&
+        node.classList.contains("spas_body")
+      ) {
+        button.innerHTML += " | СПАС есть";
+        button.style.backgroundColor = "#cc3300";
+        problems++;
+        observerSPAS.disconnect();
+        clearTimeout(timeoutSPASId);
+      }
+    }
+    observerSPAS.observe(document.body, { childList: true, subtree: true });
+    const timeoutSPASId = setTimeout(() => {
+      observerSPAS.disconnect();
+    }, 3000);
+  }
+
+  // Закрытый доступ
+  access = document.querySelectorAll(".bl_antic_head_w");
+  if (access) {
+    access.forEach((element) => {
+      if (element.textContent.trim() === "Доступ отсутствует") {
+        button.innerHTML += " | Закрытый доступ";
+        button.style.backgroundColor = "#cc3300";
+        problems++;
+      }
+    });
+  } else {
+    function checkForAccess(node) {
+      if (
+        node.nodeType === Node.ELEMENT_NODE &&
+        node.classList.contains("bl_antic_head_w")
+      ) {
+        if (node.textContent.trim() === "Доступ отсутствует") {
+          button.innerHTML += " | Доступ закрыт";
+          button.style.backgroundColor = "#cc3300";
+          problems++;
+          observerAccess.disconnect();
+          clearTimeout(timeoutAccessId);
+        }
+      }
+    }
+    observerAccess.observe(document.body, { childList: true, subtree: true });
+    const timeoutAccessId = setTimeout(() => {
+      observerAccess.disconnect();
+    }, 3000);
+  }
+
+  // Авария
+  accident = document.querySelectorAll(".bl_antic_head_w");
+  if (accident) {
+    accident.forEach((element) => {
+      if (element.textContent.trim() === "Аварии на адресе") {
+        button.innerHTML += " | Авария";
+        button.style.backgroundColor = "#cc3300";
+        problems++;
+      }
+    });
+  } else {
+    function checkForAccident(node) {
+      if (
+        node.nodeType === Node.ELEMENT_NODE &&
+        node.classList.contains("bl_antic_head_w")
+      ) {
+        if (node.textContent.trim() === "Аварии на адресе") {
+          button.innerHTML += " | Авария";
+          button.style.backgroundColor = "#cc3300";
+          problems++;
+          observerAccess.disconnect();
+          clearTimeout(timeoutAccidentId);
+        }
+      }
+    }
+    observerAccident.observe(document.body, { childList: true, subtree: true });
+    const timeoutAccidentId = setTimeout(() => {
+      observerAccident.disconnect();
+    }, 3000);
+  }
+
+  if (problems == 0) {
     button.style.backgroundColor = "#008000";
-    button.innerHTML = "Топ 3 | СПАСа нет";
-    observer.disconnect();
-  }, 2000);
+  }
 }
 
 // Скрытие кнопок договора
