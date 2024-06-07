@@ -178,7 +178,7 @@ function hideSPAS() {
   // СПАС
   spas = document.querySelector(".spas_body");
   if (spas) {
-    button.innerHTML += " | СПАС есть";
+    button.innerHTML += " | СПАС";
     button.style.backgroundColor = "#cc3300";
     problems++;
   } else {
@@ -187,7 +187,7 @@ function hideSPAS() {
         node.nodeType === Node.ELEMENT_NODE &&
         node.classList.contains("spas_body")
       ) {
-        button.innerHTML += " | СПАС есть";
+        button.innerHTML += " | СПАС";
         button.style.backgroundColor = "#cc3300";
         problems++;
         observerSPAS.disconnect();
@@ -205,7 +205,7 @@ function hideSPAS() {
   if (access) {
     access.forEach((element) => {
       if (element.textContent.trim() === "Доступ отсутствует") {
-        button.innerHTML += " | Закрытый доступ";
+        button.innerHTML += " | Доступ";
         button.style.backgroundColor = "#cc3300";
         problems++;
       }
@@ -217,7 +217,7 @@ function hideSPAS() {
         node.classList.contains("bl_antic_head_w")
       ) {
         if (node.textContent.trim() === "Доступ отсутствует") {
-          button.innerHTML += " | Доступ закрыт";
+          button.innerHTML += " | Доступ";
           button.style.backgroundColor = "#cc3300";
           problems++;
           observerAccess.disconnect();
