@@ -18,9 +18,9 @@ if (document.URL.indexOf("genesys-ntp") != -1) {
     },
   ];
   dutyButtons();
+  lineButtons();
   highlightOperators();
-  // tgLinkToDuty();
-  countGoToLine();
+  countAppointments();
 }
 
 // Добавление кнопок на линию
@@ -54,7 +54,8 @@ function dutyButtons() {
   );
 
   const intervalId = setInterval(() => {
-    const xpath = "/html/body/div/div[2]/div";
+    const xpath =
+      "/html/body/div/div[2]//div[contains(@class, 'v-list') and contains(@class, 'v-sheet') and contains(@class, 'theme--light') and contains(@class, 'v-list--dense')]";
     const container = document.evaluate(
       xpath,
       document,
@@ -64,13 +65,130 @@ function dutyButtons() {
     ).singleNodeValue;
 
     if (container) {
+      container.appendChild(slForecastLink);
       container.appendChild(botLink);
       container.appendChild(stubLink);
       container.appendChild(appointmentLink);
-      container.appendChild(slForecastLink);
       clearInterval(intervalId);
     }
   }, 1000);
+}
+
+function lineButtons() {
+  let buttonsDiv = document.createElement("div");
+  let lineHeader = document.querySelector(".v-toolbar__title");
+
+  lineHeader.parentNode.insertBefore(buttonsDiv, lineHeader.nextSibling);
+
+  // Задачи
+  const jira = document.createElement("button");
+  jira.textContent = "Задачи";
+  jira.type = "button";
+  jira.classList.add("v-btn");
+  jira.addEventListener("click", function () {
+    window.open("https://ticket.ertelecom.ru/", "_blank");
+  });
+  jira.addEventListener("mouseenter", () => {
+    jira.style.backgroundColor = "#595757";
+  });
+  jira.addEventListener("mouseleave", () => {
+    jira.style.backgroundColor = "#403e3e";
+  });
+
+  // Почта
+  const mail = document.createElement("button");
+  mail.textContent = "Почта";
+  mail.type = "button";
+  mail.classList.add("v-btn");
+  mail.addEventListener("click", function () {
+    window.open("https://mail.domru.ru/", "_blank");
+  });
+  mail.addEventListener("mouseenter", () => {
+    mail.style.backgroundColor = "#595757";
+  });
+  mail.addEventListener("mouseleave", () => {
+    mail.style.backgroundColor = "#403e3e";
+  });
+
+  // Клевер
+  const clever = document.createElement("button");
+  clever.textContent = "БЗ";
+  clever.type = "button";
+  clever.classList.add("v-btn");
+  clever.addEventListener("click", function () {
+    window.open("https://clever.ertelecom.ru/", "_blank");
+  });
+  clever.addEventListener("mouseenter", () => {
+    clever.style.backgroundColor = "#595757";
+  });
+  clever.addEventListener("mouseleave", () => {
+    clever.style.backgroundColor = "#403e3e";
+  });
+
+  // Обеды
+  const wfm = document.createElement("button");
+  wfm.textContent = "Обеды";
+  wfm.type = "button";
+  wfm.classList.add("v-btn");
+  wfm.addEventListener("click", function () {
+    window.open("https://okc2.ertelecom.ru/wfm/vueapp/day/", "_blank");
+  });
+  wfm.addEventListener("mouseenter", () => {
+    wfm.style.backgroundColor = "#595757";
+  });
+  wfm.addEventListener("mouseleave", () => {
+    wfm.style.backgroundColor = "#403e3e";
+  });
+
+  // ARM
+  const arm = document.createElement("button");
+  arm.textContent = "ARM";
+  arm.type = "button";
+  arm.classList.add("v-btn");
+  arm.addEventListener("click", function () {
+    window.open(
+      "https://perm.db.ertelecom.ru/cgi-bin/ppo/excells/wcc_main.entry_continue",
+      "_blank"
+    );
+  });
+  arm.addEventListener("mouseenter", () => {
+    arm.style.backgroundColor = "#595757";
+  });
+  arm.addEventListener("mouseleave", () => {
+    arm.style.backgroundColor = "#403e3e";
+  });
+
+  buttonsDiv.style.marginLeft = "20px";
+
+  jira.style.width = "80px";
+  jira.style.height = "28px";
+  jira.style.backgroundColor = "#403e3e";
+  jira.style.marginRight = "8px";
+
+  mail.style.width = "80px";
+  mail.style.height = "28px";
+  mail.style.backgroundColor = "#403e3e";
+  mail.style.marginRight = "8px";
+
+  clever.style.width = "80px";
+  clever.style.height = "28px";
+  clever.style.backgroundColor = "#403e3e";
+  clever.style.marginRight = "8px";
+
+  wfm.style.width = "80px";
+  wfm.style.height = "28px";
+  wfm.style.backgroundColor = "#403e3e";
+  wfm.style.marginRight = "8px";
+
+  arm.style.width = "80px";
+  arm.style.height = "28px";
+  arm.style.backgroundColor = "#403e3e";
+
+  buttonsDiv.appendChild(jira);
+  buttonsDiv.appendChild(mail);
+  buttonsDiv.appendChild(clever);
+  buttonsDiv.appendChild(wfm);
+  buttonsDiv.appendChild(arm);
 }
 
 // Подсветка операторов с определенными классами на линии
@@ -144,7 +262,7 @@ function createLinkTab(id, href, iconClass, textContent) {
   return link;
 }
 
-function countGoToLine() {
+function countAppointments() {
   setInterval(() => {
     const table = document.evaluate(
       "/html/body/div/div[1]/main/div/div[2]/div[13]/div[4]/div/div[1]/div/div/div/div/div/div/div",
@@ -163,14 +281,13 @@ function countGoToLine() {
 
     const child = table.querySelectorAll("td");
     child.forEach((el) => {
-      // Проектная деятельность
-      if (el.innerText == "Отсутствие на линии: Проектная деятельность") {
-        on_project_operators += 1;
-      }
       if (
         el.innerText == "Отсутствие на линии: Задачи от руководителя группы"
       ) {
         on_rsg_operators += 1;
+      }
+      if (el.innerText == "Отсутствие на линии: Проектная деятельность") {
+        on_project_operators += 1;
       }
       if (el.innerText == "Отсутствие на линии: Обучение") {
         on_learning_operators += 1;
@@ -190,8 +307,8 @@ function countGoToLine() {
     const chipElement = button.querySelector("span.v-chip__content");
 
     // Заменяем текст
-    var new_text = `Всего: ${total} | 
-    ${on_rsg_operators > 0 ? `РСГ: ${on_rsg_operators}` : ""}
+    var new_text = `Всего: ${total}
+    ${on_rsg_operators > 0 ? `| РСГ: ${on_rsg_operators}` : ""}
     ${on_project_operators > 0 ? `| Проекты: ${on_project_operators}` : ""}
     ${on_learning_operators > 0 ? `| Обучения: ${on_learning_operators}` : ""}`;
 
