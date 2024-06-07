@@ -18,6 +18,11 @@
         chrome.runtime.openOptionsPage();
       }
     });
+  document
+    .getElementById("openTelegram")
+    .addEventListener("click", function () {
+      window.open("https://t.me/nedomru", "_blank");
+    });
 });
 
 async function handleFormSubmitMac(event) {
