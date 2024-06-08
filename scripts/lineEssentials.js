@@ -142,7 +142,7 @@ function lineButtons() {
 
   // ARM
   const arm = document.createElement("button");
-  arm.textContent = "ARM";
+  arm.textContent = "АРМ";
   arm.type = "button";
   arm.classList.add("v-btn");
   arm.addEventListener("click", function () {
@@ -160,35 +160,41 @@ function lineButtons() {
 
   buttonsDiv.style.marginLeft = "20px";
 
-  jira.style.width = "80px";
+  jira.style.width = "90px";
   jira.style.height = "28px";
   jira.style.backgroundColor = "#403e3e";
   jira.style.marginRight = "8px";
+  jira.style.borderRadius = "16px";
 
-  mail.style.width = "80px";
+  mail.style.width = "90px";
   mail.style.height = "28px";
   mail.style.backgroundColor = "#403e3e";
   mail.style.marginRight = "8px";
+  mail.style.borderRadius = "16px";
 
-  clever.style.width = "80px";
-  clever.style.height = "28px";
-  clever.style.backgroundColor = "#403e3e";
-  clever.style.marginRight = "8px";
-
-  wfm.style.width = "80px";
+  wfm.style.width = "90px";
   wfm.style.height = "28px";
   wfm.style.backgroundColor = "#403e3e";
   wfm.style.marginRight = "8px";
+  wfm.style.borderRadius = "16px";
 
-  arm.style.width = "80px";
+  arm.style.width = "90px";
   arm.style.height = "28px";
   arm.style.backgroundColor = "#403e3e";
+  arm.style.borderRadius = "16px";
+  arm.style.marginRight = "8px";
+
+  clever.style.width = "90px";
+  clever.style.height = "28px";
+  clever.style.backgroundColor = "#403e3e";
+  clever.style.marginRight = "8px";
+  clever.style.borderRadius = "16px";
 
   buttonsDiv.appendChild(jira);
   buttonsDiv.appendChild(mail);
-  buttonsDiv.appendChild(clever);
   buttonsDiv.appendChild(wfm);
   buttonsDiv.appendChild(arm);
+  buttonsDiv.appendChild(clever);
 }
 
 // Подсветка операторов с определенными классами на линии
