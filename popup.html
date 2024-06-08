@@ -5,1208 +5,1086 @@
 <script src="scripts/jquery.min.js"></script>
 <script src="scripts/notify.min.js"></script>
 <script src="scripts/notify.js"></script>
+<!--TODO добавить bootstrap-->
 <link rel="stylesheet" type="text/css" href="styles/popup.css">
 
-
 <body>
-    <!-- Разделы -->
-    <div class="tab">
-        <button class="tablinks" id="tablink-Основные ссылки">Главная</button>
-        <button class="tablinks" id="tablink-Полезное">Полезное</button>
-        <button class="tablinks" id="tablink-MnA">MnA</button>
-        <!--<button class="tablinks" id="tablink-Регламенты">Регламенты</button>-->
-        <button class="tablinks" id="tablink-Роутеры">Роутеры</button>
-        <button class="tablinks" id="tablink-Инструменты">Инструменты</button>
-        <button id="openSettings">Настройки</button>
-    </div>
-
-    <!-- Контент раздела Полезное-->
-    <div id="Основные ссылки" class="tabcontent">
-        <div class="row">
-            <div class="column">
-                <h4>Главное</h4>
-                <a href="http://genesys-app1.cc4.ertelecom.ru:82/ui/ad/v1/index.html" target="_blank">Генезис</a>
-                <br />
-                <a href="https://perm.db.ertelecom.ru/cgi-bin/ppo/excells/wcc_main.entry_continue"
-                    target="_blank">Веб-АРМ</a>
-                <br />
-                <a href="https://mail.domru.ru/owa/" target="_blank">Почта</a>
-                <br /><br />
-                <h4>Линии</h4>
-                <a href="https://okc.ertelecom.ru/stats/genesys-ntp/line" target="_blank">НЦК</a>
-                <br />
-                <a href="https://okc.ertelecom.ru/stats/line_ts/ntp1/index" target="_blank">НТП1</a>
-                <br />
-                <a href="https://okc.ertelecom.ru/stats/line_ts/ntp2/index" target="_blank">НТП2</a>
-                <br />
-                <a href="https://okc.ertelecom.ru/stats/line/okc2wfm_okc" target="_blank">ОКЦ</a>
-                <br /><br />
-                <h4>Перерывы</h4>
-                <a href="https://okc.ertelecom.ru/stats/breaks/ntp-nck-one" target="_blank">НЦК1</a>
-                <br />
-                <a href="https://okc.ertelecom.ru/stats/breaks/ntp-nck-two" target="_blank">НЦК2</a>
-                <br /><br />
-                <h4>Графики</h4>
-                <a href="https://okc2.ertelecom.ru/wfm/vueapp/personal" target="_blank">Личный</a>
-                <br />
-                <a href="https://okc2.ertelecom.ru/wfm/vueapp/day" target="_blank">День</a>
-                <br />
-                <a href="https://okc2.ertelecom.ru/wfm/vueapp/month" target="_blank">Месяц</a>
-                <br /><br />
-            </div>
-            <div class="column">
-                <h4>Базы знаний</h4>
-                <a href="https://clever.ertelecom.ru" target="_blank">Clever</a>
-                <br /><br />
-                <h4>Статистика</h4>
-                <a href="https://okc.ertelecom.ru/stats/ure/main/ure" target="_blank">URE</a>
-                <br />
-                <a href="https://okc.ertelecom.ru/test/gok/ntp-nck-one/" target="_blank">Гок | НЦК1</a>
-                <br />
-                <a href="https://okc.ertelecom.ru/test/gok/ntp-nck-two/" target="_blank">Гок | НЦК2</a>
-                <br />
-                <a href="https://okc.ertelecom.ru/stats/csi/csi/index" target="_blank">Оценки CSI</a>
-                <br />
-                <a href="https://okc.ertelecom.ru/stats/premium/ntp-nck1/spec_month" target="_blank">Премия |
-                    НЦК1</a>
-                <br />
-                <a href="https://okc.ertelecom.ru/stats/premium/ntp-nck2/spec_month" target="_blank">Премия |
-                    НЦК2</a>
-            </div>
-            <div class="column">
-                <h4>Для работы</h4>
-                <h5>Интернет</h5>
-                <a href="http://octptest.corp.ertelecom.loc/diagnostic-results/" target="_blank">FTP</a>
-                <br />
-                <a href="http://octptest.corp.ertelecom.loc/diagnostic-results/mobile/" target="_blank">Тест |
-                    Телефон</a>
-                <br />
-                <a href="http://octptest.corp.ertelecom.loc/diagnostic-results/perm/" target="_blank">Тест | ПК</a>
-                <br />
-                <a href="https://provisioning.ertelecom.ru/devices/" target="_blank">Провижининг</a>
-                <br /><br />
-                <h5>Приставки</h5>
-                <a href="http://cpe.domru.ru/tv/swupdate_primary/STB/add_nuid_and_version.php"
-                    target="_blank">Прошивки</a> (thinktwice)
-                <br />
-                <a href="https://okc.ertelecom.ru/stats/emulator/index" target="_blank">Эмулятор</a>
-                <br />
-                <a href="https://cms.ertelecom.ru" target="_blank">Сброс ПИНа</a>
-                <br /><br />
-                <h5>Другое</h5>
-                <a href="http://cm.roool.ru/" target="_blank">Чат мастер</a>
-                <br />
-                <a href="https://okc.ertelecom.ru/stats/appl/chart/index" target="_blank">Обращения в КЦ</a>
-                <br />
-                <a href="http://kbn.ertelecom.ru/download/attachments/26169803/Разблокировка логинов.pdf"
-                    target="_blank">Разблокировка логинов</a>
-                <br />
-                <a href="https://mh-dashboard-erth.proptech.ru/web/" target="_blank">Дашборд домофонии</a>
-                <br />
-                <a href="http://10.121.5.198/lenta" target="_blank">Генератор ленты</a>
-                (lentagen:genpass)
-            </div>
+        <!-- Разделы -->
+        <div class="tab">
+                <button class="tablinks" id="tablink-Основные ссылки">Главная</button>
+                <button class="tablinks" id="tablink-MnA">MnA</button>
+                <button class="tablinks" id="tablink-Роутеры">Роутеры</button>
+                <button class="tablinks" id="tablink-Инструменты">Инструменты</button>
+                <button id="openSettings">Настройки</button>
+                <button id="openTelegram">ТГ</button>
         </div>
-    </div>
-    <div id="Полезное" class="tabcontent">
-        <h4>Данные от Rotek:</h4>
-        Интерфейс:
-        http://192.168.0.1/user/connect5.html <br />
-        admin / CCzxNRBN7y <br />
-        admin / 2Y6aAy6Nvy <br />
-        admin / admin <br /><br />
-        <h4>Данные от DASAN</h4>
-        Интерфейс: <br />
-        192.168.55.1 <br />
-        192.168.55.1:80 <br />
-        192.168.55.1:85 <br />
-        192.168.55.1:8080 <br /><br />
-        Суперпользователь: admin<br />
-        Пароль: crocus23 / vorkun28 / vertex25 / crimas37 / admin
-    </div>
-    <div id="MnA" class="tabcontent">
-        <input type="text" id="searchProvider" placeholder="Поиск провайдера" autofocus>
-        <table id="providersTable">
-            <tr>
-                <th>Провайдер</th>
-                <th>Авторизация</th>
-                <th>Подключение</th>
-            </tr>
-            <tr>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3289"
-                        target="_blank">Interzet</a></td>
-                <td>IPoE Static</td>
-                <td>Ethernet</td>
-            </tr>
-            <tr>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3280"
-                        target="_blank">Тура-Telecom</a></td>
-                <td>PPPoE, DHCP opt82</td>
-                <td>Ethernet</td>
-            </tr>
-            <tr>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3136"
-                        target="_blank">Ярославль Телесеть (ЯТС)</a></td>
-                <td>PPPoE, DHCP opt82</td>
-                <td>Ethernet</td>
-            </tr>
-            <tr>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3192"
-                        target="_blank">Иркнет</a></td>
-                <td>PPPoE</td>
-                <td>ADSL, GPON, FTTH</td>
-            </tr>
-            <tr>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3282"
-                        target="_blank">Контакт (Тула)</a></td>
-                <td>PPPoE</td>
-                <td>ADSL</td>
-            </tr>
-            <tr>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/2761"
-                        target="_blank">Коламбия Телеком</a></td>
-                <td>PPPoE, DHCP opt82</td>
-                <td>Ethernet, ADSL</td>
-            </tr>
-            <tr>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/3191" target="_blank">Телемир
-                        (Липецк)</a></td>
-                <td>PPPoE, DHCP opt82</td>
-                <td>Ethernet</td>
-            </tr>
-            <tr>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3291" target="_blank">Акадо
-                        (СПБ)</a></td>
-                <td>DHCP MAC+VLAN</td>
-                <td>Ethernet</td>
-            </tr>
-            <tr>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/2760" target="_blank">БКС
-                        (Брянск)</a></td>
-                <td>DHCP MAC+VLAN, DHCP opt82</td>
-                <td>Ethernet, PON</td>
-            </tr>
-            <tr>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3285"
-                        target="_blank">Инфоцентр (Сосновый бор)</a></td>
-                <td>IPoE Static</td>
-                <td>Ethernet</td>
-            </tr>
-            <tr>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/2769"
-                        target="_blank">Конвекс/ТКС (ЕКБ)</a></td>
-                <td>IPoE Static, PPTP (общежития)</td>
-                <td>Ethernet</td>
-            </tr>
-            <tr>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3106"
-                        target="_blank">Дельта-Телеком</a></td>
-                <td>PPPoE</td>
-                <td>ADSL</td>
-            </tr>
-            <tr>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/3189"
-                        target="_blank">Мегаполис-Телеком</a></td>
-                <td>PPPoE</td>
-                <td>PON</td>
-            </tr>
-            <tr>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3121"
-                        target="_blank">СибТелеКом (СТК)</a></td>
-                <td>PPPoE, DHCP opt82</td>
-                <td>Ethernet, ADSL</td>
-            </tr>
-            <tr>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3288"
-                        target="_blank">Westcall / N-Link (Рязань)</a></td>
-                <td>IPoE DHCP, PPPoE</td>
-                <td>Ethernet, ADSL, PON</td>
-            </tr>
-            <tr>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/2768" target="_blank">Акадо
-                        (ЕКБ)</a></td>
-                <td>L2TP</td>
-                <td>Ethernet</td>
-            </tr>
-            <tr>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/6528" target="_blank">Сатурн
-                        (Пермь)</a></td>
-                <td>PPPoE</td>
-                <td>FTTH</td>
-            </tr>
-            <tr>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3286"
-                        target="_blank">Westcall (СПб)</a></td>
-                <td>DHCP MAC+VLAN</td>
-                <td>Ethernet</td>
-            </tr>
-            <tr>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3283"
-                        target="_blank">Кредолинк (СПб)</a></td>
-                <td>DHCP MAC+VLAN</td>
-                <td>Ethernet</td>
-            </tr>
-            <tr>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3287" target="_blank">MSNet
-                        (СПБ)</a></td>
-                <td>DHCP MAC+VLAN</td>
-                <td>Ethernet</td>
-            </tr>
-            <tr>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3246"
-                        target="_blank">RiNet</a></td>
-                <td>DHCP MAC+VLAN</td>
-                <td>Ethernet</td>
-            </tr>
-            <tr>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3172" target="_blank">Стрела
-                        (Димитровград)</a></td>
-                <td>DHCP opt82</td>
-                <td>Ethernet</td>
-            </tr>
-            <tr>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3238"
-                        target="_blank">С-Телеком МСК (Самолет)</a></td>
-                <td>PPPoE, DHCP opt82</td>
-                <td>Ethernet</td>
-            </tr>
-            <tr>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/2646" target="_blank">Дианэт
-                        (Барнаул и область)</a></td>
-                <td>L2TP</td>
-                <td>Ethernet</td>
-            </tr>
-        </table>
-    </div>
-    <div id="Инструменты" class="tabcontent">
-        <h4>Проверка MAC-адреса</h4>
-        <form id="form-mac">
-            <input type="text" id="input-mac" name="input-mac" placeholder="Введи мак" />
-            <button id="submit-mac">Проверить</button>
-        </form>
-        <h4>Проверка IP</h4>
-        <form id="form-ip">
-            <input type="text" id="input-ip" name="input-ip" placeholder="Введи IP-адрес" />
-            <button id="submit-ip" class="submit-ip-button">Проверить</button>
-        </form>
-        <h4>Сокращатель ссылок</h4>
-        <form id="form-link">
-            <input type="text" id="input-link" name="input-link" placeholder="Введи ссылку" />
-            <button id="submit-link" class="submit-link-button">Сократить</button>
-        </form>
-    </div>
-    <div id="Роутеры" class="tabcontent">
-        <input type="text" id="searchRouter" placeholder="Поиск роутера" autofocus>
-        <table id="routersTable">
-            <tr>
-                <th>Название</th>
-                <th>PPPoE</th>
-                <th>DHCP</th>
-                <th>IPoE</th>
-                <th>БЗ</th>
-                <th>Эмулятор</th>
-            </tr>
-            <tr>
-                <td>TP-Link <b>Зеленка</b></td>
-                <td><a
-                        href="https://interzet.dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Green_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://interzet.dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Green_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://interzet.dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Green_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2312">БЗ</a>
-                </td>
-                <td><a href="https://www.tp-link.com/resources/simulator/TL-WR1045ND(RU)_2.0/Index.htm">РУС</a> | <a
-                        href="https://www.tp-link.com/resources/simulator/TL-WR750N(UN)_V5.0/Index.htm">АНГЛ</a>
-                </td>
-            </tr>
-            <tr>
-                <td>TP-Link Archer С5/С9/EC220</td>
-                <td><a
-                        href="https://interzet.dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://interzet.dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://interzet.dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2312">БЗ</a>
-                </td>
-                <td><a href="https://emulator.tp-link.com/Archer_C5(RUS)v4_Router_Emulator/web/index.htm">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>TP-Link Archer С20/C2/A5/C50/AC750</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_v2_C20_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_v2_C20_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_v2_C20_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2312">БЗ</a>
-                </td>
-                <td><a href="https://emulator.tp-link.com/Emulator_ArcherC20_RU_v4/index.htm">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>TP-Link Archer A6/C7/C60/A9</td>
-                <td><a
-                        href="http://kbn.ertelecom.ru/download/attachments/27963307/%D0%BC%D0%BE%D0%B9%20tp-link%20%D0%A0%D0%A0%D0%A0%D0%BE%D0%95.pdf">PPPoE</a>
-                </td>
-                <td><a
-                        href="http://kbn.ertelecom.ru/download/attachments/27963307/DHCP%20opt%2082%20%D0%B1%D0%B8%D1%80%D1%8E%D0%B7%D0%BE%D0%B2%D0%B0%D1%8F%20%28v2%29.pdf">DHCP</a>
-                </td>
-                <td><a
-                        href="http://kbn.ertelecom.ru/download/attachments/27963307/Static%20ip%20%D0%B1%D0%B8%D1%80%D1%8E%D0%B7%D0%BE%D0%B2%D0%B0%D1%8F%20%28v2%29.pdf">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2312">БЗ</a>
-                </td>
-                <td><a href="https://emulator.tp-link.com/c7v5_ru/index.html">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>TP-Link Archer C80</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_C80_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_C80_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_C80_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2312">БЗ</a>
-                </td>
-                <td><a href="https://emulator.tp-link.com/c80-ru-router/index.html#networkMap">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>TP-Link Archer АХ20/C54</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_AX20_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_AX20_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_AX20_004">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2312">БЗ</a>
-                </td>
-                <td><a
-                        href="https://emulator.tp-link.com/Archer_AX90v1_EU_simulator/index.html#tpLinkCloud">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>D-Link DIR-300NRU/DIR-615 <b>Темная</b></td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_Grey_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_Grey_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_Grey_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/2275">БЗ</a>
-                </td>
-                <td><a href="http://em.dlink.ru/emul/DIR-300AD_gray/">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>D-Link DIR-300/DIR-615 <b>Желтая</b></td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_Grey-orange_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_Grey-orange_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_Grey-orange_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/2275">БЗ</a>
-                </td>
-                <td><a href="http://linserv.ru/dlink-DIR-615/">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>D-Link DIR-615 <b>Белая</b></td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_White_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_White_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_White_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/2275">БЗ</a>
-                </td>
-                <td><a href="http://em.dlink.ru/emul/DIR-615KR1/#start/storInfo">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>D-Link DIR-300NRU/DIR-620</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_White-turquoise_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_White-turquoise_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_White-turquoise_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/2275">БЗ</a>
-                </td>
-                <td>Нет</a>
-                </td>
-            </tr>
-            <tr>
-                <td>D-Link DIR300NRU B5/DIR320NRU/DIR-620</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_White-blue_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_White-blue_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_White-blue_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/2275">БЗ</a>
-                </td>
-                <td>Нет
-                </td>
-            </tr>
-            <tr>
-                <td>D-Link DIR-2150/DIR-825/DIR-X1530/DIR-842</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_V3_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_V3_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_V3_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/2275">БЗ</a>
-                </td>
-                <td><a href="https://anweb.dlink.ru:8003/admin">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Keenetic Lite II-III/Lite NDMS 2.0</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Keenetic_Dark-blue_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Keenetic_Dark-blue_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Keenetic_Dark-blue_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/2510">БЗ</a>
-                </td>
-                <td><a href="http://routers.nvbs.ru/zyxel/NDMSv2_by_Anna/status.html">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Keenetic Lite/ZyXel NBG334W EE</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Keenetic_Blue_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Keenetic_Blue_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Keenetic_Blue_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/2510">БЗ</a>
-                </td>
-                <td><a href="https://itel.ua/emulations/zyxel_keenetic_giga/default.htm">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Keenetic Ultra/Giga/Viva/Speedster</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Keenetic_Giga_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Keenetic_Giga_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Keenetic_Giga_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/2510">БЗ</a>
-                </td>
-                <td><a href="https://giga.demo.keenetic.pro/dashboard">Эмулятор (demo:demo)</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Keenetic AlR/Zyxel VIVA/Zyxel CITY/Zyxel START</td>
-                <td><a
-                        href="http://kbn.ertelecom.ru/download/attachments/27963307/Zyxel%20%D0%BD%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BF%D1%80%D0%BE%D1%88%D0%B8%D0%B2%D0%BA%D0%B0.pdf">PPPoE</a>
-                </td>
-                <td>нет
-                </td>
-                <td><a
-                        href="http://kbn.ertelecom.ru/download/attachments/27963307/Zyxel%20Air%20%D0%BF%D1%80%D0%BE%D1%88%D0%B8%D0%B2%D0%BA%D0%B0.pdf?version=1&modificationDate=1558793480808&api=v2">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/2510">БЗ</a>
-                </td>
-                <td><a href="https://giga.demo.keenetic.pro/dashboard">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Xiaomi <b>Белая</b></td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Xiaomi_Mi-Router3_004">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Xiaomi_Mi-Router3_005">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Xiaomi_Mi-Router3_006">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/2509">БЗ</a>
-                </td>
-                <td><a href="http://linserv.ru/Xiaomi/cgi-bin/luci/home">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Xiaomi <b>Черная</b></td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Xiaomi_Mi-Router_004">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Xiaomi_Mi-Router_005">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Xiaomi_Mi-Router_006">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/2509">БЗ</a>
-                </td>
-                <td>нет
-                </td>
-            </tr>
-            <tr>
-                <td>ASUS RT-AC66U/RT-N66U/RT-N65U <b>Темная</b></td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__ASUS_RT_6xxx_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__ASUS_RT_6xxx_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__ASUS_RT_6xxx_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/2520">БЗ</a>
-                </td>
-                <td><a href="https://demoui.asus.com/">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>ASUS RT-N10/RT-G32/RT32G <b>Голубая</b></td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__ASUS_RT_3xxx_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__ASUS_RT_3xxx_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__ASUS_RT_3xxx_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/2520">БЗ</a>
-                </td>
-                <td><a href="https://routers.wtf/emul/ASUS1%20OFFLINE/index.html">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>ASUS WL-520GC <b>Розовая</b></td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__ASUS_WL_5xxx__003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__ASUS_WL_5xxx__004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__ASUS_WL_5xxx__004">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/2520">БЗ</a>
-                </td>
-                <td><a href="https://routers.wtf/emul/ASUS%20VIOLET%20OFFLINE/index-2.html">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Rotek</td>
-                <td><a
-                        href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/8178?fileView=47495">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/8178?fileView=47494">DHCP</a>
-                </td>
-                <td><a
-                        href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/8178?fileView=47492">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/8178">БЗ</a>
-                </td>
-                <!-- TODO Найти эмулятор ротека-->
-                <td>Нет
-                </td>
-            </tr>
-            <tr>
-                <td>Mercusys</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Mercusys_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Mercusys_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Mercusys_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/2076">БЗ</a>
-                </td>
-                <td><a href="https://www.mercusys.com/ru/support/simulator">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Mercusys</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Mercusys_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Mercusys_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Mercusys_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/2076">БЗ</a>
-                </td>
-                <td><a href="https://www.mercusys.com/ru/support/simulator">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Huawei HG231F</td>
-                <td><a
-                        href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/8179?fileView=47530">PPPoE</a>
-                </td>
-                <td>Нет
-                </td>
-                <td>Нет
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/8179">БЗ</a>
-                </td>
-                <td>Нет
-                </td>
-            </tr>
-            <tr>
-                <td>Huawei WS880</td>
-                <td><a
-                        href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/8179?fileView=47539">PPPoE</a>
-                </td>
-                <td>Нет
-                </td>
-                <td>Нет
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/8179">БЗ</a>
-                </td>
-                <td>Нет
-                </td>
-            </tr>
-            <tr>
-                <td>Huawei HG532e</td>
-                <td><a
-                        href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/8179?fileView=47549">PPPoE</a>
-                </td>
-                <td>Нет
-                </td>
-                <td>Нет
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/2076">БЗ</a>
-                </td>
-                <td>Нет
-                </td>
-            </tr>
-            <tr>
-                <td>Huawei AX(2,3)</td>
-                <td><a
-                        href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/8179?fileView=47560">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/8179?fileView=47562">DHCP</a>
-                </td>
-                <td><a
-                        href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/8179?fileView=47561">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/2076">БЗ</a>
-                </td>
-                <td>Нет
-                </td>
-            </tr>
-            <tr>
-                <td>SNR-CPE-W4N</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__SNR-CPE-W4N_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__SNR-CPE-W4N_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__SNR-CPE-W4N_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/1909">БЗ</a>
-                </td>
-                <td><a href="http://linserv.ru/SNR-CPE-W4n/home.html">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>SNR-CPE-W4N ревизия M</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__SNR-CPE-W4N-revM_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__SNR-CPE-W4N-revM_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__SNR-CPE-W4N-revM_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/1910">БЗ</a>
-                </td>
-                <td><a href="http://linserv.ru/SNR-CPE-W4n/home.html">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Tenda new AC/F300</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Tenda_AC_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Tenda_AC_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Tenda_AC_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/2598">БЗ</a>
-                </td>
-                <td><a href="http://simulator.tendacn.com/F300v2/">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Tenda W303R/W309R/W316R</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Tenda_W303R_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Tenda_W303R_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Tenda_W303R_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/2598">БЗ</a>
-                </td>
-                <td>Нет
-                </td>
-            </tr>
-            <tr>
-                <td>Tenda W311R</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Tenda_W311R_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Tenda_W311R_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Tenda_W311R_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/2598">БЗ</a>
-                </td>
-                <td>Нет
-                </td>
-            </tr>
-            <tr>
-                <td>Tenda F300</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Tenda_F300_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Tenda_F300_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Tenda_F300_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/2598">БЗ</a>
-                </td>
-                <td><a href="http://simulator.tendacn.com/F300v2/">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Tenda new</td>
-                <td><a
-                        href="http://kbn.ertelecom.ru/download/attachments/27963307/Tenda%20%28%D0%BE%D1%80%D0%B0%D0%BD%D0%B6%D0%B5%D0%B2%D0%B0%D1%8F%20%D0%BD%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BF%D1%80%D0%BE%D1%88%D0%B8%D0%B2%D0%BA%D0%B0%29%20PPPoE.pdf">PPPoE</a>
-                </td>
-                <td><a
-                        href="http://kbn.ertelecom.ru/download/attachments/27963307/Tenda%20New%20%D0%BF%D1%80%D0%BE%D1%88%D0%B8%D0%B2%D0%BA%D0%B0.pdf">DHCP</a>
-                </td>
-                <td><a
-                        href="http://kbn.ertelecom.ru/download/attachments/27963307/Tenda%20%28%D0%BE%D1%80%D0%B0%D0%BD%D0%B6%D0%B5%D0%B2%D0%B0%D1%8F%20%D0%BD%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BF%D1%80%D0%BE%D1%88%D0%B8%D0%B2%D0%BA%D0%B0%29%20static.pdf">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/2598">БЗ</a>
-                </td>
-                <td><a href="http://simulator.tendacn.com/F300v2/">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Mikrotik</td>
-                <td><a
-                        href="http://kbn.ertelecom.ru/download/attachments/27963307/Tenda%20%28%D0%BE%D1%80%D0%B0%D0%BD%D0%B6%D0%B5%D0%B2%D0%B0%D1%8F%20%D0%BD%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BF%D1%80%D0%BE%D1%88%D0%B8%D0%B2%D0%BA%D0%B0%29%20PPPoE.pdf">PPPoE</a>
-                </td>
-                <td><a
-                        href="http://kbn.ertelecom.ru/download/attachments/27963307/Tenda%20New%20%D0%BF%D1%80%D0%BE%D1%88%D0%B8%D0%B2%D0%BA%D0%B0.pdf">DHCP</a>
-                </td>
-                <td><a
-                        href="http://kbn.ertelecom.ru/download/attachments/27963307/Tenda%20%28%D0%BE%D1%80%D0%B0%D0%BD%D0%B6%D0%B5%D0%B2%D0%B0%D1%8F%20%D0%BD%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BF%D1%80%D0%BE%D1%88%D0%B8%D0%B2%D0%BA%D0%B0%29%20static.pdf">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2082">БЗ</a>
-                </td>
-                <td>Нет
-                </td>
-            </tr>
-            <tr>
-                <td>MikroTik hAP Lite</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Mikrotik_hAP-Lite-TC_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Mikrotik_hAP-Lite-TC_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Mikrotik_hAP-Lite-TC_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2082">БЗ</a>
-                </td>
-                <td>Нет
-                </td>
-            </tr>
-            <tr>
-                <td>NetGear WNR3500L (серый)</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__NetGear_Grey_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__NetGear_Grey_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__NetGear_Grey_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2507">БЗ</a>
-                </td>
-                <td><a href="http://routeremulator.com/netgear_genie/start.html">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>NetGear (синий)</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__NetGear_Blue_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__NetGear_Blue_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__NetGear_Blue_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2507">БЗ</a>
-                </td>
-                <td><a href="http://routeremulator.com/netgear_genie/start.html">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Netgear EVG-1500 (Дом.ru)</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__NetgearDomru_003">PPPoE</a>
-                </td>
-                <td>Нет
-                </td>
-                <td>Нет
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2507">БЗ</a>
-                </td>
-                <td>Нет
-                </td>
-            </tr>
-            <tr>
-                <td>Sagemcom f@st 2804 v7</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Sagemcom_003">PPPoE</a>
-                </td>
-                <td>Нет
-                </td>
-                <td>Нет
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2513">БЗ</a>
-                </td>
-                <td><a href="http://linserv.ru/FAST-2804v7/">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Linksys Smart Wi-Fi</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Linksys_SmartWiFi_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Linksys_SmartWiFi_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Linksys_SmartWiFi_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2080">БЗ</a>
-                </td>
-                <td><a href="https://ui.linksys.com/SmartWi-FiFamilyRouters/WRT1200AC/1.0.99.166464/">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Linksys e1200</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Linksys_E1200_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Linksys_E1200_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Linksys_E1200_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2080">БЗ</a>
-                </td>
-                <td><a href="https://ui.linksys.com/ExpertFamily/E1200/2.0.04">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Netis <b>Белый</b></td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Netis_White_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Netis_White_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Netis_White_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2078">БЗ</a>
-                </td>
-                <td><a href="https://www.netisru.com/Uploads/Support/Emulators/WF2780_EN/index.htm">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Netis <b>Синий</b></td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Netis_Blue_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Netis_Blue_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Netis_Blue_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2078">БЗ</a>
-                </td>
-                <td><a href="http://linserv.ru/Netis-WF2501/">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Apple AirPort</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router_AirPort_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router_AirPort_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router_AirPort_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2069">БЗ</a>
-                </td>
-                <td>Нет
-                </td>
-            </tr>
-            <tr>
-                <td>Honor</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Honor_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Honor_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Honor_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2075">БЗ</a>
-                </td>
-                <td>Нет
-                </td>
-            </tr>
-            <tr>
-                <td>Totolink</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Totolink_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Totolink_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Totolink_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2084">БЗ</a>
-                </td>
-                <td><a href="https://www.totolink.net/data/popwin/web/A5004NS.9.38/index.htm">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>TRENDnet TEW-652BRP</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TRENDnet_TEW-652BRP_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TRENDnet_TEW-652BRP_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TRENDnet_TEW-652BRP_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2081">БЗ</a>
-                </td>
-                <td><a href="https://www.trendnet.com/emulators/TEW-652BRP_V3.2R/wireless_basic.htm">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>TRENDnet New (TEW-827DRU)</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TRENDnet_TEW-827DRU_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TRENDnet_TEW-827DRU_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TRENDnet_TEW-827DRU_004">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2081">БЗ</a>
-                </td>
-                <td><a href="https://www.trendnet.com/emulators/TEW-827DRU_v2.0R/adm_status.html">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Upvel UR-354AN4G</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Upvel_UR-354AN4G_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Upvel_UR-354AN4G_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Upvel_UR-354AN4G_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2521">БЗ</a>
-                </td>
-                <td><a href="http://linserv.ru/Upvel-UR-314AWN/">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Upvel UR-315BN</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Upvel_UR-315BN_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Upvel_UR-315BN_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Upvel_UR-315BN_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2521">БЗ</a>
-                </td>
-                <td>Нет</td>
-            </tr>
-            <tr>
-                <td>Upvel UR-325BN/UR-322N4G</td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Upvel_UR-325BN_003">PPPoE</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Upvel_UR-325BN_004">DHCP</a>
-                </td>
-                <td><a
-                        href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Upvel_UR-325BN_005">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2521">БЗ</a>
-                </td>
-                <td><a href="http://linserv.ru/Upvel-UR-447N4G/">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>UPVEl UR-312N4G</td>
-                <td><a
-                        href="http://kbn.ertelecom.ru/download/attachments/27963307/Upvel%20UR-312N4G%20%D0%BC%D0%B0%D0%BD%D1%83%D0%B0%D0%BB%20%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9.pdf">PPPoE</a>
-                </td>
-                <td>Нет
-                </td>
-                <td><a
-                        href="http://kbn.ertelecom.ru/download/attachments/27132203/Upvel%20%D1%87%D0%B5%D1%80%D0%BD%D1%8B%D0%B9.pdf">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2521">БЗ</a>
-                </td>
-                <td><a href="http://linserv.ru/Upvel-UR825AC/">Эмулятор</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Tenda Nova MW3, MW6</td>
-                <td><a
-                        href="http://kbn.ertelecom.ru/download/attachments/27963307/%D0%BC%D1%8D%D1%88%20%D1%80%D1%80%D1%80%D0%BE%D0%B5.pdf">PPPoE</a>
-                </td>
-                <td><a
-                        href="http://kbn.ertelecom.ru/download/attachments/27963307/mash%20%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0.pdf">DHCP</a>
-                </td>
-                <td><a href="http://kbn.ertelecom.ru/download/attachments/27963307/static%20mesh.pdf">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2072">БЗ</a>
-                </td>
-                <td>Нет
-                </td>
-            </tr>
-            <tr>
-                <td>Tp-Link DECO M4</td>
-                <td><a href="http://kbn.ertelecom.ru/download/attachments/27963307/meshup1%20%281%29.pdf">PPPoE</a>
-                </td>
-                <td><a
-                        href="http://kbn.ertelecom.ru/download/attachments/27963307/mesh%20%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0%20%D1%82%D0%BF%20%D0%BB%D0%B8%D0%BD%D0%BA.pdf">DHCP</a>
-                </td>
-                <td><a href="http://kbn.ertelecom.ru/download/attachments/27963307/meshup1%20%281%29.pdf">IPoE</a>
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2072">БЗ</a>
-                </td>
-                <td>Нет
-                </td>
-            </tr>
-            <tr>
-                <td>Nokia Wifi Beacon</td>
-                <td><a
-                        href="http://kbn.ertelecom.ru/download/attachments/27963307/%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0_Nokia_Beacon_%D1%87%D0%B5%D1%80%D0%B5%D0%B7_web_%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D1%84%D0%B5%D0%B9%D1%81.pdf">PPPoE</a>
-                </td>
-                <td><a
-                        href="http://kbn.ertelecom.ru/download/attachments/27963307/%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0_Nokia_Beacon_%D1%87%D0%B5%D1%80%D0%B5%D0%B7_web_%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D1%84%D0%B5%D0%B9%D1%81.pdf">DHCP</a>
-                </td>
-                <td>Нет
-                </td>
-                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2072">БЗ</a>
-                </td>
-                <td>Нет
-                </td>
-            </tr>
-        </table>
-    </div>
-    <!--<div id="Регламенты" class="tabcontent">
+
+        <!-- Контент раздела Полезное-->
+        <div id="Основные ссылки" class="tabcontent">
+                <div class="row">
+                        <div class="column">
+                                <h4>Главное</h4>
+                                <a href="http://genesys-app1.cc4.ertelecom.ru:82/ui/ad/v1/index.html"
+                                        target="_blank">Генезис</a>
+                                <br />
+                                <a href="https://perm.db.ertelecom.ru/cgi-bin/ppo/excells/wcc_main.entry_continue"
+                                        target="_blank">Веб-АРМ</a>
+                                <br />
+                                <a href="https://mail.domru.ru/owa/" target="_blank">Почта</a>
+                                <br /><br />
+                                <h4>Линии</h4>
+                                <a href="https://okc.ertelecom.ru/stats/genesys-ntp/line" target="_blank">НЦК</a>
+                                <br />
+                                <a href="https://okc.ertelecom.ru/stats/line_ts/ntp1/index" target="_blank">НТП1</a>
+                                <br />
+                                <a href="https://okc.ertelecom.ru/stats/line_ts/ntp2/index" target="_blank">НТП2</a>
+                                <br />
+                                <a href="https://okc.ertelecom.ru/stats/line/okc2wfm_okc" target="_blank">ОКЦ</a>
+                                <br /><br />
+                                <h4>Перерывы</h4>
+                                <a href="https://okc.ertelecom.ru/stats/breaks/ntp-nck-one" target="_blank">НЦК1</a>
+                                <br />
+                                <a href="https://okc.ertelecom.ru/stats/breaks/ntp-nck-two" target="_blank">НЦК2</a>
+                                <br /><br />
+                                <h4>Графики</h4>
+                                <a href="https://okc2.ertelecom.ru/wfm/vueapp/personal" target="_blank">Личный</a>
+                                <br />
+                                <a href="https://okc2.ertelecom.ru/wfm/vueapp/day" target="_blank">День</a>
+                                <br />
+                                <a href="https://okc2.ertelecom.ru/wfm/vueapp/month" target="_blank">Месяц</a>
+                                <br /><br />
+                        </div>
+                        <div class="column">
+                                <h4>Базы знаний</h4>
+                                <a href="https://clever.ertelecom.ru" target="_blank">Clever</a>
+                                <br /><br />
+                                <h4>Статистика</h4>
+                                <a href="https://okc.ertelecom.ru/stats/ure/main/ure" target="_blank">URE</a>
+                                <br />
+                                <a href="https://okc.ertelecom.ru/test/gok/ntp-nck-one/" target="_blank">Гок/НЦК1</a>
+                                <br />
+                                <a href="https://okc.ertelecom.ru/test/gok/ntp-nck-two/" target="_blank">Гок/НЦК2</a>
+                                <br />
+                                <a href="https://okc.ertelecom.ru/stats/csi/csi/index" target="_blank">Оценки CSI</a>
+                                <br />
+                                <a href="https://okc.ertelecom.ru/stats/premium/ntp-nck1/spec_month"
+                                        target="_blank">Премия |
+                                        НЦК1</a>
+                                <br />
+                                <a href="https://okc.ertelecom.ru/stats/premium/ntp-nck2/spec_month"
+                                        target="_blank">Премия |
+                                        НЦК2</a>
+                        </div>
+                        <div class="column">
+                                <h4>Для работы</h4>
+                                <h5>Интернет</h5>
+                                <a href="http://octptest.corp.ertelecom.loc/diagnostic-results/" target="_blank">FTP</a>
+                                <br />
+                                <a href="http://octptest.corp.ertelecom.loc/diagnostic-results/mobile/"
+                                        target="_blank">Тест |
+                                        Телефон</a>
+                                <br />
+                                <a href="http://octptest.corp.ertelecom.loc/diagnostic-results/perm/"
+                                        target="_blank">Тест/ПК</a>
+                                <br />
+                                <a href="https://provisioning.ertelecom.ru/devices/" target="_blank">Провижининг</a>
+                                <br /><br />
+                                <h5>Приставки</h5>
+                                <a href="http://cpe.domru.ru/tv/swupdate_primary/STB/add_nuid_and_version.php"
+                                        target="_blank">Прошивки</a> (thinktwice)
+                                <br />
+                                <a href="https://okc.ertelecom.ru/stats/emulator/index" target="_blank">Эмулятор</a>
+                                <br />
+                                <a href="https://cms.ertelecom.ru" target="_blank">Сброс ПИНа</a>
+                                <br /><br />
+                                <h5>Другое</h5>
+                                <a href="http://cm.roool.ru/" target="_blank">Чат мастер</a>
+                                <br />
+                                <a href="https://okc.ertelecom.ru/stats/appl/chart/index" target="_blank">Обращения в
+                                        КЦ</a>
+                                <br />
+                                <a href="http://kbn.ertelecom.ru/download/attachments/26169803/Разблокировка логинов.pdf"
+                                        target="_blank">Разблокировка логинов</a>
+                                <br />
+                                <a href="https://mh-dashboard-erth.proptech.ru/web/" target="_blank">Дашборд
+                                        домофонии</a>
+                                <br />
+                                <a href="http://10.121.15.99/lenta" target="_blank">Генератор ленты</a>
+                        </div>
+                </div>
+        </div>
+        <div id="MnA" class="tabcontent">
+                <input type="text" id="searchProvider" placeholder="Поиск провайдера" autofocus>
+                <table id="providersTable">
+                        <tr>
+                                <th>Провайдер</th>
+                                <th>Авторизация</th>
+                                <th>Подключение</th>
+                        </tr>
+                        <tr>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3289"
+                                                target="_blank">Interzet</a></td>
+                                <td>IPoE Static</td>
+                                <td>Ethernet</td>
+                        </tr>
+                        <tr>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3280"
+                                                target="_blank">Тура-Telecom</a></td>
+                                <td>PPPoE, DHCP opt82</td>
+                                <td>Ethernet</td>
+                        </tr>
+                        <tr>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3136"
+                                                target="_blank">Ярославль Телесеть (ЯТС)</a></td>
+                                <td>PPPoE, DHCP opt82</td>
+                                <td>Ethernet</td>
+                        </tr>
+                        <tr>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3192"
+                                                target="_blank">Иркнет</a></td>
+                                <td>PPPoE</td>
+                                <td>ADSL, GPON, FTTH</td>
+                        </tr>
+                        <tr>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3282"
+                                                target="_blank">Контакт (Тула)</a></td>
+                                <td>PPPoE</td>
+                                <td>ADSL</td>
+                        </tr>
+                        <tr>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/2761"
+                                                target="_blank">Коламбия Телеком</a></td>
+                                <td>PPPoE, DHCP opt82</td>
+                                <td>Ethernet, ADSL</td>
+                        </tr>
+                        <tr>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/3191"
+                                                target="_blank">Телемир
+                                                (Липецк)</a></td>
+                                <td>PPPoE, DHCP opt82</td>
+                                <td>Ethernet</td>
+                        </tr>
+                        <tr>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3291"
+                                                target="_blank">Акадо
+                                                (СПБ)</a></td>
+                                <td>DHCP MAC+VLAN</td>
+                                <td>Ethernet</td>
+                        </tr>
+                        <tr>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/2760"
+                                                target="_blank">БКС
+                                                (Брянск)</a></td>
+                                <td>DHCP MAC+VLAN, DHCP opt82</td>
+                                <td>Ethernet, PON</td>
+                        </tr>
+                        <tr>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3285"
+                                                target="_blank">Инфоцентр (Сосновый бор)</a></td>
+                                <td>IPoE Static</td>
+                                <td>Ethernet</td>
+                        </tr>
+                        <tr>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/2769"
+                                                target="_blank">Конвекс/ТКС (ЕКБ)</a></td>
+                                <td>IPoE Static, PPTP (общежития)</td>
+                                <td>Ethernet</td>
+                        </tr>
+                        <tr>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3106"
+                                                target="_blank">Дельта-Телеком</a></td>
+                                <td>PPPoE</td>
+                                <td>ADSL</td>
+                        </tr>
+                        <tr>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/3189"
+                                                target="_blank">Мегаполис-Телеком</a></td>
+                                <td>PPPoE</td>
+                                <td>PON</td>
+                        </tr>
+                        <tr>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3121"
+                                                target="_blank">СибТелеКом (СТК)</a></td>
+                                <td>PPPoE, DHCP opt82</td>
+                                <td>Ethernet, ADSL</td>
+                        </tr>
+                        <tr>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3288"
+                                                target="_blank">Westcall / N-Link (Рязань)</a></td>
+                                <td>IPoE DHCP, PPPoE</td>
+                                <td>Ethernet, ADSL, PON</td>
+                        </tr>
+                        <tr>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/2768"
+                                                target="_blank">Акадо
+                                                (ЕКБ)</a></td>
+                                <td>L2TP</td>
+                                <td>Ethernet</td>
+                        </tr>
+                        <tr>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/6528"
+                                                target="_blank">Сатурн
+                                                (Пермь)</a></td>
+                                <td>PPPoE</td>
+                                <td>FTTH</td>
+                        </tr>
+                        <tr>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3286"
+                                                target="_blank">Westcall (СПб)</a></td>
+                                <td>DHCP MAC+VLAN</td>
+                                <td>Ethernet</td>
+                        </tr>
+                        <tr>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3283"
+                                                target="_blank">Кредолинк (СПб)</a></td>
+                                <td>DHCP MAC+VLAN</td>
+                                <td>Ethernet</td>
+                        </tr>
+                        <tr>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3287"
+                                                target="_blank">MSNet
+                                                (СПБ)</a></td>
+                                <td>DHCP MAC+VLAN</td>
+                                <td>Ethernet</td>
+                        </tr>
+                        <tr>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3246"
+                                                target="_blank">RiNet</a></td>
+                                <td>DHCP MAC+VLAN</td>
+                                <td>Ethernet</td>
+                        </tr>
+                        <tr>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3172"
+                                                target="_blank">Стрела
+                                                (Димитровград)</a></td>
+                                <td>DHCP opt82</td>
+                                <td>Ethernet</td>
+                        </tr>
+                        <tr>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/3238"
+                                                target="_blank">С-Телеком МСК (Самолет)</a></td>
+                                <td>PPPoE, DHCP opt82</td>
+                                <td>Ethernet</td>
+                        </tr>
+                        <tr>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/582/article/2646"
+                                                target="_blank">Дианэт
+                                                (Барнаул и область)</a></td>
+                                <td>L2TP</td>
+                                <td>Ethernet</td>
+                        </tr>
+                </table>
+        </div>
+        <div id="Инструменты" class="tabcontent">
+                <h4>Проверка MAC-адреса</h4>
+                <form id="form-mac">
+                        <input type="text" id="input-mac" name="input-mac" placeholder="Введи мак" />
+                        <button id="submit-mac"
+                                onclick="ym(97431357,'reachGoal','tool-checkMac'); return true;">Проверить</button>
+                </form>
+                <h4>Проверка IP</h4>
+                <form id="form-ip">
+                        <input type="text" id="input-ip" name="input-ip" placeholder="Введи IP-адрес" />
+                        <button id="submit-ip" class="submit-ip-button"
+                                onclick="ym(97431357,'reachGoal','tool-checkIP'); return true;">Проверить</button>
+                </form>
+                <h4>Сокращатель ссылок</h4>
+                <form id="form-link">
+                        <input type="text" id="input-link" name="input-link" placeholder="Введи ссылку" />
+                        <button id="submit-link" class="submit-link-button"
+                                onclick="ym(97431357,'reachGoal','tool-shortLink'); return true;">Сократить</button>
+                </form>
+        </div>
+        <div id="Роутеры" class="tabcontent">
+                <input type="text" id="searchRouter" placeholder="Поиск роутера" autofocus>
+                <table id="routersTable">
+                        <tr> <!--TODO добавить прямые ссылки на инструкции роутеров-->
+                                <th>Название</th>
+                                <th>PPPoE</th>
+                                <th>DHCP</th>
+                                <th>IPoE</th>
+                                <th>Интерфейс</th>
+                                <th>БЗ</th>
+                                <th>Эмулятор</th>
+                        </tr>
+                        <tr>
+                                <td>TP-Link <b>Зеленка</b></td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Green_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Green_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Green_005">IPoE</a>
+                                </td>
+                                <td>0.1/tplinkwifi.net</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2312?text=Зеленый+интерфейс">БЗ</a>
+                                </td>
+                                <td><a href="https://www.tp-link.com/resources/simulator/TL-WR1045ND(RU)_2.0/Index.htm">РУС</a>
+                                        /<a
+                                                href="https://www.tp-link.com/resources/simulator/TL-WR750N(UN)_V5.0/Index.htm">АНГЛ</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>TP-Link Archer С5/С9/EC220</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_005">IPoE</a>
+                                </td>
+                                <td>0.1/tplinkwifi.net</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2312?text=TP-Link+Archer+С5,+С9,+EC220">БЗ</a>
+                                </td>
+                                <td><a href="https://emulator.tp-link.com/Archer_C5(RUS)v4_Router_Emulator/web/index.htm">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>TP-Link Archer С20/C2/A5/C50/AC750</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_v2_C20_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_v2_C20_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_v2_C20_005">IPoE</a>
+                                </td>
+                                <td>0.1/tplinkwifi.net</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2312?text=Archer+С20,+C2,+A5,+C50,+AC750">БЗ</a>
+                                </td>
+                                <td><a href="https://emulator.tp-link.com/Emulator_ArcherC20_RU_v4/index.htm">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>TP-Link Archer A6/C7/C60/A9</td>
+                                <td><a href="http://kbn.ertelecom.ru/download/attachments/27963307/%D0%BC%D0%BE%D0%B9%20tp-link%20%D0%A0%D0%A0%D0%A0%D0%BE%D0%95.pdf">PPPoE</a>
+                                </td>
+                                <td><a href="http://kbn.ertelecom.ru/download/attachments/27963307/DHCP%20opt%2082%20%D0%B1%D0%B8%D1%80%D1%8E%D0%B7%D0%BE%D0%B2%D0%B0%D1%8F%20%28v2%29.pdf">DHCP</a>
+                                </td>
+                                <td><a href="http://kbn.ertelecom.ru/download/attachments/27963307/Static%20ip%20%D0%B1%D0%B8%D1%80%D1%8E%D0%B7%D0%BE%D0%B2%D0%B0%D1%8F%20%28v2%29.pdf">IPoE</a>
+                                </td>
+                                <td>0.1/tplinkwifi.net</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2312?text=TP-Link+Archer+A6,+C7,+C60,+A9">БЗ</a>
+                                </td>
+                                <td><a href="https://emulator.tp-link.com/c7v5_ru/index.html">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>TP-Link Archer C80</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_C80_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_C80_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_C80_005">IPoE</a>
+                                </td>
+                                <td>0.1/tplinkwifi.net</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2312?text=Archer+C80">БЗ</a>
+                                </td>
+                                <td><a href="https://emulator.tp-link.com/c80-ru-router/index.html#networkMap">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>TP-Link Archer АХ20/C54</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_AX20_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_AX20_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TPLink_Turquoise_AX20_004">IPoE</a>
+                                </td>
+                                <td>0.1/tplinkwifi.net</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2312?text=Archer+АХ20+/+Archer+C54">БЗ</a>
+                                </td>
+                                <td><a href="https://emulator.tp-link.com/Archer_AX90v1_EU_simulator/index.html#tpLinkCloud">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>D-Link DIR-300NRU/DIR-615 <b>Темная</b></td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_Grey_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_Grey_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_Grey_005">IPoE</a>
+                                </td>
+                                <td>0.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/2275?text=DIR-300NRU+/+DIR-615">БЗ</a>
+                                </td>
+                                <td><a href="http://em.dlink.ru/emul/DIR-300AD_gray/">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>D-Link DIR-300/DIR-615 <b>Желтая</b></td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_Grey-orange_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_Grey-orange_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_Grey-orange_005">IPoE</a>
+                                </td>
+                                <td>0.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/2275?text=D-Link+DIR-300+/+DIR-615">БЗ</a>
+                                </td>
+                                <td><a href="http://linserv.ru/dlink-DIR-615/">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>D-Link DIR-615 <b>Белая</b></td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_White_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_White_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_White_005">IPoE</a>
+                                </td>
+                                <td>0.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/2275?text=DIR-615">БЗ</a>
+                                </td>
+                                <td><a href="http://em.dlink.ru/emul/DIR-615KR1/#start/storInfo">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>D-Link DIR-300NRU/DIR-620</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_White-turquoise_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_White-turquoise_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_White-turquoise_005">IPoE</a>
+                                </td>
+                                <td>0.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/2275?text=DIR-300NRU+/+DIR-620">БЗ</a>
+                                </td>
+                                <td>Нет</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>D-Link DIR300NRU B5/DIR320NRU/DIR-620</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_White-blue_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_White-blue_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_White-blue_005">IPoE</a>
+                                </td>
+                                <td>0.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/2275?text=DIR300NRU+B5+/+DIR320NRU+/+DIR-620">БЗ</a>
+                                </td>
+                                <td>Нет
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>D-Link DIR-2150/DIR-825/DIR-X1530/DIR-842</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_V3_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_V3_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__DLink_V3_005">IPoE</a>
+                                </td>
+                                <td>0.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/2275?text=DIR+2150+/+DIR+825+/+DIR-X1530">БЗ</a>
+                                </td>
+                                <td><a href="https://anweb.dlink.ru">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Keenetic Lite II-III/Lite NDMS 2.0</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Keenetic_Dark-blue_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Keenetic_Dark-blue_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Keenetic_Dark-blue_005">IPoE</a>
+                                </td>
+                                <td>1.1/my.keenetic.net</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/2510?text=Keenetic+Lite+II-III+/+Lite+NDMS+2.0">БЗ</a>
+                                </td>
+                                <td><a href="http://routers.nvbs.ru/zyxel/NDMSv2_by_Anna/status.html">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Keenetic Lite/ZyXel NBG334W EE</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Keenetic_Blue_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Keenetic_Blue_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Keenetic_Blue_005">IPoE</a>
+                                </td>
+                                <td>1.1/my.keenetic.net</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/2510?text=Keenetic+Lite+/+ZyXel+NBG334W EE">БЗ</a>
+                                </td>
+                                <td><a href="https://itel.ua/emulations/zyxel_keenetic_giga/default.htm">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Keenetic Ultra/Giga/Viva/Speedster</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Keenetic_Giga_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Keenetic_Giga_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Keenetic_Giga_005">IPoE</a>
+                                </td>
+                                <td>1.1/my.keenetic.net</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/2510?text=Keenetic+Ultra/Giga/Viva/+Speedster">БЗ</a>
+                                </td>
+                                <td><a href="https://giga.demo.keenetic.pro/dashboard">Эмулятор (demo:demo)</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Keenetic AlR/Zyxel VIVA/Zyxel CITY/Zyxel START</td>
+                                <td><a href="http://kbn.ertelecom.ru/download/attachments/27963307/Zyxel%20%D0%BD%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BF%D1%80%D0%BE%D1%88%D0%B8%D0%B2%D0%BA%D0%B0.pdf">PPPoE</a>
+                                </td>
+                                <td>нет
+                                </td>
+                                <td><a href="http://kbn.ertelecom.ru/download/attachments/27963307/Zyxel%20Air%20%D0%BF%D1%80%D0%BE%D1%88%D0%B8%D0%B2%D0%BA%D0%B0.pdf?version=1&modificationDate=1558793480808&api=v2">IPoE</a>
+                                </td>
+                                <td>1.1/my.keenetic.net</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/2510?text=Zyxel+AlR+/+Zyxel+VIVA+/+Zyxel+CITY+/+Zyxel+START">БЗ</a>
+                                </td>
+                                <td><a href="https://giga.demo.keenetic.pro/dashboard">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Xiaomi <b>Белая</b></td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Xiaomi_Mi-Router3_004">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Xiaomi_Mi-Router3_005">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Xiaomi_Mi-Router3_006">IPoE</a>
+                                </td>
+                                <td>31.1/miwifi.com/router.miwifi.com</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/2509?text=Xiaomi+Mi+Wi-Fi+Router+3">БЗ</a>
+                                </td>
+                                <td><a href="http://linserv.ru/Xiaomi/cgi-bin/luci/home">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Xiaomi <b>Черная</b></td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Xiaomi_Mi-Router_004">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Xiaomi_Mi-Router_005">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Xiaomi_Mi-Router_006">IPoE</a>
+                                </td>
+                                <td>31.1/miwifi.com/router.miwifi.com</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/2509?text=Xiaomi+Mi+Wi-Fi+Router">БЗ</a>
+                                </td>
+                                <td>нет
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>ASUS RT-AC66U/RT-N66U/RT-N65U <b>Темная</b></td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__ASUS_RT_6xxx_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__ASUS_RT_6xxx_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__ASUS_RT_6xxx_005">IPoE</a>
+                                </td>
+                                <td>1.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/2520?text=ASUS+RT-AC66U+/+RT-N66U+/+RT-N65U">БЗ</a>
+                                </td>
+                                <td><a href="https://demoui.asus.com/">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>ASUS RT-N10/RT-G32/RT32G <b>Голубая</b></td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__ASUS_RT_3xxx_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__ASUS_RT_3xxx_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__ASUS_RT_3xxx_005">IPoE</a>
+                                </td>
+                                <td>1.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/2520?text=ASUS+RT-N10+/+RT-G32+/+RT32G">БЗ</a>
+                                </td>
+                                <td><a href="https://routers.wtf/emul/ASUS1%20OFFLINE/index.html">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>ASUS WL-520GC <b>Розовая</b></td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__ASUS_WL_5xxx__003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__ASUS_WL_5xxx__004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__ASUS_WL_5xxx__004">IPoE</a>
+                                </td>
+                                <td>1.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/2520?text=ASUS+WL-520GC">БЗ</a>
+                                </td>
+                                <td><a href="https://routers.wtf/emul/ASUS%20VIOLET%20OFFLINE/index-2.html">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr><!--Добавить точные ссылки каждому роутеру ниже-->
+                                <td>Rotek</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/8178?fileView=47495">PPPoE</a>
+                                </td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/8178?fileView=47494">DHCP</a>
+                                </td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/8178?fileView=47492">IPoE</a>
+                                </td>
+                                <td>0.1/user/connect5.html</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/bookmark/34/article/8178?text=Rotek+RX22301/22200">БЗ</a>
+                                </td>
+                                <!-- TODO Найти эмулятор ротека-->
+                                <td>Нет
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Mercusys</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Mercusys_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Mercusys_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Mercusys_005">IPoE</a>
+                                </td>
+                                <td>1.1/mwlogin.net</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/2076?text=Mercusys">БЗ</a>
+                                </td>
+                                <td><a href="https://www.mercusys.com/ru/support/simulator">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Huawei HG231F</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/8179?fileView=47530">PPPoE</a>
+                                </td>
+                                <td>Нет</td>
+                                <td>Нет</td>
+                                <td>3.1/1.100</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/8179?text=Huawei+HG231F">БЗ</a>
+                                </td>
+                                <td>Нет
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Huawei WS880</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/8179?fileView=47539">PPPoE</a>
+                                </td>
+                                <td>Нет</td>
+                                <td>Нет</td>
+                                <td>3.1/1.100</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/8179?text=Huawei+ws880">БЗ</a>
+                                </td>
+                                <td>Нет
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Huawei HG532e</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/8179?fileView=47549">PPPoE</a>
+                                </td>
+                                <td>Нет</td>
+                                <td>Нет</td>
+                                <td>3.1/1.100</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/8179?text=Huawei+HG532e">БЗ</a>
+                                </td>
+                                <td>Нет
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Huawei AX(2,3)</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/8179?fileView=47560">PPPoE</a>
+                                </td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/8179?fileView=47562">DHCP</a>
+                                </td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/8179?fileView=47561">IPoE</a>
+                                </td>
+                                <td>3.1/1.100</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/8179?text=Huawei+AX3">БЗ</a>
+                                </td>
+                                <td>Нет
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>SNR-CPE-W4N</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__SNR-CPE-W4N_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__SNR-CPE-W4N_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__SNR-CPE-W4N_005">IPoE</a>
+                                </td>
+                                <td>1.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/2515?text=SNR-CPE-W4N">БЗ</a>
+                                </td>
+                                <td><a href="http://linserv.ru/SNR-CPE-W4n/home.html">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>SNR-CPE-W4N ревизия M</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__SNR-CPE-W4N-revM_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__SNR-CPE-W4N-revM_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__SNR-CPE-W4N-revM_005">IPoE</a>
+                                </td>
+                                <td>1.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/2515?text=SNR-CPE-W4N+ревизия+M">БЗ</a>
+                                </td>
+                                <td><a href="http://linserv.ru/SNR-CPE-W4n/home.html">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Tenda new AC/F300</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Tenda_AC_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Tenda_AC_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Tenda_AC_005">IPoE</a>
+                                </td>
+                                <td>0.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/2598?text=Tenda+New+AC+/+F300">БЗ</a>
+                                </td>
+                                <td><a href="http://simulator.tendacn.com/F300v2/">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Tenda W303R/W309R/W316R</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Tenda_W303R_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Tenda_W303R_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Tenda_W303R_005">IPoE</a>
+                                </td>
+                                <td>0.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/2598?text=Tenda+W303R/W309R/W316R">БЗ</a>
+                                </td>
+                                <td>Нет
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Tenda W311R</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Tenda_W311R_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Tenda_W311R_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Tenda_W311R_005">IPoE</a>
+                                </td>
+                                <td>0.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/2598?text=Tenda+W311R">БЗ</a>
+                                </td>
+                                <td>Нет
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Tenda F300</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Tenda_F300_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Tenda_F300_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Tenda_F300_005">IPoE</a>
+                                </td>
+                                <td>0.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/2598?text=Tenda+F300">БЗ</a>
+                                </td>
+                                <td><a href="http://simulator.tendacn.com/F300v2/">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Tenda new</td>
+                                <td><a href="http://kbn.ertelecom.ru/download/attachments/27963307/Tenda%20%28%D0%BE%D1%80%D0%B0%D0%BD%D0%B6%D0%B5%D0%B2%D0%B0%D1%8F%20%D0%BD%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BF%D1%80%D0%BE%D1%88%D0%B8%D0%B2%D0%BA%D0%B0%29%20PPPoE.pdf">PPPoE</a>
+                                </td>
+                                <td><a href="http://kbn.ertelecom.ru/download/attachments/27963307/Tenda%20New%20%D0%BF%D1%80%D0%BE%D1%88%D0%B8%D0%B2%D0%BA%D0%B0.pdf">DHCP</a>
+                                </td>
+                                <td><a href="http://kbn.ertelecom.ru/download/attachments/27963307/Tenda%20%28%D0%BE%D1%80%D0%B0%D0%BD%D0%B6%D0%B5%D0%B2%D0%B0%D1%8F%20%D0%BD%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BF%D1%80%D0%BE%D1%88%D0%B8%D0%B2%D0%BA%D0%B0%29%20static.pdf">IPoE</a>
+                                </td>
+                                <td>0.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/folder/631/article/2598?text=Tenda+new">БЗ</a>
+                                </td>
+                                <td><a href="http://simulator.tendacn.com/F300v2/">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Mikrotik</td>
+                                <td><a href="http://kbn.ertelecom.ru/download/attachments/27963307/Nastroyka_PPPoE.pdf">PPPoE</a>
+                                </td>
+                                <td><a href="http://kbn.ertelecom.ru/download/attachments/27963307/Nastroyka_DHCP.pdf?version=1&modificationDate=1597212858405">DHCP</a>
+                                </td>
+                                <td>Нет</td>
+                                <td>88.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2082?text=Mikrotik">БЗ</a>
+                                </td>
+                                <td>Нет
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>MikroTik hAP Lite</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Mikrotik_hAP-Lite-TC_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Mikrotik_hAP-Lite-TC_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Mikrotik_hAP-Lite-TC_005">IPoE</a>
+                                </td>
+                                <td>88.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2082?text=MikroTik+hAP+Lite+TC">БЗ</a>
+                                </td>
+                                <td>Нет
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>NetGear WNR3500L (серый)</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__NetGear_Grey_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__NetGear_Grey_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__NetGear_Grey_005">IPoE</a>
+                                </td>
+                                <td>1.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2507?text=NetGear+WNR3500L+(серый)">БЗ</a>
+                                </td>
+                                <td><a href="http://routeremulator.com/netgear_genie/start.html">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>NetGear (синий)</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__NetGear_Blue_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__NetGear_Blue_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__NetGear_Blue_005">IPoE</a>
+                                </td>
+                                <td>1.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2507?text=NetGear+(синий)">БЗ</a>
+                                </td>
+                                <td><a href="http://routeremulator.com/netgear_genie/start.html">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Netgear EVG-1500 (Дом.ru)</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__NetgearDomru_003">PPPoE</a>
+                                </td>
+                                <td>Нет
+                                </td>
+                                <td>Нет
+                                </td>
+                                <td>1.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2507?text=Netgear+EVG-1500+(Дом.ru)">БЗ</a>
+                                </td>
+                                <td>Нет
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Sagemcom f@st 2804 v7</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Sagemcom_003">PPPoE</a>
+                                </td>
+                                <td>Нет</td>
+                                <td>Нет</td>
+                                <td>1.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2513?text=Sagemcom+f@st+2804+v7">БЗ</a>
+                                </td>
+                                <td><a href="http://linserv.ru/FAST-2804v7/">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Linksys Smart Wi-Fi</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Linksys_SmartWiFi_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Linksys_SmartWiFi_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Linksys_SmartWiFi_005">IPoE</a>
+                                </td>
+                                <td>1.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2080?text=Linksys+Smart+Wi-Fi">БЗ</a>
+                                </td>
+                                <td><a href="https://ui.linksys.com/SmartWi-FiFamilyRouters/WRT1200AC/1.0.99.166464/">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Linksys e1200</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Linksys_E1200_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Linksys_E1200_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Linksys_E1200_005">IPoE</a>
+                                </td>
+                                <td>1.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2080?text=Linksys+e1200">БЗ</a>
+                                </td>
+                                <td><a href="https://ui.linksys.com/ExpertFamily/E1200/2.0.04">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Netis <b>Белый</b></td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Netis_White_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Netis_White_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Netis_White_005">IPoE</a>
+                                </td>
+                                <td>1.1/netis.cc</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2078?text=Netis+(Белый+интерфейс)">БЗ</a>
+                                </td>
+                                <td><a href="https://www.netisru.com/Uploads/Support/Emulators/WF2780_EN/index.htm">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Netis <b>Синий</b></td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Netis_Blue_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Netis_Blue_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Netis_Blue_005">IPoE</a>
+                                </td>
+                                <td>1.1/netis.cc</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2078?text=Netis+(Синий+интерфейс)">БЗ</a>
+                                </td>
+                                <td><a href="http://linserv.ru/Netis-WF2501/">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Apple AirPort</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router_AirPort_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router_AirPort_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router_AirPort_005">IPoE</a>
+                                </td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2069?text=Настройка+роутеров">БЗ</a>
+                                </td>
+                                <td>Нет
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Honor</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Honor_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Honor_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Honor_005">IPoE</a>
+                                </td>
+                                <td>3.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2075?text=Настройка+роутеров">БЗ</a>
+                                </td>
+                                <td>Нет
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Totolink</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Totolink_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Totolink_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Totolink_005">IPoE</a>
+                                </td>
+                                <td>1.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2084?text=Настройка+роутеров">БЗ</a>
+                                </td>
+                                <td><a href="https://www.totolink.net/data/popwin/web/A5004NS.9.38/index.htm">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>TRENDnet TEW-652BRP</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TRENDnet_TEW-652BRP_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TRENDnet_TEW-652BRP_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TRENDnet_TEW-652BRP_005">IPoE</a>
+                                </td>
+                                <td>10.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2081?text=TRENDnet+TEW-652BRP">БЗ</a>
+                                </td>
+                                <td><a href="https://www.trendnet.com/emulators/TEW-652BRP_V3.2R/wireless_basic.htm">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>TRENDnet New (TEW-827DRU)</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TRENDnet_TEW-827DRU_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TRENDnet_TEW-827DRU_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__TRENDnet_TEW-827DRU_004">IPoE</a>
+                                </td>
+                                <td>10.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2081?text=TRENDnet+New+(TEW-827DRU)">БЗ</a>
+                                </td>
+                                <td><a href="https://www.trendnet.com/emulators/TEW-827DRU_v2.0R/adm_status.html">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Upvel UR-354AN4G</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Upvel_UR-354AN4G_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Upvel_UR-354AN4G_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Upvel_UR-354AN4G_005">IPoE</a>
+                                </td>
+                                <td>10.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2521?text=Upvel+UR-354AN4G">БЗ</a>
+                                </td>
+                                <td><a href="http://linserv.ru/Upvel-UR-314AWN/">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Upvel UR-315BN</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Upvel_UR-315BN_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Upvel_UR-315BN_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Upvel_UR-315BN_005">IPoE</a>
+                                </td>
+                                <td>10.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2521?text=Upvel+UR-315BN">БЗ</a>
+                                </td>
+                                <td>Нет</td>
+                        </tr>
+                        <tr>
+                                <td>Upvel UR-325BN/UR-322N4G</td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Upvel_UR-325BN_003">PPPoE</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Upvel_UR-325BN_004">DHCP</a>
+                                </td>
+                                <td><a href="https://dom.ru/service/knowledgebase/instruktsii-po-oborudovaniyu/router__Upvel_UR-325BN_005">IPoE</a>
+                                </td>
+                                <td>10.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2521?text=Upvel+UR-325BN+/+UR-322N4G">БЗ</a>
+                                </td>
+                                <td><a href="http://linserv.ru/Upvel-UR-447N4G/">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>UPVEl UR-312N4G</td>
+                                <td><a href="http://kbn.ertelecom.ru/download/attachments/27963307/Upvel%20UR-312N4G%20%D0%BC%D0%B0%D0%BD%D1%83%D0%B0%D0%BB%20%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9.pdf">PPPoE</a>
+                                </td>
+                                <td>Нет
+                                </td>
+                                <td><a href="http://kbn.ertelecom.ru/download/attachments/27132203/Upvel%20%D1%87%D0%B5%D1%80%D0%BD%D1%8B%D0%B9.pdf">IPoE</a>
+                                </td>
+                                <td>10.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2521?text=UPVEl+UR-312N4G">БЗ</a>
+                                </td>
+                                <td><a href="http://linserv.ru/Upvel-UR825AC/">Эмулятор</a>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Tenda Nova MW3, MW6</td>
+                                <td><a href="http://kbn.ertelecom.ru/download/attachments/27963307/%D0%BC%D1%8D%D1%88%20%D1%80%D1%80%D1%80%D0%BE%D0%B5.pdf">PPPoE</a>
+                                </td>
+                                <td><a href="http://kbn.ertelecom.ru/download/attachments/27963307/mash%20%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0.pdf">DHCP</a>
+                                </td>
+                                <td><a href="http://kbn.ertelecom.ru/download/attachments/27963307/static%20mesh.pdf">IPoE</a>
+                                </td>
+                                <td>0.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2072?text=Tenda+Nova+MW3,+MW6">БЗ</a>
+                                </td>
+                                <td>Нет
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Tp-Link DECO M4</td>
+                                <td><a href="http://kbn.ertelecom.ru/download/attachments/27963307/meshup1%20%281%29.pdf">PPPoE</a>
+                                </td>
+                                <td><a href="http://kbn.ertelecom.ru/download/attachments/27963307/mesh%20%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0%20%D1%82%D0%BF%20%D0%BB%D0%B8%D0%BD%D0%BA.pdf">DHCP</a>
+                                </td>
+                                <td><a href="http://kbn.ertelecom.ru/download/attachments/27963307/meshup1%20%281%29.pdf">IPoE</a>
+                                </td>
+                                <td>68.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2072?text=Tp-Link+DECO+M4">БЗ</a>
+                                </td>
+                                <td>Нет
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Nokia Wifi Beacon</td>
+                                <td><a href="http://kbn.ertelecom.ru/download/attachments/27963307/%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0_Nokia_Beacon_%D1%87%D0%B5%D1%80%D0%B5%D0%B7_web_%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D1%84%D0%B5%D0%B9%D1%81.pdf">PPPoE</a>
+                                </td>
+                                <td><a href="http://kbn.ertelecom.ru/download/attachments/27963307/%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0_Nokia_Beacon_%D1%87%D0%B5%D1%80%D0%B5%D0%B7_web_%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D1%84%D0%B5%D0%B9%D1%81.pdf">DHCP</a>
+                                </td>
+                                <td>Нет</td>
+                                <td>18.1</td>
+                                <td><a href="https://clever.ertelecom.ru/content/space/4/article/2072?text=Nokia+Wifi+Beacon">БЗ</a>
+                                </td>
+                                <td>Нет
+                                </td>
+                        </tr>
+                </table>
+        </div>
+        <!--<div id="Регламенты" class="tabcontent">
         <div class="row">
             <div class="column">
                 <h4>Регламенты НЦК1</h4>
@@ -1251,7 +1129,6 @@
                 <a href="https://clever.ertelecom.ru/content/space/4/folder/1089/article/8870/page/13"
                     target="_blank">Поиск аварий</a>
                 <br />
-
             </div>
         </div> -->
 </body>
