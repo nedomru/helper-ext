@@ -174,7 +174,16 @@ function hideSPAS() {
     }
   });
 
+  const observerSpecial = new MutationObserver((mutationsList, observer) => {
+    for (const mutation of mutationsList) {
+      if (mutation.type === "childList") {
+        mutation.addedNodes.forEach(checkForSpecial);
+      }
+    }
+  });
+
   var problems = 0;
+
   // СПАС
   spas = document.querySelector(".spas_body");
   if (spas) {
@@ -259,6 +268,37 @@ function hideSPAS() {
     observerAccident.observe(document.body, { childList: true, subtree: true });
     const timeoutAccidentId = setTimeout(() => {
       observerAccident.disconnect();
+    }, 3000);
+  }
+
+  // Особый клиент
+  special = document.querySelectorAll(".bl_antic_head_w");
+  if (special) {
+    special.forEach((element) => {
+      if (element.textContent.trim() === "Особый Клиент") {
+        button.innerHTML += " | Особый";
+        button.style.backgroundColor = "#cc3300";
+        problems++;
+      }
+    });
+  } else {
+    function checkForSpecial(node) {
+      if (
+        node.nodeType === Node.ELEMENT_NODE &&
+        node.classList.contains("bl_antic_head_w")
+      ) {
+        if (node.textContent.trim() === "Особый Клиент") {
+          button.innerHTML += " | Особый";
+          button.style.backgroundColor = "#cc3300";
+          problems++;
+          observerSpecial.disconnect();
+          clearTimeout(timeoutSpecialId);
+        }
+      }
+    }
+    observerSpecial.observe(document.body, { childList: true, subtree: true });
+    const timeoutSpecialtId = setTimeout(() => {
+      timeoutSpecialtId.disconnect();
     }, 3000);
   }
 
