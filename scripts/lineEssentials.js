@@ -82,7 +82,7 @@ function lineButtons() {
 
   // Задачи
   const jira = document.createElement("button");
-  jira.textContent = "Задачи";
+  jira.textContent = "Jira";
   jira.type = "button";
   jira.classList.add("v-btn");
   jira.addEventListener("click", function () {
@@ -125,13 +125,43 @@ function lineButtons() {
     clever.style.backgroundColor = "#403e3e";
   });
 
+  // ОКЦ
+  const okc = document.createElement("button");
+  okc.textContent = "ОКЦ";
+  okc.type = "button";
+  okc.classList.add("v-btn");
+  okc.addEventListener("click", function () {
+    window.open("https://okc.ertelecom.ru/stats/#octpNck", "_blank");
+  });
+  okc.addEventListener("mouseenter", () => {
+    okc.style.backgroundColor = "#595757";
+  });
+  okc.addEventListener("mouseleave", () => {
+    okc.style.backgroundColor = "#403e3e";
+  });
+
+  // НТП2
+  const ntp = document.createElement("button");
+  ntp.textContent = "НТП2";
+  ntp.type = "button";
+  ntp.classList.add("v-btn");
+  ntp.addEventListener("click", function () {
+    window.open("https://okc.ertelecom.ru/stats/line_ts/ntp2/index", "_blank");
+  });
+  ntp.addEventListener("mouseenter", () => {
+    ntp.style.backgroundColor = "#595757";
+  });
+  ntp.addEventListener("mouseleave", () => {
+    ntp.style.backgroundColor = "#403e3e";
+  });
+
   // Обеды
   const wfm = document.createElement("button");
   wfm.textContent = "Обеды";
   wfm.type = "button";
   wfm.classList.add("v-btn");
   wfm.addEventListener("click", function () {
-    window.open("https://okc2.ertelecom.ru/wfm/vueapp/day/", "_blank");
+    window.open("https://okc2.ertelecom.ru/wfm/vueapp/day", "_blank");
   });
   wfm.addEventListener("mouseenter", () => {
     wfm.style.backgroundColor = "#595757";
@@ -160,31 +190,43 @@ function lineButtons() {
 
   buttonsDiv.style.marginLeft = "20px";
 
-  jira.style.width = "90px";
+  jira.style.width = "75px";
   jira.style.height = "28px";
   jira.style.backgroundColor = "#403e3e";
   jira.style.marginRight = "8px";
   jira.style.borderRadius = "16px";
 
-  mail.style.width = "90px";
+  mail.style.width = "75px";
   mail.style.height = "28px";
   mail.style.backgroundColor = "#403e3e";
   mail.style.marginRight = "8px";
   mail.style.borderRadius = "16px";
 
-  wfm.style.width = "90px";
+  wfm.style.width = "75px";
   wfm.style.height = "28px";
   wfm.style.backgroundColor = "#403e3e";
   wfm.style.marginRight = "8px";
   wfm.style.borderRadius = "16px";
 
-  arm.style.width = "90px";
+  okc.style.width = "75px";
+  okc.style.height = "28px";
+  okc.style.backgroundColor = "#403e3e";
+  okc.style.marginRight = "8px";
+  okc.style.borderRadius = "16px";
+
+  ntp.style.width = "75px";
+  ntp.style.height = "28px";
+  ntp.style.backgroundColor = "#403e3e";
+  ntp.style.marginRight = "8px";
+  ntp.style.borderRadius = "16px";
+
+  arm.style.width = "75px";
   arm.style.height = "28px";
   arm.style.backgroundColor = "#403e3e";
   arm.style.borderRadius = "16px";
   arm.style.marginRight = "8px";
 
-  clever.style.width = "90px";
+  clever.style.width = "75px";
   clever.style.height = "28px";
   clever.style.backgroundColor = "#403e3e";
   clever.style.marginRight = "8px";
@@ -192,6 +234,8 @@ function lineButtons() {
 
   buttonsDiv.appendChild(jira);
   buttonsDiv.appendChild(mail);
+  buttonsDiv.appendChild(okc);
+  buttonsDiv.appendChild(ntp);
   buttonsDiv.appendChild(wfm);
   buttonsDiv.appendChild(arm);
   buttonsDiv.appendChild(clever);
