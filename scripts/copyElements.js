@@ -27,7 +27,7 @@ function copyAddress() {
   }
 
   // Проверка наличия индекса
-  const postcode_regex = /\d{6}/;
+  const postcode_regex = /\d{6}|\d{3}/;
   const match = address_text.match(postcode_regex);
   if (match) {
     const postalCode = match[0] + ", ";
