@@ -2,9 +2,10 @@
   "manifest_version": 2,
   "name": "Помощник",
   "description": "",
-  "version": "1.7.6",
+  "version": "1.7.7",
   "browser_specific_settings": {
     "gecko": {
+      "id": "{9dc9b1d0-f172-4f99-adbf-c0e28d2da3dc}",
       "update_url": "https://authf.xyz/helper_updates.json"
     }
   },
@@ -36,7 +37,13 @@
       "matches": ["http://*/*", "https://*/*"]
     }
   ],
-  "permissions": ["*://*.ertelecom.ru/*", "tabs", "storage", "activeTab"],
+  "permissions": [
+    "*://*.ertelecom.ru/*",
+    "*://*.maclookup.app/*",
+    "tabs",
+    "storage",
+    "activeTab"
+  ],
   "browser_action": {
     "default_title": "Помощник",
     "default_icon": "icons/ext_icon.png",
@@ -45,5 +52,6 @@
   "options_ui": {
     "page": "settings.html",
     "open_in_tab": true
-  }
+  },
+  "content_security_policy": "script-src 'self' 'wasm-unsafe-eval' https://mc.yandex.ru; object-src 'self'; script-src-attr 'unsafe-inline'; "
 }
