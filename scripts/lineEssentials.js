@@ -54,21 +54,10 @@ function dutyButtons() {
   );
 
   const intervalId = setInterval(() => {
-    const xpath =
-      "/html/body/div/div[2]//div[contains(@class, 'v-list') and contains(@class, 'v-sheet') and and contains(@class, 'v-list--dense')]";
-    //const container = document.evaluate(
-    //   xpath,
-    //   document,
-    //   null,
-    //   XPathResult.FIRST_ORDERED_NODE_TYPE,
-    //   null
-    // ).singleNodeValue;
     var container = document.querySelector(
-      ".v-menu__content.theme--light.v-menu__content--fixed.menuable__content__active.elevation-3"
+      ".v-menu__content.v-menu__content--fixed.menuable__content__active.elevation-3"
     );
-    container_list = container.querySelector(
-      ".v-list.v-sheet.theme--light.v-list--dense"
-    );
+    container_list = container.querySelector(".v-list.v-sheet.v-list--dense");
 
     if (container_list) {
       container_list.appendChild(slForecastLink);
@@ -311,18 +300,28 @@ function highlightOperators() {
 
 function createLinkTab(id, href, iconClass, textContent) {
   const link = document.createElement("a");
+  const theme = document
+    .querySelectorAll(".v-application.v-application--is-ltr")[0]
+    .classList.contains("theme--dark")
+    ? "dark"
+    : "light";
+
   link.tabIndex = "0";
   link.href = href;
   link.target = "_blank";
   link.role = "menuitem";
   link.id = id;
-  link.className = "v-list-item v-list-item--link theme--light";
+  link.className =
+    theme === "dark"
+      ? "v-list-item v-list-item--link theme--dark"
+      : "v-list-item v-list-item--link theme--light";
 
   const iconDiv = document.createElement("div");
   iconDiv.className = "v-list-item__icon";
   const icon = document.createElement("i");
   icon.setAttribute("aria-hidden", "true");
-  icon.className = `v-icon notranslate ${iconClass} theme--light`;
+  icon.color = theme === "dark" ? "white" : "black";
+  icon.className = `v-icon notranslate ${iconClass}`;
   iconDiv.appendChild(icon);
 
   const titleDiv = document.createElement("div");
