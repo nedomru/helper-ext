@@ -5,7 +5,6 @@
 <script src="scripts/jquery.min.js"></script>
 <script src="scripts/notify.min.js"></script>
 <script src="scripts/notify.js"></script>
-<!--TODO добавить bootstrap-->
 <link rel="stylesheet" type="text/css" href="styles/popup.css">
 
 <body>
@@ -279,26 +278,22 @@
                 <h4>Проверка MAC-адреса</h4>
                 <form id="form-mac">
                         <input type="text" id="input-mac" name="input-mac" placeholder="Введи мак" />
-                        <button id="submit-mac"
-                                onclick="ym(97431357,'reachGoal','tool-checkMac'); return true;">Проверить</button>
+                        <button id="submit-mac">Проверить</button>
                 </form>
                 <h4>Проверка IP</h4>
                 <form id="form-ip">
                         <input type="text" id="input-ip" name="input-ip" placeholder="Введи IP-адрес" />
-                        <button id="submit-ip" class="submit-ip-button"
-                                onclick="ym(97431357,'reachGoal','tool-checkIP'); return true;">Проверить</button>
+                        <button id="submit-ip" class="submit-ip-button">Проверить</button>
                 </form>
                 <h4>Сокращатель ссылок</h4>
                 <form id="form-link">
                         <input type="text" id="input-link" name="input-link" placeholder="Введи ссылку" />
-                        <button id="submit-link" class="submit-link-button"
-                                onclick="ym(97431357,'reachGoal','tool-shortLink'); return true;">Сократить</button>
+                        <button id="submit-link" class="submit-link-button">Сократить</button>
                 </form>
         </div>
         <div id="Роутеры" class="tabcontent">
                 <input type="text" id="searchRouter" placeholder="Поиск роутера" autofocus>
                 <table id="routersTable">
-                        <tr> <!--TODO добавить прямые ссылки на инструкции роутеров-->
                                 <th>Название</th>
                                 <th>PPPoE</th>
                                 <th>DHCP</th>
