@@ -55,20 +55,26 @@ function dutyButtons() {
 
   const intervalId = setInterval(() => {
     const xpath =
-      "/html/body/div/div[2]//div[contains(@class, 'v-list') and contains(@class, 'v-sheet') and contains(@class, 'theme--light') and contains(@class, 'v-list--dense')]";
-    const container = document.evaluate(
-      xpath,
-      document,
-      null,
-      XPathResult.FIRST_ORDERED_NODE_TYPE,
-      null
-    ).singleNodeValue;
+      "/html/body/div/div[2]//div[contains(@class, 'v-list') and contains(@class, 'v-sheet') and and contains(@class, 'v-list--dense')]";
+    //const container = document.evaluate(
+    //   xpath,
+    //   document,
+    //   null,
+    //   XPathResult.FIRST_ORDERED_NODE_TYPE,
+    //   null
+    // ).singleNodeValue;
+    var container = document.querySelector(
+      ".v-menu__content.theme--light.v-menu__content--fixed.menuable__content__active.elevation-3"
+    );
+    container_list = container.querySelector(
+      ".v-list.v-sheet.theme--light.v-list--dense"
+    );
 
-    if (container) {
-      container.appendChild(slForecastLink);
-      container.appendChild(botLink);
-      container.appendChild(stubLink);
-      container.appendChild(appointmentLink);
+    if (container_list) {
+      container_list.appendChild(slForecastLink);
+      container_list.appendChild(botLink);
+      container_list.appendChild(stubLink);
+      container_list.appendChild(appointmentLink);
       clearInterval(intervalId);
     }
   }, 1000);
@@ -250,25 +256,38 @@ function highlightOperators() {
 
   // Цвета для выделения
   const colorMap = {
-    [projects]: "#F7DCB9",
-    [rsg]: "#B3C8CF",
-    [learning]: "#DFCCFB",
-    [help]: "#F3D0D7",
+    light: {
+      [projects]: "#F7DCB9",
+      [rsg]: "#B3C8CF",
+      [learning]: "#DFCCFB",
+      [help]: "#F3D0D7",
+    },
+    dark: {
+      [projects]: "#5D6D7E",
+      [rsg]: "#4C688B",
+      [learning]: "#75608E",
+      [help]: "#82494A",
+    },
   };
 
   const appointmentsTable = document.getElementsByClassName("bottom-row")[0];
   if (appointmentsTable) {
     const interval = setInterval(() => {
+      const theme = document
+        .querySelectorAll(".v-application.v-application--is-ltr")[0]
+        .classList.contains("theme--dark")
+        ? "dark"
+        : "light";
       const rows = appointmentsTable.querySelectorAll("table tr");
 
       rows.forEach((row) => {
         const cells = row.querySelectorAll("td, th");
         let isValueFound = false;
 
-        for (const key in colorMap) {
+        for (const key in colorMap[theme]) {
           for (let i = 0; i < cells.length; i++) {
             if (cells[i].textContent.includes(key)) {
-              row.style.backgroundColor = colorMap[key];
+              row.style.backgroundColor = colorMap[theme][key];
               isValueFound = true;
               break;
             }
@@ -277,7 +296,11 @@ function highlightOperators() {
         }
 
         if (!isValueFound) {
-          row.style.backgroundColor = "#FFFFFF";
+          if (theme === "dark") {
+            row.style.backgroundColor = "#1e1e1e";
+          } else {
+            row.style.backgroundColor = "#FFFFFF";
+          }
         }
       });
     }, 5000);
@@ -314,6 +337,12 @@ function createLinkTab(id, href, iconClass, textContent) {
 
 function countAppointments() {
   setInterval(() => {
+    const theme = document
+      .querySelectorAll(".v-application.v-application--is-ltr")[0]
+      .classList.contains("theme--dark")
+      ? "dark"
+      : "light";
+
     const table = document.evaluate(
       "/html/body/div/div[1]/main/div/div[2]/div[13]/div[4]/div/div[1]/div/div/div/div/div/div/div",
       document,
@@ -363,5 +392,10 @@ function countAppointments() {
     ${on_learning_operators > 0 ? `| Обучения: ${on_learning_operators}` : ""}`;
 
     chipElement.textContent = new_text;
+    if (theme === "dark") {
+      chipElement.style.color = "white";
+    } else {
+      chipElement.style.color = "black";
+    }
   }, 5000);
 }
