@@ -40,10 +40,9 @@ async function handleFormSubmitMac(event) {
   $.notify("Проверяю", "info");
   try {
     const response = await fetch(
-      `https://www.macvendorlookup.com/api/v2/${inputField}`,
+      `https://api.maclookup.app/v2/macs/${inputField}`,
       {
-        method: "POST",
-        body: formData,
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
@@ -55,9 +54,10 @@ async function handleFormSubmitMac(event) {
     }
 
     const result = await response.json();
+    console.log(result);
 
     // Assuming the API returns an array of objects and you want the company name from the first object
-    const companyName = result[0]?.company;
+    const companyName = result.company;
 
     if (companyName) {
       $.notify(companyName, "success");
