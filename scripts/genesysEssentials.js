@@ -1,6 +1,6 @@
 if (document.URL.indexOf("genesys-app1") != -1) {
   genesysButtons();
-  hideGenesysHelp();
+  removeGenesysUselessButtons();
 
   /* if (navigator.userAgent.includes("Chrome") == false) {
     browser.storage.local.get(["hideHeader"]).then((result) => {
@@ -34,13 +34,14 @@ function hideHeader() {
   }, 1000);
 }
 
-function hideGenesysHelp() {
+function removeGenesysUselessButtons() {
   const intervalId = setInterval(() => {
-    const genesys_help = document.querySelector("li.dropdown.account-help");
-    if (genesys_help) {
-      genesys_help.remove();
-      clearInterval(intervalId);
-    }
+    document.querySelector("li.dropdown.account-help").remove();
+    document.querySelector('li a[aria-label="Facebook Draft"]').remove();
+    document.querySelector('li a[aria-label="Facebook In Progress"]').remove();
+    document.querySelector('li a[aria-label="Twitter Draft"]').remove();
+    document.querySelector('li a[aria-label="Twitter In Progress"]').remove();
+    clearTimeout(intervalId);
   }, 1000);
 }
 
@@ -150,3 +151,21 @@ function createGenesysLink(href, textContent, additionalStyles = {}) {
 
   return button;
 }
+
+// function octpLineStatus() {
+// TODO подумать над реализацией. бота не добавить, канал закрытый
+//   const channelId = "-1001790755056";
+
+//   setInterval(() => {
+//     fetch(`https://api.telegram.org/bot/getChatHistory?chat_id=${channelId}`)
+//       .then((response) => response.json())
+//       .then((data) => {
+//         const messages = data.result;
+//         const lastMessage = messages[messages.length - 1];
+//         const text = lastMessage.message.text;
+
+//         const genesys_title = document.querySelector(".title");
+//         genesys_title.innerHTML = text;
+//       });
+//   }, 3000);
+// }
