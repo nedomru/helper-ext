@@ -41,6 +41,10 @@ function removeGenesysUselessButtons() {
     document.querySelector('li a[aria-label="Facebook In Progress"]').remove();
     document.querySelector('li a[aria-label="Twitter Draft"]').remove();
     document.querySelector('li a[aria-label="Twitter In Progress"]').remove();
+    document
+      .querySelector("li.wwe-tab-top a#wwe-workspace-tab-2")
+      .closest("li")
+      .remove();
     clearTimeout(intervalId);
   }, 1000);
 }
