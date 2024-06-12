@@ -55,209 +55,229 @@
                                 </div>
                             </div>
                         </div>
-                        <hr class="my-4" />
-                        <strong class="mb-0">Вкладки договора</strong>
-                        <div class="list-group mb-5">
-                            <!--Начисления-->
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h5 style="text-align: center;">Начисления</h5>
-                                    <div class="list-group-item">
-                                        <div class="row align-items-center">
-                                            <div class="col">
-                                                <strong class="mb-0">Абонемент</strong>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                        id="hideTabABONEMENT" />
-                                                    <span class="custom-control-label"></span>
-                                                </div>
-                                            </div>
-                                        </div>
+                        <strong class="mb-0">Линия</strong>
+                        <div class="list-group mb-5 shadow">
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <strong class="mb-0">Быстрые кнопки</strong>
+                                        <p class="text-muted mb-0">Для применения настроек нужно обновить страницу линии
+                                        </p>
                                     </div>
-                                    <div class="list-group-item">
-                                        <div class="row align-items-center">
-                                            <div class="col">
-                                                <strong class="mb-0">Новая ПЛ</strong>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                        id="hideTabPL" />
-                                                    <span class="custom-control-label"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="list-group-item">
-                                        <div class="row align-items-center">
-                                            <div class="col">
-                                                <strong class="mb-0">Счета</strong>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                        id="hideTabInvoices" />
-                                                    <span class="custom-control-label"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="list-group-item">
-                                        <div class="row align-items-center">
-                                            <div class="col">
-                                                <strong class="mb-0">Платежи</strong>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                        id="hideTabPayments" />
-                                                    <span class="custom-control-label"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="list-group-item">
-                                        <div class="row align-items-center">
-                                            <div class="col">
-                                                <strong class="mb-0">Карты и автоплатеж</strong>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                        id="hideTabAutopayment">
-                                                    <span class="custom-control-label"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="list-group-item">
-                                        <div class="row align-items-center">
-                                            <div class="col">
-                                                <strong class="mb-0">Спецпредложения</strong>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                        id="hideTabSpecialOffers" />
-                                                    <span class="custom-control-label"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="list-group-item">
-                                        <div class="row align-items-center">
-                                            <div class="col">
-                                                <strong class="mb-0">Ограничение по балансу</strong>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                        id="hideTabBalanceLimit" />
-                                                    <span class="custom-control-label"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="list-group-item">
-                                        <div class="row align-items-center">
-                                            <div class="col">
-                                                <strong class="mb-0">Основные продажи</strong>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                        id="hideTabMainSales" />
-                                                    <span class="custom-control-label"></span>
-                                                </div>
-                                            </div>
+                                    <div class="col-auto">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="showLineButtons" />
+                                            <span class="custom-control-label"></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <h5 style="text-align: center;">Другое</h5>
-                                    <div class="list-group-item">
-                                        <div class="row align-items-center">
-                                            <div class="col">
-                                                <strong class="mb-0">Агентское IPTV</strong>
+                            </div>
+                        </div>
+                        <div class="list-group mb-5 shadow">
+                            <hr class="my-4" />
+                            <strong class="mb-0">Вкладки договора</strong>
+                            <div class="list-group mb-5">
+                                <!--Начисления-->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h5 style="text-align: center;">Начисления</h5>
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">Абонемент</strong>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="hideTabABONEMENT" />
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-auto">
-                                                <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input" id="hideTabIPTV"
-                                                        checked="" />
-                                                    <span class="custom-control-label"></span>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">Новая ПЛ</strong>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="hideTabPL" />
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">Счета</strong>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="hideTabInvoices" />
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">Платежи</strong>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="hideTabPayments" />
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">Карты и автоплатеж</strong>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="hideTabAutopayment">
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">Спецпредложения</strong>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="hideTabSpecialOffers" />
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">Ограничение по балансу</strong>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="hideTabBalanceLimit" />
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">Основные продажи</strong>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="hideTabMainSales" />
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="list-group-item">
-                                        <div class="row align-items-center">
-                                            <div class="col">
-                                                <strong class="mb-0">MVNO</strong>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input" id="hideTabMVNO"
-                                                        checked="" />
-                                                    <span class="custom-control-label"></span>
+                                    <div class="col-md-6">
+                                        <h5 style="text-align: center;">Другое</h5>
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">Агентское IPTV</strong>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="hideTabIPTV" checked="" />
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="list-group-item">
-                                        <div class="row align-items-center">
-                                            <div class="col">
-                                                <strong class="mb-0">АвтоСП</strong>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                        id="hideTabAVTOSP" />
-                                                    <span class="custom-control-label"></span>
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">MVNO</strong>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="hideTabMVNO" checked="" />
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="list-group-item">
-                                        <div class="row align-items-center">
-                                            <div class="col">
-                                                <strong class="mb-0">Портрет клиента</strong>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                        id="hideTabPORTRET" />
-                                                    <span class="custom-control-label"></span>
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">АвтоСП</strong>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="hideTabAVTOSP" />
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="list-group-item">
-                                        <div class="row align-items-center">
-                                            <div class="col">
-                                                <strong class="mb-0">Диагностика (New)</strong>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                        id="hideTabDiagnosticNew" />
-                                                    <span class="custom-control-label"></span>
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">Портрет клиента</strong>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="hideTabPORTRET" />
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">Диагностика (New)</strong>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="hideTabDiagnosticNew" />
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                    <div class="list-group-item">
-                                        <div class="row align-items-center">
-                                            <div class="col">
-                                                <strong class="mb-0">MNP</strong>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                        id="hideTabMNP" />
-                                                    <span class="custom-control-label"></span>
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">MNP</strong>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="hideTabMNP" />
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -267,9 +287,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
-        </div>
+            </div>
 </body>
 
 </html>

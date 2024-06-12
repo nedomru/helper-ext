@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Помощник",
   "description": "",
-  "version": "1.7.7",
+  "version": "1.7.7.2",
   "browser_specific_settings": {
     "gecko": {
       "id": "{9dc9b1d0-f172-4f99-adbf-c0e28d2da3dc}",

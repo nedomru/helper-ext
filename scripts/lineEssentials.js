@@ -18,9 +18,22 @@ if (document.URL.indexOf("genesys-ntp") != -1) {
     },
   ];
   dutyButtons();
-  lineButtons();
   highlightOperators();
   countAppointments();
+
+  if (navigator.userAgent.includes("Chrome") == false) {
+    browser.storage.local.get(["showLineButtons"]).then((result) => {
+      if (result.showLineButtons == true) {
+        lineButtons();
+      }
+    });
+  } else {
+    chrome.storage.local.get(["showLineButtons"], function (result) {
+      if (result.showLineButtons == true) {
+        lineButtons();
+      }
+    });
+  }
 }
 
 // Добавление кнопок на линию
