@@ -17,22 +17,41 @@ if (document.URL.indexOf("genesys-ntp") != -1) {
       link: "https://t.me/ArthurOmelchenko",
     },
   ];
-  dutyButtons();
-  highlightOperators();
   countAppointments();
 
   if (navigator.userAgent.includes("Chrome") == false) {
-    browser.storage.local.get(["showLineButtons"]).then((result) => {
-      if (result.showLineButtons == true) {
-        lineButtons();
-      }
-    });
+    browser.storage.local
+      .get(["showLineButtons", "highlightOperators", "dutyButtons"])
+      .then((result) => {
+        if (result.showLineButtons == true) {
+          lineButtons();
+        }
+
+        if (result.highlightOperators == true) {
+          highlightOperators();
+        }
+
+        if (result.dutyButtons == true) {
+          dutyButtons();
+        }
+      });
   } else {
-    chrome.storage.local.get(["showLineButtons"], function (result) {
-      if (result.showLineButtons == true) {
-        lineButtons();
+    chrome.storage.local.get(
+      ["showLineButtons", "highlightOperators", "dutyButtons"],
+      function (result) {
+        if (result.showLineButtons == true) {
+          lineButtons();
+        }
+
+        if (result.highlightOperators == true) {
+          highlightOperators();
+        }
+
+        if (result.dutyButtons == true) {
+          dutyButtons();
+        }
       }
-    });
+    );
   }
 }
 
