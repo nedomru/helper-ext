@@ -1,20 +1,30 @@
 if (document.URL.indexOf("genesys-app1") != -1) {
-  genesysButtons();
-  removeGenesysUselessButtons();
+  if (navigator.userAgent.includes("Chrome") == false) {
+    browser.storage.local
+      .get(["showGenesysButtons", "hideUselessGenesysButtons"])
+      .then((result) => {
+        if (result.showGenesysButtons == true) {
+          genesysButtons();
+        }
 
-  /* if (navigator.userAgent.includes("Chrome") == false) {
-    browser.storage.local.get(["hideHeader"]).then((result) => {
-      if (result.hideHeader == true) {
-        hideHeader();
-      }
-    });
+        if (result.hideUselessGenesysButtons == true) {
+          hideUselessGenesysButtons();
+        }
+      });
   } else {
-    chrome.storage.local.get(["hideHeader"], function (result) {
-      if (result.hideHeader == true) {
-        hideHeader();
+    chrome.storage.local.get(
+      ["showGenesysButtons", "hideUselessGenesysButtons"],
+      function (result) {
+        if (result.showLineButtons == true) {
+          genesysButtons();
+        }
+
+        if (result.hideUselessGenesysButtons == true) {
+          hideUselessGenesysButtons();
+        }
       }
-    });
-  } */
+    );
+  }
 }
 
 function hideHeader() {
@@ -34,13 +44,14 @@ function hideHeader() {
   }, 1000);
 }
 
-function removeGenesysUselessButtons() {
+function hideUselessGenesysButtons() {
   const intervalId = setInterval(() => {
     document.querySelector("li.dropdown.account-help").remove();
     document.querySelector('li a[aria-label="Facebook Draft"]').remove();
     document.querySelector('li a[aria-label="Facebook In Progress"]').remove();
     document.querySelector('li a[aria-label="Twitter Draft"]').remove();
     document.querySelector('li a[aria-label="Twitter In Progress"]').remove();
+    document.querySelector('li a[aria-label="Моя статистика"]').remove();
     document
       .querySelector("li.wwe-tab-top a#wwe-workspace-tab-2")
       .closest("li")
@@ -155,21 +166,3 @@ function createGenesysLink(href, textContent, additionalStyles = {}) {
 
   return button;
 }
-
-// function octpLineStatus() {
-// TODO подумать над реализацией. бота не добавить, канал закрытый
-//   const channelId = "-1001790755056";
-
-//   setInterval(() => {
-//     fetch(`https://api.telegram.org/bot/getChatHistory?chat_id=${channelId}`)
-//       .then((response) => response.json())
-//       .then((data) => {
-//         const messages = data.result;
-//         const lastMessage = messages[messages.length - 1];
-//         const text = lastMessage.message.text;
-
-//         const genesys_title = document.querySelector(".title");
-//         genesys_title.innerHTML = text;
-//       });
-//   }, 3000);
-// }
