@@ -1,17 +1,17 @@
-// Классы для поиска
-const textToFind_cs = "Контакт сорвался";
-const textToFind_email = "Обращение из Email";
-const textToFind_octp = "ОЦТП - Входящая связь";
-
-// Цвета для подсветки
-const colors = {
-  cs: "red",
-  email: "darkgreen",
-  octp: "teal",
-};
-
 // Функция для подсветки текста
 function highlightText(element) {
+  // Классы для поиска
+  const textToFind_cs = "Контакт сорвался";
+  const textToFind_email = "Обращение из Email";
+  const textToFind_octp = "ОЦТП - Входящая связь";
+
+  // Цвета для подсветки
+  const colors = {
+    cs: "red",
+    email: "darkgreen",
+    octp: "teal",
+  };
+
   let text = element.innerText;
 
   // Проверка наличия текста "гарантийный срок до" и даты
@@ -62,7 +62,7 @@ if (document.URL.includes("wcc_request_appl_support.change_request_appl")) {
   if (block.length > 0) {
     block[0].innerHTML = block[0].innerHTML.replace(
       new RegExp(textToFind_cs, "gi"),
-      `<font style='color:rgb(255, 0, 0); font-weight:bold'>${textToFind_cs}</font>`
+      `<font style='color: ${colors.cs}; font-weight:bold'>${textToFind_cs}</font>`
     );
   }
 }
