@@ -103,9 +103,13 @@ function dutyButtons() {
 
 function lineButtons() {
   let buttonsDiv = document.createElement("div");
-  let lineHeader = document.querySelector(".v-toolbar__title");
-
-  lineHeader.parentNode.insertBefore(buttonsDiv, lineHeader.nextSibling);
+  const interval = setInterval(() => {
+    let lineHeader = document.querySelector(".duty-app-block");
+    if (lineHeader !== null) {
+      lineHeader.parentNode.insertBefore(buttonsDiv, lineHeader.nextSibling);
+      clearInterval(interval);
+    }
+  }, 1000);
 
   // Задачи
   const jira = document.createElement("button");
@@ -264,7 +268,7 @@ function lineButtons() {
   buttonsDiv.appendChild(okc);
   buttonsDiv.appendChild(ntp);
   buttonsDiv.appendChild(wfm);
-  buttonsDiv.appendChild(arm);
+  //buttonsDiv.appendChild(arm);
   buttonsDiv.appendChild(clever);
 }
 
