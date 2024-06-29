@@ -77,13 +77,13 @@ if (
       bubbles: true,
       cancelable: true,
     });
-    // TODO дубль, нет вещания, неоткрывашки
     // Находим кнопку изменения обращения
     const existingButton = document.getElementById("update_request_appl");
 
     // Создаем текстовые узлы с пробелами
     const space1 = document.createTextNode(" ");
     const space2 = document.createTextNode(" ");
+    const space3 = document.createTextNode(" ");
 
     // Кнопка Онлайн-Вход-КС
     const online_cs = document.createElement("input");
@@ -97,10 +97,18 @@ if (
     octp_cs.setAttribute("class", "btn btn-sm btn-danger");
     octp_cs.setAttribute("value", "КС - НЦК2");
 
+    // Кнопка ТС/ААО
+    const ts_aao = document.createElement("input");
+    ts_aao.setAttribute("type", "button");
+    ts_aao.setAttribute("class", "btn btn-sm btn-danger");
+    ts_aao.setAttribute("value", "ТС - ААО");
+
     online_cs.addEventListener("click", handleOnlineCSClick);
     octp_cs.addEventListener("click", handleOCTPCSClick);
+    ts_aao.addEventListener("click", handleTSAAOClick);
+
     // Вставляем новую кнопку после существующей кнопки
-    existingButton.before(online_cs, space1, octp_cs, space2);
+    existingButton.before(online_cs, space1, octp_cs, space2, ts_aao, space3);
 
     function handleOnlineCSClick() {
       document.getElementById("change_class").click();
@@ -124,6 +132,19 @@ if (
       objReason.dispatchEvent(changeEvent);
       console.log(
         `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на ОЦТП Исход - КС`
+      );
+      $.notify("Класс обращения изменен");
+    }
+
+    function handleTSAAOClick() {
+      document.getElementById("change_class").click();
+      $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
+      $("#change_step_id").val(1056);
+      objReason = document.querySelector(".uni_load_obj_reason");
+      objReason.value = 1046;
+      objReason.dispatchEvent(changeEvent);
+      console.log(
+        `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на ТС/ААО`
       );
       $.notify("Класс обращения изменен");
     }
