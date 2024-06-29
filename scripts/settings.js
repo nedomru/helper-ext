@@ -27,6 +27,7 @@
     "LINE_highlightOperators",
     "LINE_dutyButtons",
     "LINE_showFastButtons",
+    "LINE_updateNeededSL",
   ];
 
   browser.storage.local.get(checkboxIds).then((result) => {

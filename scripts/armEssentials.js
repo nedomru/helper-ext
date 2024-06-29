@@ -441,7 +441,7 @@ function copyAddress() {
   address.appendChild(lineBreak);
   address.appendChild(copyButton);
   console.log(
-    `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] Добавлена кнопка копирования адреса`
+    `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Копирование адреса] Добавлена кнопка копирования адреса`
   );
 }
 
@@ -484,7 +484,7 @@ function copyClientCard() {
   clientCard.appendChild(lineBreak);
   clientCard.appendChild(copyButton);
   console.log(
-    `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] Добавлена кнопка копирования карточки`
+    `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Копирование карточки] Добавлена кнопка копирования карточки`
   );
 }
 

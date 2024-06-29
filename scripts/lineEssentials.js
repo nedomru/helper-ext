@@ -18,11 +18,11 @@ if (document.URL.indexOf("genesys-ntp") != -1) {
     },
   ];
   countAppointments();
-  updateNeededSL();
   const LINE_config = {
     LINE_showFastButtons: fastButtons,
     LINE_highlightOperators: highlightOperators,
     LINE_dutyButtons: dutyButtons,
+    LINE_updateNeededSL: updateNeededSL,
   };
 
   browser.storage.local.get(Object.keys(LINE_config)).then((result) => {
@@ -81,7 +81,7 @@ function dutyButtons() {
     } catch {}
   }, 1000);
   console.log(
-    `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] Добавлены кнопки дежурного`
+    `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Кнопки дежурных] Добавлены кнопки дежурного`
   );
 }
 
@@ -255,7 +255,7 @@ function fastButtons() {
   //buttonsDiv.appendChild(arm);
   buttonsDiv.appendChild(clever);
   console.log(
-    `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] Добавлены быстрые кнопки на линию`
+    `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Быстрые кнопки] Добавлены быстрые кнопки на линию`
   );
 }
 
@@ -316,12 +316,12 @@ function highlightOperators() {
         }
       });
       console.log(
-        `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] Подсветка операторов обновлена`
+        `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Подсветка операторов] Подсветка обновлена`
       );
     }, 5000);
   }
   console.log(
-    `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] Подсветка операторов активирована`
+    `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Подсветка операторов] Подсветка активирована`
   );
   return () => clearInterval(interval);
 }
@@ -428,7 +428,10 @@ function countAppointments() {
 }
 
 function updateNeededSL() {
-  // Получение текущей даты в формате "29.06.2024"
+  console.log(
+    `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Прогноз SL] Загружен модуль прогнозирования SL`
+  );
+  const url = `https://okc.ertelecom.ru/stats/genesys-reports/ntp/get-sl-forecast-report`;
   const now = new Date();
   const formattedDate = now.toLocaleDateString("en-GB");
 
@@ -455,9 +458,6 @@ function updateNeededSL() {
 
   // Получаем округленное время в виде строки HH:30
   const roundedTime = hours + ":" + minutes;
-
-  // Формирование URL с параметром startDate
-  const url = `https://okc.ertelecom.ru/stats/genesys-reports/ntp/get-sl-forecast-report`;
 
   const element = document.querySelector(
     ".v-icon.header-stat-icon.mr-1.mdi.mdi-chart-line.grey--text.text--lighten-3"
@@ -488,5 +488,8 @@ function updateNeededSL() {
 Прогноз SL: ${half_time_data["FORECAST_SL"]}`;
         element.title = title_to_display;
       });
+    console.log(
+      `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Прогноз SL] Обновлен прогноз`
+    );
   }, 5000);
 }
