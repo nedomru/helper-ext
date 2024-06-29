@@ -18,41 +18,20 @@ if (document.URL.indexOf("genesys-ntp") != -1) {
     },
   ];
   countAppointments();
+  updateNeededSL();
+  const LINE_config = {
+    LINE_showFastButtons: fastButtons,
+    LINE_highlightOperators: highlightOperators,
+    LINE_dutyButtons: dutyButtons,
+  };
 
-  if (navigator.userAgent.includes("Chrome") == false) {
-    browser.storage.local
-      .get(["showLineButtons", "highlightOperators", "dutyButtons"])
-      .then((result) => {
-        if (result.showLineButtons == true) {
-          lineButtons();
-        }
-
-        if (result.highlightOperators == true) {
-          highlightOperators();
-        }
-
-        if (result.dutyButtons == true) {
-          dutyButtons();
-        }
-      });
-  } else {
-    chrome.storage.local.get(
-      ["showLineButtons", "highlightOperators", "dutyButtons"],
-      function (result) {
-        if (result.showLineButtons == true) {
-          lineButtons();
-        }
-
-        if (result.highlightOperators == true) {
-          highlightOperators();
-        }
-
-        if (result.dutyButtons == true) {
-          dutyButtons();
-        }
+  browser.storage.local.get(Object.keys(LINE_config)).then((result) => {
+    Object.keys(LINE_config).forEach((key) => {
+      if (result[key]) {
+        LINE_config[key]();
       }
-    );
-  }
+    });
+  });
 }
 
 // Добавление кнопок на линию
@@ -89,19 +68,24 @@ function dutyButtons() {
     var container = document.querySelector(
       ".v-menu__content.v-menu__content--fixed.menuable__content__active.elevation-3"
     );
-    container_list = container.querySelector(".v-list.v-sheet.v-list--dense");
+    try {
+      container_list = container.querySelector(".v-list.v-sheet.v-list--dense");
 
-    if (container_list) {
-      container_list.appendChild(slForecastLink);
-      container_list.appendChild(botLink);
-      container_list.appendChild(stubLink);
-      container_list.appendChild(appointmentLink);
-      clearInterval(intervalId);
-    }
+      if (container_list) {
+        container_list.appendChild(slForecastLink);
+        container_list.appendChild(botLink);
+        container_list.appendChild(stubLink);
+        container_list.appendChild(appointmentLink);
+        clearInterval(intervalId);
+      }
+    } catch {}
   }, 1000);
+  console.log(
+    `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] Добавлены кнопки дежурного`
+  );
 }
 
-function lineButtons() {
+function fastButtons() {
   let buttonsDiv = document.createElement("div");
   const interval = setInterval(() => {
     let lineHeader = document.querySelector(".duty-app-block");
@@ -270,6 +254,9 @@ function lineButtons() {
   buttonsDiv.appendChild(wfm);
   //buttonsDiv.appendChild(arm);
   buttonsDiv.appendChild(clever);
+  console.log(
+    `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] Добавлены быстрые кнопки на линию`
+  );
 }
 
 // Подсветка операторов с определенными классами на линии
@@ -328,9 +315,14 @@ function highlightOperators() {
           }
         }
       });
+      console.log(
+        `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] Подсветка операторов обновлена`
+      );
     }, 5000);
   }
-
+  console.log(
+    `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] Подсветка операторов активирована`
+  );
   return () => clearInterval(interval);
 }
 
@@ -432,5 +424,69 @@ function countAppointments() {
     } else {
       chipElement.style.color = "black";
     }
+  }, 5000);
+}
+
+function updateNeededSL() {
+  // Получение текущей даты в формате "29.06.2024"
+  const now = new Date();
+  const formattedDate = now.toLocaleDateString("en-GB");
+
+  const options = {
+    timeZone: "Asia/Yekaterinburg",
+    hour: "2-digit",
+    minute: "2-digit",
+  };
+
+  // Получаем текущее время
+  let hours = now.getHours();
+  let minutes = now.getMinutes();
+
+  // Округляем время к ближайшим половинным часам
+  if (minutes > 30) {
+    hours++;
+    minutes = "00";
+  } else {
+    minutes = "30";
+  }
+
+  // Форматируем числа, чтобы обеспечить двузначный формат времени
+  hours = String(hours).padStart(2, "0");
+
+  // Получаем округленное время в виде строки HH:30
+  const roundedTime = hours + ":" + minutes;
+
+  // Формирование URL с параметром startDate
+  const url = `https://okc.ertelecom.ru/stats/genesys-reports/ntp/get-sl-forecast-report`;
+
+  const element = document.querySelector(
+    ".v-icon.header-stat-icon.mr-1.mdi.mdi-chart-line.grey--text.text--lighten-3"
+  );
+
+  setInterval(() => {
+    fetch(url, {
+      credentials: "include",
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0",
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+      },
+      body: `startDate=${formattedDate}`,
+      method: "POST",
+      mode: "cors",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        half_time_data = data.halfHourReport.data.find(
+          (obj) => obj.HALF_HOUR_TEXT === roundedTime
+        );
+        const title_to_display = `Прогноз на ${half_time_data["HALF_HOUR_TEXT"]}
+
+Прогноз чатов: ${half_time_data["FORECAST_CHATS"]}
+Разница людей: ${half_time_data["DIFF_USERS"]}
+Нужно держать ${data.daySl.NeededSl} SL
+Прогноз SL: ${half_time_data["FORECAST_SL"]}`;
+        element.title = title_to_display;
+      });
   }, 5000);
 }
