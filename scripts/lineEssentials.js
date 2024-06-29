@@ -463,7 +463,7 @@ function updateNeededSL() {
     ".v-icon.header-stat-icon.mr-1.mdi.mdi-chart-line.grey--text.text--lighten-3"
   );
 
-  setInterval(() => {
+  var interval = setInterval(() => {
     fetch(url, {
       credentials: "include",
       headers: {
@@ -475,7 +475,12 @@ function updateNeededSL() {
       method: "POST",
       mode: "cors",
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        response.json();
+      })
       .then((data) => {
         half_time_data = data.halfHourReport.data.find(
           (obj) => obj.HALF_HOUR_TEXT === roundedTime
@@ -487,9 +492,16 @@ function updateNeededSL() {
 Нужно держать ${data.daySl.NeededSl} SL
 Прогноз SL: ${half_time_data["FORECAST_SL"]}`;
         element.title = title_to_display;
+        console.log(
+          `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Прогноз SL] Обновлен прогноз`
+        );
+      })
+      .catch((error) => {
+        console.log(
+          `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Прогноз SL] Ошибка: ${error}. Прогноз отключен.`
+        );
+        clearInterval(interval);
+        browser.storage.local.set({ LINE_updateNeededSL: false });
       });
-    console.log(
-      `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Прогноз SL] Обновлен прогноз`
-    );
   }, 5000);
 }
