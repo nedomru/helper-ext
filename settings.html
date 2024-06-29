@@ -16,279 +16,424 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-lg-10 col-xl-8 mx-auto">
-                <h2 class="h3 mb-4 page-title">Настройки</h2>
+                <h2 class="h3 mb-4 page-title">Настройки помощника</h2>
                 <div class="my-4">
-                    <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" id="contact-tab" data-toggle="tab" href="#hideTabs" role="tab"
-                                aria-controls="contact" aria-selected="false">Автоскрытие</a>
-                        </li>
-                        <!--<li class="nav-item">
-                            <a class="nav-link active" id="contact-tab" data-toggle="tab" href="#contacts" role="tab"
-                                aria-controls="contact" aria-selected="false">Обращения</a>
-                        </li>-->
-                    </ul>
-                    <!--Автоскрытие-->
                     <div>
-                        <h5 class="mb-0 mt-5">Настройки автоскрытия</h5>
-                        <p>Выбери пункты, которые хочешь скрыть на странице договора клиента
-                            <br>Изменения применяются после обновления договора
+                        <h5 class="mb-0 mt-5">Страница настроек расширения</h5>
+                        <p>Ниже ты найдешь функционал расширения, который можно изменять
+                            <br>Изменения применяются после обновления договора/страницы
                         </p>
                         <hr class="my-4" />
-                        <strong class="mb-0">Верхушка АРМа</strong>
-                        <p>Кнопки и ссылки для скрытия.</p>
+                        <strong class="mb-0">Генезис</strong>
+                        <p>Управление функционалом расширения в Генезисе</p>
                         <div class="list-group mb-5 shadow">
                             <div class="list-group-item">
                                 <div class="row align-items-center">
                                     <div class="col">
-                                        <strong class="mb-0">СПАС</strong>
+                                        <strong class="mb-0">Быстрые кнопки</strong>
+                                        <p class="text-muted mb-0">Для применения настроек нужно обновить страницу
+                                            генезиса
+                                        </p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input"
+                                                id="GENESYS_showFastButtons" />
+                                            <span class="custom-control-label"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <strong class="mb-0">Скрывать бесполезные кнопки</strong>
+                                        <p class="text-muted mb-0">Помощь, Facebook Drafts & in Progress, Twitter Drafts
+                                            & in Progress, Моя статистика
+                                        </p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input"
+                                                id="GENESYS_hideUselessButtons" />
+                                            <span class="custom-control-label"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <strong class="mb-0">Отображение аварийности НЦК2</strong>
+                                        <p class="text-muted mb-0">Включить отображение статуса аварийности НЦК2 линии
+                                            <br />
+                                            <b>НЕ ВКЛЮЧАТЬ НА НЦК1, ВАША АВАРИЙКА ПЕРЕСТАНЕТ ОТОБРАЖАТЬСЯ</b>
+                                        </p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input"
+                                                id="GENESYS_showOCTPLineStatus" />
+                                            <span class="custom-control-label"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <strong class="mb-0">Скрывать заголовки чатов</strong>
+                                        <p class="text-muted mb-0">При поступлении чата заголовок скрывается. Его можно
+                                            раскрыть обратно
+                                        </p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input"
+                                                id="GENESYS_hideChatHeader" />
+                                            <span class="custom-control-label"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="my-4" />
+                        <strong class="mb-0">АРМ</strong>
+                        <p>Управление функционалом расширения в АРМе</p>
+                        <div class="list-group mb-5 shadow">
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <strong class="mb-0">Скрывать СПАС</strong>
                                         <p class="text-muted mb-0">Автоматическое скрытие СПАСа на договоре
                                             <br>Можно раскрыть обратно
                                         </p>
                                     </div>
                                     <div class="col-auto">
                                         <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input" id="hideSPAS" />
+                                            <input type="checkbox" class="custom-control-input" id="ARM_hideSPAS" />
                                             <span class="custom-control-label"></span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <strong class="mb-0">Линия</strong>
-                        <div class="list-group mb-5 shadow">
                             <div class="list-group-item">
                                 <div class="row align-items-center">
                                     <div class="col">
-                                        <strong class="mb-0">Быстрые кнопки</strong>
-                                        <p class="text-muted mb-0">Для применения настроек нужно обновить страницу линии
+                                        <strong class="mb-0">Помечать обращений как <b>не ошибочные</b></strong>
+                                        <p class="text-muted mb-0">Помечает обращения как <b>не ошибочные</b> для НЦК2
                                         </p>
                                     </div>
                                     <div class="col-auto">
                                         <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input" id="showLineButtons" />
+                                            <input type="checkbox" class="custom-control-input"
+                                                id="ARM_checkWrongTransfer" />
+                                            <span class="custom-control-label"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <strong class="mb-0">Убирать галочку <b>Назначить на меня</b></strong>
+                                        <p class="text-muted mb-0">Убирает галочку на <b>Назначить на меня</b> при
+                                            изменении обращения
+                                        </p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="ARM_checkSetToMe" />
                                             <span class="custom-control-label"></span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <strong class="mb-0">Вкладки договора</strong>
+                        <p>Скрытие вкладок, связанных с начислениями</p>
                         <div class="list-group mb-5 shadow">
-                            <hr class="my-4" />
-                            <strong class="mb-0">Вкладки договора</strong>
-                            <div class="list-group mb-5">
-                                <!--Начисления-->
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <h5 style="text-align: center;">Начисления</h5>
-                                        <div class="list-group-item">
-                                            <div class="row align-items-center">
-                                                <div class="col">
-                                                    <strong class="mb-0">Абонемент</strong>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <div class="custom-control custom-switch">
-                                                        <input type="checkbox" class="custom-control-input"
-                                                            id="hideTabABONEMENT" />
-                                                        <span class="custom-control-label"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="list-group-item">
-                                            <div class="row align-items-center">
-                                                <div class="col">
-                                                    <strong class="mb-0">Новая ПЛ</strong>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <div class="custom-control custom-switch">
-                                                        <input type="checkbox" class="custom-control-input"
-                                                            id="hideTabPL" />
-                                                        <span class="custom-control-label"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="list-group-item">
-                                            <div class="row align-items-center">
-                                                <div class="col">
-                                                    <strong class="mb-0">Счета</strong>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <div class="custom-control custom-switch">
-                                                        <input type="checkbox" class="custom-control-input"
-                                                            id="hideTabInvoices" />
-                                                        <span class="custom-control-label"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="list-group-item">
-                                            <div class="row align-items-center">
-                                                <div class="col">
-                                                    <strong class="mb-0">Платежи</strong>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <div class="custom-control custom-switch">
-                                                        <input type="checkbox" class="custom-control-input"
-                                                            id="hideTabPayments" />
-                                                        <span class="custom-control-label"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="list-group-item">
-                                            <div class="row align-items-center">
-                                                <div class="col">
-                                                    <strong class="mb-0">Карты и автоплатеж</strong>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <div class="custom-control custom-switch">
-                                                        <input type="checkbox" class="custom-control-input"
-                                                            id="hideTabAutopayment">
-                                                        <span class="custom-control-label"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="list-group-item">
-                                            <div class="row align-items-center">
-                                                <div class="col">
-                                                    <strong class="mb-0">Спецпредложения</strong>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <div class="custom-control custom-switch">
-                                                        <input type="checkbox" class="custom-control-input"
-                                                            id="hideTabSpecialOffers" />
-                                                        <span class="custom-control-label"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="list-group-item">
-                                            <div class="row align-items-center">
-                                                <div class="col">
-                                                    <strong class="mb-0">Ограничение по балансу</strong>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <div class="custom-control custom-switch">
-                                                        <input type="checkbox" class="custom-control-input"
-                                                            id="hideTabBalanceLimit" />
-                                                        <span class="custom-control-label"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="list-group-item">
-                                            <div class="row align-items-center">
-                                                <div class="col">
-                                                    <strong class="mb-0">Основные продажи</strong>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <div class="custom-control custom-switch">
-                                                        <input type="checkbox" class="custom-control-input"
-                                                            id="hideTabMainSales" />
-                                                        <span class="custom-control-label"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <strong class="mb-0">Скрывать Абонемент</strong>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input"
+                                                id="ARM_hideTabABONEMENT" />
+                                            <span class="custom-control-label"></span>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <h5 style="text-align: center;">Другое</h5>
-                                        <div class="list-group-item">
-                                            <div class="row align-items-center">
-                                                <div class="col">
-                                                    <strong class="mb-0">Агентское IPTV</strong>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <div class="custom-control custom-switch">
-                                                        <input type="checkbox" class="custom-control-input"
-                                                            id="hideTabIPTV" checked="" />
-                                                        <span class="custom-control-label"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="list-group-item">
-                                            <div class="row align-items-center">
-                                                <div class="col">
-                                                    <strong class="mb-0">MVNO</strong>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <div class="custom-control custom-switch">
-                                                        <input type="checkbox" class="custom-control-input"
-                                                            id="hideTabMVNO" checked="" />
-                                                        <span class="custom-control-label"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="list-group-item">
-                                            <div class="row align-items-center">
-                                                <div class="col">
-                                                    <strong class="mb-0">АвтоСП</strong>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <div class="custom-control custom-switch">
-                                                        <input type="checkbox" class="custom-control-input"
-                                                            id="hideTabAVTOSP" />
-                                                        <span class="custom-control-label"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="list-group-item">
-                                            <div class="row align-items-center">
-                                                <div class="col">
-                                                    <strong class="mb-0">Портрет клиента</strong>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <div class="custom-control custom-switch">
-                                                        <input type="checkbox" class="custom-control-input"
-                                                            id="hideTabPORTRET" />
-                                                        <span class="custom-control-label"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="list-group-item">
-                                            <div class="row align-items-center">
-                                                <div class="col">
-                                                    <strong class="mb-0">Диагностика (New)</strong>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <div class="custom-control custom-switch">
-                                                        <input type="checkbox" class="custom-control-input"
-                                                            id="hideTabDiagnosticNew" />
-                                                        <span class="custom-control-label"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="list-group-item">
-                                            <div class="row align-items-center">
-                                                <div class="col">
-                                                    <strong class="mb-0">MNP</strong>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <div class="custom-control custom-switch">
-                                                        <input type="checkbox" class="custom-control-input"
-                                                            id="hideTabMNP" />
-                                                        <span class="custom-control-label"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <strong class="mb-0">Скрывать Новая ПЛ</strong>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="ARM_hideTabPL" />
+                                            <span class="custom-control-label"></span>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <strong class="mb-0">Скрывать Счета</strong>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input"
+                                                id="ARM_hideTabInvoices" />
+                                            <span class="custom-control-label"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <strong class="mb-0">Скрывать Платежи</strong>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input"
+                                                id="ARM_hideTabPayments" />
+                                            <span class="custom-control-label"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <strong class="mb-0">Скрывать Карты и автоплатеж</strong>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input"
+                                                id="ARM_hideTabAutopayment" />
+                                            <span class="custom-control-label"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <strong class="mb-0">Скрывать Спецпредложения</strong>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input"
+                                                id="ARM_hideTabSpecialOffers" />
+                                            <span class="custom-control-label"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <strong class="mb-0">Скрывать Ограничение по балансу</strong>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input"
+                                                id="ARM_hideTabBalanceLimit" />
+                                            <span class="custom-control-label"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <strong class="mb-0">Скрывать Основные продажи</strong>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input"
+                                                id="ARM_hideTabMainSales" />
+                                            <span class="custom-control-label"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <strong class="mb-0">Скрывать Кредиты</strong>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="ARM_hideTabLoans" />
+                                            <span class="custom-control-label"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button id="toggleMoneyCheckboxes" class="btn btn-outline-secondary">Скрыть все
+                                начисления</button>
+                        </div>
+                        <p>Скрытие остальных вкладок</p>
+                        <div class="list-group mb-5 shadow">
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <strong class="mb-0">Скрывать Агентское IPTV</strong>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="ARM_hideTabIPTV" />
+                                            <span class="custom-control-label"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <strong class="mb-0">Скрывать MVNO</strong>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="ARM_hideTabMVNO" />
+                                            <span class="custom-control-label"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <strong class="mb-0">Скрывать АвтоСП</strong>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input"
+                                                id="ARM_hideTabAVTOSP" />
+                                            <span class="custom-control-label"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <strong class="mb-0">Скрывать Портрет клиента</strong>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input"
+                                                id="ARM_hideTabPORTRET" />
+                                            <span class="custom-control-label"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <strong class="mb-0">Скрывать MNP</strong>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="ARM_hideTabMNP" />
+                                            <span class="custom-control-label"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <strong class="mb-0">Скрывать Диагностика</strong>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input"
+                                                id="ARM_hideTabDiagnostic" />
+                                            <span class="custom-control-label"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <strong class="mb-0">Скрывать Диагностика (New)</strong>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input"
+                                                id="ARM_hideTabDiagnosticNew" />
+                                            <span class="custom-control-label"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button id="toggleOtherCheckboxes" class="btn btn-outline-secondary">Скрыть все
+                                прочее</button>
+                        </div>
+                    </div>
+                </div>
+                <hr class="my-4" />
+                <strong class="mb-0">Линия</strong>
+                <p>Управление функционалом расширения на Линии. Для применения настроек нужно обновить страницу линии
+                </p>
+                <div class="list-group mb-5 shadow">
+                    <div class="list-group-item">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <strong class="mb-0">Быстрые кнопки</strong>
+                                <p class="text-muted mb-0">Jira, почта, ОКЦ, НТП2, обеды, АРМ, БЗ</p>
+                            </div>
+                            <div class="col-auto">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="LINE_showFastButtons" />
+                                    <span class="custom-control-label"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <strong class="mb-0">Подсветка назначений</strong>
+                                <p class="text-muted mb-0">Подсветка специалистов в назначениях отдельными цветами для
+                                    удобного отображения</p>
+                            </div>
+                            <div class="col-auto">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="LINE_highlightOperators" />
+                                    <span class="custom-control-label"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <strong class="mb-0">Кнопки дежурных</strong>
+                                <p class="text-muted mb-0">Прогноз SL, очередь вопросов, заглушки, предложка</p>
+                            </div>
+                            <div class="col-auto">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="LINE_dutyButtons" />
+                                    <span class="custom-control-label"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
+        </div>
+    </div>
 </body>
 
 </html>

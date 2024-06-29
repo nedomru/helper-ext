@@ -12,11 +12,7 @@
   document
     .getElementById("openSettings")
     .addEventListener("click", function () {
-      if (navigator.userAgent.includes("Chrome") == false) {
-        browser.runtime.openOptionsPage();
-      } else {
-        chrome.runtime.openOptionsPage();
-      }
+      browser.runtime.openOptionsPage();
     });
   document
     .getElementById("openTelegram")
@@ -29,7 +25,7 @@ async function handleFormSubmitMac(event) {
   event.preventDefault();
   const formData = new FormData(event.target);
   const inputField = formData.get("input-mac").trim();
-  const mac_regex = new RegExp("^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$");
+  const mac_regex = new RegExp("^([0-9A-Fa-f]{2}[:-]?){5}([0-9A-Fa-f]{2})$");
 
   // Проверка корректности ввода MAC адреса
   if (mac_regex.test(inputField) == false) {

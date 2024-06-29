@@ -1,63 +1,73 @@
 if (document.URL.indexOf("genesys-app1") != -1) {
-  if (navigator.userAgent.includes("Chrome") == false) {
-    browser.storage.local
-      .get(["showGenesysButtons", "hideUselessGenesysButtons"])
-      .then((result) => {
-        if (result.showGenesysButtons == true) {
-          genesysButtons();
-        }
+  const GENESYS_config = {
+    GENESYS_hideUselessButtons: hideUselessButtons,
+    GENESYS_showFastButtons: genesysButtons,
+    GENESYS_showOCTPLineStatus: otpcLineStatus,
+    GENESYS_hideChatHeader: hideHeader,
+  };
 
-        if (result.hideUselessGenesysButtons == true) {
-          hideUselessGenesysButtons();
-        }
-      });
-  } else {
-    chrome.storage.local.get(
-      ["showGenesysButtons", "hideUselessGenesysButtons"],
-      function (result) {
-        if (result.showLineButtons == true) {
-          genesysButtons();
-        }
-
-        if (result.hideUselessGenesysButtons == true) {
-          hideUselessGenesysButtons();
-        }
+  browser.storage.local.get(Object.keys(GENESYS_config)).then((result) => {
+    Object.keys(GENESYS_config).forEach((key) => {
+      if (result[key]) {
+        GENESYS_config[key]();
       }
-    );
-  }
+    });
+  });
 }
 
 function hideHeader() {
-  // TODO добавить выборочное скрытие заголовков
-  // TODO добавить включение/отключение опции в настройках
+  console.log(
+    `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Скрытие заголовка чата] Загружен модуль скрытия заголовков`
+  );
   setInterval(() => {
     var chatHeader = document.querySelector(".wwe-case-information-header");
     if (chatHeader) {
-      console.log("Хедер: найден");
-      if (chatHeader.getAttribute("aria-expanded") == "true") {
-        chatHeader.click();
-        console.log("Хедер: скрыт");
+      if (!chatHeader.classList.contains("was-hidden-by-helper")) {
+        if (chatHeader.getAttribute("aria-expanded") == "true") {
+          chatHeader.click();
+          chatHeader.classList.add("was-hidden-by-helper");
+          console.log(
+            `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Скрытие заголовка чата] Хедер чата: скрыт`
+          );
+        }
       }
-    } else {
-      console.log("Хедер: не найден");
     }
   }, 1000);
 }
 
-function hideUselessGenesysButtons() {
-  const intervalId = setInterval(() => {
-    document.querySelector("li.dropdown.account-help").remove();
-    document.querySelector('li a[aria-label="Facebook Draft"]').remove();
-    document.querySelector('li a[aria-label="Facebook In Progress"]').remove();
-    document.querySelector('li a[aria-label="Twitter Draft"]').remove();
-    document.querySelector('li a[aria-label="Twitter In Progress"]').remove();
-    document.querySelector('li a[aria-label="Моя статистика"]').remove();
-    document
-      .querySelector("li.wwe-tab-top a#wwe-workspace-tab-2")
-      .closest("li")
-      .remove();
-    clearTimeout(intervalId);
-  }, 1000);
+function hideUselessButtons() {
+  const buttonsToRemove = {
+    "account-help": "Кнопка помощи",
+    "Facebook In Progress": "Facebook In Progress",
+    "Facebook Draft": "Facebook Draft",
+    "Twitter In Progress": "Twitter In Progress",
+    "Twitter Draft": "Twitter Draft",
+  };
+  setTimeout(() => {
+    const interval = setInterval(() => {
+      Object.keys(buttonsToRemove).forEach((label) => {
+        try {
+          document.querySelector(`li a[aria-label="${label}"]`).remove();
+
+          console.log(
+            `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Бесполезные кнопки] Удалена кнопка ${
+              buttonsToRemove[label]
+            }`
+          );
+        } catch (e) {
+          console.log(
+            `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Бесполезные кнопки] Не найдена кнопка ${
+              buttonsToRemove[label]
+            }`
+          );
+        }
+      });
+      console.log(
+        `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Бесполезные кнопки] Все бесполезные кнопки удалены`
+      );
+      clearInterval(interval);
+    }, 1000);
+  }, 5000);
 }
 
 function genesysButtons() {
@@ -116,8 +126,8 @@ function genesysButtons() {
   const intervalId = setInterval(() => {
     let lineHeader = document.getElementById("break_window");
 
-    lineHeader.parentNode.insertBefore(buttonsDiv, lineHeader.nextSibling);
     if (lineHeader) {
+      lineHeader.parentNode.insertBefore(buttonsDiv, lineHeader.nextSibling);
       buttonsDiv.appendChild(chatMaster);
       buttonsDiv.appendChild(setupRouter);
       buttonsDiv.appendChild(setupDecoder);
@@ -125,6 +135,9 @@ function genesysButtons() {
       buttonsDiv.appendChild(ftpPC);
       buttonsDiv.appendChild(ftpMobile);
       clearInterval(intervalId);
+      console.log(
+        `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Быстрые кнопки] Добавлены быстрые кнопки`
+      );
     }
   }, 3000);
 }
@@ -165,4 +178,71 @@ function createGenesysLink(href, textContent, additionalStyles = {}) {
   });
 
   return button;
+}
+
+function otpcLineStatus() {
+  const token = "7320250134:AAH1AMMMgO1oJxYBXJeXQu50cS9pROwTE2I";
+
+  setInterval(() => {
+    var genesysTitle = document.querySelector(".title");
+    if (genesysTitle === null) {
+      return;
+    }
+    genesysTitle.style.textShadow = "2px 2px 4px rgba(0, 0, 0, 0.5)";
+    fetch(`https://api.telegram.org/bot${token}/getUpdates?offset=-1`, {
+      method: "GET",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((jsonData) => {
+        const result = jsonData.result;
+        if (result.length > 0) {
+          var current_status = result[0].channel_post.caption;
+          if (current_status === undefined) {
+            var current_status = result[0].channel_post.text;
+          }
+
+          var titleForStatus = "";
+          genesysTitle.textContent = "НЦК2: " + current_status;
+          if (current_status.includes("вкл") || current_status.includes("он")) {
+            genesysTitle.style.color = "#FF0000";
+            titleForStatus = "2+2 / 3+1\n";
+          } else {
+            genesysTitle.style.color = "#00FF00";
+            titleForStatus = "5+5 / 6+4\n";
+          }
+
+          var time_of_change = new Date(result[0].channel_post.date * 1000);
+          var hours = time_of_change.getHours();
+          var minutes = time_of_change.getMinutes();
+
+          if (hours < 10) {
+            hours = "0" + hours;
+          }
+
+          if (minutes < 10) {
+            minutes = "0" + minutes;
+          }
+          titleForStatus += "Время изменения: " + hours + ":" + minutes;
+          genesysTitle.setAttribute("title", titleForStatus);
+        } else {
+          console.log(
+            `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Аварийность] Изменений аварийности не найдено`
+          );
+        }
+      })
+      .catch((error) => {
+        console.error(
+          `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Аварийность] Ошибка:`,
+          error
+        );
+      });
+  }, 5000);
+  console.log(
+    `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Аварийность] Загружена аварийность НЦК2`
+  );
 }

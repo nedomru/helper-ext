@@ -1,155 +1,113 @@
 ﻿document.addEventListener("DOMContentLoaded", function () {
   // Загрузка сохраненных настроек
-  if (navigator.userAgent.includes("Chrome") == false) {
-    browser.storage.local
-      .get([
-        "hideSPAS",
-        "hideChatHeader",
-        "hideTabIPTV",
-        "hideTabMVNO",
-        "hideTabAVTOSP",
-        "hideTabPORTRET",
-        "hideTabABONEMENT",
-        "hideTabPL",
-        "hideTabInvoices",
-        "hideTabPayments",
-        "hideTabAutopayment",
-        "hideTabDiagnosticNew",
-        "hideTabSpecialOffers",
-        "hideTabBalanceLimit",
-        "hideTabMNP",
-        "hideTabMainSales",
-      ])
-      .then((result) => {
-        document.getElementById("hideSPAS").checked = result.hideSPAS || false;
+  const checkboxIds = [
+    "GENESYS_showFastButtons",
+    "GENESYS_hideUselessButtons",
+    "GENESYS_hideChatHeader",
+    "GENESYS_showOCTPLineStatus",
+    "ARM_hideSPAS",
+    "ARM_hideTabIPTV",
+    "ARM_hideTabMVNO",
+    "ARM_hideTabAVTOSP",
+    "ARM_hideTabPORTRET",
+    "ARM_hideTabABONEMENT",
+    "ARM_hideTabPL",
+    "ARM_hideTabInvoices",
+    "ARM_hideTabPayments",
+    "ARM_hideTabAutopayment",
+    "ARM_hideTabDiagnostic",
+    "ARM_hideTabDiagnosticNew",
+    "ARM_hideTabSpecialOffers",
+    "ARM_hideTabBalanceLimit",
+    "ARM_hideTabMNP",
+    "ARM_hideTabMainSales",
+    "ARM_hideTabLoans",
+    "ARM_checkWrongTransfer",
+    "ARM_checkSetToMe",
+    "LINE_highlightOperators",
+    "LINE_dutyButtons",
+    "LINE_showFastButtons",
+  ];
 
-        document.getElementById("hideTabIPTV").checked =
-          result.hideTabIPTV || false;
+  browser.storage.local.get(checkboxIds).then((result) => {
+    checkboxIds.forEach((id) => {
+      const checkbox = document.getElementById(id);
 
-        document.getElementById("hideTabMVNO").checked =
-          result.hideTabMVNO || false;
+      checkbox.checked = result[id] || false;
+    });
+  });
 
-        document.getElementById("hideTabAVTOSP").checked =
-          result.hideTabAVTOSP || false;
+  // Функция для обработчика изменения чекбоксов
 
-        document.getElementById("hideTabPORTRET").checked =
-          result.hideTabPORTRET || false;
+  function handleCheckboxChange(event) {
+    const setting = event.target.id;
 
-        document.getElementById("hideTabABONEMENT").checked =
-          result.hideTabABONEMENT || false;
+    const isChecked = event.target.checked;
 
-        document.getElementById("hideTabPL").checked =
-          result.hideTabPL || false;
+    browser.storage.local.set({ [setting]: isChecked });
 
-        document.getElementById("hideTabInvoices").checked =
-          result.hideTabInvoices || false;
-
-        document.getElementById("hideTabPayments").checked =
-          result.hideTabPayments || false;
-
-        document.getElementById("hideTabAutopayment").checked =
-          result.hideTabAutopayment || false;
-
-        document.getElementById("hideTabDiagnosticNew").checked =
-          result.hideTabDiagnosticNew || false;
-
-        document.getElementById("hideTabSpecialOffers").checked =
-          result.hideTabSpecialOffers || false;
-
-        document.getElementById("hideTabBalanceLimit").checked =
-          result.hideTabBalanceLimit || false;
-
-        document.getElementById("hideTabMNP").checked =
-          result.hideTabMNP || false;
-
-        document.getElementById("hideTabMainSales").checked =
-          result.hideTabMainSales || false;
-      });
-
-    document
-      .querySelectorAll(".custom-control-input")
-      .forEach(function (checkbox) {
-        checkbox.addEventListener("click", function (event) {
-          const setting = checkbox.id;
-          browser.storage.local.set({ [setting]: checkbox.checked });
-        });
-      });
-  } else {
-    chrome.storage.local.get(
-      [
-        "hideSPAS",
-        "hideChatHeader",
-        "hideTabIPTV",
-        "hideTabMVNO",
-        "hideTabAVTOSP",
-        "hideTabPORTRET",
-        "hideTabABONEMENT",
-        "hideTabPL",
-        "hideTabInvoices",
-        "hideTabPayments",
-        "hideTabAutopayment",
-        "hideTabDiagnosticNew",
-        "hideTabSpecialOffers",
-        "hideTabBalanceLimit",
-        "hideTabMNP",
-        "hideTabMainSales",
-      ],
-      function (result) {
-        document.getElementById("hideSPAS").checked = result.hideSPAS || false;
-
-        document.getElementById("hideTabIPTV").checked =
-          result.hideTabIPTV || false;
-
-        document.getElementById("hideTabMVNO").checked =
-          result.hideTabMVNO || false;
-
-        document.getElementById("hideTabAVTOSP").checked =
-          result.hideTabAVTOSP || false;
-
-        document.getElementById("hideTabPORTRET").checked =
-          result.hideTabPORTRET || false;
-
-        document.getElementById("hideTabABONEMENT").checked =
-          result.hideTabABONEMENT || false;
-
-        document.getElementById("hideTabPL").checked =
-          result.hideTabPL || false;
-
-        document.getElementById("hideTabInvoices").checked =
-          result.hideTabInvoices || false;
-
-        document.getElementById("hideTabPayments").checked =
-          result.hideTabPayments || false;
-
-        document.getElementById("hideTabAutopayment").checked =
-          result.hideTabAutopayment || false;
-
-        document.getElementById("hideTabDiagnosticNew").checked =
-          result.hideTabDiagnosticNew || false;
-
-        document.getElementById("hideTabSpecialOffers").checked =
-          result.hideTabSpecialOffers || false;
-
-        document.getElementById("hideTabBalanceLimit").checked =
-          result.hideTabBalanceLimit || false;
-
-        document.getElementById("hideTabMNP").checked =
-          result.hideTabMNP || false;
-
-        document.getElementById("hideTabMainSales").checked =
-          result.hideTabMainSales || false;
-      }
+    console.log(
+      `[${new Date().toLocaleTimeString()}] [Помощник] - [Настройки] Настройка ${setting} изменена на ${isChecked}`
     );
-
-    document
-      .querySelectorAll(".custom-control-input")
-      .forEach(function (checkbox) {
-        checkbox.addEventListener("click", function (event) {
-          const setting = checkbox.id;
-          chrome.storage.local.set({ [setting]: checkbox.checked });
-        });
-      });
   }
+
+  // Применение обработчика для всех чекбоксов
+
+  document.querySelectorAll(".custom-control-input").forEach((checkbox) => {
+    checkbox.addEventListener("change", handleCheckboxChange);
+  });
+
+  // Общая функция для кнопок с тогглами
+
+  function toggleCheckboxes(checkboxIds) {
+    checkboxIds.forEach((id) => {
+      document.getElementById(id).checked = true;
+    });
+
+    browser.storage.local.set(
+      checkboxIds.reduce((acc, id) => ({ ...acc, [id]: true }), {})
+    );
+  }
+
+  // Обработчик для кнопки "toggleMoneyButton"
+  const toggleMoneyButton = document.getElementById("toggleMoneyCheckboxes");
+  toggleMoneyButton.addEventListener("click", function () {
+    const moneyCheckboxIds = [
+      "ARM_hideTabABONEMENT",
+      "ARM_hideTabPL",
+      "ARM_hideTabInvoices",
+      "ARM_hideTabPayments",
+      "ARM_hideTabAutopayment",
+      "ARM_hideTabSpecialOffers",
+      "ARM_hideTabBalanceLimit",
+      "ARM_hideTabMainSales",
+      "ARM_hideTabLoans",
+    ];
+    toggleCheckboxes(moneyCheckboxIds);
+
+    console.log(
+      `[${new Date().toLocaleTimeString()}] [Помощник] - [Настройки] Скрыты вкладки начислений`
+    );
+  });
+
+  // Обработчик для кнопки "toggleOtherButton"
+  const toggleOtherButton = document.getElementById("toggleOtherCheckboxes");
+  toggleOtherButton.addEventListener("click", function () {
+    const otherCheckboxIds = [
+      "ARM_hideTabIPTV",
+      "ARM_hideTabMVNO",
+      "ARM_hideTabAVTOSP",
+      "ARM_hideTabPORTRET",
+      "ARM_hideTabMNP",
+      "ARM_hideTabDiagnostic",
+      "ARM_hideTabDiagnosticNew",
+    ];
+    toggleCheckboxes(otherCheckboxIds);
+
+    console.log(
+      `[${new Date().toLocaleTimeString()}] [Помощник] - [Настройки] Скрыты остальные вкладки`
+    );
+  });
 });
 
 function onError(error) {
