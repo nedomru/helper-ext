@@ -36,36 +36,32 @@ function hideHeader() {
 }
 
 function hideUselessButtons() {
-  const buttonsToRemove = {
-    "account-help": "Кнопка помощи",
-    "Facebook In Progress": "Facebook In Progress",
-    "Facebook Draft": "Facebook Draft",
-    "Twitter In Progress": "Twitter In Progress",
-    "Twitter Draft": "Twitter Draft",
-  };
+  const buttonsToRemove = [
+    "Facebook In Progress",
+    "Facebook Draft",
+    "Twitter In Progress",
+    "Twitter Draft",
+  ];
+
   setTimeout(() => {
     const interval = setInterval(() => {
-      Object.keys(buttonsToRemove).forEach((label) => {
-        try {
-          document.querySelector(`li a[aria-label="${label}"]`).remove();
-
-          console.log(
-            `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Бесполезные кнопки] Удалена кнопка ${
-              buttonsToRemove[label]
-            }`
-          );
-        } catch (e) {
-          console.log(
-            `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Бесполезные кнопки] Не найдена кнопка ${
-              buttonsToRemove[label]
-            }`
-          );
-        }
-      });
-      console.log(
-        `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Бесполезные кнопки] Все бесполезные кнопки удалены`
-      );
-      clearInterval(interval);
+      try {
+        buttonsToRemove.forEach((button) => {
+          console.log(button);
+          document
+            .querySelector(`a[title=""][aria-label="${button}"]`)
+            .remove();
+        });
+        document.querySelector(".dropdown.account-help").remove();
+        console.log(
+          `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Бесполезные кнопки] Все бесполезные кнопки удалены`
+        );
+        clearInterval(interval);
+      } catch (e) {
+        console.log(
+          `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Бесполезные кнопки] Не удалось удалить кнопку: ${e}`
+        );
+      }
     }, 1000);
   }, 5000);
 }
