@@ -111,14 +111,31 @@ if (
     existingButton.before(ts_aao, space3, online_cs, space1, octp_cs, space2);
 
     function handleOnlineCSClick() {
-      document.getElementById("change_class").click();
+      step = document.querySelector("#change_step_id");
+      if (step.value === "2296") {
+        $.notify("Обращение уже имеет класс КС - НЦК1");
+        return;
+      }
+
       $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
-      step = document.getElementById("change_step_id");
-      step.value = 2296;
-      step.dispatchEvent(changeEvent);
+
+      if (document.getElementById("change_class").checked === false) {
+        document.getElementById("change_class").click();
+      }
+
+      if (step.value === "1056") {
+        step.value = "2296";
+        step.dispatchEvent(changeEvent);
+        $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
+      } else {
+        step.value = "2296";
+      }
+
       objReason = document.querySelector(".uni_load_obj_reason");
-      objReason.value = 2123;
+      objReason.value = "2123";
       objReason.dispatchEvent(changeEvent);
+      $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
+
       console.log(
         `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на Онлайн вход - КС`
       );
@@ -126,14 +143,31 @@ if (
     }
 
     function handleOCTPCSClick() {
-      document.getElementById("change_class").click();
+      step = document.querySelector("#change_step_id");
+      if (step.value === "1520") {
+        $.notify("Обращение уже имеет класс КС - НЦК2");
+        return;
+      }
+
       $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
-      step = document.getElementById("change_step_id");
-      step.value = 1520;
-      step.dispatchEvent(changeEvent);
+
+      if (document.getElementById("change_class").checked === false) {
+        document.getElementById("change_class").click();
+      }
+
+      if (step.value === "1056") {
+        step.value = "1520";
+        step.dispatchEvent(changeEvent);
+        $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
+      } else {
+        step.value = "1520";
+      }
+
       objReason = document.querySelector(".uni_load_obj_reason");
-      objReason.value = 2123;
+      objReason.value = "2123";
       objReason.dispatchEvent(changeEvent);
+      $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
+
       console.log(
         `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на ОЦТП Исход - КС`
       );
@@ -141,14 +175,29 @@ if (
     }
 
     function handleTSAAOClick() {
-      document.getElementById("change_class").click();
+      step = document.querySelector("#change_step_id");
+      if (step.value === "1056") {
+        $.notify("Обращение уже имеет класс ТС/ААО");
+        return;
+      }
+
       $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
-      step = document.getElementById("change_step_id");
-      step.value = 1056;
-      step.dispatchEvent(changeEvent);
+
+      if (document.getElementById("change_class").checked === false) {
+        document.getElementById("change_class").click();
+      }
+
+      if (step.value != "1056") {
+        step.value = "1056";
+        step.dispatchEvent(changeEvent);
+        $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
+      }
+
       objReason = document.querySelector(".uni_load_obj_reason");
-      objReason.value = 1046;
+      objReason.value = "1046";
       objReason.dispatchEvent(changeEvent);
+      $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
+
       console.log(
         `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на ТС/ААО`
       );
