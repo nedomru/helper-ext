@@ -88,13 +88,13 @@ if (
     // Кнопка Онлайн-Вход-КС
     const online_cs = document.createElement("input");
     online_cs.setAttribute("type", "button");
-    online_cs.setAttribute("class", "btn btn-sm btn-danger");
+    online_cs.setAttribute("class", "btn btn-sm btn-warning");
     online_cs.setAttribute("value", "КС - НЦК1");
 
     // Кнопка ОЦТП-Исход-КС
     const octp_cs = document.createElement("input");
     octp_cs.setAttribute("type", "button");
-    octp_cs.setAttribute("class", "btn btn-sm btn-danger");
+    octp_cs.setAttribute("class", "btn btn-sm btn-warning");
     octp_cs.setAttribute("value", "КС - НЦК2");
 
     // Кнопка ТС/ААО
@@ -108,45 +108,51 @@ if (
     ts_aao.addEventListener("click", handleTSAAOClick);
 
     // Вставляем новую кнопку после существующей кнопки
-    existingButton.before(online_cs, space1, octp_cs, space2, ts_aao, space3);
+    existingButton.before(ts_aao, space3, online_cs, space1, octp_cs, space2);
 
     function handleOnlineCSClick() {
       document.getElementById("change_class").click();
       $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
-      $("#change_step_id").val(2296);
+      step = document.getElementById("change_step_id");
+      step.value = 2296;
+      step.dispatchEvent(changeEvent);
       objReason = document.querySelector(".uni_load_obj_reason");
       objReason.value = 2123;
       objReason.dispatchEvent(changeEvent);
       console.log(
         `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на Онлайн вход - КС`
       );
-      $.notify("Класс обращения изменен");
+      $.notify("Обращение изменено: Онлайн вход - КС", "success");
     }
 
     function handleOCTPCSClick() {
       document.getElementById("change_class").click();
       $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
-      $("#change_step_id").val(1520);
+      step = document.getElementById("change_step_id");
+      step.value = 1520;
+      step.dispatchEvent(changeEvent);
       objReason = document.querySelector(".uni_load_obj_reason");
       objReason.value = 2123;
       objReason.dispatchEvent(changeEvent);
       console.log(
         `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на ОЦТП Исход - КС`
       );
-      $.notify("Класс обращения изменен");
+      $.notify("Обращение изменено на ОЦТП Исход - КС", "success");
     }
 
     function handleTSAAOClick() {
       document.getElementById("change_class").click();
       $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
-      $("#change_step_id").val(1056);
+      step = document.getElementById("change_step_id");
+      step.value = 1056;
+      step.dispatchEvent(changeEvent);
       objReason = document.querySelector(".uni_load_obj_reason");
       objReason.value = 1046;
       objReason.dispatchEvent(changeEvent);
       console.log(
         `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на ТС/ААО`
       );
-      $.notify("Класс обращения изменен");
+      $.notify("Обращение изменено на ТС/ААО", "success");
     }
   }
 }
