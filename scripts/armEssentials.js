@@ -111,9 +111,21 @@ if (
     existingButton.before(ts_aao, space3, online_cs, space1, octp_cs, space2);
 
     function handleOnlineCSClick() {
+      current_step = document.querySelector("#current_step");
+      console.log(current_step.innerText);
+      if (current_step.innerText === "ОЦТП - Исходящая связь") {
+        $.notify("Изменить обращение на Онлайн Вход нельзя");
+        console.log(
+          `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Запрет на смену класса на Онлайн `
+        );
+        return;
+      }
       step = document.querySelector("#change_step_id");
       if (step.value === "2296") {
         $.notify("Обращение уже имеет класс КС - НЦК1");
+        console.log(
+          `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение уже имеет класс КС - НЦК1`
+        );
         return;
       }
 
@@ -146,6 +158,9 @@ if (
       step = document.querySelector("#change_step_id");
       if (step.value === "1520") {
         $.notify("Обращение уже имеет класс КС - НЦК2");
+        console.log(
+          `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение уже имеет класс КС - НЦК2`
+        );
         return;
       }
 
