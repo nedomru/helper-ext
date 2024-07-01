@@ -348,8 +348,10 @@ function createLinkTab(id, href, iconClass, textContent) {
   iconDiv.className = "v-list-item__icon";
   const icon = document.createElement("i");
   icon.setAttribute("aria-hidden", "true");
-  icon.color = theme === "dark" ? "white" : "black";
-  icon.className = `v-icon notranslate ${iconClass}`;
+  // icon.color = theme === "dark" ? "white" : "black";
+  icon.className = `v-icon notranslate ${iconClass} ${
+    theme === "dark" ? "theme--dark" : "theme--light"
+  }`;
   iconDiv.appendChild(icon);
 
   const titleDiv = document.createElement("div");
@@ -463,7 +465,7 @@ function updateNeededSL() {
     ".v-icon.header-stat-icon.mr-1.mdi.mdi-chart-line.grey--text.text--lighten-3"
   );
 
-  var interval = setInterval(() => {
+  function getSL() {
     fetch(url, {
       credentials: "include",
       headers: {
@@ -479,7 +481,7 @@ function updateNeededSL() {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        response.json();
+        return response.json();
       })
       .then((data) => {
         half_time_data = data.halfHourReport.data.find(
@@ -487,21 +489,27 @@ function updateNeededSL() {
         );
         const title_to_display = `Прогноз на ${half_time_data["HALF_HOUR_TEXT"]}
 
+Прогнозный SL: ${data.daySl.SL}
 Прогноз чатов: ${half_time_data["FORECAST_CHATS"]}
 Разница людей: ${half_time_data["DIFF_USERS"]}
 Нужно держать ${data.daySl.NeededSl} SL
 Прогноз SL: ${half_time_data["FORECAST_SL"]}`;
         element.title = title_to_display;
         console.log(
-          `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Прогноз SL] Обновлен прогноз`
+          `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Прогноз SL] Обновлен прогноз SL`
         );
       })
       .catch((error) => {
         console.log(
           `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Прогноз SL] Ошибка: ${error}. Прогноз отключен.`
         );
+        $.notify("Не удалось получить прогноз SL. Прогноз отключен.");
         clearInterval(interval);
         browser.storage.local.set({ LINE_updateNeededSL: false });
       });
-  }, 5000);
+  }
+  getSL();
+  var interval = setInterval(() => {
+    getSL();
+  }, 10000);
 }
