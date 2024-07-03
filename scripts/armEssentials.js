@@ -32,6 +32,7 @@ if (
       .map((key) => ARM_config[key]);
 
     deleteTabs(tabsToDelete);
+    setHelperAnticipation();
   });
 
   copyAddress();
@@ -290,14 +291,11 @@ function deleteTabs(tabList) {
 }
 
 // Скрытие предвосхищения
-function hideSPAS() {
+function setHelperAnticipation() {
   var button = document.getElementsByClassName(
     "btn btn-primary top_3_butt btn-xs"
   )[0];
   button.textContent = "Помощник";
-
-  // Своваричаем предвосхищение
-  document.getElementById("collapse-top-3").className = "collapse";
 
   const observerSPAS = new MutationObserver((mutationsList, observer) => {
     for (const mutation of mutationsList) {
@@ -628,6 +626,11 @@ function hideSPAS() {
   );
 }
 
+function hideSPAS() {
+  // Своваричаем предвосхищение
+  document.getElementById("collapse-top-3").className = "collapse";
+}
+
 function copyTextToClipboard(text) {
   var textarea = document.createElement("textarea");
   textarea.value = text;
@@ -680,20 +683,20 @@ function copyAddress() {
 
     copyTextToClipboard(address_text);
     $.notify("Адрес скопирован", "success");
+    sendLog(
+      (type = "INFO"),
+      (extClass = "АРМ"),
+      (extFunction = "Копирование адреса"),
+      (message = `Адрес скопирован:%0A<i>${address_text}</i>`),
+      (agreement = document
+        .getElementById("agr_with_type")
+        .innerText.match(/\d{12}/)[0])
+    );
   });
 
   address.appendChild(lineBreak);
   address.appendChild(copyButton);
 
-  sendLog(
-    (type = "INFO"),
-    (extClass = "АРМ"),
-    (extFunction = "Копирование адреса"),
-    (message = `Добавлена кнопка копирования адреса. Адрес:%0A<i>${address_text}</i>`),
-    (agreement = document
-      .getElementById("agr_with_type")
-      .innerText.match(/\d{12}/)[0])
-  );
   console.log(
     `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Копирование адреса] Добавлена кнопка копирования адреса`
   );
@@ -733,20 +736,20 @@ function copyClientCard() {
 
     copyTextToClipboard(clienCardText);
     $.notify("Карточка скопирована", "success");
+    sendLog(
+      (type = "INFO"),
+      (extClass = "АРМ"),
+      (extFunction = "Копирование карточки"),
+      (message = `Скопирована карточка клиента`),
+      (agreement = document
+        .getElementById("agr_with_type")
+        .innerText.match(/\d{12}/)[0])
+    );
   });
 
   clientCard.appendChild(lineBreak);
   clientCard.appendChild(copyButton);
 
-  sendLog(
-    (type = "INFO"),
-    (extClass = "АРМ"),
-    (extFunction = "Копирование карточки"),
-    (message = `Добавлена кнопка копирования карточки`),
-    (agreement = document
-      .getElementById("agr_with_type")
-      .innerText.match(/\d{12}/)[0])
-  );
   console.log(
     `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Копирование карточки] Добавлена кнопка копирования карточки`
   );
@@ -769,18 +772,18 @@ function copyClientAgreement() {
 
     copyTextToClipboard(agreement_number.textContent);
     $.notify("Номер договора скопирован", "success");
+    sendLog(
+      (type = "INFO"),
+      (extClass = "АРМ"),
+      (extFunction = "Копирование договора"),
+      (message = `Скопирован номер договора`),
+      (agreement = agreement_number.textContent)
+    );
   });
 
   agreementBeforeTab.appendChild(lineBreak);
   agreementBeforeTab.appendChild(copyButton);
 
-  sendLog(
-    (type = "INFO"),
-    (extClass = "АРМ"),
-    (extFunction = "Копирование договора"),
-    (message = `Добавлена кнопка копирования договора`),
-    (agreement = agreement_number.textContent)
-  );
   console.log(
     `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Копирование договора] Добавлена кнопка копирования договора`
   );
