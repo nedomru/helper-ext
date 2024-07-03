@@ -3,10 +3,7 @@ if (document.URL.indexOf("genesys-ntp") != -1) {
     { name: "Хохлов Сергей Евгеньевич", link: "https://t.me/viijko" },
     { name: "Захарова Дарья Игоревна", link: "https://t.me/zakharovadi2" },
     { name: "Шуваева Мария Сергеевна", link: "https://t.me/mariahajime" },
-    {
-      name: "Мерионкова Екатерина Сергеевна",
-      link: "https://t.me/ktmrnkv",
-    },
+    { name: "Мерионкова Екатерина Сергеевна", link: "https://t.me/ktmrnkv" },
     { name: "Чурсанова Дарья Алексеевна", link: "https://t.me/UtyugBB" },
     {
       name: "Беседнова Виктория Валерьевна",
@@ -16,7 +13,16 @@ if (document.URL.indexOf("genesys-ntp") != -1) {
       name: "Омельченко Артур Андреевич",
       link: "https://t.me/ArthurOmelchenko",
     },
+    {
+      name: "Мелехина Валерия Анатольевна",
+      link: "https://t.me/leramegera",
+    },
+    {
+      name: "Белявский Артем Игоревич",
+      link: "https://t.me/artem_allo",
+    },
   ];
+
   countAppointments();
   const LINE_config = {
     LINE_showFastButtons: fastButtons,
@@ -80,6 +86,12 @@ function dutyButtons() {
       }
     } catch {}
   }, 1000);
+  sendLog(
+    (type = "INFO"),
+    (extClass = "Линия"),
+    (extFunction = "Кнопки дежурных"),
+    (message = "Добавлены кнопки дежурного")
+  );
   console.log(
     `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Кнопки дежурных] Добавлены кнопки дежурного`
   );
@@ -254,6 +266,12 @@ function fastButtons() {
   buttonsDiv.appendChild(wfm);
   //buttonsDiv.appendChild(arm);
   buttonsDiv.appendChild(clever);
+  sendLog(
+    (type = "INFO"),
+    (extClass = "Линия"),
+    (extFunction = "Быстрые кнопки"),
+    (message = "Добавлены быстрые кнопки на линию")
+  );
   console.log(
     `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Быстрые кнопки] Добавлены быстрые кнопки на линию`
   );
@@ -261,6 +279,16 @@ function fastButtons() {
 
 // Подсветка операторов с определенными классами на линии
 function highlightOperators() {
+  sendLog(
+    (type = "INFO"),
+    (extClass = "Линия"),
+    (extFunction = "Подсветка операторов"),
+    (message = "Активирован модуль подсветки")
+  );
+  console.log(
+    `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Подсветка операторов] Активирован модуль подсветки`
+  );
+
   const projects = "Проектная деятельность";
   const rsg = "Задачи от руководителя группы";
   const learning = "Обучение";
@@ -320,9 +348,6 @@ function highlightOperators() {
       );
     }, 5000);
   }
-  console.log(
-    `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Подсветка операторов] Подсветка активирована`
-  );
   return () => clearInterval(interval);
 }
 
@@ -430,6 +455,12 @@ function countAppointments() {
 }
 
 function updateNeededSL() {
+  sendLog(
+    (type = "INFO"),
+    (extClass = "Линия"),
+    (extFunction = "Прогноз SL"),
+    (message = "Загружен модуль прогнозирования SL")
+  );
   console.log(
     `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Прогноз SL] Загружен модуль прогнозирования SL`
   );
@@ -500,6 +531,12 @@ function updateNeededSL() {
         );
       })
       .catch((error) => {
+        sendLog(
+          (type = "INFO"),
+          (extClass = "Линия"),
+          (extFunction = "Прогноз SL"),
+          (message = `Ошибка: ${error}. Прогноз отключен.`)
+        );
         console.log(
           `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Прогноз SL] Ошибка: ${error}. Прогноз отключен.`
         );

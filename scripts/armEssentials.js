@@ -60,6 +60,14 @@ if (
     if (radioButton) {
       radioButton.removeAttribute("disabled");
       radioButton.click();
+
+      sendLog(
+        (type = "INFO"),
+        (extClass = "АРМ"),
+        (extFunction = "Обращения"),
+        (message = `Отмечено как не ошибочное`),
+        (agreement = document.querySelector('input[name="agr_num"]').value)
+      );
       console.log(
         `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Отмечено как не ошибочное`
       );
@@ -112,9 +120,15 @@ if (
 
     function handleOnlineCSClick() {
       current_step = document.querySelector("#current_step");
-      console.log(current_step.innerText);
       if (current_step.innerText === "ОЦТП - Исходящая связь") {
         $.notify("Изменить обращение на Онлайн Вход нельзя");
+        sendLog(
+          (type = "ERROR"),
+          (extClass = "АРМ"),
+          (extFunction = "Обращения"),
+          (message = `Запрет на смену класса. Смена на Онлайн Вход - недоступно`),
+          (agreement = document.querySelector('input[name="agr_num"]').value)
+        );
         console.log(
           `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Запрет на смену класса на Онлайн `
         );
@@ -123,6 +137,13 @@ if (
       step = document.querySelector("#change_step_id");
       if (step.value === "2296") {
         $.notify("Обращение уже имеет класс КС - НЦК1");
+        sendLog(
+          (type = "ERROR"),
+          (extClass = "АРМ"),
+          (extFunction = "Обращения"),
+          (message = `Запрет на смену класса. Обращение уже имеет класс КС - НЦК1`),
+          (agreement = document.querySelector('input[name="agr_num"]').value)
+        );
         console.log(
           `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение уже имеет класс КС - НЦК1`
         );
@@ -148,9 +169,17 @@ if (
       objReason.dispatchEvent(changeEvent);
       $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
 
+      sendLog(
+        (type = "INFO"),
+        (extClass = "АРМ"),
+        (extFunction = "Обращения"),
+        (message = `Обращение изменено на Онлайн вход - КС`),
+        (agreement = document.querySelector('input[name="agr_num"]').value)
+      );
       console.log(
         `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на Онлайн вход - КС`
       );
+
       $.notify("Обращение изменено: Онлайн вход - КС", "success");
     }
 
@@ -183,6 +212,13 @@ if (
       objReason.dispatchEvent(changeEvent);
       $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
 
+      sendLog(
+        (type = "INFO"),
+        (extClass = "АРМ"),
+        (extFunction = "Обращения"),
+        (message = `Обращение изменено на ОЦТП Исход - КС`),
+        (agreement = document.querySelector('input[name="agr_num"]').value)
+      );
       console.log(
         `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на ОЦТП Исход - КС`
       );
@@ -213,6 +249,13 @@ if (
       objReason.dispatchEvent(changeEvent);
       $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
 
+      sendLog(
+        (type = "INFO"),
+        (extClass = "АРМ"),
+        (extFunction = "Обращения"),
+        (message = `Обращение изменено на ТС - ААО`),
+        (agreement = document.querySelector('input[name="agr_num"]').value)
+      );
       console.log(
         `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на ТС/ААО`
       );
@@ -231,8 +274,18 @@ function deleteTabs(tabList) {
       item.remove();
     }
   });
+
+  sendLog(
+    (type = "INFO"),
+    (extClass = "АРМ"),
+    (extFunction = "Удаление вкладок"),
+    (message = `Удалены вкладки на договоре:%0A<i>${tabList}</i>`),
+    (agreement = document
+      .getElementById("agr_with_type")
+      .innerText.match(/\d{12}/)[0])
+  );
   console.log(
-    `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Удаление вкладок] Вкладки удалены`
+    `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Удаление вкладок] Вкладки удалены: ${tabList}`
   );
 }
 
@@ -294,6 +347,16 @@ function hideSPAS() {
     button.innerHTML += " | СПАС";
     button.style.backgroundColor = "#cc3300";
     problems++;
+
+    sendLog(
+      (type = "INFO"),
+      (extClass = "АРМ"),
+      (extFunction = "Предвосхищение"),
+      (message = `Найден СПАС`),
+      (agreement = document
+        .getElementById("agr_with_type")
+        .innerText.match(/\d{12}/)[0])
+    );
     console.log(
       `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден СПАС`
     );
@@ -308,6 +371,16 @@ function hideSPAS() {
         problems++;
         observerSPAS.disconnect();
         clearTimeout(timeout);
+
+        sendLog(
+          (type = "INFO"),
+          (extClass = "АРМ"),
+          (extFunction = "Предвосхищение"),
+          (message = `Найден СПАС`),
+          (agreement = document
+            .getElementById("agr_with_type")
+            .innerText.match(/\d{12}/)[0])
+        );
         console.log(
           `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден СПАС`
         );
@@ -327,6 +400,16 @@ function hideSPAS() {
         button.innerHTML += " | Доступ";
         button.style.backgroundColor = "#cc3300";
         problems++;
+
+        sendLog(
+          (type = "INFO"),
+          (extClass = "АРМ"),
+          (extFunction = "Предвосхищение"),
+          (message = `Найден закрытый доступ`),
+          (agreement = document
+            .getElementById("agr_with_type")
+            .innerText.match(/\d{12}/)[0])
+        );
         console.log(
           `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден закрытый доступ`
         );
@@ -344,6 +427,16 @@ function hideSPAS() {
           problems++;
           observerAccess.disconnect();
           clearTimeout(timeout);
+
+          sendLog(
+            (type = "INFO"),
+            (extClass = "АРМ"),
+            (extFunction = "Предвосхищение"),
+            (message = `Найден закрытый доступ`),
+            (agreement = document
+              .getElementById("agr_with_type")
+              .innerText.match(/\d{12}/)[0])
+          );
           console.log(
             `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден закрытый доступ`
           );
@@ -364,6 +457,16 @@ function hideSPAS() {
         button.innerHTML += " | Авария";
         button.style.backgroundColor = "#cc3300";
         problems++;
+
+        sendLog(
+          (type = "INFO"),
+          (extClass = "АРМ"),
+          (extFunction = "Предвосхищение"),
+          (message = `Найдена авария`),
+          (agreement = document
+            .getElementById("agr_with_type")
+            .innerText.match(/\d{12}/)[0])
+        );
         console.log(
           `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найдена авария`
         );
@@ -381,6 +484,16 @@ function hideSPAS() {
           problems++;
           observerAccess.disconnect();
           clearTimeout(timeout);
+
+          sendLog(
+            (type = "INFO"),
+            (extClass = "АРМ"),
+            (extFunction = "Предвосхищение"),
+            (message = `Найдена авария`),
+            (agreement = document
+              .getElementById("agr_with_type")
+              .innerText.match(/\d{12}/)[0])
+          );
           console.log(
             `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найдена авария`
           );
@@ -401,6 +514,16 @@ function hideSPAS() {
         button.innerHTML += " | ППР";
         button.style.backgroundColor = "#cc3300";
         problems++;
+
+        sendLog(
+          (type = "INFO"),
+          (extClass = "АРМ"),
+          (extFunction = "Предвосхищение"),
+          (message = `Найден ППР`),
+          (agreement = document
+            .getElementById("agr_with_type")
+            .innerText.match(/\d{12}/)[0])
+        );
         console.log(
           `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден ППР`
         );
@@ -418,6 +541,16 @@ function hideSPAS() {
           problems++;
           observerPPR.disconnect();
           clearTimeout(timeout);
+
+          sendLog(
+            (type = "INFO"),
+            (extClass = "АРМ"),
+            (extFunction = "Предвосхищение"),
+            (message = `Найден ППР`),
+            (agreement = document
+              .getElementById("agr_with_type")
+              .innerText.match(/\d{12}/)[0])
+          );
           console.log(
             `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден ППР`
           );
@@ -438,6 +571,16 @@ function hideSPAS() {
         button.innerHTML += " | Особый";
         button.style.backgroundColor = "#cc3300";
         problems++;
+
+        sendLog(
+          (type = "INFO"),
+          (extClass = "АРМ"),
+          (extFunction = "Предвосхищение"),
+          (message = `Найден особый клиент`),
+          (agreement = document
+            .getElementById("agr_with_type")
+            .innerText.match(/\d{12}/)[0])
+        );
         console.log(
           `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден особый клиент`
         );
@@ -455,6 +598,16 @@ function hideSPAS() {
           problems++;
           observerSpecial.disconnect();
           clearTimeout(timeout);
+
+          sendLog(
+            (type = "INFO"),
+            (extClass = "АРМ"),
+            (extFunction = "Предвосхищение"),
+            (message = `Найден особый клиент`),
+            (agreement = document
+              .getElementById("agr_with_type")
+              .innerText.match(/\d{12}/)[0])
+          );
           console.log(
             `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден особый клиент`
           );
@@ -531,6 +684,16 @@ function copyAddress() {
 
   address.appendChild(lineBreak);
   address.appendChild(copyButton);
+
+  sendLog(
+    (type = "INFO"),
+    (extClass = "АРМ"),
+    (extFunction = "Копирование адреса"),
+    (message = `Добавлена кнопка копирования адреса. Адрес:%0A<i>${address_text}</i>`),
+    (agreement = document
+      .getElementById("agr_with_type")
+      .innerText.match(/\d{12}/)[0])
+  );
   console.log(
     `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Копирование адреса] Добавлена кнопка копирования адреса`
   );
@@ -574,6 +737,16 @@ function copyClientCard() {
 
   clientCard.appendChild(lineBreak);
   clientCard.appendChild(copyButton);
+
+  sendLog(
+    (type = "INFO"),
+    (extClass = "АРМ"),
+    (extFunction = "Копирование карточки"),
+    (message = `Добавлена кнопка копирования карточки`),
+    (agreement = document
+      .getElementById("agr_with_type")
+      .innerText.match(/\d{12}/)[0])
+  );
   console.log(
     `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Копирование карточки] Добавлена кнопка копирования карточки`
   );
@@ -600,7 +773,15 @@ function copyClientAgreement() {
 
   agreementBeforeTab.appendChild(lineBreak);
   agreementBeforeTab.appendChild(copyButton);
+
+  sendLog(
+    (type = "INFO"),
+    (extClass = "АРМ"),
+    (extFunction = "Копирование договора"),
+    (message = `Добавлена кнопка копирования договора`),
+    (agreement = agreement_number.textContent)
+  );
   console.log(
-    `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] Добавлена кнопка копирования договора`
+    `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Копирование договора] Добавлена кнопка копирования договора`
   );
 }

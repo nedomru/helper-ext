@@ -16,6 +16,12 @@ if (document.URL.indexOf("genesys-app1") != -1) {
 }
 
 function hideHeader() {
+  sendLog(
+    (type = "INFO"),
+    (extClass = "Генезис"),
+    (extFunction = "Скрытие заголовка чата"),
+    (message = `Загружен модуль скрытия заголовков`)
+  );
   console.log(
     `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Скрытие заголовка чата] Загружен модуль скрытия заголовков`
   );
@@ -47,17 +53,29 @@ function hideUselessButtons() {
     const interval = setInterval(() => {
       try {
         buttonsToRemove.forEach((button) => {
-          console.log(button);
           document
             .querySelector(`a[title=""][aria-label="${button}"]`)
             .remove();
         });
         document.querySelector(".dropdown.account-help").remove();
+
+        sendLog(
+          (type = "INFO"),
+          (extClass = "Генезис"),
+          (extFunction = "Бесполезные кнопки"),
+          (message = `Все бесполезные кнопки удалены`)
+        );
         console.log(
           `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Бесполезные кнопки] Все бесполезные кнопки удалены`
         );
         clearInterval(interval);
       } catch (e) {
+        sendLog(
+          (type = "INFO"),
+          (extClass = "Генезис"),
+          (extFunction = "Бесполезные кнопки"),
+          (message = `Не удалось удалить кнопку: ${e}`)
+        );
         console.log(
           `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Бесполезные кнопки] Не удалось удалить кнопку: ${e}`
         );
@@ -131,6 +149,13 @@ function genesysButtons() {
       buttonsDiv.appendChild(ftpPC);
       buttonsDiv.appendChild(ftpMobile);
       clearInterval(intervalId);
+
+      sendLog(
+        (type = "INFO"),
+        (extClass = "Генезис"),
+        (extFunction = "Быстрые кнопки"),
+        (message = `Добавлены быстрые кнопки`)
+      );
       console.log(
         `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Быстрые кнопки] Добавлены быстрые кнопки`
       );
@@ -179,7 +204,7 @@ function createGenesysLink(href, textContent, additionalStyles = {}) {
 function otpcLineStatus() {
   const token = "7320250134:AAH1AMMMgO1oJxYBXJeXQu50cS9pROwTE2I";
 
-  setInterval(() => {
+  function getLineUpdate() {
     var genesysTitle = document.querySelector(".title");
     if (genesysTitle === null) {
       return;
@@ -237,7 +262,19 @@ function otpcLineStatus() {
           error
         );
       });
+  }
+  getLineUpdate();
+
+  setInterval(() => {
+    getLineUpdate();
   }, 5000);
+
+  sendLog(
+    (type = "INFO"),
+    (extClass = "Генезис"),
+    (extFunction = "Аварийность"),
+    (message = `Загружена аварийность НЦК2`)
+  );
   console.log(
     `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Аварийность] Загружена аварийность НЦК2`
   );
