@@ -24,7 +24,6 @@
         "scripts/highlights.js",
         "scripts/sections.js",
         "scripts/jquery.min.js",
-        "scripts/notify.min.js",
         "scripts/notify.js",
         "scripts/tgLogger.js",
         "scripts/popup.js",
