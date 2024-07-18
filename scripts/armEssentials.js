@@ -45,7 +45,8 @@ if (
     "db.ertelecom.ru/cgi-bin/ppo/excells/wcc_request_appl_support.change_request_appl"
   )
 ) {
-  dutyButtons();
+  fastButtons();
+  showClientAgreementOnChangeRequest();
 
   browser.storage.local
     .get(["ARM_checkWrongTransfer", "ARM_checkSetToMe"])
@@ -81,7 +82,7 @@ if (
     checkbox.checked = false;
   }
 
-  function dutyButtons() {
+  function fastButtons() {
     var changeEvent = new Event("change", {
       bubbles: true,
       cancelable: true,
@@ -283,18 +284,20 @@ function deleteTabs(tabList) {
     (message = `Удалены вкладки на договоре:%0A<i>${tabList}</i>`),
     (agreement = document
       .getElementById("agr_with_type")
-      .innerText.match(/\d{12}/)[0])
+      .innerText.match(/\d{12}/)[0]),
+    (specialist = document
+      .querySelector(".floatright")
+      .innerText.match(/Вошел как:\u00a0(.*?)\u00a0\|/)[1]
+      .trim())
   );
   console.log(
     `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Удаление вкладок] Вкладки удалены: ${tabList}`
   );
 }
 
-// Скрытие предвосхищения
+// Замена предвосхищения
 function setHelperAnticipation() {
-  var button = document.getElementsByClassName(
-    "btn btn-primary top_3_butt btn-xs"
-  )[0];
+  var button = document.querySelector(".top_3_butt");
   button.textContent = "Помощник";
 
   const observerSPAS = new MutationObserver((mutationsList, observer) => {
@@ -353,7 +356,11 @@ function setHelperAnticipation() {
       (message = `Найден СПАС`),
       (agreement = document
         .getElementById("agr_with_type")
-        .innerText.match(/\d{12}/)[0])
+        .innerText.match(/\d{12}/)[0]),
+      (specialist = document
+        .querySelector(".floatright")
+        .innerText.match(/Вошел как:\u00a0(.*?)\u00a0\|/)[1]
+        .trim())
     );
     console.log(
       `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден СПАС`
@@ -377,7 +384,11 @@ function setHelperAnticipation() {
           (message = `Найден СПАС`),
           (agreement = document
             .getElementById("agr_with_type")
-            .innerText.match(/\d{12}/)[0])
+            .innerText.match(/\d{12}/)[0]),
+          (specialist = document
+            .querySelector(".floatright")
+            .innerText.match(/Вошел как:\u00a0(.*?)\u00a0\|/)[1]
+            .trim())
         );
         console.log(
           `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден СПАС`
@@ -406,7 +417,11 @@ function setHelperAnticipation() {
           (message = `Найден закрытый доступ`),
           (agreement = document
             .getElementById("agr_with_type")
-            .innerText.match(/\d{12}/)[0])
+            .innerText.match(/\d{12}/)[0]),
+          (specialist = document
+            .querySelector(".floatright")
+            .innerText.match(/Вошел как:\u00a0(.*?)\u00a0\|/)[1]
+            .trim())
         );
         console.log(
           `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден закрытый доступ`
@@ -433,7 +448,11 @@ function setHelperAnticipation() {
             (message = `Найден закрытый доступ`),
             (agreement = document
               .getElementById("agr_with_type")
-              .innerText.match(/\d{12}/)[0])
+              .innerText.match(/\d{12}/)[0]),
+            (specialist = document
+              .querySelector(".floatright")
+              .innerText.match(/Вошел как:\u00a0(.*?)\u00a0\|/)[1]
+              .trim())
           );
           console.log(
             `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден закрытый доступ`
@@ -463,7 +482,11 @@ function setHelperAnticipation() {
           (message = `Найдена авария`),
           (agreement = document
             .getElementById("agr_with_type")
-            .innerText.match(/\d{12}/)[0])
+            .innerText.match(/\d{12}/)[0]),
+          (specialist = document
+            .querySelector(".floatright")
+            .innerText.match(/Вошел как:\u00a0(.*?)\u00a0\|/)[1]
+            .trim())
         );
         console.log(
           `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найдена авария`
@@ -490,7 +513,11 @@ function setHelperAnticipation() {
             (message = `Найдена авария`),
             (agreement = document
               .getElementById("agr_with_type")
-              .innerText.match(/\d{12}/)[0])
+              .innerText.match(/\d{12}/)[0]),
+            (specialist = document
+              .querySelector(".floatright")
+              .innerText.match(/Вошел как:\u00a0(.*?)\u00a0\|/)[1]
+              .trim())
           );
           console.log(
             `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найдена авария`
@@ -520,7 +547,11 @@ function setHelperAnticipation() {
           (message = `Найден ППР`),
           (agreement = document
             .getElementById("agr_with_type")
-            .innerText.match(/\d{12}/)[0])
+            .innerText.match(/\d{12}/)[0]),
+          (specialist = document
+            .querySelector(".floatright")
+            .innerText.match(/Вошел как:\u00a0(.*?)\u00a0\|/)[1]
+            .trim())
         );
         console.log(
           `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден ППР`
@@ -547,7 +578,11 @@ function setHelperAnticipation() {
             (message = `Найден ППР`),
             (agreement = document
               .getElementById("agr_with_type")
-              .innerText.match(/\d{12}/)[0])
+              .innerText.match(/\d{12}/)[0]),
+            (specialist = document
+              .querySelector(".floatright")
+              .innerText.match(/Вошел как:\u00a0(.*?)\u00a0\|/)[1]
+              .trim())
           );
           console.log(
             `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден ППР`
@@ -577,7 +612,11 @@ function setHelperAnticipation() {
           (message = `Найден особый клиент`),
           (agreement = document
             .getElementById("agr_with_type")
-            .innerText.match(/\d{12}/)[0])
+            .innerText.match(/\d{12}/)[0]),
+          (specialist = document
+            .querySelector(".floatright")
+            .innerText.match(/Вошел как:\u00a0(.*?)\u00a0\|/)[1]
+            .trim())
         );
         console.log(
           `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден особый клиент`
@@ -604,7 +643,11 @@ function setHelperAnticipation() {
             (message = `Найден особый клиент`),
             (agreement = document
               .getElementById("agr_with_type")
-              .innerText.match(/\d{12}/)[0])
+              .innerText.match(/\d{12}/)[0]),
+            (specialist = document
+              .querySelector(".floatright")
+              .innerText.match(/Вошел как:\u00a0(.*?)\u00a0\|/)[1]
+              .trim())
           );
           console.log(
             `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден особый клиент`
@@ -690,7 +733,11 @@ function copyAddress() {
       (message = `Адрес скопирован:%0A<i>${address_text}</i>`),
       (agreement = document
         .getElementById("agr_with_type")
-        .innerText.match(/\d{12}/)[0])
+        .innerText.match(/\d{12}/)[0]),
+      (specialist = document
+        .querySelector(".floatright")
+        .innerText.match(/Вошел как:\u00a0(.*?)\u00a0\|/)[1]
+        .trim())
     );
   });
 
@@ -743,7 +790,11 @@ function copyClientCard() {
       (message = `Скопирована карточка клиента`),
       (agreement = document
         .getElementById("agr_with_type")
-        .innerText.match(/\d{12}/)[0])
+        .innerText.match(/\d{12}/)[0]),
+      (specialist = document
+        .querySelector(".floatright")
+        .innerText.match(/Вошел как:\u00a0(.*?)\u00a0\|/)[1]
+        .trim())
     );
   });
 
@@ -777,7 +828,11 @@ function copyClientAgreement() {
       (extClass = "АРМ"),
       (extFunction = "Копирование договора"),
       (message = `Скопирован номер договора`),
-      (agreement = agreement_number.textContent)
+      (agreement = agreement_number.textContent),
+      (specialist = document
+        .querySelector(".floatright")
+        .innerText.match(/Вошел как:\u00a0(.*?)\u00a0\|/)[1]
+        .trim())
     );
   });
 
@@ -787,4 +842,11 @@ function copyClientAgreement() {
   console.log(
     `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Копирование договора] Добавлена кнопка копирования договора`
   );
+}
+
+function showClientAgreementOnChangeRequest() {
+  headerText = document.querySelector(".text-primary");
+  headerText.innerText += ` - [${
+    document.querySelector('input[name="agr_num"]').value
+  }]`;
 }
