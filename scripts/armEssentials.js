@@ -846,7 +846,7 @@ function copyClientAgreement() {
 
 function showClientAgreementOnChangeRequest() {
   headerText = document.querySelector(".text-primary");
-  headerText.innerText += ` - [${
+  headerText.innerText = `Изменение обращения - [${
     document.querySelector('input[name="agr_num"]').value
   }]`;
 }
