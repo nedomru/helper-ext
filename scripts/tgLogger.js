@@ -1,7 +1,14 @@
 TOKEN = "6895822426:AAHLPaxpMl6BfnVdAUwya5RrYY623aih7Wc";
 LOG_CHANNEL_ID = -1002176829503;
 
-function sendLog(type, extClass, extFunction, message, agreement = "") {
+function sendLog(
+  type,
+  extClass,
+  extFunction,
+  message,
+  agreement = "",
+  specialist = ""
+) {
   logTypeEmoji = "";
   if (type == "INFO") logTypeEmoji = "📜";
   else if (type == "ERROR") logTypeEmoji = "❌";
@@ -28,9 +35,12 @@ function sendLog(type, extClass, extFunction, message, agreement = "") {
 %0A%0A
 <b>Версия расширения</b>: v${extVersion}
 %0A
-<i>Время лога: ${dateTime}</i>`;
+<b>Время лога</b>: ${dateTime}`;
   if (agreement != "") {
-    message_to_send += `%0A<i>Договор</i>: <code>${agreement}</code>`;
+    message_to_send += `%0A<b>Договор</b>: <code>${agreement}</code>`;
+  }
+  if (specialist != "") {
+    message_to_send += `%0A<b>Специалист</b>: <code>${specialist}</code>`;
   }
   fetch(
     `https://api.telegram.org/bot${TOKEN}/sendMessage?chat_id=${LOG_CHANNEL_ID}&text=${message_to_send}&parse_mode=HTML`,
