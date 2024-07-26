@@ -910,6 +910,9 @@ function copyTextToClipboard(text) {
 }
 
 function copyAddress() {
+  if (document.querySelector(".helper-address") != null) {
+    return;
+  }
   try {
     var address_text = document.getElementById("dr").innerText;
   } catch (e) {
@@ -938,7 +941,7 @@ function copyAddress() {
   // Обманка АРМа, чтобы не думал, что это кнопка
   var copyButton = document.createElement("button");
   copyButton.textContent = "📋 Адрес";
-  copyButton.classList.add("btn", "btn-primary", "btn-sm"); // Добавляем классы для стилизации
+  copyButton.classList.add("btn", "btn-primary", "btn-sm", "helper-address"); // Добавляем классы для стилизации
 
   // Отслеживание кликов на кнопку для копирования текста
   copyButton.addEventListener("click", (event) => {
@@ -971,6 +974,9 @@ function copyAddress() {
 }
 
 function copyClientCard() {
+  if (document.querySelector(".helper-card") != null) {
+    return;
+  }
   try {
     var clientCardRow = document.getElementById("namcl");
     var clientCardShowButton = document.getElementById("write_let");
@@ -995,7 +1001,7 @@ function copyClientCard() {
   // Обманка АРМа, чтобы не думал, что это кнопка
   var copyButton = document.createElement("button");
   copyButton.textContent = "📋 Карточка";
-  copyButton.classList.add("btn", "btn-primary", "btn-sm"); // Добавляем классы для стилизации
+  copyButton.classList.add("btn", "btn-primary", "btn-sm", "helper-card"); // Добавляем классы для стилизации
 
   // Отслеживание кликов на кнопку для копирования текста
   copyButton.addEventListener("click", (event) => {
@@ -1018,7 +1024,6 @@ function copyClientCard() {
         .trim())
     );
   });
-
   clientCard.appendChild(lineBreak);
   clientCard.appendChild(copyButton);
 
@@ -1028,6 +1033,9 @@ function copyClientCard() {
 }
 
 function copyClientAgreement() {
+  if (document.querySelector(".helper-agreement") != null) {
+    return;
+  }
   var agreementTab = document.getElementById("agr_with_type");
   var agreementBeforeTab = agreementTab.previousElementSibling;
   var agreement_number = agreementTab.getElementsByTagName("b")[0];
@@ -1035,7 +1043,7 @@ function copyClientAgreement() {
   var lineBreak = document.createElement("br");
   var copyButton = document.createElement("button");
   copyButton.textContent = "📋 Договор";
-  copyButton.classList.add("btn", "btn-primary", "btn-sm"); // Добавляем классы для стилизации
+  copyButton.classList.add("btn", "btn-primary", "btn-sm", "helper-agreement"); // Добавляем классы для стилизации
 
   // Отслеживание кликов на кнопку для копирования текста
   copyButton.addEventListener("click", (event) => {
