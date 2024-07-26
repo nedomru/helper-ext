@@ -50,7 +50,6 @@ async function handleFormSubmitMac(event) {
     }
 
     const result = await response.json();
-    console.log(result);
 
     // Assuming the API returns an array of objects and you want the company name from the first object
     const companyName = result.company;

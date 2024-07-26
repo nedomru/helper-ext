@@ -98,6 +98,9 @@ function dutyButtons() {
 }
 
 function fastButtons() {
+  if (document.querySelector(".helper") != null) {
+    return;
+  }
   let buttonsDiv = document.createElement("div");
   const interval = setInterval(() => {
     let lineHeader = document.querySelector(".duty-app-block");
@@ -111,7 +114,7 @@ function fastButtons() {
   const jira = document.createElement("button");
   jira.textContent = "Jira";
   jira.type = "button";
-  jira.classList.add("v-btn");
+  jira.setAttribute("class", "v-btn helper");
   jira.addEventListener("click", function () {
     window.open("https://ticket.ertelecom.ru/", "_blank");
   });
@@ -126,7 +129,7 @@ function fastButtons() {
   const mail = document.createElement("button");
   mail.textContent = "Почта";
   mail.type = "button";
-  mail.classList.add("v-btn");
+  mail.setAttribute("class", "v-btn helper");
   mail.addEventListener("click", function () {
     window.open("https://mail.domru.ru/", "_blank");
   });
@@ -141,7 +144,7 @@ function fastButtons() {
   const clever = document.createElement("button");
   clever.textContent = "БЗ";
   clever.type = "button";
-  clever.classList.add("v-btn");
+  clever.setAttribute("class", "v-btn helper");
   clever.addEventListener("click", function () {
     window.open("https://clever.ertelecom.ru/", "_blank");
   });
@@ -156,7 +159,7 @@ function fastButtons() {
   const okc = document.createElement("button");
   okc.textContent = "ОКЦ";
   okc.type = "button";
-  okc.classList.add("v-btn");
+  okc.setAttribute("class", "v-btn helper");
   okc.addEventListener("click", function () {
     window.open("https://okc.ertelecom.ru/stats/#octpNck", "_blank");
   });
@@ -171,7 +174,7 @@ function fastButtons() {
   const ntp = document.createElement("button");
   ntp.textContent = "НТП2";
   ntp.type = "button";
-  ntp.classList.add("v-btn");
+  ntp.setAttribute("class", "v-btn helper");
   ntp.addEventListener("click", function () {
     window.open("https://okc.ertelecom.ru/stats/line_ts/ntp2/index", "_blank");
   });
@@ -186,7 +189,7 @@ function fastButtons() {
   const wfm = document.createElement("button");
   wfm.textContent = "Обеды";
   wfm.type = "button";
-  wfm.classList.add("v-btn");
+  wfm.setAttribute("class", "v-btn helper");
   wfm.addEventListener("click", function () {
     window.open("https://okc2.ertelecom.ru/wfm/vueapp/day", "_blank");
   });
@@ -201,7 +204,7 @@ function fastButtons() {
   const arm = document.createElement("button");
   arm.textContent = "АРМ";
   arm.type = "button";
-  arm.classList.add("v-btn");
+  arm.setAttribute("class", "v-btn helper");
   arm.addEventListener("click", function () {
     window.open(
       "https://perm.db.ertelecom.ru/cgi-bin/ppo/excells/wcc_main.entry_continue",

@@ -38,6 +38,8 @@ if (
   copyAddress();
   copyClientCard();
   copyClientAgreement();
+  boldifySMSVariants();
+  setHelperAnticipation();
 }
 
 if (
@@ -56,6 +58,10 @@ if (
     });
 
   function wrongTransferFalse() {
+    const selectElement = document.getElementById("manager_id");
+    const specialistName =
+      selectElement.options[selectElement.selectedIndex].text;
+
     const radioButton = document.querySelector(
       'input[type="radio"][name="wrongTransfer"][value="0"]'
     );
@@ -68,7 +74,8 @@ if (
         (extClass = "АРМ"),
         (extFunction = "Обращения"),
         (message = `Отмечено как не ошибочное`),
-        (agreement = document.querySelector('input[name="agr_num"]').value)
+        (agreement = document.querySelector('input[name="agr_num"]').value),
+        (specialist = specialistName)
       );
       console.log(
         `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Отмечено как не ошибочное`
@@ -80,9 +87,27 @@ if (
     const checkbox = document.getElementById("chb_set_to_me");
     checkbox.removeAttribute("disabled");
     checkbox.checked = false;
+    sendLog(
+      (type = "INFO"),
+      (extClass = "АРМ"),
+      (extFunction = "Обращения"),
+      (message = `Убрано назначение обращения на себя`),
+      (agreement = document.querySelector('input[name="agr_num"]').value),
+      (specialist = specialistName)
+    );
+    console.log(
+      `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Убрано назначение обращения на себя`
+    );
   }
 
   function fastButtons() {
+    if (document.querySelector(".helper") != null) {
+      return;
+    }
+    const selectElement = document.getElementById("manager_id");
+    const specialistName =
+      selectElement.options[selectElement.selectedIndex].text;
+
     var changeEvent = new Event("change", {
       bubbles: true,
       cancelable: true,
@@ -94,46 +119,82 @@ if (
     const space1 = document.createTextNode(" ");
     const space2 = document.createTextNode(" ");
     const space3 = document.createTextNode(" ");
+    const space4 = document.createTextNode(" ");
+    const space5 = document.createTextNode(" ");
+    const space6 = document.createTextNode(" ");
 
     // Кнопка Онлайн-Вход-КС
     const online_cs = document.createElement("input");
     online_cs.setAttribute("type", "button");
-    online_cs.setAttribute("class", "btn btn-sm btn-warning");
+    online_cs.setAttribute("class", "btn btn-sm btn-info helper");
     online_cs.setAttribute("value", "КС - НЦК1");
 
     // Кнопка ОЦТП-Исход-КС
     const octp_cs = document.createElement("input");
     octp_cs.setAttribute("type", "button");
-    octp_cs.setAttribute("class", "btn btn-sm btn-warning");
+    octp_cs.setAttribute("class", "btn btn-sm btn-info helper");
     octp_cs.setAttribute("value", "КС - НЦК2");
 
     // Кнопка ТС/ААО
     const ts_aao = document.createElement("input");
     ts_aao.setAttribute("type", "button");
-    ts_aao.setAttribute("class", "btn btn-sm btn-danger");
+    ts_aao.setAttribute("class", "btn btn-sm btn-danger helper");
     ts_aao.setAttribute("value", "ТС - ААО");
+
+    // Кнопка НРД - Исход
+    const nrd_ishod = document.createElement("input");
+    nrd_ishod.setAttribute("type", "button");
+    nrd_ishod.setAttribute("class", "btn btn-sm btn-danger helper");
+    nrd_ishod.setAttribute("value", "НРД - Исход");
+
+    // Кнопка НТП - Исход
+    const ntp_ishod = document.createElement("input");
+    ntp_ishod.setAttribute("type", "button");
+    ntp_ishod.setAttribute("class", "btn btn-sm btn-warning helper");
+    ntp_ishod.setAttribute("value", "НТП - Исход");
+
+    // Кнопка Абон - Исход
+    const abon_ishod = document.createElement("input");
+    abon_ishod.setAttribute("type", "button");
+    abon_ishod.setAttribute("class", "btn btn-sm btn-warning helper");
+    abon_ishod.setAttribute("value", "Абон - Исход");
 
     online_cs.addEventListener("click", handleOnlineCSClick);
     octp_cs.addEventListener("click", handleOCTPCSClick);
     ts_aao.addEventListener("click", handleTSAAOClick);
+    nrd_ishod.addEventListener("click", handleNRDClick);
+    ntp_ishod.addEventListener("click", handleNTPIshodClick);
+    abon_ishod.addEventListener("click", handleAbonIshodClick);
 
     // Вставляем новую кнопку после существующей кнопки
-    existingButton.before(ts_aao, space3, online_cs, space1, octp_cs, space2);
+    existingButton.before(
+      nrd_ishod,
+      space6,
+      ts_aao,
+      space5,
+      abon_ishod,
+      space4,
+      ntp_ishod,
+      space3,
+      online_cs,
+      space2,
+      octp_cs,
+      space1
+    );
 
     function handleOnlineCSClick() {
       current_step = document.querySelector("#current_step");
-      if (current_step.innerText === "ОЦТП - Исходящая связь") {
-        $.notify("Изменить обращение на Онлайн Вход нельзя");
-        sendLog(
-          (type = "ERROR"),
-          (extClass = "АРМ"),
-          (extFunction = "Обращения"),
-          (message = `Запрет на смену класса. Смена на Онлайн Вход - недоступно`),
-          (agreement = document.querySelector('input[name="agr_num"]').value)
-        );
-        console.log(
-          `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Запрет на смену класса на Онлайн `
-        );
+      let exists = false;
+
+      for (let option of step.options) {
+        if (option.text === "Онлайн - Входящая связь") {
+          exists = true;
+
+          break;
+        }
+      }
+      if (!exists) {
+        $.notify("Смена классификатора на Онлайн - Входящая связь недоступна");
         return;
       }
       step = document.querySelector("#change_step_id");
@@ -176,7 +237,8 @@ if (
         (extClass = "АРМ"),
         (extFunction = "Обращения"),
         (message = `Обращение изменено на Онлайн вход - КС`),
-        (agreement = document.querySelector('input[name="agr_num"]').value)
+        (agreement = document.querySelector('input[name="agr_num"]').value),
+        (specialist = specialistName)
       );
       console.log(
         `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на Онлайн вход - КС`
@@ -187,14 +249,19 @@ if (
 
     function handleOCTPCSClick() {
       step = document.querySelector("#change_step_id");
-      if (step.value === "1520") {
-        $.notify("Обращение уже имеет класс КС - НЦК2");
-        console.log(
-          `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение уже имеет класс КС - НЦК2`
-        );
+      let exists = false;
+
+      for (let option of step.options) {
+        if (option.text === "ОЦТП - Исходящая связь") {
+          exists = true;
+
+          break;
+        }
+      }
+      if (!exists) {
+        $.notify("Смена классификатора на ОЦТП - Исходящая связь недоступна");
         return;
       }
-
       $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
 
       if (document.getElementById("change_class").checked === false) {
@@ -219,7 +286,8 @@ if (
         (extClass = "АРМ"),
         (extFunction = "Обращения"),
         (message = `Обращение изменено на ОЦТП Исход - КС`),
-        (agreement = document.querySelector('input[name="agr_num"]').value)
+        (agreement = document.querySelector('input[name="agr_num"]').value),
+        (specialist = specialistName)
       );
       console.log(
         `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на ОЦТП Исход - КС`
@@ -229,11 +297,19 @@ if (
 
     function handleTSAAOClick() {
       step = document.querySelector("#change_step_id");
-      if (step.value === "1056") {
-        $.notify("Обращение уже имеет класс ТС/ААО");
+      let exists = false;
+
+      for (let option of step.options) {
+        if (option.text === "Передано ТС/ААО") {
+          exists = true;
+
+          break;
+        }
+      }
+      if (!exists) {
+        $.notify("Смена классификатора на Передано ТС/ААО недоступна");
         return;
       }
-
       $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
 
       if (document.getElementById("change_class").checked === false) {
@@ -256,12 +332,155 @@ if (
         (extClass = "АРМ"),
         (extFunction = "Обращения"),
         (message = `Обращение изменено на ТС - ААО`),
-        (agreement = document.querySelector('input[name="agr_num"]').value)
+        (agreement = document.querySelector('input[name="agr_num"]').value),
+        (specialist = specialistName)
       );
       console.log(
         `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на ТС/ААО`
       );
       $.notify("Обращение изменено на ТС/ААО", "success");
+    }
+
+    function handleNRDClick() {
+      step = document.querySelector("#change_step_id");
+      let exists = false;
+
+      for (let option of step.options) {
+        if (
+          option.text === "Направление сохранения Клиентов - Исходящая связь"
+        ) {
+          exists = true;
+
+          break;
+        }
+      }
+      if (!exists) {
+        $.notify(
+          "Смена классификатора на Передано Направление сохранения Клиентов - Исходящая связь недоступна"
+        );
+        return;
+      }
+      $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
+
+      if (document.getElementById("change_class").checked === false) {
+        document.getElementById("change_class").click();
+      }
+
+      if (step.value != "1521") {
+        step.value = "1521";
+        step.dispatchEvent(changeEvent);
+        $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
+      }
+
+      objReason = document.querySelector(".uni_load_obj_reason");
+      objReason.value = "2286";
+      objReason.dispatchEvent(changeEvent);
+      $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
+
+      sendLog(
+        (type = "INFO"),
+        (extClass = "АРМ"),
+        (extFunction = "Обращения"),
+        (message = `Обращение изменено на НРД - Исход`),
+        (agreement = document.querySelector('input[name="agr_num"]').value),
+        (specialist = specialistName)
+      );
+      console.log(
+        `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на НРД - Исход`
+      );
+      $.notify("Обращение изменено на НРД - Исход", "success");
+    }
+
+    function handleNTPIshodClick() {
+      step = document.querySelector("#change_step_id");
+      let exists = false;
+
+      for (let option of step.options) {
+        if (option.text === "НТП Первая линия - Исходящая связь") {
+          exists = true;
+
+          break;
+        }
+      }
+      if (!exists) {
+        $.notify("Смена классификатора на НТП - Исход недоступна");
+        return;
+      }
+      $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
+
+      if (document.getElementById("change_class").checked === false) {
+        document.getElementById("change_class").click();
+      }
+
+      if (step.value != "2277") {
+        step.value = "2277";
+        step.dispatchEvent(changeEvent);
+        $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
+      }
+
+      objReason = document.querySelector(".uni_load_obj_reason");
+      objReason.value = "1046";
+      objReason.dispatchEvent(changeEvent);
+      $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
+
+      sendLog(
+        (type = "INFO"),
+        (extClass = "АРМ"),
+        (extFunction = "Обращения"),
+        (message = `Обращение изменено на НТП - Исход`),
+        (agreement = document.querySelector('input[name="agr_num"]').value),
+        (specialist = specialistName)
+      );
+      console.log(
+        `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на НТП - Исход`
+      );
+      $.notify("Обращение изменено на НТП - Исход", "success");
+    }
+
+    function handleAbonIshodClick() {
+      step = document.querySelector("#change_step_id");
+      let exists = false;
+
+      for (let option of step.options) {
+        if (option.text === "ОКЦ - Исходящая связь") {
+          exists = true;
+
+          break;
+        }
+      }
+      if (!exists) {
+        $.notify("Смена классификатора на ОКЦ - Исходящая связь недоступна");
+        return;
+      }
+      $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
+
+      if (document.getElementById("change_class").checked === false) {
+        document.getElementById("change_class").click();
+      }
+
+      if (step.value != "616") {
+        step.value = "616";
+        //step.dispatchEvent(changeEvent);
+        $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
+      }
+
+      //objReason = document.querySelector(".uni_load_obj_reason");
+      //objReason.value = "1046";
+      //objReason.dispatchEvent(changeEvent);
+      //$("tr.classifier_line").removeAttr("hidden").removeAttr("style");
+
+      sendLog(
+        (type = "INFO"),
+        (extClass = "АРМ"),
+        (extFunction = "Обращения"),
+        (message = `Обращение изменено на Абон - Исход`),
+        (agreement = document.querySelector('input[name="agr_num"]').value),
+        (specialist = specialistName)
+      );
+      console.log(
+        `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на Абон - Исход`
+      );
+      $.notify("Обращение изменено на Абон - Исход", "success");
     }
   }
 }
@@ -849,4 +1068,22 @@ function showClientAgreementOnChangeRequest() {
   headerText.innerText = `Изменение обращения - [${
     document.querySelector('input[name="agr_num"]').value
   }]`;
+}
+
+// TODO пофиксить, не видит элемент. в консоли выбрать другой источник
+function boldifySMSVariants() {
+  var selectElement = document.querySelector(".type_sms_a");
+
+  // Получаем все опции внутри select
+  var options = selectElement.options;
+
+  // Создаем массив с текстами опций, которые мы хотим выделить жирным
+  var optionsToBold = ["Данные для входа", "PPPoE"];
+
+  // Проходимся по опциям и выделяем жирным нужные элементы
+  for (var i = 0; i < options.length; i++) {
+    if (optionsToBold.includes(options[i].text)) {
+      options[i].style.fontWeight = "bold"; // Выделяем жирным шрифтом
+    }
+  }
 }

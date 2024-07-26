@@ -5,6 +5,7 @@ if (document.URL.indexOf("genesys-app1") != -1) {
     GENESYS_showOCTPLineStatus: otpcLineStatus,
     GENESYS_hideChatHeader: hideHeader,
   };
+  showClientInfoOnCard();
 
   browser.storage.local.get(Object.keys(GENESYS_config)).then((result) => {
     Object.keys(GENESYS_config).forEach((key) => {
@@ -20,7 +21,9 @@ function hideHeader() {
     (type = "INFO"),
     (extClass = "Генезис"),
     (extFunction = "Скрытие заголовка чата"),
-    (message = `Загружен модуль скрытия заголовков`)
+    (message = `Загружен модуль скрытия заголовков`),
+    (agreement = ""),
+    (specialist = document.querySelector(".agent-name").textContent)
   );
   console.log(
     `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Скрытие заголовка чата] Загружен модуль скрытия заголовков`
@@ -36,6 +39,25 @@ function hideHeader() {
             `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Скрытие заголовка чата] Хедер чата: скрыт`
           );
         }
+      }
+    }
+  }, 1000);
+}
+
+function showClientInfoOnCard() {
+  var interval = setInterval(() => {
+    var chatHeader = document.querySelector(".wwe-case-information-header");
+    if (chatHeader) {
+      if (!chatHeader.classList.contains("was-checked-by-helper")) {
+        chatHeader.classList.add("was-hidden-by-helper");
+        var clientChannel = document.querySelector(
+          "#wweCaseData1mediachannelValue .wwe-data-text-value"
+        ).textContent;
+        chatHeader.innerText = `Информация о чате | ${clientChannel}`;
+        document.querySelector(
+          ".wwe .wwe-case-information .wwe-case-information-header"
+        ).style.color = "white";
+        clearInterval(interval);
       }
     }
   }, 1000);
@@ -58,12 +80,15 @@ function hideUselessButtons() {
             .remove();
         });
         document.querySelector(".dropdown.account-help").remove();
-
+        document.querySelector(".genesys-logo").remove();
+        document.querySelector(".wwe-dialer-view").remove();
         sendLog(
           (type = "INFO"),
           (extClass = "Генезис"),
           (extFunction = "Бесполезные кнопки"),
-          (message = `Все бесполезные кнопки удалены`)
+          (message = `Все бесполезные кнопки удалены`),
+          (agreement = ""),
+          (specialist = document.querySelector(".agent-name").textContent)
         );
         console.log(
           `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Бесполезные кнопки] Все бесполезные кнопки удалены`
@@ -74,17 +99,23 @@ function hideUselessButtons() {
           (type = "INFO"),
           (extClass = "Генезис"),
           (extFunction = "Бесполезные кнопки"),
-          (message = `Не удалось удалить кнопку: ${e}`)
+          (message = `Не удалось удалить кнопку: ${e}`),
+          (agreement = ""),
+          (specialist = document.querySelector(".agent-name").textContent)
         );
         console.log(
           `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Бесполезные кнопки] Не удалось удалить кнопку: ${e}`
         );
+        clearInterval(interval);
       }
     }, 1000);
   }, 5000);
 }
 
 function genesysButtons() {
+  if (document.querySelector(".helper") != null) {
+    return;
+  }
   // Удаляем !important у border-radius для округления кнопок
   var styleSheets = document.styleSheets;
   for (var i = 0; i < styleSheets.length; i++) {
@@ -154,7 +185,9 @@ function genesysButtons() {
         (type = "INFO"),
         (extClass = "Генезис"),
         (extFunction = "Быстрые кнопки"),
-        (message = `Добавлены быстрые кнопки`)
+        (message = `Добавлены быстрые кнопки`),
+        (agreement = ""),
+        (specialist = document.querySelector(".agent-name").textContent)
       );
       console.log(
         `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Быстрые кнопки] Добавлены быстрые кнопки`
@@ -168,6 +201,7 @@ function createGenesysLink(href, textContent, additionalStyles = {}) {
   button.href = href;
   button.target = "_blank";
   button.textContent = textContent;
+  button.setAttribute("class", "helper");
 
   // Применение общих стилей
   Object.assign(button.style, {
@@ -251,6 +285,7 @@ function otpcLineStatus() {
           titleForStatus += "Время изменения: " + hours + ":" + minutes;
           genesysTitle.setAttribute("title", titleForStatus);
         } else {
+          genesysTitle.textContent = "НЦК2: нет апдейтов";
           console.log(
             `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Аварийность] Изменений аварийности не найдено`
           );
@@ -273,7 +308,9 @@ function otpcLineStatus() {
     (type = "INFO"),
     (extClass = "Генезис"),
     (extFunction = "Аварийность"),
-    (message = `Загружена аварийность НЦК2`)
+    (message = `Загружена аварийность НЦК2`),
+    (agreement = ""),
+    (specialist = document.querySelector(".agent-name").textContent)
   );
   console.log(
     `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Аварийность] Загружена аварийность НЦК2`

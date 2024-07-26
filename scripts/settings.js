@@ -1,4 +1,7 @@
 ﻿document.addEventListener("DOMContentLoaded", function () {
+  const version = browser.runtime.getManifest().version;
+  document.getElementById("extension-version").textContent = version;
+
   // Загрузка сохраненных настроек
   const checkboxIds = [
     "GENESYS_showFastButtons",
@@ -39,12 +42,9 @@
   });
 
   // Функция для обработчика изменения чекбоксов
-
   function handleCheckboxChange(event) {
     const setting = event.target.id;
-
     const isChecked = event.target.checked;
-
     browser.storage.local.set({ [setting]: isChecked });
 
     console.log(
@@ -86,6 +86,12 @@
     ];
     toggleCheckboxes(moneyCheckboxIds);
 
+    sendLog(
+      (type = "INFO"),
+      (extClass = "Настройки"),
+      (extFunction = "Комплексное изменение настроек"),
+      (message = `Скрыты вкладки начислений`)
+    );
     console.log(
       `[${new Date().toLocaleTimeString()}] [Помощник] - [Настройки] Скрыты вкладки начислений`
     );
@@ -105,8 +111,14 @@
     ];
     toggleCheckboxes(otherCheckboxIds);
 
+    sendLog(
+      (type = "INFO"),
+      (extClass = "Настройки"),
+      (extFunction = "Комплексное изменение настроек"),
+      (message = `Скрыты побочные вкладки`)
+    );
     console.log(
-      `[${new Date().toLocaleTimeString()}] [Помощник] - [Настройки] Скрыты остальные вкладки`
+      `[${new Date().toLocaleTimeString()}] [Помощник] - [Настройки] Скрыты побочные вкладки`
     );
   });
 });
