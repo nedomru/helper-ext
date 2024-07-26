@@ -183,7 +183,8 @@ if (
     );
 
     function handleOnlineCSClick() {
-      current_step = document.querySelector("#current_step");
+      step = document.querySelector("#change_step_id");
+      objReason = document.querySelector(".uni_load_obj_reason");
       let exists = false;
 
       for (let option of step.options) {
@@ -197,40 +198,26 @@ if (
         $.notify("Смена классификатора на Онлайн - Входящая связь недоступна");
         return;
       }
-      step = document.querySelector("#change_step_id");
-      if (step.value === "2296") {
-        $.notify("Обращение уже имеет класс КС - НЦК1");
-        sendLog(
-          (type = "ERROR"),
-          (extClass = "АРМ"),
-          (extFunction = "Обращения"),
-          (message = `Запрет на смену класса. Обращение уже имеет класс КС - НЦК1`),
-          (agreement = document.querySelector('input[name="agr_num"]').value)
-        );
-        console.log(
-          `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение уже имеет класс КС - НЦК1`
-        );
-        return;
-      }
-
-      $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
 
       if (document.getElementById("change_class").checked === false) {
         document.getElementById("change_class").click();
       }
 
-      if (step.value === "1056") {
+      if (step.value != "2296") {
         step.value = "2296";
         step.dispatchEvent(changeEvent);
-        $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
-      } else {
-        step.value = "2296";
-      }
 
-      objReason = document.querySelector(".uni_load_obj_reason");
-      objReason.value = "2123";
-      objReason.dispatchEvent(changeEvent);
-      $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
+        const observer = new MutationObserver((mutations) => {
+          const objReason = document.querySelector(".uni_load_obj_reason");
+          if (objReason) {
+            objReason.value = "2123";
+            objReason.dispatchEvent(changeEvent);
+            observer.disconnect();
+          }
+        });
+
+        observer.observe(document.body, { childList: true, subtree: true });
+      }
 
       sendLog(
         (type = "INFO"),
@@ -249,6 +236,7 @@ if (
 
     function handleOCTPCSClick() {
       step = document.querySelector("#change_step_id");
+      objReason = document.querySelector(".uni_load_obj_reason");
       let exists = false;
 
       for (let option of step.options) {
@@ -268,18 +256,21 @@ if (
         document.getElementById("change_class").click();
       }
 
-      if (step.value === "1056") {
+      if (step.value != "1520") {
         step.value = "1520";
         step.dispatchEvent(changeEvent);
-        $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
-      } else {
-        step.value = "1520";
-      }
 
-      objReason = document.querySelector(".uni_load_obj_reason");
-      objReason.value = "2123";
-      objReason.dispatchEvent(changeEvent);
-      $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
+        const observer = new MutationObserver((mutations) => {
+          const objReason = document.querySelector(".uni_load_obj_reason");
+          if (objReason) {
+            objReason.value = "2123";
+            objReason.dispatchEvent(changeEvent);
+            observer.disconnect();
+          }
+        });
+
+        observer.observe(document.body, { childList: true, subtree: true });
+      }
 
       sendLog(
         (type = "INFO"),
@@ -297,6 +288,7 @@ if (
 
     function handleTSAAOClick() {
       step = document.querySelector("#change_step_id");
+      objReason = document.querySelector(".uni_load_obj_reason");
       let exists = false;
 
       for (let option of step.options) {
@@ -319,13 +311,18 @@ if (
       if (step.value != "1056") {
         step.value = "1056";
         step.dispatchEvent(changeEvent);
-        $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
-      }
 
-      objReason = document.querySelector(".uni_load_obj_reason");
-      objReason.value = "1046";
-      objReason.dispatchEvent(changeEvent);
-      $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
+        const observer = new MutationObserver((mutations) => {
+          const objReason = document.querySelector(".uni_load_obj_reason");
+          if (objReason) {
+            objReason.value = "1046";
+            objReason.dispatchEvent(changeEvent);
+            observer.disconnect();
+          }
+        });
+
+        observer.observe(document.body, { childList: true, subtree: true });
+      }
 
       sendLog(
         (type = "INFO"),
@@ -369,13 +366,18 @@ if (
       if (step.value != "1521") {
         step.value = "1521";
         step.dispatchEvent(changeEvent);
-        $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
-      }
 
-      objReason = document.querySelector(".uni_load_obj_reason");
-      objReason.value = "2286";
-      objReason.dispatchEvent(changeEvent);
-      $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
+        const observer = new MutationObserver((mutations) => {
+          const objReason = document.querySelector(".uni_load_obj_reason");
+          if (objReason) {
+            objReason.value = "2286";
+            objReason.dispatchEvent(changeEvent);
+            observer.disconnect();
+          }
+        });
+
+        observer.observe(document.body, { childList: true, subtree: true });
+      }
 
       sendLog(
         (type = "INFO"),
@@ -393,10 +395,11 @@ if (
 
     function handleNTPIshodClick() {
       step = document.querySelector("#change_step_id");
+      objReason = document.querySelector(".uni_load_obj_reason");
       let exists = false;
 
       for (let option of step.options) {
-        if (option.text === "НТП Первая линия - Исходящая связь") {
+        if (option.text === "НТП первая линия - Исходящая связь") {
           exists = true;
 
           break;
@@ -415,13 +418,18 @@ if (
       if (step.value != "2277") {
         step.value = "2277";
         step.dispatchEvent(changeEvent);
-        $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
-      }
 
-      objReason = document.querySelector(".uni_load_obj_reason");
-      objReason.value = "1046";
-      objReason.dispatchEvent(changeEvent);
-      $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
+        const observer = new MutationObserver((mutations) => {
+          const objReason = document.querySelector(".uni_load_obj_reason");
+          if (objReason) {
+            objReason.value = "1046";
+            objReason.dispatchEvent(changeEvent);
+            observer.disconnect();
+          }
+        });
+
+        observer.observe(document.body, { childList: true, subtree: true });
+      }
 
       sendLog(
         (type = "INFO"),
@@ -460,14 +468,8 @@ if (
 
       if (step.value != "616") {
         step.value = "616";
-        //step.dispatchEvent(changeEvent);
-        $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
+        step.dispatchEvent(changeEvent);
       }
-
-      //objReason = document.querySelector(".uni_load_obj_reason");
-      //objReason.value = "1046";
-      //objReason.dispatchEvent(changeEvent);
-      //$("tr.classifier_line").removeAttr("hidden").removeAttr("style");
 
       sendLog(
         (type = "INFO"),
