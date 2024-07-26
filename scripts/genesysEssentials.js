@@ -51,7 +51,7 @@ function showClientInfoOnCard() {
       if (!chatHeader.classList.contains("was-checked-by-helper")) {
         chatHeader.classList.add("was-hidden-by-helper");
         var clientChannel = document.querySelector(
-          "#wweCaseData1mediachannelValue .wwe-data-text-value"
+          "#wweCaseData1OSVersionValue .wwe-data-text-value"
         ).textContent;
         chatHeader.innerText = `Информация о чате | ${clientChannel}`;
         document.querySelector(
