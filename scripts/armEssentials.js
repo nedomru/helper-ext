@@ -1065,9 +1065,9 @@ function copyClientAgreement() {
 
 function showClientAgreementOnChangeRequest() {
   headerText = document.querySelector(".text-primary");
-  headerText.innerText = `Изменение обращения - [${
+  headerText.innerText = `Обращение по договору №${
     document.querySelector('input[name="agr_num"]').value
-  }]`;
+  }`;
 }
 
 // TODO пофиксить, не видит элемент. в консоли выбрать другой источник
