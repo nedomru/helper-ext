@@ -66,8 +66,22 @@ function dutyButtons() {
   const slForecastLink = createLinkTab(
     "list-item-742",
     "https://okc.ertelecom.ru/stats/genesys-reports/ntp/sl-forecast",
-    "mdi mdi-chart-line",
+    "mdi mdi-chart-box-outline",
     "Прогноз SL"
+  );
+
+  const ts = createLinkTab(
+    "list-item-742",
+    "https://genesys.domru.ru/citystats/queue",
+    "mdi mdi-alien-outline",
+    "ТС 2.0"
+  );
+
+  const lenta = createLinkTab(
+    "list-item-742",
+    "http://10.121.15.99/lenta",
+    "mdi mdi-chat-processing-outline",
+    "Генератор ленты"
   );
 
   const intervalId = setInterval(() => {
@@ -82,6 +96,8 @@ function dutyButtons() {
         container_list.appendChild(botLink);
         container_list.appendChild(stubLink);
         container_list.appendChild(appointmentLink);
+        container_list.appendChild(ts);
+        container_list.appendChild(lenta);
         clearInterval(intervalId);
       }
     } catch {}
