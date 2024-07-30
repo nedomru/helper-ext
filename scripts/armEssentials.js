@@ -69,14 +69,6 @@ if (
       radioButton.removeAttribute("disabled");
       radioButton.click();
 
-      sendLog(
-        (type = "INFO"),
-        (extClass = "АРМ"),
-        (extFunction = "Обращения"),
-        (message = `Отмечено как не ошибочное`),
-        (agreement = document.querySelector('input[name="agr_num"]').value),
-        (specialist = specialistName)
-      );
       console.log(
         `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Отмечено как не ошибочное`
       );
@@ -87,14 +79,7 @@ if (
     const checkbox = document.getElementById("chb_set_to_me");
     checkbox.removeAttribute("disabled");
     checkbox.checked = false;
-    sendLog(
-      (type = "INFO"),
-      (extClass = "АРМ"),
-      (extFunction = "Обращения"),
-      (message = `Убрано назначение обращения на себя`),
-      (agreement = document.querySelector('input[name="agr_num"]').value),
-      (specialist = specialistName)
-    );
+
     console.log(
       `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Убрано назначение обращения на себя`
     );
@@ -219,14 +204,6 @@ if (
         observer.observe(document.body, { childList: true, subtree: true });
       }
 
-      sendLog(
-        (type = "INFO"),
-        (extClass = "АРМ"),
-        (extFunction = "Обращения"),
-        (message = `Обращение изменено на Онлайн вход - КС`),
-        (agreement = document.querySelector('input[name="agr_num"]').value),
-        (specialist = specialistName)
-      );
       console.log(
         `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на Онлайн вход - КС`
       );
@@ -272,14 +249,7 @@ if (
         observer.observe(document.body, { childList: true, subtree: true });
       }
 
-      sendLog(
-        (type = "INFO"),
-        (extClass = "АРМ"),
-        (extFunction = "Обращения"),
-        (message = `Обращение изменено на ОЦТП Исход - КС`),
-        (agreement = document.querySelector('input[name="agr_num"]').value),
-        (specialist = specialistName)
-      );
+
       console.log(
         `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на ОЦТП Исход - КС`
       );
@@ -324,14 +294,6 @@ if (
         observer.observe(document.body, { childList: true, subtree: true });
       }
 
-      sendLog(
-        (type = "INFO"),
-        (extClass = "АРМ"),
-        (extFunction = "Обращения"),
-        (message = `Обращение изменено на ТС - ААО`),
-        (agreement = document.querySelector('input[name="agr_num"]').value),
-        (specialist = specialistName)
-      );
       console.log(
         `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на ТС/ААО`
       );
@@ -379,14 +341,6 @@ if (
         observer.observe(document.body, { childList: true, subtree: true });
       }
 
-      sendLog(
-        (type = "INFO"),
-        (extClass = "АРМ"),
-        (extFunction = "Обращения"),
-        (message = `Обращение изменено на НРД - Исход`),
-        (agreement = document.querySelector('input[name="agr_num"]').value),
-        (specialist = specialistName)
-      );
       console.log(
         `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на НРД - Исход`
       );
@@ -431,14 +385,6 @@ if (
         observer.observe(document.body, { childList: true, subtree: true });
       }
 
-      sendLog(
-        (type = "INFO"),
-        (extClass = "АРМ"),
-        (extFunction = "Обращения"),
-        (message = `Обращение изменено на НТП - Исход`),
-        (agreement = document.querySelector('input[name="agr_num"]').value),
-        (specialist = specialistName)
-      );
       console.log(
         `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на НТП - Исход`
       );
@@ -471,14 +417,6 @@ if (
         step.dispatchEvent(changeEvent);
       }
 
-      sendLog(
-        (type = "INFO"),
-        (extClass = "АРМ"),
-        (extFunction = "Обращения"),
-        (message = `Обращение изменено на Абон - Исход`),
-        (agreement = document.querySelector('input[name="agr_num"]').value),
-        (specialist = specialistName)
-      );
       console.log(
         `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на Абон - Исход`
       );
@@ -498,19 +436,6 @@ function deleteTabs(tabList) {
     }
   });
 
-  sendLog(
-    (type = "INFO"),
-    (extClass = "АРМ"),
-    (extFunction = "Удаление вкладок"),
-    (message = `Удалены вкладки на договоре:%0A<i>${tabList}</i>`),
-    (agreement = document
-      .getElementById("agr_with_type")
-      .innerText.match(/\d{12}/)[0]),
-    (specialist = document
-      .querySelector(".floatright")
-      .innerText.match(/Вошел как:\u00a0(.*?)\u00a0\|/)[1]
-      .trim())
-  );
   console.log(
     `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Удаление вкладок] Вкладки удалены: ${tabList}`
   );
@@ -570,19 +495,6 @@ function setHelperAnticipation() {
     button.style.backgroundColor = "#cc3300";
     problems++;
 
-    sendLog(
-      (type = "INFO"),
-      (extClass = "АРМ"),
-      (extFunction = "Предвосхищение"),
-      (message = `Найден СПАС`),
-      (agreement = document
-        .getElementById("agr_with_type")
-        .innerText.match(/\d{12}/)[0]),
-      (specialist = document
-        .querySelector(".floatright")
-        .innerText.match(/Вошел как:\u00a0(.*?)\u00a0\|/)[1]
-        .trim())
-    );
     console.log(
       `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден СПАС`
     );
@@ -598,19 +510,6 @@ function setHelperAnticipation() {
         observerSPAS.disconnect();
         clearTimeout(timeout);
 
-        sendLog(
-          (type = "INFO"),
-          (extClass = "АРМ"),
-          (extFunction = "Предвосхищение"),
-          (message = `Найден СПАС`),
-          (agreement = document
-            .getElementById("agr_with_type")
-            .innerText.match(/\d{12}/)[0]),
-          (specialist = document
-            .querySelector(".floatright")
-            .innerText.match(/Вошел как:\u00a0(.*?)\u00a0\|/)[1]
-            .trim())
-        );
         console.log(
           `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден СПАС`
         );
@@ -631,19 +530,6 @@ function setHelperAnticipation() {
         button.style.backgroundColor = "#cc3300";
         problems++;
 
-        sendLog(
-          (type = "INFO"),
-          (extClass = "АРМ"),
-          (extFunction = "Предвосхищение"),
-          (message = `Найден закрытый доступ`),
-          (agreement = document
-            .getElementById("agr_with_type")
-            .innerText.match(/\d{12}/)[0]),
-          (specialist = document
-            .querySelector(".floatright")
-            .innerText.match(/Вошел как:\u00a0(.*?)\u00a0\|/)[1]
-            .trim())
-        );
         console.log(
           `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден закрытый доступ`
         );
@@ -662,19 +548,6 @@ function setHelperAnticipation() {
           observerAccess.disconnect();
           clearTimeout(timeout);
 
-          sendLog(
-            (type = "INFO"),
-            (extClass = "АРМ"),
-            (extFunction = "Предвосхищение"),
-            (message = `Найден закрытый доступ`),
-            (agreement = document
-              .getElementById("agr_with_type")
-              .innerText.match(/\d{12}/)[0]),
-            (specialist = document
-              .querySelector(".floatright")
-              .innerText.match(/Вошел как:\u00a0(.*?)\u00a0\|/)[1]
-              .trim())
-          );
           console.log(
             `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден закрытый доступ`
           );
@@ -696,19 +569,6 @@ function setHelperAnticipation() {
         button.style.backgroundColor = "#cc3300";
         problems++;
 
-        sendLog(
-          (type = "INFO"),
-          (extClass = "АРМ"),
-          (extFunction = "Предвосхищение"),
-          (message = `Найдена авария`),
-          (agreement = document
-            .getElementById("agr_with_type")
-            .innerText.match(/\d{12}/)[0]),
-          (specialist = document
-            .querySelector(".floatright")
-            .innerText.match(/Вошел как:\u00a0(.*?)\u00a0\|/)[1]
-            .trim())
-        );
         console.log(
           `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найдена авария`
         );
@@ -727,19 +587,6 @@ function setHelperAnticipation() {
           observerAccess.disconnect();
           clearTimeout(timeout);
 
-          sendLog(
-            (type = "INFO"),
-            (extClass = "АРМ"),
-            (extFunction = "Предвосхищение"),
-            (message = `Найдена авария`),
-            (agreement = document
-              .getElementById("agr_with_type")
-              .innerText.match(/\d{12}/)[0]),
-            (specialist = document
-              .querySelector(".floatright")
-              .innerText.match(/Вошел как:\u00a0(.*?)\u00a0\|/)[1]
-              .trim())
-          );
           console.log(
             `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найдена авария`
           );
@@ -761,19 +608,6 @@ function setHelperAnticipation() {
         button.style.backgroundColor = "#cc3300";
         problems++;
 
-        sendLog(
-          (type = "INFO"),
-          (extClass = "АРМ"),
-          (extFunction = "Предвосхищение"),
-          (message = `Найден ППР`),
-          (agreement = document
-            .getElementById("agr_with_type")
-            .innerText.match(/\d{12}/)[0]),
-          (specialist = document
-            .querySelector(".floatright")
-            .innerText.match(/Вошел как:\u00a0(.*?)\u00a0\|/)[1]
-            .trim())
-        );
         console.log(
           `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден ППР`
         );
@@ -792,19 +626,6 @@ function setHelperAnticipation() {
           observerPPR.disconnect();
           clearTimeout(timeout);
 
-          sendLog(
-            (type = "INFO"),
-            (extClass = "АРМ"),
-            (extFunction = "Предвосхищение"),
-            (message = `Найден ППР`),
-            (agreement = document
-              .getElementById("agr_with_type")
-              .innerText.match(/\d{12}/)[0]),
-            (specialist = document
-              .querySelector(".floatright")
-              .innerText.match(/Вошел как:\u00a0(.*?)\u00a0\|/)[1]
-              .trim())
-          );
           console.log(
             `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден ППР`
           );
@@ -826,19 +647,6 @@ function setHelperAnticipation() {
         button.style.backgroundColor = "#cc3300";
         problems++;
 
-        sendLog(
-          (type = "INFO"),
-          (extClass = "АРМ"),
-          (extFunction = "Предвосхищение"),
-          (message = `Найден особый клиент`),
-          (agreement = document
-            .getElementById("agr_with_type")
-            .innerText.match(/\d{12}/)[0]),
-          (specialist = document
-            .querySelector(".floatright")
-            .innerText.match(/Вошел как:\u00a0(.*?)\u00a0\|/)[1]
-            .trim())
-        );
         console.log(
           `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден особый клиент`
         );
@@ -857,19 +665,6 @@ function setHelperAnticipation() {
           observerSpecial.disconnect();
           clearTimeout(timeout);
 
-          sendLog(
-            (type = "INFO"),
-            (extClass = "АРМ"),
-            (extFunction = "Предвосхищение"),
-            (message = `Найден особый клиент`),
-            (agreement = document
-              .getElementById("agr_with_type")
-              .innerText.match(/\d{12}/)[0]),
-            (specialist = document
-              .querySelector(".floatright")
-              .innerText.match(/Вошел как:\u00a0(.*?)\u00a0\|/)[1]
-              .trim())
-          );
           console.log(
             `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден особый клиент`
           );
@@ -950,19 +745,6 @@ function copyAddress() {
 
     copyTextToClipboard(address_text);
     $.notify("Адрес скопирован", "success");
-    sendLog(
-      (type = "INFO"),
-      (extClass = "АРМ"),
-      (extFunction = "Копирование адреса"),
-      (message = `Адрес скопирован:%0A<i>${address_text}</i>`),
-      (agreement = document
-        .getElementById("agr_with_type")
-        .innerText.match(/\d{12}/)[0]),
-      (specialist = document
-        .querySelector(".floatright")
-        .innerText.match(/Вошел как:\u00a0(.*?)\u00a0\|/)[1]
-        .trim())
-    );
   });
 
   address.appendChild(lineBreak);
@@ -1010,19 +792,6 @@ function copyClientCard() {
 
     copyTextToClipboard(clienCardText);
     $.notify("Карточка скопирована", "success");
-    sendLog(
-      (type = "INFO"),
-      (extClass = "АРМ"),
-      (extFunction = "Копирование карточки"),
-      (message = `Скопирована карточка клиента`),
-      (agreement = document
-        .getElementById("agr_with_type")
-        .innerText.match(/\d{12}/)[0]),
-      (specialist = document
-        .querySelector(".floatright")
-        .innerText.match(/Вошел как:\u00a0(.*?)\u00a0\|/)[1]
-        .trim())
-    );
   });
   clientCard.appendChild(lineBreak);
   clientCard.appendChild(copyButton);
@@ -1052,17 +821,6 @@ function copyClientAgreement() {
 
     copyTextToClipboard(agreement_number.textContent);
     $.notify("Номер договора скопирован", "success");
-    sendLog(
-      (type = "INFO"),
-      (extClass = "АРМ"),
-      (extFunction = "Копирование договора"),
-      (message = `Скопирован номер договора`),
-      (agreement = agreement_number.textContent),
-      (specialist = document
-        .querySelector(".floatright")
-        .innerText.match(/Вошел как:\u00a0(.*?)\u00a0\|/)[1]
-        .trim())
-    );
   });
 
   agreementBeforeTab.appendChild(lineBreak);

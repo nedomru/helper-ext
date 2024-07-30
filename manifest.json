@@ -26,7 +26,6 @@
         "scripts/sections.js",
         "scripts/jquery.min.js",
         "scripts/notify.js",
-        "scripts/tgLogger.js",
         "scripts/popup.js",
         "scripts/armEssentials.js",
         "scripts/lineEssentials.js",

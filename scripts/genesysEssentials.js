@@ -17,14 +17,6 @@ if (document.URL.indexOf("genesys-app1") != -1) {
 }
 
 function hideHeader() {
-  sendLog(
-    (type = "INFO"),
-    (extClass = "Генезис"),
-    (extFunction = "Скрытие заголовка чата"),
-    (message = `Загружен модуль скрытия заголовков`),
-    (agreement = ""),
-    (specialist = document.querySelector(".agent-name").textContent)
-  );
   console.log(
     `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Скрытие заголовка чата] Загружен модуль скрытия заголовков`
   );
@@ -82,27 +74,11 @@ function hideUselessButtons() {
         document.querySelector(".dropdown.account-help").remove();
         document.querySelector(".genesys-logo").remove();
         document.querySelector(".wwe-dialer-view").remove();
-        sendLog(
-          (type = "INFO"),
-          (extClass = "Генезис"),
-          (extFunction = "Бесполезные кнопки"),
-          (message = `Все бесполезные кнопки удалены`),
-          (agreement = ""),
-          (specialist = document.querySelector(".agent-name").textContent)
-        );
         console.log(
           `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Бесполезные кнопки] Все бесполезные кнопки удалены`
         );
         clearInterval(interval);
       } catch (e) {
-        sendLog(
-          (type = "INFO"),
-          (extClass = "Генезис"),
-          (extFunction = "Бесполезные кнопки"),
-          (message = `Не удалось удалить кнопку: ${e}`),
-          (agreement = ""),
-          (specialist = document.querySelector(".agent-name").textContent)
-        );
         console.log(
           `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Бесполезные кнопки] Не удалось удалить кнопку: ${e}`
         );
@@ -181,14 +157,6 @@ function genesysButtons() {
       buttonsDiv.appendChild(ftpMobile);
       clearInterval(intervalId);
 
-      sendLog(
-        (type = "INFO"),
-        (extClass = "Генезис"),
-        (extFunction = "Быстрые кнопки"),
-        (message = `Добавлены быстрые кнопки`),
-        (agreement = ""),
-        (specialist = document.querySelector(".agent-name").textContent)
-      );
       console.log(
         `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Быстрые кнопки] Добавлены быстрые кнопки`
       );
@@ -304,14 +272,6 @@ function otpcLineStatus() {
     getLineUpdate();
   }, 5000);
 
-  sendLog(
-    (type = "INFO"),
-    (extClass = "Генезис"),
-    (extFunction = "Аварийность"),
-    (message = `Загружена аварийность НЦК2`),
-    (agreement = ""),
-    (specialist = document.querySelector(".agent-name").textContent)
-  );
   console.log(
     `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Аварийность] Загружена аварийность НЦК2`
   );
