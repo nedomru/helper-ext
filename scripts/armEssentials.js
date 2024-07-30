@@ -195,9 +195,11 @@ if (
         const observer = new MutationObserver((mutations) => {
           const objReason = document.querySelector(".uni_load_obj_reason");
           if (objReason) {
-            objReason.value = "2123";
-            objReason.dispatchEvent(changeEvent);
             observer.disconnect();
+            setTimeout(function () {
+              objReason.value = "2123";
+              objReason.dispatchEvent(changeEvent);
+            }, 400);
           }
         });
 
@@ -227,10 +229,10 @@ if (
         $.notify("Смена классификатора на ОЦТП - Исходящая связь недоступна");
         return;
       }
-      $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
 
       if (document.getElementById("change_class").checked === false) {
         document.getElementById("change_class").click();
+        $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
       }
 
       if (step.value != "1520") {
@@ -240,15 +242,16 @@ if (
         const observer = new MutationObserver((mutations) => {
           const objReason = document.querySelector(".uni_load_obj_reason");
           if (objReason) {
-            objReason.value = "2123";
-            objReason.dispatchEvent(changeEvent);
             observer.disconnect();
+            setTimeout(function () {
+              objReason.value = "2123";
+              objReason.dispatchEvent(changeEvent);
+            }, 400);
           }
         });
 
         observer.observe(document.body, { childList: true, subtree: true });
       }
-
 
       console.log(
         `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на ОЦТП Исход - КС`
@@ -285,9 +288,11 @@ if (
         const observer = new MutationObserver((mutations) => {
           const objReason = document.querySelector(".uni_load_obj_reason");
           if (objReason) {
-            objReason.value = "1046";
-            objReason.dispatchEvent(changeEvent);
             observer.disconnect();
+            setTimeout(function () {
+              objReason.value = "1046";
+              objReason.dispatchEvent(changeEvent);
+            }, 400);
           }
         });
 
@@ -332,9 +337,11 @@ if (
         const observer = new MutationObserver((mutations) => {
           const objReason = document.querySelector(".uni_load_obj_reason");
           if (objReason) {
-            objReason.value = "2286";
-            objReason.dispatchEvent(changeEvent);
             observer.disconnect();
+            setTimeout(function () {
+              objReason.value = "2286";
+              objReason.dispatchEvent(changeEvent);
+            }, 400);
           }
         });
 
@@ -376,9 +383,11 @@ if (
         const observer = new MutationObserver((mutations) => {
           const objReason = document.querySelector(".uni_load_obj_reason");
           if (objReason) {
-            objReason.value = "1046";
-            objReason.dispatchEvent(changeEvent);
             observer.disconnect();
+            setTimeout(function () {
+              objReason.value = "1046";
+              objReason.dispatchEvent(changeEvent);
+            }, 400);
           }
         });
 
