@@ -40,6 +40,7 @@ if (
   copyClientAgreement();
   boldifySMSVariants();
   setHelperAnticipation();
+  //smsButtons();
 }
 
 if (
@@ -847,20 +848,62 @@ function showClientAgreementOnChangeRequest() {
   }`;
 }
 
-// TODO пофиксить, не видит элемент. в консоли выбрать другой источник
-function boldifySMSVariants() {
-  var selectElement = document.querySelector(".type_sms_a");
+// TODO дописать корректный выбор контекста оценки
+function smsButtons() {
+  var sendButton = $(".tab-content .send_sms_from_info .sms_web_a");
+  var changeEvent = new Event("change", {
+    bubbles: true,
+    cancelable: true,
+  });
 
-  // Получаем все опции внутри select
-  var options = selectElement.options;
+  var static_btn = $(
+    '<input type="button" value="🔑 Static" class="btn btn-primary btn-sm" style="margin-left: 5px;"/>'
+  );
 
-  // Создаем массив с текстами опций, которые мы хотим выделить жирным
-  var optionsToBold = ["Данные для входа", "PPPoE"];
+  var pppoe_btn = $(
+    '<input type="button" value="🔑 PPPoE" class="btn btn-primary btn-sm" style="margin-left: 5px;"/>'
+  );
 
-  // Проходимся по опциям и выделяем жирным нужные элементы
-  for (var i = 0; i < options.length; i++) {
-    if (optionsToBold.includes(options[i].text)) {
-      options[i].style.fontWeight = "bold"; // Выделяем жирным шрифтом
-    }
-  }
+  var lk_btn = $(
+    '<input type="button" value="🔐 ЛК" class="btn btn-primary btn-sm" style="margin-left: 5px;"/>'
+  );
+
+  var pay_btn = $(
+    '<input type="button" value="💸 СБП" class="btn btn-primary btn-sm" style="margin-left: 5px;"/>'
+  );
+
+  var sbp_btn = $(
+    '<input type="button" value="💸 СБП" class="btn btn-primary btn-sm" style="margin-left: 5px;"/>'
+  );
+
+  static_btn.on("click", function () {
+    $(".type_sms_a").val(27);
+    $(".type_sms_a")[0].dispatchEvent(changeEvent);
+  });
+
+  pppoe_btn.on("click", function () {
+    $(".type_sms_a").val(25);
+    $(".type_sms_a")[0].dispatchEvent(changeEvent);
+  });
+
+  lk_btn.on("click", function () {
+    $(".type_sms_a").val(26);
+    $(".type_sms_a")[0].dispatchEvent(changeEvent);
+  });
+
+  pay_btn.on("click", function () {
+    $(".type_sms_a").val(24);
+    $(".type_sms_a")[0].dispatchEvent(changeEvent);
+  });
+
+  sbp_btn.on("click", function () {
+    $(".type_sms_a").val(50);
+    $(".type_sms_a")[0].dispatchEvent(changeEvent);
+  });
+
+  sendButton.after(static_btn);
+  static_btn.after(pppoe_btn);
+  pppoe_btn.after(lk_btn);
+  lk_btn.after(pay_btn);
+  pay_btn.after(sbp_btn);
 }

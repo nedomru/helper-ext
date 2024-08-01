@@ -5,7 +5,7 @@ if (document.URL.indexOf("genesys-app1") != -1) {
     GENESYS_showOCTPLineStatus: otpcLineStatus,
     GENESYS_hideChatHeader: hideHeader,
   };
-  showClientInfoOnCard();
+  //showClientInfoOnCard();
 
   browser.storage.local.get(Object.keys(GENESYS_config)).then((result) => {
     Object.keys(GENESYS_config).forEach((key) => {
