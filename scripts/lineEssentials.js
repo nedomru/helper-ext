@@ -291,7 +291,7 @@ function fastButtons() {
 }
 
 // Подсветка операторов с определенными классами на линии
-function highlightOperators() { 
+function highlightOperators() {
   console.log(
     `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Подсветка операторов] Активирован модуль подсветки`
   );
