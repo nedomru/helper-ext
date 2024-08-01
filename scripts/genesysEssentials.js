@@ -85,7 +85,7 @@ function hideUselessButtons() {
         clearInterval(interval);
       }
     }, 1000);
-  }, 5000);
+  }, 10000);
 }
 
 function genesysButtons() {
