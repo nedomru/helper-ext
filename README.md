@@ -10,9 +10,11 @@
 
 ![изображение](https://github.com/user-attachments/assets/67f16be4-4bf2-4c70-9ddd-03bde14e0752)
 
-3. Согласиться со всем предложенном в появившемся окне
+3. Согласиться со всем предложенным в появившемся окне
 
-![изображение](https://github.com/user-attachments/assets/8414c10d-48b2-471f-80e3-6668369963ed)
+![dvsF2g3I6G](https://github.com/user-attachments/assets/f8fb97fd-f275-450c-b680-be6f0416d2b8)
+![sq5P97oWk0](https://github.com/user-attachments/assets/f1e2147d-7e5e-4f88-b579-185725b6db55)
+
 
 5. Вы великолепны!
 
