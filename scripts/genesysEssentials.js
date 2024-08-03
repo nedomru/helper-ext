@@ -36,24 +36,24 @@ function hideHeader() {
   }, 1000);
 }
 
-function showClientInfoOnCard() {
-  var interval = setInterval(() => {
-    var chatHeader = document.querySelector(".wwe-case-information-header");
-    if (chatHeader) {
-      if (!chatHeader.classList.contains("was-checked-by-helper")) {
-        chatHeader.classList.add("was-hidden-by-helper");
-        var clientChannel = document.querySelector(
-          "#wweCaseData1OSVersionValue .wwe-data-text-value"
-        ).textContent;
-        chatHeader.innerText = `Информация о чате | ${clientChannel}`;
-        document.querySelector(
-          ".wwe .wwe-case-information .wwe-case-information-header"
-        ).style.color = "white";
-        clearInterval(interval);
-      }
-    }
-  }, 1000);
-}
+// function showClientInfoOnCard() {
+//   var interval = setInterval(() => {
+//     var chatHeader = document.querySelector(".wwe-case-information-header");
+//     if (chatHeader) {
+//       if (!chatHeader.classList.contains("was-checked-by-helper")) {
+//         chatHeader.classList.add("was-hidden-by-helper");
+//         var clientChannel = document.querySelector(
+//           "#wweCaseData1OSVersionValue .wwe-data-text-value"
+//         ).textContent;
+//         chatHeader.innerText = `Информация о чате | ${clientChannel}`;
+//         document.querySelector(
+//           ".wwe .wwe-case-information .wwe-case-information-header"
+//         ).style.color = "white";
+//         clearInterval(interval);
+//       }
+//     }
+//   }, 1000);
+// }
 
 function hideUselessButtons() {
   const buttonsToRemove = [
