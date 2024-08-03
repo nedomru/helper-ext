@@ -33,9 +33,11 @@ function highlightText(element) {
 }
 
 function highlightCells() {
+  const frameSrc = "wcc2_main.frame_left_reasons";
   if (
     document.URL.includes("db.ertelecom.ru/cgi-bin") &&
-    !document.URL.includes("wcc_request_appl_support.change_request_appl")
+    !document.URL.includes("wcc_request_appl_support.change_request_appl") &&
+    !document.URL.includes(frameSrc)
   ) {
     const cells = document.querySelectorAll("td");
     cells.forEach((cell) => {
