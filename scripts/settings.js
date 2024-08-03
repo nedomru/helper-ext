@@ -85,13 +85,6 @@
       "ARM_hideTabLoans",
     ];
     toggleCheckboxes(moneyCheckboxIds);
-
-    sendLog(
-      (type = "INFO"),
-      (extClass = "Настройки"),
-      (extFunction = "Комплексное изменение настроек"),
-      (message = `Скрыты вкладки начислений`)
-    );
     console.log(
       `[${new Date().toLocaleTimeString()}] [Помощник] - [Настройки] Скрыты вкладки начислений`
     );
@@ -111,12 +104,6 @@
     ];
     toggleCheckboxes(otherCheckboxIds);
 
-    sendLog(
-      (type = "INFO"),
-      (extClass = "Настройки"),
-      (extFunction = "Комплексное изменение настроек"),
-      (message = `Скрыты побочные вкладки`)
-    );
     console.log(
       `[${new Date().toLocaleTimeString()}] [Помощник] - [Настройки] Скрыты побочные вкладки`
     );

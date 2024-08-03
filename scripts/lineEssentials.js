@@ -105,12 +105,6 @@ function dutyButtons() {
       }
     } catch {}
   }, 1000);
-  sendLog(
-    (type = "INFO"),
-    (extClass = "Линия"),
-    (extFunction = "Кнопки дежурных"),
-    (message = "Добавлены кнопки дежурного")
-  );
   console.log(
     `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Кнопки дежурных] Добавлены кнопки дежурного`
   );
@@ -291,12 +285,6 @@ function fastButtons() {
   buttonsDiv.appendChild(wfm);
   //buttonsDiv.appendChild(arm);
   buttonsDiv.appendChild(clever);
-  sendLog(
-    (type = "INFO"),
-    (extClass = "Линия"),
-    (extFunction = "Быстрые кнопки"),
-    (message = "Добавлены быстрые кнопки на линию")
-  );
   console.log(
     `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Быстрые кнопки] Добавлены быстрые кнопки на линию`
   );
@@ -304,12 +292,6 @@ function fastButtons() {
 
 // Подсветка операторов с определенными классами на линии
 function highlightOperators() {
-  sendLog(
-    (type = "INFO"),
-    (extClass = "Линия"),
-    (extFunction = "Подсветка операторов"),
-    (message = "Активирован модуль подсветки")
-  );
   console.log(
     `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Подсветка операторов] Активирован модуль подсветки`
   );
@@ -480,12 +462,6 @@ function countAppointments() {
 }
 
 function updateNeededSL() {
-  sendLog(
-    (type = "INFO"),
-    (extClass = "Линия"),
-    (extFunction = "Прогноз SL"),
-    (message = "Загружен модуль прогнозирования SL")
-  );
   console.log(
     `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Прогноз SL] Загружен модуль прогнозирования SL`
   );
@@ -556,12 +532,6 @@ function updateNeededSL() {
         );
       })
       .catch((error) => {
-        sendLog(
-          (type = "INFO"),
-          (extClass = "Линия"),
-          (extFunction = "Прогноз SL"),
-          (message = `Ошибка: ${error}. Прогноз отключен.`)
-        );
         console.log(
           `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Прогноз SL] Ошибка: ${error}. Прогноз отключен.`
         );
