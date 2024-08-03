@@ -8,7 +8,7 @@
   form_mac.addEventListener("submit", handleFormSubmitMac);
   form_link.addEventListener("submit", handleFormSubmitLink);
   form_ip.addEventListener("submit", handleFormSubmitIP);
-  check_premium.addEventListener("submit", getPremium);
+  //check_premium.addEventListener("submit", getPremium);
   search_provider.addEventListener("input", searchProvider);
   search_router.addEventListener("input", searchRouter);
   document
