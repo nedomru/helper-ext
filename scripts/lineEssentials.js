@@ -127,13 +127,17 @@ function fastButtons() {
   }, 1000);
 
   // Задачи
-  const jira = document.createElement("button");
+  const jira = document.createElement("a");
+
   jira.textContent = "Jira";
-  jira.type = "button";
+  jira.setAttribute("href", "https://ticket.ertelecom.ru");
+  jira.setAttribute("target", "_blank");
   jira.setAttribute("class", "v-btn helper-specialist-button");
-  jira.addEventListener("click", function () {
-    window.open("https://ticket.ertelecom.ru/", "_blank");
-  });
+  jira.style.justifyContent = "center";
+  jira.style.textDecoration = "none";
+  jira.style.color = "inherit";
+  jira.style.backgroundColor = "#403e3e";
+
   jira.addEventListener("mouseenter", () => {
     jira.style.backgroundColor = "#595757";
   });
@@ -142,13 +146,17 @@ function fastButtons() {
   });
 
   // Почта
-  const mail = document.createElement("button");
+  const mail = document.createElement("a");
+
   mail.textContent = "Почта";
-  mail.type = "button";
+  mail.setAttribute("href", "https://mail.domru.ru");
+  mail.setAttribute("target", "_blank");
   mail.setAttribute("class", "v-btn helper-specialist-button");
-  mail.addEventListener("click", function () {
-    window.open("https://mail.domru.ru/", "_blank");
-  });
+  mail.style.justifyContent = "center";
+  mail.style.textDecoration = "none";
+  mail.style.color = "inherit";
+  mail.style.backgroundColor = "#403e3e";
+
   mail.addEventListener("mouseenter", () => {
     mail.style.backgroundColor = "#595757";
   });
@@ -157,13 +165,17 @@ function fastButtons() {
   });
 
   // Клевер
-  const clever = document.createElement("button");
+  const clever = document.createElement("a");
+
   clever.textContent = "БЗ";
-  clever.type = "button";
+  clever.setAttribute("href", "https://clever.ertelecom.ru");
+  clever.setAttribute("target", "_blank");
   clever.setAttribute("class", "v-btn helper-specialist-button");
-  clever.addEventListener("click", function () {
-    window.open("https://clever.ertelecom.ru/", "_blank");
-  });
+  clever.style.justifyContent = "center";
+  clever.style.textDecoration = "none";
+  clever.style.color = "inherit";
+  clever.style.backgroundColor = "#403e3e";
+
   clever.addEventListener("mouseenter", () => {
     clever.style.backgroundColor = "#595757";
   });
@@ -172,13 +184,17 @@ function fastButtons() {
   });
 
   // ОКЦ
-  const okc = document.createElement("button");
+  const okc = document.createElement("a");
+
   okc.textContent = "ОКЦ";
-  okc.type = "button";
+  okc.setAttribute("href", "https://okc.ertelecom.ru/stats/#octpNck");
+  okc.setAttribute("target", "_blank");
   okc.setAttribute("class", "v-btn helper-specialist-button");
-  okc.addEventListener("click", function () {
-    window.open("https://okc.ertelecom.ru/stats/#octpNck", "_blank");
-  });
+  okc.style.justifyContent = "center";
+  okc.style.textDecoration = "none";
+  okc.style.color = "inherit";
+  okc.style.backgroundColor = "#403e3e";
+
   okc.addEventListener("mouseenter", () => {
     okc.style.backgroundColor = "#595757";
   });
@@ -187,13 +203,17 @@ function fastButtons() {
   });
 
   // НТП2
-  const ntp = document.createElement("button");
+  const ntp = document.createElement("a");
+
   ntp.textContent = "НТП2";
-  ntp.type = "button";
+  ntp.setAttribute("href", "https://okc.ertelecom.ru/stats/line_ts/ntp2/index");
+  ntp.setAttribute("target", "_blank");
   ntp.setAttribute("class", "v-btn helper-specialist-button");
-  ntp.addEventListener("click", function () {
-    window.open("https://okc.ertelecom.ru/stats/line_ts/ntp2/index", "_blank");
-  });
+  ntp.style.justifyContent = "center";
+  ntp.style.textDecoration = "none";
+  ntp.style.color = "inherit";
+  ntp.style.backgroundColor = "#403e3e";
+
   ntp.addEventListener("mouseenter", () => {
     ntp.style.backgroundColor = "#595757";
   });
@@ -202,13 +222,17 @@ function fastButtons() {
   });
 
   // Обеды
-  const wfm = document.createElement("button");
+  const wfm = document.createElement("a");
+
   wfm.textContent = "Обеды";
-  wfm.type = "button";
+  wfm.setAttribute("href", "https://okc2.ertelecom.ru/wfm/vueapp/day");
+  wfm.setAttribute("target", "_blank");
   wfm.setAttribute("class", "v-btn helper-specialist-button");
-  wfm.addEventListener("click", function () {
-    window.open("https://okc2.ertelecom.ru/wfm/vueapp/day", "_blank");
-  });
+  wfm.style.justifyContent = "center";
+  wfm.style.textDecoration = "none";
+  wfm.style.color = "inherit";
+  wfm.style.backgroundColor = "#403e3e";
+
   wfm.addEventListener("mouseenter", () => {
     wfm.style.backgroundColor = "#595757";
   });
@@ -217,16 +241,20 @@ function fastButtons() {
   });
 
   // ARM
-  const arm = document.createElement("button");
+  const arm = document.createElement("a");
+
   arm.textContent = "АРМ";
-  arm.type = "button";
+  arm.setAttribute(
+    "href",
+    "https://perm.db.ertelecom.ru/cgi-bin/ppo/excells/wcc_main.entry_continue"
+  );
+  arm.setAttribute("target", "_blank");
   arm.setAttribute("class", "v-btn helper-specialist-button");
-  arm.addEventListener("click", function () {
-    window.open(
-      "https://perm.db.ertelecom.ru/cgi-bin/ppo/excells/wcc_main.entry_continue",
-      "_blank"
-    );
-  });
+  arm.style.justifyContent = "center";
+  arm.style.textDecoration = "none";
+  arm.style.color = "inherit";
+  arm.style.backgroundColor = "#403e3e";
+
   arm.addEventListener("mouseenter", () => {
     arm.style.backgroundColor = "#595757";
   });
