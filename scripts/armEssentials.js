@@ -49,6 +49,7 @@ if (
 ) {
   fastButtons();
   showClientAgreementOnChangeRequest();
+  copyTimeSlots();
 
   browser.storage.local
     .get(["ARM_checkWrongTransfer", "ARM_checkSetToMe"])
@@ -832,6 +833,58 @@ function copyClientAgreement() {
   console.log(
     `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Копирование договора] Добавлена кнопка копирования договора`
   );
+}
+
+function copyTimeSlots() {
+  function formatOptions(options) {
+    return options
+      .map((option) => {
+        let timeValue = option.value.split(" ")[1];
+        if (timeValue) {
+          const [hours, minutes] = timeValue.split(":");
+          const endHour = (parseInt(hours) + 1).toString().padStart(2, "0");
+          return `${hours}-${endHour}`;
+        }
+        return null;
+      })
+      .filter(Boolean)
+      .join(", ");
+  }
+
+  const observer = new MutationObserver((mutations, obs) => {
+    const targetNode = document.getElementById("uni_tech_time_req");
+
+    if (targetNode) {
+      // Проверяем, существует ли кнопка рядом с целевым элементом
+      if (
+        !targetNode.nextElementSibling ||
+        !targetNode.nextElementSibling.classList.contains("btn")
+      ) {
+        const button = document.createElement("button");
+        button.setAttribute("class", "btn btn-sm btn-primary helper");
+        button.textContent = "📋 Слоты";
+        button.style.marginLeft = "10px";
+        button.style.display = "inline-block";
+
+        button.addEventListener("click", () => {
+          const formattedOptions = formatOptions(
+            Array.from(targetNode.options).filter(
+              (option) => option.value && option.classList.contains("time_one")
+            )
+          );
+          navigator.clipboard.writeText(formattedOptions).then(() => {
+            $.notify("Слоты скопированы", "success");
+            console.log("Скопировано в буфер обмена");
+          });
+        });
+
+        // Вставляем кнопку справа от целевого элемента
+        targetNode.parentNode.insertBefore(button, targetNode.nextSibling);
+      }
+    }
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
 }
 
 function showClientAgreementOnChangeRequest() {
