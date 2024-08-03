@@ -170,14 +170,14 @@ function genesysButtons() {
 }
 
 function createGenesysLink(href, textContent, additionalStyles = {}) {
-  const button = document.createElement("button");
-  button.href = href;
-  button.target = "_blank";
-  button.textContent = textContent;
-  button.setAttribute("class", "helper");
+  const link = document.createElement("a");
+  link.href = href;
+  link.target = "_blank";
+  link.textContent = textContent;
+  link.setAttribute("class", "helper");
 
   // Применение общих стилей
-  Object.assign(button.style, {
+  Object.assign(link.style, {
     fontSize: "1rem",
     fontFamily: "Roboto, Tahoma, Verdana",
     textAlign: "center",
@@ -186,26 +186,27 @@ function createGenesysLink(href, textContent, additionalStyles = {}) {
     cursor: "pointer",
     height: "28px",
     width: "100px",
+    display: "flex", // Используем Flexbox для центрирования
+    justifyContent: "center",
+    alignItems: "center",
     lineHeight: "auto",
     backgroundColor: "#4c5961",
-    border: "none",
+    border: "none", // Убираем границы, так как это ссылка
     borderRadius: "18px",
-    lineHeight: "20px",
-    borderRadius: "18px",
-    additionalStyles,
+    textDecoration: "none", // Убираем подчеркивание
   });
 
-  button.addEventListener("mouseenter", () => {
-    button.style.backgroundColor = "#63737d";
+  // Применение дополнительных стилей
+  Object.assign(link.style, additionalStyles);
+
+  link.addEventListener("mouseenter", () => {
+    link.style.backgroundColor = "#63737d";
   });
-  button.addEventListener("mouseleave", () => {
-    button.style.backgroundColor = "#4c5961";
-  });
-  button.addEventListener("click", function () {
-    window.open(href, "_blank");
+  link.addEventListener("mouseleave", () => {
+    link.style.backgroundColor = "#4c5961";
   });
 
-  return button;
+  return link;
 }
 
 function otpcLineStatus() {
