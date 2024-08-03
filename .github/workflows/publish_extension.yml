@@ -1,6 +1,4 @@
-- name: WebExtPublish: Firefox
-  # You may pin to the exact commit or the version.
-  # uses: maoserr/firefox_extension_publish@1e1144f073dbdc5cc9c5c0e601823d4825e48455
+- name: WebExtPublish:Firefox
   uses: maoserr/firefox_extension_publish@v1.0.4
   with:
     # Extension ID.
@@ -11,4 +9,3 @@
     api_secret: ec47357b521e61a93425523308950be1fc60524065bdee87df43be6302b5aad4
     # Zip file for firefox extension
     file: domhelper.xpi
-          
