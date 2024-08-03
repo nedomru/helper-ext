@@ -63,29 +63,34 @@ function hideUselessButtons() {
     "Twitter Draft",
   ];
 
-  setTimeout(() => {
-    const interval = setInterval(() => {
-      try {
-        buttonsToRemove.forEach((button) => {
-          document
-            .querySelector(`a[title=""][aria-label="${button}"]`)
-            .remove();
-        });
-        document.querySelector(".dropdown.account-help").remove();
-        document.querySelector(".genesys-logo").remove();
-        document.querySelector(".wwe-dialer-view").remove();
-        console.log(
-          `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Бесполезные кнопки] Все бесполезные кнопки удалены`
-        );
-        clearInterval(interval);
-      } catch (e) {
-        console.log(
-          `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Бесполезные кнопки] Не удалось удалить кнопку: ${e}`
-        );
-        clearInterval(interval);
-      }
-    }, 1000);
-  }, 10000);
+  const observer = new MutationObserver(() => {
+    const facebookButton = document.querySelector(
+      `a[aria-label="Facebook In Progress"]`
+    );
+
+    if (facebookButton) {
+      buttonsToRemove.forEach((button) => {
+        const btn = document.querySelector(`a[aria-label="${button}"]`);
+        if (btn) {
+          btn.remove();
+          console.log(
+            `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - ${button} удалена`
+          );
+        }
+      });
+      document.querySelector(".wwe-dialer-view").remove();
+      document.querySelector(".dropdown.account-help").remove();
+      document.querySelector(".genesys-logo").remove();
+
+      console.log(
+        `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Бесполезные кнопки] Все бесполезные кнопки удалены`
+      );
+
+      observer.disconnect();
+    }
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
 }
 
 function genesysButtons() {
