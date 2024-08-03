@@ -59,10 +59,6 @@ if (
     });
 
   function wrongTransferFalse() {
-    const selectElement = document.getElementById("manager_id");
-    const specialistName =
-      selectElement.options[selectElement.selectedIndex].text;
-
     const radioButton = document.querySelector(
       'input[type="radio"][name="wrongTransfer"][value="0"]'
     );
@@ -90,9 +86,6 @@ if (
     if (document.querySelector(".helper") != null) {
       return;
     }
-    const selectElement = document.getElementById("manager_id");
-    const specialistName =
-      selectElement.options[selectElement.selectedIndex].text;
 
     var changeEvent = new Event("change", {
       bubbles: true,
