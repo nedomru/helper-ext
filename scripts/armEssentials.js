@@ -38,9 +38,8 @@ if (
   copyAddress();
   copyClientCard();
   copyClientAgreement();
-  boldifySMSVariants();
   setHelperAnticipation();
-  //smsButtons();
+  smsButtons();
 }
 
 if (
@@ -842,7 +841,6 @@ function showClientAgreementOnChangeRequest() {
   }`;
 }
 
-// TODO дописать корректный выбор контекста оценки
 function smsButtons() {
   var sendButton = $(".tab-content .send_sms_from_info .sms_web_a");
   var changeEvent = new Event("change", {
@@ -853,21 +851,14 @@ function smsButtons() {
   var static_btn = $(
     '<input type="button" value="🔑 Static" class="btn btn-primary btn-sm" style="margin-left: 5px;"/>'
   );
-
   var pppoe_btn = $(
     '<input type="button" value="🔑 PPPoE" class="btn btn-primary btn-sm" style="margin-left: 5px;"/>'
   );
-
   var lk_btn = $(
     '<input type="button" value="🔐 ЛК" class="btn btn-primary btn-sm" style="margin-left: 5px;"/>'
   );
-
   var pay_btn = $(
-    '<input type="button" value="💸 СБП" class="btn btn-primary btn-sm" style="margin-left: 5px;"/>'
-  );
-
-  var sbp_btn = $(
-    '<input type="button" value="💸 СБП" class="btn btn-primary btn-sm" style="margin-left: 5px;"/>'
+    '<input type="button" value="💸 Оплата" class="btn btn-primary btn-sm" style="margin-left: 5px;"/>'
   );
 
   static_btn.on("click", function () {
@@ -890,14 +881,14 @@ function smsButtons() {
     $(".type_sms_a")[0].dispatchEvent(changeEvent);
   });
 
-  sbp_btn.on("click", function () {
-    $(".type_sms_a").val(50);
-    $(".type_sms_a")[0].dispatchEvent(changeEvent);
-  });
+  function addButtonIfExists(button, value) {
+    if ($(".type_sms_a option[value='" + value + "']").length) {
+      sendButton.after(button);
+    }
+  }
 
-  sendButton.after(static_btn);
-  static_btn.after(pppoe_btn);
-  pppoe_btn.after(lk_btn);
-  lk_btn.after(pay_btn);
-  pay_btn.after(sbp_btn);
+  addButtonIfExists(pay_btn, 24);
+  addButtonIfExists(lk_btn, 26);
+  addButtonIfExists(pppoe_btn, 25);
+  addButtonIfExists(static_btn, 27);
 }
