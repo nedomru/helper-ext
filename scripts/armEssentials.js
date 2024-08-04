@@ -448,6 +448,9 @@ function deleteTabs(tabList) {
 // Замена предвосхищения
 function setHelperAnticipation() {
   var button = document.querySelector(".top_3_butt");
+  if (button.textContent.includes("Помощник")) {
+    return;
+  }
   button.textContent = "Помощник";
 
   const observerSPAS = new MutationObserver((mutationsList, observer) => {
