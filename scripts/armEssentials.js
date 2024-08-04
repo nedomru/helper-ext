@@ -879,7 +879,8 @@ function copyTimeSlots() {
         });
 
         // Вставляем кнопку справа от целевого элемента
-        targetNode.parentNode.insertBefore(button, targetNode.nextSibling);
+        targetNode.insertAdjacentElement("afterend", button);
+        targetNode.parentNode.style.display = "flex";
       }
     }
   });
