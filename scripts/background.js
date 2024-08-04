@@ -1,18 +1,30 @@
 ﻿setTimeout(function () {
-  document.getElementById("waiter").parentNode.removeAttribute("style");
-  document.getElementById("waiter").parentNode.removeAttribute("onselectstart");
-  document.getElementById("formform").onmousedown = function (event) {
-    event.stopPropagation();
-  };
-  document.getElementById("formform").onselectstart = function (event) {
+  let waiter = document.getElementById("waiter");
+  let formForm = document.getElementById("formform");
+
+  // Remove style and event handling attributes from the parent node of "waiter"
+  let parent = waiter.parentNode;
+  parent.removeAttribute("style");
+  parent.removeAttribute("onselectstart");
+
+  // Disable event propagation for "formform"
+  formForm.onmousedown = function (event) {
     event.stopPropagation();
   };
 
-  document.getElementById("waiter").onselectstart = function (event) {
+  formForm.onselectstart = function (event) {
     event.stopPropagation();
   };
 
-  document.getElementById("waiter").onmousedown = function (event) {
+  // Disable event propagation for "waiter"
+  waiter.onselectstart = function (event) {
+    event.stopPropagation();
+  };
+
+  waiter.onmousedown = function (event) {
     event.stopPropagation();
   };
 }, 2000);
+
+// Updating innerHTML safely
+element.innerHTML = text.replace(textToFind, span.outerHTML);
