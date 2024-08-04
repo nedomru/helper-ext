@@ -8,6 +8,7 @@
     "GENESYS_hideUselessButtons",
     "GENESYS_hideChatHeader",
     "GENESYS_showOCTPLineStatus",
+    "GENESYS_showClientChannelOnCard",
     "ARM_hideSPAS",
     "ARM_hideTabIPTV",
     "ARM_hideTabMVNO",
