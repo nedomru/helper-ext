@@ -842,6 +842,12 @@ function copyTimeSlots() {
   function formatOptions(options) {
     return options
       .map((option) => {
+        if (
+          !option.value ||
+          option.text.includes("Выберите время") ||
+          option.text.includes("«Абонент не может быть дома!»")
+        )
+          return null; // Пропускаем элемент "Выберите время"
         let timeValue = option.value.split(" ")[1];
         if (timeValue) {
           const [hours, minutes] = timeValue.split(":");
