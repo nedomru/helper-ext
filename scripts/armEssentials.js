@@ -653,6 +653,7 @@ function setHelperAnticipation() {
         button.innerHTML += " | Особый";
         button.style.backgroundColor = "#cc3300";
         problems++;
+        alert("Внимание! Особый клиент!");
 
         console.log(
           `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден особый клиент`
@@ -669,6 +670,8 @@ function setHelperAnticipation() {
           button.innerHTML += " | Особый";
           button.style.backgroundColor = "#cc3300";
           problems++;
+          alert("Внимание! Особый клиент!");
+
           observerSpecial.disconnect();
           clearTimeout(timeout);
 
