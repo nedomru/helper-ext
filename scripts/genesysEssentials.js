@@ -20,8 +20,9 @@ function hideHeader() {
   console.log(
     `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Скрытие заголовка чата] Загружен модуль скрытия заголовков`
   );
-  setInterval(() => {
-    var chatHeader = document.querySelector(".wwe-case-information-header");
+  const observer = new MutationObserver(() => {
+    const chatHeader = document.querySelector(".wwe-case-information-header");
+
     if (chatHeader) {
       if (!chatHeader.classList.contains("was-hidden-by-helper")) {
         if (chatHeader.getAttribute("aria-expanded") == "true") {
@@ -33,7 +34,12 @@ function hideHeader() {
         }
       }
     }
-  }, 1000);
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+  });
 }
 
 // function showClientInfoOnCard() {
