@@ -63,7 +63,7 @@ function hideUselessButtons() {
     "Twitter Draft",
   ];
 
-  const observer = new MutationObserver(() => {
+  const observerOther = new MutationObserver(() => {
     const facebookButton = document.querySelector(
       `a[aria-label="Facebook In Progress"]`
     );
@@ -78,7 +78,6 @@ function hideUselessButtons() {
           );
         }
       });
-      document.querySelector(".wwe-team-communicator").remove();
       document.querySelector(".dropdown.account-help").remove();
       document.querySelector(".genesys-logo").remove();
 
@@ -90,7 +89,19 @@ function hideUselessButtons() {
     }
   });
 
-  observer.observe(document.body, { childList: true, subtree: true });
+  const observerSearchField = new MutationObserver(() => {
+    const searchingField = document.querySelector(".wwe-team-communicator");
+
+    if (searchingField) {
+      searchingField.remove();
+    }
+  });
+
+  observerSearchField.observe(document.body, {
+    childList: true,
+    subtree: true,
+  });
+  observerOther.observe(document.body, { childList: true, subtree: true });
 }
 
 function genesysButtons() {
