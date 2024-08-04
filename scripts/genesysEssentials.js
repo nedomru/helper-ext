@@ -78,7 +78,7 @@ function hideUselessButtons() {
           );
         }
       });
-      document.querySelector(".wwe-dialer-view").remove();
+      document.querySelector(".wwe-team-communicator").remove();
       document.querySelector(".dropdown.account-help").remove();
       document.querySelector(".genesys-logo").remove();
 
