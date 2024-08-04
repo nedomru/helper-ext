@@ -849,16 +849,16 @@ function smsButtons() {
   });
 
   var static_btn = $(
-    '<input type="button" value="🔑 Static" class="btn btn-primary btn-sm" style="margin-left: 5px;"/>'
+    '<input type="button" value="🔑 Static" class="btn btn-primary btn-sm helper" style="margin-left: 5px;"/>'
   );
   var pppoe_btn = $(
-    '<input type="button" value="🔑 PPPoE" class="btn btn-primary btn-sm" style="margin-left: 5px;"/>'
+    '<input type="button" value="🔑 PPPoE" class="btn btn-primary btn-sm helper" style="margin-left: 5px;"/>'
   );
   var lk_btn = $(
-    '<input type="button" value="🔐 ЛК" class="btn btn-primary btn-sm" style="margin-left: 5px;"/>'
+    '<input type="button" value="🔐 ЛК" class="btn btn-primary btn-sm helper" style="margin-left: 5px;"/>'
   );
   var pay_btn = $(
-    '<input type="button" value="💸 Оплата" class="btn btn-primary btn-sm" style="margin-left: 5px;"/>'
+    '<input type="button" value="💸 Оплата" class="btn btn-primary btn-sm helper" style="margin-left: 5px;"/>'
   );
 
   static_btn.on("click", function () {
@@ -882,7 +882,10 @@ function smsButtons() {
   });
 
   function addButtonIfExists(button, value) {
-    if ($(".type_sms_a option[value='" + value + "']").length) {
+    if (
+      $(".type_sms_a option[value='" + value + "']").length &&
+      $(".helper[value='" + button.val() + "']").length === 0
+    ) {
       sendButton.after(button);
     }
   }
