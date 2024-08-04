@@ -8,7 +8,8 @@
 1. Перейти на сайт https://authfailed.github.io/domhelper/
 2. Нажать кнопку **Обновить расширение**
 
-![изображение](https://github.com/user-attachments/assets/67f16be4-4bf2-4c70-9ddd-03bde14e0752)
+![изображение](https://github.com/user-attachments/assets/f8434b09-f336-423d-a62a-3ebb537860d6)
+
 
 3. Согласиться со всем предложенным в появившемся окне
 
