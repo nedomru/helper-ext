@@ -4,8 +4,8 @@ if (document.URL.indexOf("genesys-app1") != -1) {
     GENESYS_showFastButtons: genesysButtons,
     GENESYS_showOCTPLineStatus: otpcLineStatus,
     GENESYS_hideChatHeader: hideHeader,
+    GENESYS_showClientChannelOnCard: showClientChannelOnCard,
   };
-  //showClientInfoOnCard();
 
   browser.storage.local.get(Object.keys(GENESYS_config)).then((result) => {
     Object.keys(GENESYS_config).forEach((key) => {
@@ -42,24 +42,41 @@ function hideHeader() {
   });
 }
 
-// function showClientInfoOnCard() {
-//   var interval = setInterval(() => {
-//     var chatHeader = document.querySelector(".wwe-case-information-header");
-//     if (chatHeader) {
-//       if (!chatHeader.classList.contains("was-checked-by-helper")) {
-//         chatHeader.classList.add("was-hidden-by-helper");
-//         var clientChannel = document.querySelector(
-//           "#wweCaseData1OSVersionValue .wwe-data-text-value"
-//         ).textContent;
-//         chatHeader.innerText = `Информация о чате | ${clientChannel}`;
-//         document.querySelector(
-//           ".wwe .wwe-case-information .wwe-case-information-header"
-//         ).style.color = "white";
-//         clearInterval(interval);
-//       }
-//     }
-//   }, 1000);
-// }
+function showClientChannelOnCard() {
+  const observer = new MutationObserver(() => {
+    const chatHeader = document.querySelector(".wwe-case-information-header");
+
+    if (chatHeader) {
+      if (!chatHeader.classList.contains("was-checked-by-helper")) {
+        chatHeader.classList.add("was-checked-by-helper");
+
+        const clientCardOSVersion = document.querySelector(
+          "#wweCaseData1OSVersionValue .wwe-data-text-value"
+        );
+
+        if (clientCardOSVersion) {
+          chatHeader.innerText = `Информация о чате | Канал ${clientChannel.textContent}`;
+        } else {
+          const clientCardChannel = document.querySelector(
+            "#wweCaseData1mediachannelValue .wwe-data-text-value"
+          );
+          if (clientCardChannel) {
+            chatHeader.innerText = `Информация о чате | Канал ${clientCardChannel.textContent}`;
+          } else chatHeader.innerText = `Информация о чате | Канал неизвестен`;
+        }
+
+        document.querySelector(
+          ".wwe .wwe-case-information .wwe-case-information-header"
+        ).style.color = "white";
+      }
+    }
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+  });
+}
 
 function hideUselessButtons() {
   const buttonsToRemove = [
