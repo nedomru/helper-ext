@@ -139,6 +139,23 @@
                             <div class="list-group-item">
                                 <div class="row align-items-center">
                                     <div class="col">
+                                        <strong class="mb-0">Отображать быстрые СМС</strong>
+                                        <p class="text-muted mb-0">Добавляет кнопки на договор клиента для быстрого
+                                            выбора типа СМС
+                                        </p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input"
+                                                id="ARM_showHelperSMSButtons" />
+                                            <span class="custom-control-label"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col">
                                         <strong class="mb-0">Помечать обращений как <b>не ошибочные</b></strong>
                                         <p class="text-muted mb-0">Помечает обращения как <b>не ошибочные</b> для НЦК2
                                         </p>
@@ -163,6 +180,112 @@
                                     <div class="col-auto">
                                         <div class="custom-control custom-switch">
                                             <input type="checkbox" class="custom-control-input" id="ARM_checkSetToMe" />
+                                            <span class="custom-control-label"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <strong class="mb-0">Быстрые кнопки смены класса обращения</strong>
+                                        <p class="text-muted mb-0">Добавляет кнопки для быстрой смены класса обращения:
+                                            <b>ТС/ААО, НРД, АБОН - Исход, НТП - Исход, НЦК1 - КС, НЦК2 - КС</b>
+                                        </p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input"
+                                                id="ARM_changeRequestFastButtons" />
+                                            <span class="custom-control-label"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <strong class="mb-0">Уведомление об особом клиенте</strong>
+                                        <p class="text-muted mb-0">При открытии договора если клиент является особым
+                                            появится уведомление посередине экрана
+                                        </p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input"
+                                                id="ARM_checkForSpecialClient" />
+                                            <span class="custom-control-label"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <strong class="mb-0">Копирование элементов</strong>
+                        <p>Скрытие вкладок, связанных с начислениями</p>
+                        <div class="list-group mb-5 shadow">
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <strong class="mb-0">Отображать копирование адреса</strong>
+                                        <p class="text-muted mb-0">Добавляет кнопку на договор для копирования адреса
+                                            клиента
+                                        </p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input"
+                                                id="ARM_copyClientAddress" />
+                                            <span class="custom-control-label"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <strong class="mb-0">Отображать копирование карточки</strong>
+                                        <p class="text-muted mb-0">Добавляет кнопку на договор для копирования карточки
+                                            клиента
+                                        </p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input"
+                                                id="ARM_copyClientCard" />
+                                            <span class="custom-control-label"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <strong class="mb-0">Отображать копирование договора</strong>
+                                        <p class="text-muted mb-0">Добавляет кнопку на договор для копирования договора
+                                            клиента
+                                        </p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input"
+                                                id="ARM_copyClientAgreement" />
+                                            <span class="custom-control-label"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <strong class="mb-0">Отображать копирование слотов СЗ</strong>
+                                        <p class="text-muted mb-0">Добавляет кнопку на обращение для копирования слотов
+                                            СЗ
+                                        </p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input"
+                                                id="ARM_copyTimeSlots" />
                                             <span class="custom-control-label"></span>
                                         </div>
                                     </div>
@@ -459,6 +582,21 @@
                             <div class="col-auto">
                                 <div class="custom-control custom-switch">
                                     <input type="checkbox" class="custom-control-input" id="LINE_updateNeededSL" />
+                                    <span class="custom-control-label"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <strong class="mb-0">Подсчет кол-ва назначений</strong>
+                                <p class="text-muted mb-0">Отображает количество специалистов в назначениях (РСГ,
+                                    Проекты, Обучения)</p>
+                            </div>
+                            <div class="col-auto">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="LINE_countAppointments" />
                                     <span class="custom-control-label"></span>
                                 </div>
                             </div>
