@@ -13,6 +13,7 @@ browser.runtime.onInstalled.addListener(() => {
     ARM_showHelperSMSButtons: true,
     ARM_copyTimeSlots: true,
     ARM_changeRequestFastButtons: true,
+    ARM_checkForSpecialClient: true,
     ARM_hideTabIPTV: false,
     ARM_hideTabMVNO: false,
     ARM_hideTabAVTOSP: false,

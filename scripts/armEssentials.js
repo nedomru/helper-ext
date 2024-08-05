@@ -27,6 +27,7 @@ if (
     ARM_copyClientCard: copyClientCard,
     ARM_copyClientAgreement: copyClientAgreement,
     ARM_showHelperSMSButtons: smsButtons,
+    ARM_checkForSpecialClient: checkForSpecialClient,
   };
 
   browser.storage.sync.get(Object.keys(ARM_config)).then((result) => {
@@ -92,6 +93,49 @@ function deleteTabs(tabList) {
   );
 }
 
+function checkForSpecialClient() {
+  const observerSpecial = new MutationObserver((mutationsList, observer) => {
+    for (const mutation of mutationsList) {
+      if (mutation.type === "childList") {
+        mutation.addedNodes.forEach(checkForSpecial);
+      }
+    }
+  });
+
+  special = document.querySelectorAll(".bl_antic_head_w");
+  if (special) {
+    special.forEach((element) => {
+      if (element.textContent.trim() === "Особый Клиент") {
+        alert("Внимание! Особый клиент!");
+        console.log(
+          `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Особый клиент] Найден особый клиент`
+        );
+      }
+    });
+  } else {
+    function checkForSpecial(node) {
+      if (
+        node.nodeType === Node.ELEMENT_NODE &&
+        node.classList.contains("bl_antic_head_w")
+      ) {
+        if (node.textContent.trim() === "Особый Клиент") {
+          alert("Внимание! Особый клиент!");
+
+          observerSpecial.disconnect();
+          clearTimeout(timeout);
+
+          console.log(
+            `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Особый клиент] Найден особый клиент`
+          );
+        }
+      }
+    }
+    observerSpecial.observe(document.body, { childList: true, subtree: true });
+    const timeout = setTimeout(() => {
+      observerSpecial.disconnect();
+    }, 3000);
+  }
+}
 // Замена предвосхищения
 function setHelperAnticipation() {
   var button = document.querySelector(".top_3_butt");
@@ -300,7 +344,6 @@ function setHelperAnticipation() {
         button.innerHTML += " | Особый";
         button.style.backgroundColor = "#cc3300";
         problems++;
-        alert("Внимание! Особый клиент!");
 
         console.log(
           `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден особый клиент`
@@ -317,7 +360,6 @@ function setHelperAnticipation() {
           button.innerHTML += " | Особый";
           button.style.backgroundColor = "#cc3300";
           problems++;
-          alert("Внимание! Особый клиент!");
 
           observerSpecial.disconnect();
           clearTimeout(timeout);

@@ -16,6 +16,7 @@
     "ARM_showHelperSMSButtons",
     "ARM_copyTimeSlots",
     "ARM_changeRequestFastButtons",
+    "ARM_checkForSpecialClient",
     "ARM_hideTabIPTV",
     "ARM_hideTabMVNO",
     "ARM_hideTabAVTOSP",
