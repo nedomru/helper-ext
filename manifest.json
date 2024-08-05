@@ -35,6 +35,10 @@
       "matches": ["http://*/*", "https://*/*"]
     }
   ],
+  "background": {
+    "scripts": ["scripts/extInstall.js"],
+    "persistent": false
+  },
   "permissions": [
     "*://*.ertelecom.ru/*",
     "*://*.maclookup.app/*",

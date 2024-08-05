@@ -10,6 +10,12 @@
     "GENESYS_showOCTPLineStatus",
     "GENESYS_showClientChannelOnCard",
     "ARM_hideSPAS",
+    "ARM_copyClientAddress",
+    "ARM_copyClientCard",
+    "ARM_copyClientAgreement",
+    "ARM_showHelperSMSButtons",
+    "ARM_copyTimeSlots",
+    "ARM_changeRequestFastButtons",
     "ARM_hideTabIPTV",
     "ARM_hideTabMVNO",
     "ARM_hideTabAVTOSP",
@@ -32,9 +38,10 @@
     "LINE_dutyButtons",
     "LINE_showFastButtons",
     "LINE_updateNeededSL",
+    "LINE_countAppointments",
   ];
 
-  browser.storage.local.get(checkboxIds).then((result) => {
+  browser.storage.sync.get(checkboxIds).then((result) => {
     checkboxIds.forEach((id) => {
       const checkbox = document.getElementById(id);
 
@@ -42,25 +49,23 @@
     });
   });
 
-  // Функция для обработчика изменения чекбоксов
   function handleCheckboxChange(event) {
     const setting = event.target.id;
     const isChecked = event.target.checked;
-    browser.storage.local.set({ [setting]: isChecked });
+    browser.storage.sync.set({ [setting]: isChecked });
 
     console.log(
       `[${new Date().toLocaleTimeString()}] [Помощник] - [Настройки] Настройка ${setting} изменена на ${isChecked}`
     );
   }
 
-  // Применение обработчика для всех чекбоксов
-
-  document.querySelectorAll(".custom-control-input").forEach((checkbox) => {
+  // Привязка обработчика изменения к чекбоксам
+  checkboxIds.forEach((id) => {
+    const checkbox = document.getElementById(id);
     checkbox.addEventListener("change", handleCheckboxChange);
   });
 
   // Общая функция для кнопок с тогглами
-
   function toggleCheckboxes(checkboxIds) {
     checkboxIds.forEach((id) => {
       document.getElementById(id).checked = true;

@@ -7,13 +7,18 @@ if (document.URL.indexOf("genesys-app1") != -1) {
     GENESYS_showClientChannelOnCard: showClientChannelOnCard,
   };
 
-  browser.storage.local.get(Object.keys(GENESYS_config)).then((result) => {
-    Object.keys(GENESYS_config).forEach((key) => {
-      if (result[key]) {
-        GENESYS_config[key]();
-      }
+  browser.storage.sync
+    .get(Object.keys(GENESYS_config))
+    .then((result) => {
+      Object.keys(GENESYS_config).forEach((key) => {
+        if (result[key]) {
+          GENESYS_config[key]();
+        }
+      });
+    })
+    .catch((error) => {
+      console.error("Ошибка при получении настроек:", error);
     });
-  });
 }
 
 function hideHeader() {
