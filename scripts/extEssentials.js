@@ -1,5 +1,20 @@
-browser.runtime.onInstalled.addListener(() => {
-  console.log("Расширение установлено.");
+async function checkForUpdates() {
+  const response = await fetch(
+    "https://api.github.com/repos/AuthFailed/domhelper/releases/latest"
+  );
+
+  const data = await response.json();
+
+  const latestVersion = data.tag_name;
+
+  if (latestVersion !== browser.runtime.getManifest().version) {
+    browser.tabs.create({
+      url: browser.runtime.getURL("update.html"),
+    });
+  }
+}
+
+async function setDefaults() {
   const defaultSettings = {
     GENESYS_showFastButtons: true,
     GENESYS_hideUselessButtons: false,
@@ -58,4 +73,10 @@ browser.runtime.onInstalled.addListener(() => {
     .catch((error) => {
       console.error("Ошибка установки настроек:", error);
     });
+}
+
+browser.runtime.onInstalled.addListener(() => {
+  checkForUpdates();
+  setDefaults();
 });
+browser.runtime.onStartup.addListener(checkForUpdates);
