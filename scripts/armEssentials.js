@@ -30,11 +30,16 @@ if (
     ARM_checkForSpecialClient: checkForSpecialClient,
   };
 
-  browser.storage.sync.get(Object.keys(ARM_config)).then((result) => {
-    const tabsToDelete = Object.keys(TABS_config)
-      .filter((key) => result[key])
-      .map((key) => TABS_config[key]);
+  browser.storage.sync.get(Object.keys(TABS_config)).then((result) => {
+    const tabsToDelete = [];
 
+    Object.keys(TABS_config).forEach((key) => {
+      if (result[key]) {
+        tabsToDelete.push(TABS_config[key]);
+      }
+    });
+
+    console.log(TABS_config);
     deleteTabs(tabsToDelete);
   });
 

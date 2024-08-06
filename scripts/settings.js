@@ -1,4 +1,4 @@
-﻿document.addEventListener("DOMContentLoaded", function () {
+﻿document.addEventListener("DOMContentLoaded", async function () {
   const version = browser.runtime.getManifest().version;
   document.getElementById("extension-version").textContent = version;
 
@@ -42,22 +42,27 @@
     "LINE_countAppointments",
   ];
 
-  browser.storage.sync.get(checkboxIds).then((result) => {
+  try {
+    const result = await browser.storage.sync.get(checkboxIds);
     checkboxIds.forEach((id) => {
       const checkbox = document.getElementById(id);
-
       checkbox.checked = result[id] || false;
     });
-  });
+  } catch (error) {
+    console.error(`Ошибка при загрузке настроек: ${error}`);
+  }
 
   function handleCheckboxChange(event) {
     const setting = event.target.id;
     const isChecked = event.target.checked;
-    browser.storage.sync.set({ [setting]: isChecked });
-
-    console.log(
-      `[${new Date().toLocaleTimeString()}] [Помощник] - [Настройки] Настройка ${setting} изменена на ${isChecked}`
-    );
+    browser.storage.sync
+      .set({ [setting]: isChecked })
+      .then(() => {
+        console.log(
+          `[${new Date().toLocaleTimeString()}] [Помощник] - [Настройки] Настройка ${setting} изменена на ${isChecked}`
+        );
+      })
+      .catch(onError);
   }
 
   // Привязка обработчика изменения к чекбоксам
@@ -72,9 +77,9 @@
       document.getElementById(id).checked = true;
     });
 
-    browser.storage.local.set(
-      checkboxIds.reduce((acc, id) => ({ ...acc, [id]: true }), {})
-    );
+    browser.storage.sync
+      .set(checkboxIds.reduce((acc, id) => ({ ...acc, [id]: true }), {}))
+      .catch(onError);
   }
 
   // Обработчик для кнопки "toggleMoneyButton"
@@ -110,7 +115,6 @@
       "ARM_hideTabDiagnosticNew",
     ];
     toggleCheckboxes(otherCheckboxIds);
-
     console.log(
       `[${new Date().toLocaleTimeString()}] [Помощник] - [Настройки] Скрыты побочные вкладки`
     );
