@@ -20,7 +20,7 @@ jobs:
       - run: npm ci
       - run: npm run build_ff -- --env=version=$MAJOR_VER.$MINOR_VER.${{ github.run_number }}
       - name: Zip firefox
-        run: zip -qq -r firefox.zip *
+        run: zip -qq -r firefox.zip * -x ".github/*" "docs/*" "README.md"
         working-directory: dist/firefox_prod
       - uses: actions/upload-artifact@v4
         with:
