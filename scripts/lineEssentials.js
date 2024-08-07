@@ -312,23 +312,15 @@ function createLinkTab(id, href, iconClass, textContent) {
 }
 
 function countAppointments() {
-  setInterval(() => {
+  // Функция для подсчета записей
+  const updateAppointmentCount = (table) => {
     const theme = document
       .querySelectorAll(".v-application.v-application--is-ltr")[0]
       .classList.contains("theme--dark")
       ? "dark"
       : "light";
 
-    const table = document.evaluate(
-      "/html/body/div/div[1]/main/div/div[2]/div[13]/div[4]/div/div[1]/div/div/div/div/div/div/div",
-      document,
-      null,
-      XPathResult.FIRST_ORDERED_NODE_TYPE,
-      null
-    ).singleNodeValue;
-
-    var total = 0;
-    total = table.querySelectorAll("tr").length - 1;
+    var total = table.querySelectorAll("tr").length - 1;
 
     var on_rsg_operators = 0;
     var on_project_operators = 0;
@@ -368,12 +360,41 @@ function countAppointments() {
     ${on_learning_operators > 0 ? `| Обучения: ${on_learning_operators}` : ""}`;
 
     chipElement.textContent = new_text;
-    if (theme === "dark") {
-      chipElement.style.color = "white";
-    } else {
-      chipElement.style.color = "black";
+    chipElement.style.color = theme === "dark" ? "white" : "black";
+  };
+
+  // Создаем наблюдатель для отслеживания загрузки таблицы
+  const tableObserver = new MutationObserver(() => {
+    const table = document.evaluate(
+      "/html/body/div/div[1]/main/div/div[2]/div[13]/div[4]/div/div[1]/div/div/div/div/div/div/div",
+      document,
+      null,
+      XPathResult.FIRST_ORDERED_NODE_TYPE,
+      null
+    ).singleNodeValue;
+
+    if (table) {
+      // Начальная подсчет записей
+      updateAppointmentCount(table);
+
+      // Создаем наблюдатель для отслеживания изменений в tbody
+      const tbodyObserver = new MutationObserver(() => {
+        const tbody = table.querySelector("tbody");
+        if (tbody) {
+          updateAppointmentCount(table);
+        }
+      });
+
+      // Наблюдаем за изменениями в таблице
+      tbodyObserver.observe(table, { childList: true, subtree: true });
+
+      // Отключаем после нахождения таблицы
+      tableObserver.disconnect();
     }
-  }, 5000);
+  });
+
+  // Наблюдаем за изменениями в документе или контейнере
+  tableObserver.observe(document.body, { childList: true, subtree: true });
 }
 
 function updateNeededSL() {
