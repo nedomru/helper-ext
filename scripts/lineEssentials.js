@@ -42,72 +42,73 @@ if (document.URL.indexOf("genesys-ntp") != -1) {
 
 // Добавление кнопок на линию
 function dutyButtons() {
-  if (document.querySelector(".helper-duty-button") != null) {
-    return;
-  }
-  const botLink = createLinkTab(
-    "list-item-742",
-    "http://46.146.231.248/linenck",
-    "mdi mdi-robot-outline",
-    "Очередь вопросов"
+  if (document.querySelector(".helper-duty-button")) return;
+
+  const linksData = [
+    {
+      id: "list-item-742",
+      url: "http://46.146.231.248/linenck",
+      icon: "mdi mdi-robot-outline",
+      text: "Очередь вопросов",
+    },
+    {
+      id: "list-item-742",
+      url: "http://genesys-stat.cc1.ertelecom.ru:9090/gax/#/!/view:com.cm.details/101/CfgTransaction/CfgFolder:196/CfgTransaction:312/gax:options",
+      icon: "mdi mdi-alert-octagon-outline",
+      text: "Заглушки",
+    },
+    {
+      id: "list-item-742",
+      url: "https://okc2.ertelecom.ru/wfm/offers/duty/nsk_stp",
+      icon: "mdi mdi-account-multiple-outline",
+      text: "Предложка",
+    },
+    {
+      id: "list-item-742",
+      url: "https://okc.ertelecom.ru/stats/genesys-reports/ntp/sl-forecast",
+      icon: "mdi mdi-chart-box-outline",
+      text: "Прогноз SL",
+    },
+    {
+      id: "list-item-742",
+      url: "https://genesys.domru.ru/citystats/queue",
+      icon: "mdi mdi-alien-outline",
+      text: "ТС 2.0",
+    },
+    {
+      id: "list-item-742",
+      url: "http://10.121.15.99/lenta",
+      icon: "mdi mdi-chat-processing-outline",
+      text: "Генератор ленты",
+    },
+  ];
+
+  const buttons = linksData.map((linkData) =>
+    createLinkTab(linkData.id, linkData.url, linkData.icon, linkData.text)
   );
 
-  const stubLink = createLinkTab(
-    "list-item-742",
-    "http://genesys-stat.cc1.ertelecom.ru:9090/gax/#/!/view:com.cm.details/101/CfgTransaction/CfgFolder:196/CfgTransaction:312/gax:options",
-    "mdi mdi-alert-octagon-outline",
-    "Заглушки"
-  );
-
-  const appointmentLink = createLinkTab(
-    "list-item-742",
-    "https://okc2.ertelecom.ru/wfm/offers/duty/nsk_stp",
-    "mdi mdi-account-multiple-outline",
-    "Предложка"
-  );
-
-  const slForecastLink = createLinkTab(
-    "list-item-742",
-    "https://okc.ertelecom.ru/stats/genesys-reports/ntp/sl-forecast",
-    "mdi mdi-chart-box-outline",
-    "Прогноз SL"
-  );
-
-  const ts = createLinkTab(
-    "list-item-742",
-    "https://genesys.domru.ru/citystats/queue",
-    "mdi mdi-alien-outline",
-    "ТС 2.0"
-  );
-
-  const lenta = createLinkTab(
-    "list-item-742",
-    "http://10.121.15.99/lenta",
-    "mdi mdi-chat-processing-outline",
-    "Генератор ленты"
-  );
-
-  const intervalId = setInterval(() => {
-    var container = document.querySelector(
+  const observer = new MutationObserver(() => {
+    const container = document.querySelector(
       ".v-menu__content.v-menu__content--fixed.menuable__content__active.elevation-3"
     );
-    try {
-      container_list = container.querySelector(".v-list.v-sheet.v-list--dense");
+    if (container) {
+      const containerList = container.querySelector(
+        ".v-list.v-sheet.v-list--dense"
+      );
+      if (containerList) {
+        buttons.forEach((button) => {
+          containerList.appendChild(button);
+        });
+        observer.disconnect(); // Отключаем наблюдатель после добавления кнопок
 
-      if (container_list) {
-        container_list.appendChild(slForecastLink);
-        container_list.appendChild(botLink);
-        container_list.appendChild(stubLink);
-        container_list.appendChild(appointmentLink);
-        container_list.appendChild(ts);
-        container_list.appendChild(lenta);
-        clearInterval(intervalId);
+        console.log(
+          `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Кнопки дежурных] Добавлены кнопки дежурного`
+        );
       }
-    } catch {}
-  }, 1000);
-  console.log(
-    `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Кнопки дежурных] Добавлены кнопки дежурного`
-  );
+    }
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
 }
 
 function fastButtons() {
