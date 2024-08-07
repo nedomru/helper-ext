@@ -210,44 +210,67 @@ function highlightOperators() {
   };
 
   const appointmentsTable = document.getElementsByClassName("bottom-row")[0];
-  if (appointmentsTable) {
-    const interval = setInterval(() => {
-      const theme = document
-        .querySelectorAll(".v-application.v-application--is-ltr")[0]
-        .classList.contains("theme--dark")
-        ? "dark"
-        : "light";
-      const rows = appointmentsTable.querySelectorAll("table tr");
 
-      rows.forEach((row) => {
-        const cells = row.querySelectorAll("td, th");
-        let isValueFound = false;
-
-        for (const key in colorMap[theme]) {
-          for (let i = 0; i < cells.length; i++) {
-            if (cells[i].textContent.includes(key)) {
-              row.style.backgroundColor = colorMap[theme][key];
-              isValueFound = true;
-              break;
-            }
-          }
-          if (isValueFound) break;
-        }
-
-        if (!isValueFound) {
-          if (theme === "dark") {
-            row.style.backgroundColor = "#1e1e1e";
-          } else {
-            row.style.backgroundColor = "#FFFFFF";
-          }
-        }
-      });
-      console.log(
-        `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Подсветка операторов] Подсветка обновлена`
-      );
-    }, 5000);
+  if (!appointmentsTable) {
+    console.error("Таблица не найдена.");
+    return;
   }
-  return () => clearInterval(interval);
+
+  // Функция подсветки строк
+  const highlightRows = (tbody) => {
+    const theme = document
+      .querySelector(".v-application.v-application--is-ltr")
+      .classList.contains("theme--dark")
+      ? "dark"
+      : "light";
+    const rows = tbody.querySelectorAll("tr");
+
+    rows.forEach((row) => {
+      const cells = row.querySelectorAll("td, th");
+      let isValueFound = false;
+
+      for (const key in colorMap[theme]) {
+        for (let i = 0; i < cells.length; i++) {
+          if (cells[i].textContent.includes(key)) {
+            row.style.backgroundColor = colorMap[theme][key];
+            isValueFound = true;
+            break;
+          }
+        }
+        if (isValueFound) break;
+      }
+
+      if (!isValueFound) {
+        row.style.backgroundColor = theme === "dark" ? "#1e1e1e" : "#FFFFFF";
+      }
+    });
+    console.log(
+      `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Подсветка операторов] Подсветка обновлена`
+    );
+  };
+
+  // Создаем наблюдатель для отслеживания появления tbody
+  const observer = new MutationObserver(() => {
+    const tbody = appointmentsTable.querySelector("tbody");
+    if (tbody) {
+      // Останавливаем наблюдение, когда tbody найден
+      observer.disconnect();
+
+      // Начальная подсветка
+      highlightRows(tbody);
+
+      // Создаем новый наблюдатель для отслеживания изменений только в tbody
+      const tbodyObserver = new MutationObserver(() => {
+        highlightRows(tbody);
+      });
+
+      // Настраиваем наблюдение за дочерними элементами в tbody
+      tbodyObserver.observe(tbody, { childList: true, subtree: true });
+    }
+  });
+
+  // Настраиваем наблюдение за элементами внутри таблицы
+  observer.observe(appointmentsTable, { childList: true, subtree: true });
 }
 
 function createLinkTab(id, href, iconClass, textContent) {
