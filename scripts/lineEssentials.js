@@ -42,72 +42,73 @@ if (document.URL.indexOf("genesys-ntp") != -1) {
 
 // Добавление кнопок на линию
 function dutyButtons() {
-  if (document.querySelector(".helper-duty-button") != null) {
-    return;
-  }
-  const botLink = createLinkTab(
-    "list-item-742",
-    "http://46.146.231.248/linenck",
-    "mdi mdi-robot-outline",
-    "Очередь вопросов"
+  if (document.querySelector(".helper-duty-button")) return;
+
+  const linksData = [
+    {
+      id: "list-item-742",
+      url: "http://46.146.231.248/linenck",
+      icon: "mdi mdi-robot-outline",
+      text: "Очередь вопросов",
+    },
+    {
+      id: "list-item-742",
+      url: "http://genesys-stat.cc1.ertelecom.ru:9090/gax/#/!/view:com.cm.details/101/CfgTransaction/CfgFolder:196/CfgTransaction:312/gax:options",
+      icon: "mdi mdi-alert-octagon-outline",
+      text: "Заглушки",
+    },
+    {
+      id: "list-item-742",
+      url: "https://okc2.ertelecom.ru/wfm/offers/duty/nsk_stp",
+      icon: "mdi mdi-account-multiple-outline",
+      text: "Предложка",
+    },
+    {
+      id: "list-item-742",
+      url: "https://okc.ertelecom.ru/stats/genesys-reports/ntp/sl-forecast",
+      icon: "mdi mdi-chart-box-outline",
+      text: "Прогноз SL",
+    },
+    {
+      id: "list-item-742",
+      url: "https://genesys.domru.ru/citystats/queue",
+      icon: "mdi mdi-alien-outline",
+      text: "ТС 2.0",
+    },
+    {
+      id: "list-item-742",
+      url: "http://10.121.15.99/lenta",
+      icon: "mdi mdi-chat-processing-outline",
+      text: "Генератор ленты",
+    },
+  ];
+
+  const buttons = linksData.map((linkData) =>
+    createLinkTab(linkData.id, linkData.url, linkData.icon, linkData.text)
   );
 
-  const stubLink = createLinkTab(
-    "list-item-742",
-    "http://genesys-stat.cc1.ertelecom.ru:9090/gax/#/!/view:com.cm.details/101/CfgTransaction/CfgFolder:196/CfgTransaction:312/gax:options",
-    "mdi mdi-alert-octagon-outline",
-    "Заглушки"
-  );
-
-  const appointmentLink = createLinkTab(
-    "list-item-742",
-    "https://okc2.ertelecom.ru/wfm/offers/duty/nsk_stp",
-    "mdi mdi-account-multiple-outline",
-    "Предложка"
-  );
-
-  const slForecastLink = createLinkTab(
-    "list-item-742",
-    "https://okc.ertelecom.ru/stats/genesys-reports/ntp/sl-forecast",
-    "mdi mdi-chart-box-outline",
-    "Прогноз SL"
-  );
-
-  const ts = createLinkTab(
-    "list-item-742",
-    "https://genesys.domru.ru/citystats/queue",
-    "mdi mdi-alien-outline",
-    "ТС 2.0"
-  );
-
-  const lenta = createLinkTab(
-    "list-item-742",
-    "http://10.121.15.99/lenta",
-    "mdi mdi-chat-processing-outline",
-    "Генератор ленты"
-  );
-
-  const intervalId = setInterval(() => {
-    var container = document.querySelector(
+  const observer = new MutationObserver(() => {
+    const container = document.querySelector(
       ".v-menu__content.v-menu__content--fixed.menuable__content__active.elevation-3"
     );
-    try {
-      container_list = container.querySelector(".v-list.v-sheet.v-list--dense");
+    if (container) {
+      const containerList = container.querySelector(
+        ".v-list.v-sheet.v-list--dense"
+      );
+      if (containerList) {
+        buttons.forEach((button) => {
+          containerList.appendChild(button);
+        });
+        observer.disconnect(); // Отключаем наблюдатель после добавления кнопок
 
-      if (container_list) {
-        container_list.appendChild(slForecastLink);
-        container_list.appendChild(botLink);
-        container_list.appendChild(stubLink);
-        container_list.appendChild(appointmentLink);
-        container_list.appendChild(ts);
-        container_list.appendChild(lenta);
-        clearInterval(intervalId);
+        console.log(
+          `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Кнопки дежурных] Добавлены кнопки дежурного`
+        );
       }
-    } catch {}
-  }, 1000);
-  console.log(
-    `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Кнопки дежурных] Добавлены кнопки дежурного`
-  );
+    }
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
 }
 
 function fastButtons() {
@@ -117,204 +118,67 @@ function fastButtons() {
   if (document.querySelector(".helper") != null) {
     return;
   }
+
   let buttonsDiv = document.createElement("div");
-  const interval = setInterval(() => {
-    let lineHeader = document.querySelector(".duty-app-block");
-    if (lineHeader !== null) {
-      lineHeader.parentNode.insertBefore(buttonsDiv, lineHeader.nextSibling);
-      clearInterval(interval);
-    }
-  }, 1000);
-
-  // Задачи
-  const jira = document.createElement("a");
-
-  jira.textContent = "Jira";
-  jira.setAttribute("href", "https://ticket.ertelecom.ru");
-  jira.setAttribute("target", "_blank");
-  jira.setAttribute("class", "v-btn helper-specialist-button");
-  jira.style.justifyContent = "center";
-  jira.style.textDecoration = "none";
-  jira.style.color = "inherit";
-  jira.style.backgroundColor = "#403e3e";
-
-  jira.addEventListener("mouseenter", () => {
-    jira.style.backgroundColor = "#595757";
-  });
-  jira.addEventListener("mouseleave", () => {
-    jira.style.backgroundColor = "#403e3e";
-  });
-
-  // Почта
-  const mail = document.createElement("a");
-
-  mail.textContent = "Почта";
-  mail.setAttribute("href", "https://mail.domru.ru");
-  mail.setAttribute("target", "_blank");
-  mail.setAttribute("class", "v-btn helper-specialist-button");
-  mail.style.justifyContent = "center";
-  mail.style.textDecoration = "none";
-  mail.style.color = "inherit";
-  mail.style.backgroundColor = "#403e3e";
-
-  mail.addEventListener("mouseenter", () => {
-    mail.style.backgroundColor = "#595757";
-  });
-  mail.addEventListener("mouseleave", () => {
-    mail.style.backgroundColor = "#403e3e";
-  });
-
-  // Клевер
-  const clever = document.createElement("a");
-
-  clever.textContent = "БЗ";
-  clever.setAttribute("href", "https://clever.ertelecom.ru");
-  clever.setAttribute("target", "_blank");
-  clever.setAttribute("class", "v-btn helper-specialist-button");
-  clever.style.justifyContent = "center";
-  clever.style.textDecoration = "none";
-  clever.style.color = "inherit";
-  clever.style.backgroundColor = "#403e3e";
-
-  clever.addEventListener("mouseenter", () => {
-    clever.style.backgroundColor = "#595757";
-  });
-  clever.addEventListener("mouseleave", () => {
-    clever.style.backgroundColor = "#403e3e";
-  });
-
-  // ОКЦ
-  const okc = document.createElement("a");
-
-  okc.textContent = "ОКЦ";
-  okc.setAttribute("href", "https://okc.ertelecom.ru/stats/#octpNck");
-  okc.setAttribute("target", "_blank");
-  okc.setAttribute("class", "v-btn helper-specialist-button");
-  okc.style.justifyContent = "center";
-  okc.style.textDecoration = "none";
-  okc.style.color = "inherit";
-  okc.style.backgroundColor = "#403e3e";
-
-  okc.addEventListener("mouseenter", () => {
-    okc.style.backgroundColor = "#595757";
-  });
-  okc.addEventListener("mouseleave", () => {
-    okc.style.backgroundColor = "#403e3e";
-  });
-
-  // НТП2
-  const ntp = document.createElement("a");
-
-  ntp.textContent = "НТП2";
-  ntp.setAttribute("href", "https://okc.ertelecom.ru/stats/line_ts/ntp2/index");
-  ntp.setAttribute("target", "_blank");
-  ntp.setAttribute("class", "v-btn helper-specialist-button");
-  ntp.style.justifyContent = "center";
-  ntp.style.textDecoration = "none";
-  ntp.style.color = "inherit";
-  ntp.style.backgroundColor = "#403e3e";
-
-  ntp.addEventListener("mouseenter", () => {
-    ntp.style.backgroundColor = "#595757";
-  });
-  ntp.addEventListener("mouseleave", () => {
-    ntp.style.backgroundColor = "#403e3e";
-  });
-
-  // Обеды
-  const wfm = document.createElement("a");
-
-  wfm.textContent = "Обеды";
-  wfm.setAttribute("href", "https://okc2.ertelecom.ru/wfm/vueapp/day");
-  wfm.setAttribute("target", "_blank");
-  wfm.setAttribute("class", "v-btn helper-specialist-button");
-  wfm.style.justifyContent = "center";
-  wfm.style.textDecoration = "none";
-  wfm.style.color = "inherit";
-  wfm.style.backgroundColor = "#403e3e";
-
-  wfm.addEventListener("mouseenter", () => {
-    wfm.style.backgroundColor = "#595757";
-  });
-  wfm.addEventListener("mouseleave", () => {
-    wfm.style.backgroundColor = "#403e3e";
-  });
-
-  // ARM
-  const arm = document.createElement("a");
-
-  arm.textContent = "АРМ";
-  arm.setAttribute(
-    "href",
-    "https://perm.db.ertelecom.ru/cgi-bin/ppo/excells/wcc_main.entry_continue"
-  );
-  arm.setAttribute("target", "_blank");
-  arm.setAttribute("class", "v-btn helper-specialist-button");
-  arm.style.justifyContent = "center";
-  arm.style.textDecoration = "none";
-  arm.style.color = "inherit";
-  arm.style.backgroundColor = "#403e3e";
-
-  arm.addEventListener("mouseenter", () => {
-    arm.style.backgroundColor = "#595757";
-  });
-  arm.addEventListener("mouseleave", () => {
-    arm.style.backgroundColor = "#403e3e";
-  });
-
+  buttonsDiv.style.display = "flex";
+  buttonsDiv.style.flexWrap = "wrap"; // Позволяет кнопкам переноситься на новую строку
   buttonsDiv.style.marginLeft = "20px";
+  buttonsDiv.style.gap = "10px"; // Расстояние между кнопками
 
-  jira.style.width = "75px";
-  jira.style.height = "28px";
-  jira.style.backgroundColor = "#403e3e";
-  jira.style.marginRight = "8px";
-  jira.style.borderRadius = "16px";
+  const buttonData = [
+    { text: "Jira", link: "https://ticket.ertelecom.ru" },
+    { text: "Почта", link: "https://mail.domru.ru" },
+    { text: "БЗ", link: "https://clever.ertelecom.ru" },
+    { text: "ОКЦ", link: "https://okc.ertelecom.ru/stats/#octpNck" },
+    { text: "НТП2", link: "https://okc.ertelecom.ru/stats/line_ts/ntp2/index" },
+    { text: "Обеды", link: "https://okc2.ertelecom.ru/wfm/vueapp/day" },
+    {
+      text: "АРМ",
+      link: "https://perm.db.ertelecom.ru/cgi-bin/ppo/excells/wcc_main.entry_continue",
+    },
+  ];
 
-  mail.style.width = "75px";
-  mail.style.height = "28px";
-  mail.style.backgroundColor = "#403e3e";
-  mail.style.marginRight = "8px";
-  mail.style.borderRadius = "16px";
+  buttonData.forEach((item) => {
+    const button = document.createElement("a");
+    button.textContent = item.text;
+    button.setAttribute("href", item.link);
+    button.setAttribute("target", "_blank");
+    button.setAttribute("class", "v-btn helper-specialist-button");
+    button.style.display = "flex";
+    button.style.justifyContent = "center";
+    button.style.alignItems = "center"; // Центрирование содержимого
+    button.style.width = "75px"; // Исходная ширина кнопки
+    button.style.height = "28px";
+    button.style.backgroundColor = "#403e3e";
+    button.style.borderRadius = "16px";
+    button.style.textDecoration = "none";
+    button.style.color = "inherit";
 
-  wfm.style.width = "75px";
-  wfm.style.height = "28px";
-  wfm.style.backgroundColor = "#403e3e";
-  wfm.style.marginRight = "8px";
-  wfm.style.borderRadius = "16px";
+    button.addEventListener("mouseenter", () => {
+      button.style.backgroundColor = "#595757";
+    });
+    button.addEventListener("mouseleave", () => {
+      button.style.backgroundColor = "#403e3e";
+    });
 
-  okc.style.width = "75px";
-  okc.style.height = "28px";
-  okc.style.backgroundColor = "#403e3e";
-  okc.style.marginRight = "8px";
-  okc.style.borderRadius = "16px";
+    buttonsDiv.appendChild(button);
+  });
 
-  ntp.style.width = "75px";
-  ntp.style.height = "28px";
-  ntp.style.backgroundColor = "#403e3e";
-  ntp.style.marginRight = "8px";
-  ntp.style.borderRadius = "16px";
+  const observer = new MutationObserver((mutations) => {
+    const lineHeader = document.querySelector(".duty-app-block");
+    if (lineHeader && !document.querySelector(".helper-specialist-button")) {
+      lineHeader.parentNode.insertBefore(buttonsDiv, lineHeader.nextSibling);
+      observer.disconnect(); // Отключаем наблюдателя после добавления кнопок
+    }
+  });
 
-  arm.style.width = "75px";
-  arm.style.height = "28px";
-  arm.style.backgroundColor = "#403e3e";
-  arm.style.borderRadius = "16px";
-  arm.style.marginRight = "8px";
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+  });
 
-  clever.style.width = "75px";
-  clever.style.height = "28px";
-  clever.style.backgroundColor = "#403e3e";
-  clever.style.marginRight = "8px";
-  clever.style.borderRadius = "16px";
-
-  buttonsDiv.appendChild(jira);
-  buttonsDiv.appendChild(mail);
-  buttonsDiv.appendChild(okc);
-  buttonsDiv.appendChild(ntp);
-  buttonsDiv.appendChild(wfm);
-  //buttonsDiv.appendChild(arm);
-  buttonsDiv.appendChild(clever);
   console.log(
-    `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Быстрые кнопки] Добавлены быстрые кнопки на линию`
+    `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Быстрые кнопки] Начато отслеживание изменения DOM`
   );
 }
 
@@ -346,44 +210,67 @@ function highlightOperators() {
   };
 
   const appointmentsTable = document.getElementsByClassName("bottom-row")[0];
-  if (appointmentsTable) {
-    const interval = setInterval(() => {
-      const theme = document
-        .querySelectorAll(".v-application.v-application--is-ltr")[0]
-        .classList.contains("theme--dark")
-        ? "dark"
-        : "light";
-      const rows = appointmentsTable.querySelectorAll("table tr");
 
-      rows.forEach((row) => {
-        const cells = row.querySelectorAll("td, th");
-        let isValueFound = false;
-
-        for (const key in colorMap[theme]) {
-          for (let i = 0; i < cells.length; i++) {
-            if (cells[i].textContent.includes(key)) {
-              row.style.backgroundColor = colorMap[theme][key];
-              isValueFound = true;
-              break;
-            }
-          }
-          if (isValueFound) break;
-        }
-
-        if (!isValueFound) {
-          if (theme === "dark") {
-            row.style.backgroundColor = "#1e1e1e";
-          } else {
-            row.style.backgroundColor = "#FFFFFF";
-          }
-        }
-      });
-      console.log(
-        `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Подсветка операторов] Подсветка обновлена`
-      );
-    }, 5000);
+  if (!appointmentsTable) {
+    console.error("Таблица не найдена.");
+    return;
   }
-  return () => clearInterval(interval);
+
+  // Функция подсветки строк
+  const highlightRows = (tbody) => {
+    const theme = document
+      .querySelector(".v-application.v-application--is-ltr")
+      .classList.contains("theme--dark")
+      ? "dark"
+      : "light";
+    const rows = tbody.querySelectorAll("tr");
+
+    rows.forEach((row) => {
+      const cells = row.querySelectorAll("td, th");
+      let isValueFound = false;
+
+      for (const key in colorMap[theme]) {
+        for (let i = 0; i < cells.length; i++) {
+          if (cells[i].textContent.includes(key)) {
+            row.style.backgroundColor = colorMap[theme][key];
+            isValueFound = true;
+            break;
+          }
+        }
+        if (isValueFound) break;
+      }
+
+      if (!isValueFound) {
+        row.style.backgroundColor = theme === "dark" ? "#1e1e1e" : "#FFFFFF";
+      }
+    });
+    console.log(
+      `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Подсветка операторов] Подсветка обновлена`
+    );
+  };
+
+  // Создаем наблюдатель для отслеживания появления tbody
+  const observer = new MutationObserver(() => {
+    const tbody = appointmentsTable.querySelector("tbody");
+    if (tbody) {
+      // Останавливаем наблюдение, когда tbody найден
+      observer.disconnect();
+
+      // Начальная подсветка
+      highlightRows(tbody);
+
+      // Создаем новый наблюдатель для отслеживания изменений только в tbody
+      const tbodyObserver = new MutationObserver(() => {
+        highlightRows(tbody);
+      });
+
+      // Настраиваем наблюдение за дочерними элементами в tbody
+      tbodyObserver.observe(tbody, { childList: true, subtree: true });
+    }
+  });
+
+  // Настраиваем наблюдение за элементами внутри таблицы
+  observer.observe(appointmentsTable, { childList: true, subtree: true });
 }
 
 function createLinkTab(id, href, iconClass, textContent) {
@@ -425,23 +312,15 @@ function createLinkTab(id, href, iconClass, textContent) {
 }
 
 function countAppointments() {
-  setInterval(() => {
+  // Функция для подсчета записей
+  const updateAppointmentCount = (table) => {
     const theme = document
       .querySelectorAll(".v-application.v-application--is-ltr")[0]
       .classList.contains("theme--dark")
       ? "dark"
       : "light";
 
-    const table = document.evaluate(
-      "/html/body/div/div[1]/main/div/div[2]/div[13]/div[4]/div/div[1]/div/div/div/div/div/div/div",
-      document,
-      null,
-      XPathResult.FIRST_ORDERED_NODE_TYPE,
-      null
-    ).singleNodeValue;
-
-    var total = 0;
-    total = table.querySelectorAll("tr").length - 1;
+    var total = table.querySelectorAll("tr").length - 1;
 
     var on_rsg_operators = 0;
     var on_project_operators = 0;
@@ -481,12 +360,41 @@ function countAppointments() {
     ${on_learning_operators > 0 ? `| Обучения: ${on_learning_operators}` : ""}`;
 
     chipElement.textContent = new_text;
-    if (theme === "dark") {
-      chipElement.style.color = "white";
-    } else {
-      chipElement.style.color = "black";
+    chipElement.style.color = theme === "dark" ? "white" : "black";
+  };
+
+  // Создаем наблюдатель для отслеживания загрузки таблицы
+  const tableObserver = new MutationObserver(() => {
+    const table = document.evaluate(
+      "/html/body/div/div[1]/main/div/div[2]/div[13]/div[4]/div/div[1]/div/div/div/div/div/div/div",
+      document,
+      null,
+      XPathResult.FIRST_ORDERED_NODE_TYPE,
+      null
+    ).singleNodeValue;
+
+    if (table) {
+      // Начальная подсчет записей
+      updateAppointmentCount(table);
+
+      // Создаем наблюдатель для отслеживания изменений в tbody
+      const tbodyObserver = new MutationObserver(() => {
+        const tbody = table.querySelector("tbody");
+        if (tbody) {
+          updateAppointmentCount(table);
+        }
+      });
+
+      // Наблюдаем за изменениями в таблице
+      tbodyObserver.observe(table, { childList: true, subtree: true });
+
+      // Отключаем после нахождения таблицы
+      tableObserver.disconnect();
     }
-  }, 5000);
+  });
+
+  // Наблюдаем за изменениями в документе или контейнере
+  tableObserver.observe(document.body, { childList: true, subtree: true });
 }
 
 function updateNeededSL() {

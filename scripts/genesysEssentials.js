@@ -132,80 +132,88 @@ function hideUselessButtons() {
   observerOther.observe(document.body, { childList: true, subtree: true });
 }
 
-function genesysButtons() {
-  if (document.querySelector(".helper") != null) {
-    return;
-  }
-  // Удаляем !important у border-radius для округления кнопок
-  var styleSheets = document.styleSheets;
-  for (var i = 0; i < styleSheets.length; i++) {
-    var rules = styleSheets[i].cssRules || styleSheets[i].rules;
-    if (!rules) continue;
+function createGenesysLink(url, text) {
+  const link = document.createElement("a");
+  link.href = url;
+  link.textContent = text;
+  link.target = "_blank";
+  link.className = "v-btn helper-specialist-button";
+  link.style.cssText =
+    "margin: 0 5px; padding: 5px 10px; border-radius: 4px; background-color: #403e3e; color: #fff; text-decoration: none;";
 
-    for (var j = 0; j < rules.length; j++) {
+  link.addEventListener("mouseenter", () => {
+    link.style.backgroundColor = "#595757"; // Темнее при наведении
+  });
+  link.addEventListener("mouseleave", () => {
+    link.style.backgroundColor = "#403e3e"; // Возвращаем цвет при уходе
+  });
+
+  return link;
+}
+
+function genesysButtons() {
+  if (document.querySelector(".helper")) return;
+
+  // Удаляем !important у border-radius для кнопок
+  Array.from(document.styleSheets).forEach((styleSheet) => {
+    const rules = styleSheet.cssRules || styleSheet.rules;
+    if (!rules) return;
+
+    Array.from(rules).forEach((rule) => {
       if (
-        rules[j].selectorText ===
+        rule.selectorText ===
         ".wwe input, .wwe select, .wwe button, .wwe textarea"
       ) {
-        // Убираем !important из стиля
-        rules[j].style.borderRadius = "0px";
-        rules[j].style.setProperty("border-radius", "0px", "");
+        rule.style.setProperty("border-radius", "0px", "");
       }
-    }
-  }
+    });
+  });
 
-  let buttonsDiv = document.createElement("div");
-  buttonsDiv.style.display = "flex";
-  buttonsDiv.style.justifyContent = "center";
-  buttonsDiv.style.alignItems = "center";
-  buttonsDiv.style.height = "100%";
-  buttonsDiv.style.marginLeft = "15px";
+  const buttonsDiv = document.createElement("div");
+  buttonsDiv.style.cssText =
+    "display: flex; justify-content: center; align-items: center; height: 100%; margin-left: 15px;";
 
-  const chatMaster = createGenesysLink("http://cm.roool.ru/", "ЧМ");
+  const linksData = [
+    { url: "http://cm.roool.ru/", text: "ЧМ" },
+    {
+      url: "https://dom.ru/service/knowledgebase/internet/kak-nastroit-router",
+      text: "Роутеры",
+    },
+    {
+      url: "https://dom.ru/faq/televidenie/kak-nastroit-cifrovye-kanaly-na-televizore",
+      text: "ТВ",
+    },
+    {
+      url: "https://dom.ru/service/knowledgebase/domru-tv/nastrojka-tv-pristavok",
+      text: "Декодеры",
+    },
+    {
+      url: "http://octptest.corp.ertelecom.loc/diagnostic-results/perm/?C=M;O=D",
+      text: "FTP ПК",
+    },
+    {
+      url: "http://octptest.corp.ertelecom.loc/diagnostic-results/mobile/?C=M;O=D",
+      text: "FTP Моб",
+    },
+  ];
 
-  const setupRouter = createGenesysLink(
-    "https://dom.ru/service/knowledgebase/internet/kak-nastroit-router",
-    "Роутеры"
-  );
+  linksData.forEach((linkData) => {
+    buttonsDiv.appendChild(createGenesysLink(linkData.url, linkData.text));
+  });
 
-  const setupTV = createGenesysLink(
-    "https://dom.ru/faq/televidenie/kak-nastroit-cifrovye-kanaly-na-televizore",
-    "ТВ"
-  );
-
-  const setupDecoder = createGenesysLink(
-    "https://dom.ru/service/knowledgebase/domru-tv/nastrojka-tv-pristavok",
-    "Декодеры"
-  );
-
-  const ftpPC = createGenesysLink(
-    "http://octptest.corp.ertelecom.loc/diagnostic-results/perm/?C=M;O=D",
-    "FTP ПК"
-  );
-
-  const ftpMobile = createGenesysLink(
-    "http://octptest.corp.ertelecom.loc/diagnostic-results/mobile/?C=M;O=D",
-    "FTP Моб"
-  );
-
-  const intervalId = setInterval(() => {
-    let lineHeader = document.getElementById("break_window");
-
+  const observer = new MutationObserver(() => {
+    const lineHeader = document.getElementById("break_window");
     if (lineHeader) {
       lineHeader.parentNode.insertBefore(buttonsDiv, lineHeader.nextSibling);
-      buttonsDiv.appendChild(chatMaster);
-      buttonsDiv.appendChild(setupRouter);
-      buttonsDiv.appendChild(setupDecoder);
-      buttonsDiv.appendChild(setupTV);
-      buttonsDiv.appendChild(ftpPC);
-      buttonsDiv.appendChild(ftpMobile);
-      clearInterval(intervalId);
+      observer.disconnect(); // Отключаем наблюдателя после добавления кнопок
 
       console.log(
         `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Быстрые кнопки] Добавлены быстрые кнопки`
       );
     }
-  }, 3000);
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
 }
 
 function createGenesysLink(href, textContent, additionalStyles = {}) {
@@ -252,50 +260,32 @@ function otpcLineStatus() {
   const token = "7320250134:AAH1AMMMgO1oJxYBXJeXQu50cS9pROwTE2I";
 
   function getLineUpdate() {
-    var genesysTitle = document.querySelector(".title");
-    if (genesysTitle === null) {
-      return;
-    }
+    const genesysTitle = document.querySelector(".title");
+    if (!genesysTitle) return;
+
     genesysTitle.style.textShadow = "2px 2px 4px rgba(0, 0, 0, 0.5)";
-    fetch(`https://api.telegram.org/bot${token}/getUpdates?offset=-1`, {
-      method: "GET",
-    })
+
+    fetch(`https://api.telegram.org/bot${token}/getUpdates?offset=-1`)
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
+        if (!response.ok) throw new Error("Network response was not ok");
         return response.json();
       })
       .then((jsonData) => {
         const result = jsonData.result;
         if (result.length > 0) {
-          var current_status = result[0].channel_post.caption;
-          if (current_status === undefined) {
-            var current_status = result[0].channel_post.text;
-          }
+          const currentStatus =
+            result[0].channel_post.caption || result[0].channel_post.text;
+          genesysTitle.textContent = `НЦК2: ${currentStatus}`;
 
-          var titleForStatus = "";
-          genesysTitle.textContent = "НЦК2: " + current_status;
-          if (current_status.includes("вкл") || current_status.includes("он")) {
-            genesysTitle.style.color = "#FF0000";
-            titleForStatus = "2+2 / 3+1\n";
-          } else {
-            genesysTitle.style.color = "#00FF00";
-            titleForStatus = "5+5 / 6+4\n";
-          }
+          const isActive =
+            currentStatus.includes("вкл") || currentStatus.includes("он");
+          genesysTitle.style.color = isActive ? "#FF0000" : "#00FF00";
 
-          var time_of_change = new Date(result[0].channel_post.date * 1000);
-          var hours = time_of_change.getHours();
-          var minutes = time_of_change.getMinutes();
-
-          if (hours < 10) {
-            hours = "0" + hours;
-          }
-
-          if (minutes < 10) {
-            minutes = "0" + minutes;
-          }
-          titleForStatus += "Время изменения: " + hours + ":" + minutes;
+          const timeOfChange = new Date(result[0].channel_post.date * 1000);
+          const formattedTime = timeOfChange.toTimeString().slice(0, 5);
+          const titleForStatus = `${
+            isActive ? "2+2 / 3+1\n" : "5+5 / 6+4\n"
+          }Время изменения: ${formattedTime}`;
           genesysTitle.setAttribute("title", titleForStatus);
         } else {
           genesysTitle.textContent = "НЦК2: нет апдейтов";
@@ -311,11 +301,17 @@ function otpcLineStatus() {
         );
       });
   }
-  getLineUpdate();
 
-  setInterval(() => {
-    getLineUpdate();
-  }, 5000);
+  const observer = new MutationObserver(() => {
+    if (document.querySelector(".title")) {
+      getLineUpdate();
+      observer.disconnect(); // Отключаем наблюдателя после первого срабатывания
+    }
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+
+  setInterval(getLineUpdate, 5000);
 
   console.log(
     `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Аварийность] Загружена аварийность НЦК2`
