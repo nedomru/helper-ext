@@ -117,204 +117,67 @@ function fastButtons() {
   if (document.querySelector(".helper") != null) {
     return;
   }
+
   let buttonsDiv = document.createElement("div");
-  const interval = setInterval(() => {
-    let lineHeader = document.querySelector(".duty-app-block");
-    if (lineHeader !== null) {
-      lineHeader.parentNode.insertBefore(buttonsDiv, lineHeader.nextSibling);
-      clearInterval(interval);
-    }
-  }, 1000);
-
-  // Задачи
-  const jira = document.createElement("a");
-
-  jira.textContent = "Jira";
-  jira.setAttribute("href", "https://ticket.ertelecom.ru");
-  jira.setAttribute("target", "_blank");
-  jira.setAttribute("class", "v-btn helper-specialist-button");
-  jira.style.justifyContent = "center";
-  jira.style.textDecoration = "none";
-  jira.style.color = "inherit";
-  jira.style.backgroundColor = "#403e3e";
-
-  jira.addEventListener("mouseenter", () => {
-    jira.style.backgroundColor = "#595757";
-  });
-  jira.addEventListener("mouseleave", () => {
-    jira.style.backgroundColor = "#403e3e";
-  });
-
-  // Почта
-  const mail = document.createElement("a");
-
-  mail.textContent = "Почта";
-  mail.setAttribute("href", "https://mail.domru.ru");
-  mail.setAttribute("target", "_blank");
-  mail.setAttribute("class", "v-btn helper-specialist-button");
-  mail.style.justifyContent = "center";
-  mail.style.textDecoration = "none";
-  mail.style.color = "inherit";
-  mail.style.backgroundColor = "#403e3e";
-
-  mail.addEventListener("mouseenter", () => {
-    mail.style.backgroundColor = "#595757";
-  });
-  mail.addEventListener("mouseleave", () => {
-    mail.style.backgroundColor = "#403e3e";
-  });
-
-  // Клевер
-  const clever = document.createElement("a");
-
-  clever.textContent = "БЗ";
-  clever.setAttribute("href", "https://clever.ertelecom.ru");
-  clever.setAttribute("target", "_blank");
-  clever.setAttribute("class", "v-btn helper-specialist-button");
-  clever.style.justifyContent = "center";
-  clever.style.textDecoration = "none";
-  clever.style.color = "inherit";
-  clever.style.backgroundColor = "#403e3e";
-
-  clever.addEventListener("mouseenter", () => {
-    clever.style.backgroundColor = "#595757";
-  });
-  clever.addEventListener("mouseleave", () => {
-    clever.style.backgroundColor = "#403e3e";
-  });
-
-  // ОКЦ
-  const okc = document.createElement("a");
-
-  okc.textContent = "ОКЦ";
-  okc.setAttribute("href", "https://okc.ertelecom.ru/stats/#octpNck");
-  okc.setAttribute("target", "_blank");
-  okc.setAttribute("class", "v-btn helper-specialist-button");
-  okc.style.justifyContent = "center";
-  okc.style.textDecoration = "none";
-  okc.style.color = "inherit";
-  okc.style.backgroundColor = "#403e3e";
-
-  okc.addEventListener("mouseenter", () => {
-    okc.style.backgroundColor = "#595757";
-  });
-  okc.addEventListener("mouseleave", () => {
-    okc.style.backgroundColor = "#403e3e";
-  });
-
-  // НТП2
-  const ntp = document.createElement("a");
-
-  ntp.textContent = "НТП2";
-  ntp.setAttribute("href", "https://okc.ertelecom.ru/stats/line_ts/ntp2/index");
-  ntp.setAttribute("target", "_blank");
-  ntp.setAttribute("class", "v-btn helper-specialist-button");
-  ntp.style.justifyContent = "center";
-  ntp.style.textDecoration = "none";
-  ntp.style.color = "inherit";
-  ntp.style.backgroundColor = "#403e3e";
-
-  ntp.addEventListener("mouseenter", () => {
-    ntp.style.backgroundColor = "#595757";
-  });
-  ntp.addEventListener("mouseleave", () => {
-    ntp.style.backgroundColor = "#403e3e";
-  });
-
-  // Обеды
-  const wfm = document.createElement("a");
-
-  wfm.textContent = "Обеды";
-  wfm.setAttribute("href", "https://okc2.ertelecom.ru/wfm/vueapp/day");
-  wfm.setAttribute("target", "_blank");
-  wfm.setAttribute("class", "v-btn helper-specialist-button");
-  wfm.style.justifyContent = "center";
-  wfm.style.textDecoration = "none";
-  wfm.style.color = "inherit";
-  wfm.style.backgroundColor = "#403e3e";
-
-  wfm.addEventListener("mouseenter", () => {
-    wfm.style.backgroundColor = "#595757";
-  });
-  wfm.addEventListener("mouseleave", () => {
-    wfm.style.backgroundColor = "#403e3e";
-  });
-
-  // ARM
-  const arm = document.createElement("a");
-
-  arm.textContent = "АРМ";
-  arm.setAttribute(
-    "href",
-    "https://perm.db.ertelecom.ru/cgi-bin/ppo/excells/wcc_main.entry_continue"
-  );
-  arm.setAttribute("target", "_blank");
-  arm.setAttribute("class", "v-btn helper-specialist-button");
-  arm.style.justifyContent = "center";
-  arm.style.textDecoration = "none";
-  arm.style.color = "inherit";
-  arm.style.backgroundColor = "#403e3e";
-
-  arm.addEventListener("mouseenter", () => {
-    arm.style.backgroundColor = "#595757";
-  });
-  arm.addEventListener("mouseleave", () => {
-    arm.style.backgroundColor = "#403e3e";
-  });
-
+  buttonsDiv.style.display = "flex";
+  buttonsDiv.style.flexWrap = "wrap"; // Позволяет кнопкам переноситься на новую строку
   buttonsDiv.style.marginLeft = "20px";
+  buttonsDiv.style.gap = "10px"; // Расстояние между кнопками
 
-  jira.style.width = "75px";
-  jira.style.height = "28px";
-  jira.style.backgroundColor = "#403e3e";
-  jira.style.marginRight = "8px";
-  jira.style.borderRadius = "16px";
+  const buttonData = [
+    { text: "Jira", link: "https://ticket.ertelecom.ru" },
+    { text: "Почта", link: "https://mail.domru.ru" },
+    { text: "БЗ", link: "https://clever.ertelecom.ru" },
+    { text: "ОКЦ", link: "https://okc.ertelecom.ru/stats/#octpNck" },
+    { text: "НТП2", link: "https://okc.ertelecom.ru/stats/line_ts/ntp2/index" },
+    { text: "Обеды", link: "https://okc2.ertelecom.ru/wfm/vueapp/day" },
+    {
+      text: "АРМ",
+      link: "https://perm.db.ertelecom.ru/cgi-bin/ppo/excells/wcc_main.entry_continue",
+    },
+  ];
 
-  mail.style.width = "75px";
-  mail.style.height = "28px";
-  mail.style.backgroundColor = "#403e3e";
-  mail.style.marginRight = "8px";
-  mail.style.borderRadius = "16px";
+  buttonData.forEach((item) => {
+    const button = document.createElement("a");
+    button.textContent = item.text;
+    button.setAttribute("href", item.link);
+    button.setAttribute("target", "_blank");
+    button.setAttribute("class", "v-btn helper-specialist-button");
+    button.style.display = "flex";
+    button.style.justifyContent = "center";
+    button.style.alignItems = "center"; // Центрирование содержимого
+    button.style.width = "75px"; // Исходная ширина кнопки
+    button.style.height = "28px";
+    button.style.backgroundColor = "#403e3e";
+    button.style.borderRadius = "16px";
+    button.style.textDecoration = "none";
+    button.style.color = "inherit";
 
-  wfm.style.width = "75px";
-  wfm.style.height = "28px";
-  wfm.style.backgroundColor = "#403e3e";
-  wfm.style.marginRight = "8px";
-  wfm.style.borderRadius = "16px";
+    button.addEventListener("mouseenter", () => {
+      button.style.backgroundColor = "#595757";
+    });
+    button.addEventListener("mouseleave", () => {
+      button.style.backgroundColor = "#403e3e";
+    });
 
-  okc.style.width = "75px";
-  okc.style.height = "28px";
-  okc.style.backgroundColor = "#403e3e";
-  okc.style.marginRight = "8px";
-  okc.style.borderRadius = "16px";
+    buttonsDiv.appendChild(button);
+  });
 
-  ntp.style.width = "75px";
-  ntp.style.height = "28px";
-  ntp.style.backgroundColor = "#403e3e";
-  ntp.style.marginRight = "8px";
-  ntp.style.borderRadius = "16px";
+  const observer = new MutationObserver((mutations) => {
+    const lineHeader = document.querySelector(".duty-app-block");
+    if (lineHeader && !document.querySelector(".helper-specialist-button")) {
+      lineHeader.parentNode.insertBefore(buttonsDiv, lineHeader.nextSibling);
+      observer.disconnect(); // Отключаем наблюдателя после добавления кнопок
+    }
+  });
 
-  arm.style.width = "75px";
-  arm.style.height = "28px";
-  arm.style.backgroundColor = "#403e3e";
-  arm.style.borderRadius = "16px";
-  arm.style.marginRight = "8px";
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+  });
 
-  clever.style.width = "75px";
-  clever.style.height = "28px";
-  clever.style.backgroundColor = "#403e3e";
-  clever.style.marginRight = "8px";
-  clever.style.borderRadius = "16px";
-
-  buttonsDiv.appendChild(jira);
-  buttonsDiv.appendChild(mail);
-  buttonsDiv.appendChild(okc);
-  buttonsDiv.appendChild(ntp);
-  buttonsDiv.appendChild(wfm);
-  //buttonsDiv.appendChild(arm);
-  buttonsDiv.appendChild(clever);
   console.log(
-    `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Быстрые кнопки] Добавлены быстрые кнопки на линию`
+    `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Быстрые кнопки] Начато отслеживание изменения DOM`
   );
 }
 
