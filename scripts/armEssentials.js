@@ -608,6 +608,10 @@ function smsButtons() {
     cancelable: true,
   });
 
+  var buttonContainer = $(
+    '<div class="button-container" style="display: flex; flex-wrap: wrap; margin-top: 10px;"></div>'
+  );
+
   var static_btn = $(
     '<input type="button" value="🔑 Static" class="btn btn-primary btn-sm helper" style="margin-left: 5px;"/>'
   );
@@ -646,7 +650,7 @@ function smsButtons() {
       $(".type_sms_a option[value='" + value + "']").length &&
       $(".helper[value='" + button.val() + "']").length === 0
     ) {
-      sendButton.after(button);
+      buttonContainer.append(button);
     }
   }
 
@@ -654,6 +658,8 @@ function smsButtons() {
   addButtonIfExists(lk_btn, 26);
   addButtonIfExists(pppoe_btn, 25);
   addButtonIfExists(static_btn, 27);
+
+  sendButton.after(buttonContainer);
 }
 
 function wrongTransferFalse() {
