@@ -121,9 +121,15 @@ function fastButtons() {
 
   let buttonsDiv = document.createElement("div");
   buttonsDiv.style.display = "flex";
-  buttonsDiv.style.flexWrap = "wrap"; // Позволяет кнопкам переноситься на новую строку
   buttonsDiv.style.marginLeft = "20px";
-  buttonsDiv.style.gap = "10px"; // Расстояние между кнопками
+
+  const interval = setInterval(() => {
+    let lineHeader = document.querySelector(".duty-app-block");
+    if (lineHeader !== null) {
+      lineHeader.parentNode.insertBefore(buttonsDiv, lineHeader.nextSibling);
+      clearInterval(interval);
+    }
+  }, 1000);
 
   const buttonData = [
     { text: "Jira", link: "https://ticket.ertelecom.ru" },
@@ -147,10 +153,11 @@ function fastButtons() {
     button.style.display = "flex";
     button.style.justifyContent = "center";
     button.style.alignItems = "center"; // Центрирование содержимого
-    button.style.width = "75px"; // Исходная ширина кнопки
+    button.style.width = "70px";
     button.style.height = "28px";
     button.style.backgroundColor = "#403e3e";
     button.style.borderRadius = "16px";
+    button.style.marginRight = "8px"; // Отступ между кнопками
     button.style.textDecoration = "none";
     button.style.color = "inherit";
 
@@ -164,21 +171,8 @@ function fastButtons() {
     buttonsDiv.appendChild(button);
   });
 
-  const observer = new MutationObserver((mutations) => {
-    const lineHeader = document.querySelector(".duty-app-block");
-    if (lineHeader && !document.querySelector(".helper-specialist-button")) {
-      lineHeader.parentNode.insertBefore(buttonsDiv, lineHeader.nextSibling);
-      observer.disconnect(); // Отключаем наблюдателя после добавления кнопок
-    }
-  });
-
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true,
-  });
-
   console.log(
-    `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Быстрые кнопки] Начато отслеживание изменения DOM`
+    `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Быстрые кнопки] Добавлены быстрые кнопки на линию`
   );
 }
 
