@@ -602,27 +602,27 @@ function showClientAgreementOnChangeRequest() {
 }
 
 function smsButtons() {
-  var sendButton = $(".tab-content .send_sms_from_info .sms_web_a");
-  var changeEvent = new Event("change", {
+  const sendButton = $(".tab-content .send_sms_from_info .sms_web_a");
+  const changeEvent = new Event("change", {
     bubbles: true,
     cancelable: true,
   });
 
-  var buttonContainer = $(
-    '<div class="button-container" style="display: flex; flex-wrap: wrap; margin-top: 10px;"></div>'
+  const buttonContainer = $(
+    '<div class="button-container" style="display: flex; flex-wrap: wrap; margin-top: 6px; gap: 6px;"></div>'
   );
 
-  var static_btn = $(
-    '<input type="button" value="🔑 Static" class="btn btn-primary btn-sm helper" style="margin-left: 5px;"/>'
+  const static_btn = $(
+    '<input type="button" value="🔑 Static" class="btn btn-primary btn-sm helper"/>'
   );
-  var pppoe_btn = $(
-    '<input type="button" value="🔑 PPPoE" class="btn btn-primary btn-sm helper" style="margin-left: 5px;"/>'
+  const pppoe_btn = $(
+    '<input type="button" value="🔑 PPPoE" class="btn btn-primary btn-sm helper"/>'
   );
-  var lk_btn = $(
-    '<input type="button" value="🔐 ЛК" class="btn btn-primary btn-sm helper" style="margin-left: 5px;"/>'
+  const lk_btn = $(
+    '<input type="button" value="🔐 ЛК" class="btn btn-primary btn-sm helper"/>'
   );
-  var pay_btn = $(
-    '<input type="button" value="💸 Оплата" class="btn btn-primary btn-sm helper" style="margin-left: 5px;"/>'
+  const pay_btn = $(
+    '<input type="button" value="💸 Оплата" class="btn btn-primary btn-sm helper"/>'
   );
 
   static_btn.on("click", function () {
@@ -659,7 +659,8 @@ function smsButtons() {
   addButtonIfExists(pppoe_btn, 25);
   addButtonIfExists(static_btn, 27);
 
-  sendButton.after(buttonContainer);
+  // Перемещение кнопок под элемент select
+  $(".type_sms_a").after(buttonContainer);
 }
 
 function wrongTransferFalse() {
