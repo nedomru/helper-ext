@@ -39,7 +39,6 @@
     "LINE_dutyButtons",
     "LINE_showFastButtons",
     "LINE_updateNeededSL",
-    "LINE_countAppointments",
   ];
 
   try {

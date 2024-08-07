@@ -2,13 +2,11 @@
   const form_mac = document.getElementById("form-mac");
   const form_link = document.getElementById("form-link");
   const form_ip = document.getElementById("form-ip");
-  //const check_premium = document.getElementById("form-premium");
   const search_provider = document.getElementById("searchProvider");
   const search_router = document.getElementById("searchRouter");
   form_mac.addEventListener("submit", handleFormSubmitMac);
   form_link.addEventListener("submit", handleFormSubmitLink);
   form_ip.addEventListener("submit", handleFormSubmitIP);
-  //check_premium.addEventListener("submit", getPremium);
   search_provider.addEventListener("input", searchProvider);
   search_router.addEventListener("input", searchRouter);
   document
@@ -177,30 +175,3 @@ function searchRouter() {
     }
   }
 }
-
-//function getPremium() {
-//   fetch(
-//     "https://okc.ertelecom.ru/stats/premium/ntp-nck2/get-premium-spec-month",
-//     {
-//       credentials: "include",
-//       headers: {
-//         "User-Agent":
-//           "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0",
-//         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-//       },
-//       body: ``,
-//       method: "POST",
-//       mode: "cors",
-//     }
-//   )
-//     .then((response) => {
-//       if (!response.ok) {
-//         throw new Error("Network response was not ok");
-//       }
-//       console.log(response);
-//       return response.json();
-//     })
-//     .then((data) => {
-//       console.log(data);
-//     });
-// }

@@ -28,7 +28,6 @@ if (document.URL.indexOf("genesys-ntp") != -1) {
     LINE_highlightOperators: highlightOperators,
     LINE_dutyButtons: dutyButtons,
     LINE_updateNeededSL: updateNeededSL,
-    LINE_countAppointments: countAppointments,
   };
 
   browser.storage.sync.get(Object.keys(LINE_config)).then((result) => {
@@ -303,92 +302,6 @@ function createLinkTab(id, href, iconClass, textContent) {
   link.appendChild(titleDiv);
 
   return link;
-}
-
-function countAppointments() {
-  // Функция для подсчета записей
-  const updateAppointmentCount = (table) => {
-    const theme = document
-      .querySelectorAll(".v-application.v-application--is-ltr")[0]
-      .classList.contains("theme--dark")
-      ? "dark"
-      : "light";
-
-    var total = table.querySelectorAll("tr").length - 1;
-
-    var on_rsg_operators = 0;
-    var on_project_operators = 0;
-    var on_learning_operators = 0;
-
-    const child = table.querySelectorAll("td");
-    child.forEach((el) => {
-      if (
-        el.innerText == "Отсутствие на линии: Задачи от руководителя группы"
-      ) {
-        on_rsg_operators += 1;
-      }
-      if (el.innerText == "Отсутствие на линии: Проектная деятельность") {
-        on_project_operators += 1;
-      }
-      if (el.innerText == "Отсутствие на линии: Обучение") {
-        on_learning_operators += 1;
-      }
-    });
-
-    // Находим элемент по XPath
-    const button = document.evaluate(
-      "/html/body/div/div/main/div/div[2]/div[13]/div[4]/div/div[1]/div/div/button",
-      document,
-      null,
-      XPathResult.FIRST_ORDERED_NODE_TYPE,
-      null
-    ).singleNodeValue;
-
-    // Находим элемент span внутри button
-    const chipElement = button.querySelector("span.v-chip__content");
-
-    // Заменяем текст
-    var new_text = `Всего: ${total}
-    ${on_rsg_operators > 0 ? `| РСГ: ${on_rsg_operators}` : ""}
-    ${on_project_operators > 0 ? `| Проекты: ${on_project_operators}` : ""}
-    ${on_learning_operators > 0 ? `| Обучения: ${on_learning_operators}` : ""}`;
-
-    chipElement.textContent = new_text;
-    chipElement.style.color = theme === "dark" ? "white" : "black";
-  };
-
-  // Создаем наблюдатель для отслеживания загрузки таблицы
-  const tableObserver = new MutationObserver(() => {
-    const table = document.evaluate(
-      "/html/body/div/div[1]/main/div/div[2]/div[13]/div[4]/div/div[1]/div/div/div/div/div/div/div",
-      document,
-      null,
-      XPathResult.FIRST_ORDERED_NODE_TYPE,
-      null
-    ).singleNodeValue;
-
-    if (table) {
-      // Начальная подсчет записей
-      updateAppointmentCount(table);
-
-      // Создаем наблюдатель для отслеживания изменений в tbody
-      const tbodyObserver = new MutationObserver(() => {
-        const tbody = table.querySelector("tbody");
-        if (tbody) {
-          updateAppointmentCount(table);
-        }
-      });
-
-      // Наблюдаем за изменениями в таблице
-      tbodyObserver.observe(table, { childList: true, subtree: true });
-
-      // Отключаем после нахождения таблицы
-      tableObserver.disconnect();
-    }
-  });
-
-  // Наблюдаем за изменениями в документе или контейнере
-  tableObserver.observe(document.body, { childList: true, subtree: true });
 }
 
 function updateNeededSL() {
