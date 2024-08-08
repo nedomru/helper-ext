@@ -56,7 +56,7 @@ function showClientChannelOnCard() {
         chatHeader.classList.add("was-checked-by-helper");
 
         const clientCardOSVersion = document.querySelector(
-          "#wweCaseData1OSVersionValue .wwe-data-text-value"
+          "#wweCaseData1PhoneModelValue .wwe-data-text-value"
         );
 
         if (clientCardOSVersion) {
@@ -109,11 +109,10 @@ function hideUselessButtons() {
       document.querySelector(".dropdown.account-help").remove();
       document.querySelector(".genesys-logo").remove();
 
+      observerOther.disconnect();
       console.log(
         `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Бесполезные кнопки] Все бесполезные кнопки удалены`
       );
-
-      observer.disconnect();
     }
   });
 
@@ -121,7 +120,8 @@ function hideUselessButtons() {
     const searchingField = document.querySelector(".wwe-team-communicator");
 
     if (searchingField) {
-      searchingField.remove();
+      searchingField.style.display = "none";
+      observerSearchField.disconnect();
     }
   });
 
