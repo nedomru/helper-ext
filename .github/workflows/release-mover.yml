@@ -1,0 +1,23 @@
+name: Copy Release Assets to Public Repo
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  upload-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout private repository
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ github.repository }}  # Текущий репозиторий
+          token: ${{ secrets.GITHUB_TOKEN }}  # Это токен по умолчанию для доступа к текущему репозиторию
+
+      - name: Upload release assets to public repo
+        uses: softprops/action-gh-release@v1
+        with:
+          tag: ${{ github.ref }}  # Используем тег нового релиза
+          files: ./assets/*  # Путь к ассетам релиза
+          repository: AuthFailed/domhelper-r  # Открытый репозиторий
+          token: ${{ secrets.PUBLIC_REPO_TOKEN }}  # Токен для доступа к общедоступному репозиторию
