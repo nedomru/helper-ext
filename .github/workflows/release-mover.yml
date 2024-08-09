@@ -1,4 +1,4 @@
-name: Copy Release Assets to Public Repo
+name: Copy domhelper.xpi to Public Repo
 
 on:
   release:
@@ -11,13 +11,26 @@ jobs:
       - name: Checkout private repository
         uses: actions/checkout@v2
         with:
-          repository: ${{ github.repository }}  # Текущий репозиторий
-          token: ${{ secrets.GITHUB_TOKEN }}  # Это токен по умолчанию для доступа к текущему репозиторию
+          repository: ${{ github.repository }}  # Закрытый репозиторий
+          token: ${{ secrets.GITHUB_TOKEN }}  # Токен для доступа к текущему репозиторию
 
-      - name: Upload release assets to public repo
+      - name: Get latest release
+        id: get_release
+        run: |
+          RELEASE_INFO=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          "https://api.github.com/repos/${{ github.repository }}/releases/latest")
+          echo "::set-output name=asset_url::$(echo $RELEASE_INFO | jq -r '.assets[] | select(.name == "domhelper.xpi") | .url')"
+          echo "::set-output name=asset_id::$(echo $RELEASE_INFO | jq -r '.assets[] | select(.name == "domhelper.xpi") | .id')"
+
+      - name: Download domhelper.xpi
+        run: |
+          curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -L \
+          -o domhelper.xpi "${{ steps.get_release.outputs.asset_url }}"
+      
+      - name: Upload domhelper.xpi to public repo
         uses: softprops/action-gh-release@v1
         with:
           tag: ${{ github.ref }}  # Используем тег нового релиза
-          files: ./assets/*  # Путь к ассетам релиза
-          repository: AuthFailed/domhelper-r  # Открытый репозиторий
+          files: domhelper.xpi  # Загружаем файл domhelper.xpi
+          repository: AuthFailed/domhelper  # Укажите ваш открытый репозиторий
           token: ${{ secrets.PUBLIC_REPO_TOKEN }}  # Токен для доступа к общедоступному репозиторию
