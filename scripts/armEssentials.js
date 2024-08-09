@@ -1055,6 +1055,16 @@ function fastButtonsARM() {
   // Создаем новые кнопки
   const buttons = [
     {
+      value: "Авария",
+      class: "btn btn-sm btn-info helper",
+      action: handleAccident,
+    },
+    {
+      value: "ВХОД НРД",
+      class: "btn btn-sm btn-info helper",
+      action: handleNRD,
+    },
+    {
       value: "СЗВГ",
       class: "btn btn-sm btn-info helper",
       action: handleSZVG,
@@ -1078,6 +1088,10 @@ function fastButtonsARM() {
     btnElement.setAttribute("class", button.class);
     btnElement.setAttribute("value", button.value);
     btnElement.addEventListener("click", button.action);
+
+    btnElement.style.backgroundColor = "#337ab7";
+    btnElement.style.color = "white";
+
     // Вставляем кнопку в начало блока
     container.insertAdjacentElement("afterbegin", btnElement);
 
@@ -1101,6 +1115,32 @@ function fastButtonsARM() {
 
     // Наблюдаем за изменениями в документе
     observer.observe(document, { childList: true, subtree: true });
+  }
+
+  function handleAccident() {
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "-1";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "1125";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_main_reason", (substep) => {
+      substep.value = "4110";
+      substep.dispatchEvent(changeEvent);
+    });
+  }
+  function handleNRD() {
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "1195";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "2286";
+      substep.dispatchEvent(changeEvent);
+    });
   }
 
   function handleSZVG() {
