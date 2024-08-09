@@ -30,7 +30,7 @@ jobs:
       - name: Upload domhelper.xpi to public repo
         uses: softprops/action-gh-release@v1
         with:
-          tag: ${{ github.ref }}  # Используем тег нового релиза
+          tag_name: ${{ github.ref }}  # Используем тег нового релиза
           files: domhelper.xpi  # Загружаем файл domhelper.xpi
           repository: AuthFailed/domhelper  # Укажите ваш открытый репозиторий
           token: ${{ secrets.PUBLIC_REPO_TOKEN }}  # Токен для доступа к общедоступному репозиторию
