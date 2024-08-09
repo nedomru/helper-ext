@@ -13,6 +13,12 @@ if (document.URL.indexOf("wcc2_main.frame_left_reasons") != -1) {
 }
 
 if (
+  document.URL.includes("db.ertelecom.ru/cgi-bin/ppo/excells/adv_act_retention")
+) {
+  moveAccidentCompensation();
+}
+
+if (
   document.URL.indexOf("db.ertelecom.ru/cgi-bin") != -1 &&
   document.URL.indexOf("wcc_request_appl_support.change_request_appl") == -1
 ) {
@@ -1179,5 +1185,23 @@ function fastButtonsARM() {
       substep.value = "2123";
       substep.dispatchEvent(changeEvent);
     });
+  }
+}
+
+function moveAccidentCompensation() {
+  const tableBody = document.querySelector("tbody");
+
+  const rows = tableBody.querySelectorAll("tr");
+  let targetRow;
+
+  rows.forEach((row) => {
+    const cell = row.querySelector("th");
+    if (cell && cell.textContent.includes("Компенсация за аварию")) {
+      targetRow = row;
+    }
+  });
+
+  if (targetRow) {
+    tableBody.insertBefore(targetRow, rows[1]);
   }
 }
