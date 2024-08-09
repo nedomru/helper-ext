@@ -11,8 +11,8 @@ jobs:
       - name: Checkout private repository
         uses: actions/checkout@v2
         with:
-          repository: ${{ github.repository }}  # Закрытый репозиторий
-          token: ${{ secrets.GITHUB_TOKEN }}  # Токен для доступа к текущему репозиторию
+          repository: ${{ github.repository }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get latest release
         id: get_release
