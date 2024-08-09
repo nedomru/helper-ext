@@ -1,3 +1,17 @@
+if (document.URL.indexOf("wcc2_main.frame_left_reasons") != -1) {
+  const ARM_config = {
+    ARM_changeRequestFastButtonsLeftFrame: fastButtonsARM,
+  };
+
+  browser.storage.sync.get(Object.keys(ARM_config)).then((result) => {
+    Object.keys(ARM_config).forEach((key) => {
+      if (result[key]) {
+        ARM_config[key]();
+      }
+    });
+  });
+}
+
 if (
   document.URL.indexOf("db.ertelecom.ru/cgi-bin") != -1 &&
   document.URL.indexOf("wcc_request_appl_support.change_request_appl") == -1
@@ -70,7 +84,7 @@ if (
     ARM_checkWrongTransfer: wrongTransferFalse,
     ARM_checkSetToMe: removeSetForMe,
     ARM_copyTimeSlots: copyTimeSlots,
-    ARM_changeRequestFastButtons: fastButtons,
+    ARM_changeRequestFastButtons: fastButtonsRequests,
   };
 
   browser.storage.sync.get(Object.keys(ARM_config)).then((result) => {
@@ -141,6 +155,7 @@ function checkForSpecialClient() {
     }, 3000);
   }
 }
+
 // Замена предвосхищения
 function setHelperAnticipation() {
   var button = document.querySelector(".top_3_butt");
@@ -687,7 +702,7 @@ function removeSetForMe() {
   );
 }
 
-function fastButtons() {
+function fastButtonsRequests() {
   if (document.querySelector(".helper") != null) {
     return;
   }
@@ -1028,5 +1043,141 @@ function fastButtons() {
       `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на Абон - Исход`
     );
     $.notify("Обращение изменено на Абон - Исход", "success");
+  }
+}
+
+function fastButtonsARM() {
+  if (document.querySelector(".helper") != null) {
+    return;
+  }
+  const container = document.querySelector(".create_request_block");
+
+  // Создаем новые кнопки
+  const buttons = [
+    {
+      value: "Авария",
+      class: "btn btn-sm btn-info helper",
+      action: handleAccident,
+    },
+    {
+      value: "ВХОД НРД",
+      class: "btn btn-sm btn-info helper",
+      action: handleNRD,
+    },
+    {
+      value: "СЗВГ",
+      class: "btn btn-sm btn-info helper",
+      action: handleSZVG,
+    },
+    {
+      value: "КС НЦК2",
+      class: "btn btn-sm btn-info helper",
+      action: handleKСNCK2Click,
+    },
+    {
+      value: "КС НЦК1",
+      class: "btn btn-sm btn-info helper",
+      action: handleKСNCK1Click,
+    },
+  ];
+
+  // Вставляем кнопки в начало контейнера
+  buttons.forEach((button) => {
+    const btnElement = document.createElement("input");
+    btnElement.setAttribute("type", "button");
+    btnElement.setAttribute("class", button.class);
+    btnElement.setAttribute("value", button.value);
+    btnElement.addEventListener("click", button.action);
+
+    btnElement.style.backgroundColor = "#337ab7";
+    btnElement.style.color = "white";
+
+    // Вставляем кнопку в начало блока
+    container.insertAdjacentElement("afterbegin", btnElement);
+
+    // Вставляем пробел как текстовый узел
+    container.insertAdjacentText("afterbegin", " ");
+  });
+
+  var changeEvent = new Event("change", {
+    bubbles: true,
+    cancelable: true,
+  });
+
+  function waitForElement(selector, callback) {
+    const observer = new MutationObserver((mutationsList, observer) => {
+      const element = document.querySelector(selector);
+      if (element) {
+        observer.disconnect(); // Отключаем наблюдателя, когда элемент найден
+        callback(element);
+      }
+    });
+
+    // Наблюдаем за изменениями в документе
+    observer.observe(document, { childList: true, subtree: true });
+  }
+
+  function handleAccident() {
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "-1";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "1125";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_main_reason", (substep) => {
+      substep.value = "4110";
+      substep.dispatchEvent(changeEvent);
+    });
+  }
+  function handleNRD() {
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "1195";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "2286";
+      substep.dispatchEvent(changeEvent);
+    });
+  }
+
+  function handleSZVG() {
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "383";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "1044";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_main_reason", (substep) => {
+      substep.value = "4171";
+      substep.dispatchEvent(changeEvent);
+    });
+  }
+
+  function handleKСNCK1Click() {
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "2296";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "2123";
+      substep.dispatchEvent(changeEvent);
+    });
+  }
+
+  function handleKСNCK2Click() {
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "1520";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "2123";
+      substep.dispatchEvent(changeEvent);
+    });
   }
 }
