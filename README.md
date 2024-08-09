@@ -5,7 +5,7 @@
 ## Установка
 
 ### Основной метод
-1. Перейти на сайт https://authfailed.github.io/domhelper/
+1. Перейти на сайт https://authfailed.github.io/domru-helper/
 2. Нажать кнопку **Обновить расширение**
 
 ![изображение](https://github.com/user-attachments/assets/f8434b09-f336-423d-a62a-3ebb537860d6)
