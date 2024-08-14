@@ -4,6 +4,7 @@
 
   // Загрузка сохраненных настроек
   const checkboxIds = [
+    "OTHER_CheckUpdates",
     "GENESYS_showFastButtons",
     "GENESYS_hideUselessButtons",
     "GENESYS_hideChatHeader",

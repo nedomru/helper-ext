@@ -1,34 +1,41 @@
 async function checkForUpdates() {
-  function compareVersions(v1, v2) {
-    const v1Parts = v1.split(".").map(Number);
-    const v2Parts = v2.split(".").map(Number);
-    for (let i = 0; i < Math.max(v1Parts.length, v2Parts.length); i++) {
-      const v1Part = v1Parts[i] || 0;
-      const v2Part = v2Parts[i] || 0;
-      if (v1Part < v2Part) return -1; // v1 меньше v2
-      if (v1Part > v2Part) return 1; // v1 больше v2
+  // Получаем настройки из sync
+  const settings = await browser.storage.sync.get("OTHER_CheckUpdates");
+
+  // Проверяем, включена ли проверка обновлений
+  if (settings.OTHER_CheckUpdates) {
+    function compareVersions(v1, v2) {
+      const v1Parts = v1.split(".").map(Number);
+      const v2Parts = v2.split(".").map(Number);
+      for (let i = 0; i < Math.max(v1Parts.length, v2Parts.length); i++) {
+        const v1Part = v1Parts[i] || 0;
+        const v2Part = v2Parts[i] || 0;
+        if (v1Part < v2Part) return -1; // v1 меньше v2
+        if (v1Part > v2Part) return 1; // v1 больше v2
+      }
+      return 0; // версии равны
     }
-    return 0; // версии равны
-  }
 
-  const response = await fetch(
-    "https://api.github.com/repos/AuthFailed/domhelper/releases/latest"
-  );
+    const response = await fetch(
+      "https://api.github.com/repos/AuthFailed/domhelper/releases/latest"
+    );
 
-  const data = await response.json();
+    const data = await response.json();
 
-  const latestVersion = data.tag_name;
-  const currentVersion = browser.runtime.getManifest().version;
+    const latestVersion = data.tag_name;
+    const currentVersion = browser.runtime.getManifest().version;
 
-  if (compareVersions(latestVersion, currentVersion) > 0) {
-    browser.tabs.create({
-      url: browser.runtime.getURL("update.html"),
-    });
+    if (compareVersions(latestVersion, currentVersion) > 0) {
+      browser.tabs.create({
+        url: browser.runtime.getURL("update.html"),
+      });
+    }
   }
 }
 
 async function setDefaults() {
   const defaultSettings = {
+    OTHER_CheckUpdates: true,
     GENESYS_showFastButtons: true,
     GENESYS_hideUselessButtons: false,
     GENESYS_hideChatHeader: false,
