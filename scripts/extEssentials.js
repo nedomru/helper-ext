@@ -17,7 +17,7 @@ async function checkForUpdates() {
     }
 
     const response = await fetch(
-      "https://api.github.com/repos/AuthFailed/domhelper/releases/latest"
+      "https://api.github.com/repos/AuthFailed/domru-helper/releases/latest"
     );
 
     const data = await response.json();
@@ -68,6 +68,7 @@ async function setDefaults() {
     ARM_hideTabLoans: false,
     ARM_checkWrongTransfer: false,
     ARM_checkSetToMe: false,
+    ARM_copyClientAddressWithoutCity: false,
     LINE_highlightOperators: false,
     LINE_dutyButtons: false,
     LINE_showFastButtons: true,
