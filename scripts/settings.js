@@ -37,6 +37,7 @@
     "ARM_hideTabLoans",
     "ARM_checkWrongTransfer",
     "ARM_checkSetToMe",
+    "ARM_copyClientAddressWithoutCity",
     "LINE_highlightOperators",
     "LINE_dutyButtons",
     "LINE_showFastButtons",

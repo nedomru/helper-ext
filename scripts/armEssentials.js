@@ -429,7 +429,11 @@ function copyTextToClipboard(text) {
   document.body.removeChild(textarea);
 }
 
-function copyClientAddress() {
+async function copyClientAddress() {
+  const settings = await browser.storage.sync.get(
+    "ARM_copyClientAddressWithoutCity"
+  );
+
   if (document.querySelector(".helper-address") != null) {
     return;
   }
@@ -452,6 +456,14 @@ function copyClientAddress() {
   if (match) {
     const postalCode = match[0] + ", ";
     address_text = address_text.replace(postalCode, "").trim();
+  }
+
+  if (settings.ARM_copyClientAddressWithoutCity) {
+    const city_regex = /.*?(ул\.)/i;
+    const city_match = address_text.match(city_regex);
+    if (city_match) {
+      address_text = address_text.replace(city_regex, "$1").trim();
+    }
   }
 
   // Поиск клетки Адрес для добавления кнопки
