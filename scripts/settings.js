@@ -44,6 +44,13 @@
     "LINE_updateNeededSL",
   ];
 
+  const colorPickerIds = [
+    "HIGHLIGHTER_CS",
+    "HIGHLIGHTER_EMAIL",
+    "HIGHLIGHTER_OCTP",
+    "HIGHLIGHTER_COMPENSATION",
+  ];
+
   try {
     const result = await browser.storage.sync.get(checkboxIds);
     checkboxIds.forEach((id) => {
@@ -52,6 +59,16 @@
     });
   } catch (error) {
     console.error(`Ошибка при загрузке настроек: ${error}`);
+  }
+
+  try {
+    const colorResults = await browser.storage.sync.get(colorPickerIds);
+    colorPickerIds.forEach((id) => {
+      const colorPicker = document.getElementById(id);
+      colorPicker.value = colorResults[id] || "#007bff";
+    });
+  } catch (error) {
+    console.error(`Ошибка при загрузке цветов: ${error}`);
   }
 
   function handleCheckboxChange(event) {
@@ -67,10 +84,29 @@
       .catch(onError);
   }
 
-  // Привязка обработчика изменения к чекбоксам
+  function handleColorChange(event) {
+    const colorSetting = event.target.id;
+    const colorValue = event.target.value;
+    browser.storage.sync
+      .set({ [colorSetting]: colorValue })
+      .then(() => {
+        console.log(
+          `[${new Date().toLocaleTimeString()}] [Помощник] - [Настройки] Цвет ${colorSetting} изменён на ${colorValue}`
+        );
+      })
+      .catch(onError);
+  }
+
+  // Привязка обработчиков изменения к чекбоксам
   checkboxIds.forEach((id) => {
     const checkbox = document.getElementById(id);
     checkbox.addEventListener("change", handleCheckboxChange);
+  });
+
+  // Привязка обработчиков изменения к color picker
+  colorPickerIds.forEach((id) => {
+    const colorPicker = document.getElementById(id);
+    colorPicker.addEventListener("input", handleColorChange);
   });
 
   // Общая функция для кнопок с тогглами
