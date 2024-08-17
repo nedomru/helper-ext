@@ -1,9 +1,28 @@
-const dataToHighlight = {
-  "Контакт сорвался": "red",
-  "Обращение из Email": "darkgreen",
-  "ОЦТП - Входящая связь": "teal",
-  "Компенсация за аварию": "teal",
-};
+let dataToHighlight = {};
+
+// Функция для получения значения цвета из color picker
+function getHighlightColors(callback) {
+  browser.storage.sync
+    .get([
+      "HIGHLIGHTER_CS",
+      "HIGHLIGHTER_EMAIL",
+      "HIGHLIGHTER_OCTP",
+      "HIGHLIGHTER_COMPENSATION",
+    ])
+    .then((settings) => {
+      dataToHighlight = {
+        "Контакт сорвался": settings.HIGHLIGHTER_CS || "#ff0000",
+        "Обращение из Email": settings.HIGHLIGHTER_EMAIL || "#006400",
+        "ОЦТП - Входящая связь": settings.HIGHLIGHTER_OCTP || "#008080",
+        "Компенсация за аварию": settings.HIGHLIGHTER_COMPENSATION || "#008080",
+      };
+      console.log(dataToHighlight);
+      if (callback) callback(); // вызываем callback после загрузки данных
+    })
+    .catch((error) => {
+      console.error("Ошибка при получении цветов:", error);
+    });
+}
 
 function highlightText(element) {
   let text = element.innerText;
@@ -76,4 +95,12 @@ function handleOtherPages() {
   }
 }
 
+// Вызов функции и передача коллбэка
+getHighlightColors(() => {
+  // Запуск обработки после получения цветов
+  highlightCells(); // это можно вызывать один раз вместо intervalId
+  setInterval(highlightCells, 1000); // если необходимо продолжать
+});
+
+// Вызываем обработчик для других страниц сразу
 handleOtherPages();
