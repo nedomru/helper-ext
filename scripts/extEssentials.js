@@ -36,6 +36,7 @@ async function checkForUpdates() {
 async function setDefaults() {
   const defaultSettings = {
     OTHER_CheckUpdates: true,
+    OTHER_DarkTheme: false,
     GENESYS_showFastButtons: true,
     GENESYS_hideUselessButtons: false,
     GENESYS_hideChatHeader: false,

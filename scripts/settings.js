@@ -5,6 +5,7 @@
   // Загрузка сохраненных настроек
   const checkboxIds = [
     "OTHER_CheckUpdates",
+    "OTHER_DarkTheme",
     "GENESYS_showFastButtons",
     "GENESYS_hideUselessButtons",
     "GENESYS_hideChatHeader",
@@ -51,8 +52,8 @@
     "HIGHLIGHTER_COMPENSATION",
   ];
 
+  const result = await browser.storage.sync.get(checkboxIds);
   try {
-    const result = await browser.storage.sync.get(checkboxIds);
     checkboxIds.forEach((id) => {
       const checkbox = document.getElementById(id);
       checkbox.checked = result[id] || false;
@@ -70,6 +71,25 @@
   } catch (error) {
     console.error(`Ошибка при загрузке цветов: ${error}`);
   }
+
+  function toggleDarkTheme(isDark) {
+    if (isDark) {
+      document.body.classList.add("dark-theme");
+    } else {
+      document.body.classList.remove("dark-theme");
+    }
+  }
+
+  // Загрузка состояния темной темы
+  darkThemeActive = result.OTHER_DarkTheme;
+  toggleDarkTheme(darkThemeActive);
+
+  // Обработчик изменения состояния переключателя темной темы
+  const darkThemeCheckbox = document.getElementById("OTHER_DarkTheme");
+  darkThemeCheckbox.addEventListener("change", function () {
+    const isChecked = darkThemeCheckbox.checked;
+    toggleDarkTheme(isChecked);
+  });
 
   function handleCheckboxChange(event) {
     const setting = event.target.id;
