@@ -1,4 +1,10 @@
 ﻿document.addEventListener("DOMContentLoaded", function () {
+  browser.storage.sync.get("OTHER_DarkTheme").then(function (settings) {
+    if (settings.OTHER_DarkTheme) {
+      document.body.classList.add("dark-theme");
+    }
+  });
+
   const form_mac = document.getElementById("form-mac");
   const form_link = document.getElementById("form-link");
   const form_ip = document.getElementById("form-ip");

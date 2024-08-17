@@ -16,7 +16,6 @@ function getHighlightColors(callback) {
         "ОЦТП - Входящая связь": settings.HIGHLIGHTER_OCTP || "#008080",
         "Компенсация за аварию": settings.HIGHLIGHTER_COMPENSATION || "#008080",
       };
-      console.log(dataToHighlight);
       if (callback) callback(); // вызываем callback после загрузки данных
     })
     .catch((error) => {
