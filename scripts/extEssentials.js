@@ -46,6 +46,7 @@ async function setDefaults() {
     ARM_copyClientAddress: true,
     ARM_copyClientCard: true,
     ARM_copyClientAgreement: true,
+    ARM_copySearchMAC: true,
     ARM_showHelperSMSButtons: true,
     ARM_copyTimeSlots: true,
     ARM_changeRequestFastButtons: true,

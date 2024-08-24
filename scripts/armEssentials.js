@@ -6,7 +6,17 @@ if (
     "db.ertelecom.ru/static_pages/private/wcc/client_session/?user_id"
   ) != -1
 ) {
-  copyMAC();
+  const ARM_config = {
+    ARM_copySearchMAC: copyMAC,
+  };
+
+  browser.storage.sync.get(Object.keys(ARM_config)).then((result) => {
+    Object.keys(ARM_config).forEach((key) => {
+      if (result[key]) {
+        ARM_config[key]();
+      }
+    });
+  });
 }
 
 if (document.URL.indexOf("wcc2_main.frame_left_reasons") != -1) {
