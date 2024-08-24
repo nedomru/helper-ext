@@ -1,3 +1,14 @@
+if (
+  document.URL.indexOf(
+    "db.ertelecom.ru/cgi-bin/ppo/excells/radius_accounting_info.login_detail?id_session"
+  ) != -1 ||
+  document.URL.indexOf(
+    "db.ertelecom.ru/static_pages/private/wcc/client_session/?user_id"
+  ) != -1
+) {
+  copyMAC();
+}
+
 if (document.URL.indexOf("wcc2_main.frame_left_reasons") != -1) {
   const ARM_config = {
     ARM_changeRequestFastButtonsLeftFrame: fastButtonsARM,
@@ -625,6 +636,121 @@ function copyTimeSlots() {
   });
 
   observer.observe(document.body, { childList: true, subtree: true });
+}
+
+function copyMAC() {
+  if (document.querySelector(".helper-copy-mac") != null) {
+    return;
+  }
+  const addCopyButtons = () => {
+    const macAddressElements = document.querySelectorAll(
+      ".mac, .js-get-vendor-by-mac"
+    );
+
+    macAddressElements.forEach((macAddressElement) => {
+      if (
+        !macAddressElement.nextElementSibling ||
+        !macAddressElement.nextElementSibling.classList.contains(
+          "helper-copy-mac"
+        )
+      ) {
+        const macAddress = macAddressElement.innerText;
+        const copyButton = document.createElement("button");
+        copyButton.classList.add("helper-copy-mac");
+        copyButton.innerText = "📋";
+        copyButton.onclick = function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+          copyTextToClipboard(macAddress);
+          $.notify("MAC-адрес скопирован", "success");
+        };
+
+        const searchButton = document.createElement("button");
+        searchButton.classList.add("helper-copy-mac");
+        searchButton.innerText = "🔎";
+        searchButton.onclick = function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+          try {
+            fetch(`https://api.maclookup.app/v2/macs/${macAddress}`, {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            })
+              .then((response) => {
+                if (response.status == 429) {
+                  $.notify("Превышен лимит запросов (2 в сек)", "error");
+                  return;
+                } else if (response.status != 200) {
+                  $.notify("Не удалось найти", "error");
+                  return;
+                }
+                return response.json();
+              })
+              .then((result) => {
+                if (result.found == false) {
+                  $.notify("Не удалось найти MAC в базе", "error");
+                  return;
+                }
+                const companyName = result.company;
+
+                if (companyName) {
+                  $.notify(companyName, "success");
+                  document.getElementById("input-mac").value = "";
+                }
+              });
+          } catch (error) {
+            console.error("Fetch error:", error);
+          }
+        };
+
+        const buttonContainer = document.createElement("span");
+        buttonContainer.style.position = "relative";
+        buttonContainer.style.marginLeft = "5px";
+        buttonContainer.appendChild(copyButton);
+        buttonContainer.appendChild(searchButton);
+
+        macAddressElement.parentElement.appendChild(buttonContainer);
+      }
+    });
+  };
+
+  const setupObserver = () => {
+    const targetNode = document.getElementById("js-res-app");
+    const config = { childList: true, subtree: true };
+    const callback = function (mutationsList) {
+      let foundMacAddress = false;
+
+      for (const mutation of mutationsList) {
+        if (mutation.type === "childList") {
+          // Проверяем на наличие MAC-адресов
+          foundMacAddress =
+            document.querySelector(".mac, .js-get-vendor-by-mac") !== null;
+          if (foundMacAddress) {
+            addCopyButtons();
+            observer.disconnect(); // Остановим наблюдатель
+            break; // Прерываем цикл
+          }
+        }
+      }
+    };
+
+    const observer = new MutationObserver(callback);
+    observer.observe(targetNode, config);
+  };
+
+  // Запускаем наблюдатель, если это нужная страница
+  if (
+    document.URL.includes(
+      "db.ertelecom.ru/static_pages/private/wcc/client_session/?user_id"
+    )
+  ) {
+    setupObserver();
+  } else {
+    // Если страница уже загружена, сразу добавляем кнопки
+    addCopyButtons();
+  }
 }
 
 function showClientAgreementOnChangeRequest() {
