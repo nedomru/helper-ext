@@ -131,12 +131,10 @@ function fastButtons() {
   }, 1000);
 
   const buttonData = [
-    { text: "Jira", link: "https://ticket.ertelecom.ru" },
     { text: "Почта", link: "https://mail.domru.ru" },
-    { text: "БЗ", link: "https://clever.ertelecom.ru" },
-    { text: "ОКЦ", link: "https://okc.ertelecom.ru/stats/#octpNck" },
-    { text: "НТП2", link: "https://okc.ertelecom.ru/stats/line_ts/ntp2/index" },
     { text: "Обеды", link: "https://okc2.ertelecom.ru/wfm/vueapp/day" },
+    { text: "ОКЦ", link: "https://okc.ertelecom.ru/stats/#octpNck" },
+    { text: "БЗ", link: "https://clever.ertelecom.ru" },
     {
       text: "АРМ",
       link: "https://perm.db.ertelecom.ru/cgi-bin/ppo/excells/wcc_main.entry_continue",
