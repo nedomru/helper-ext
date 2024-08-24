@@ -14,8 +14,12 @@ body.dark-theme {
   color: #e0e0e0; /* Светлый текст */
 }
 
+.row {
+  display: flex; /* Используем Flexbox для размещения колонок */
+}
+
 div {
-  margin: 20px 5px 20px 5px;
+  margin: 10px 5px 5px 5px;
 }
 
 span {
@@ -27,15 +31,12 @@ body.dark-theme span {
 }
 
 div a {
-  text-align: right;
-}
-
-.row {
-  display: flex;
+  text-align: justify;
+  border-collapse: collapse;
 }
 
 .column {
-  flex: 50%;
+  flex: 50%; /* Указывает ширину колонки */
 }
 
 table,
