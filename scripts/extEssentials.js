@@ -41,7 +41,7 @@ async function setDefaults() {
     GENESYS_hideUselessButtons: false,
     GENESYS_hideChatHeader: false,
     GENESYS_showOCTPLineStatus: false,
-    GENESYS_showClientChannelOnCard: false,
+    // GENESYS_showClientChannelOnCard: false,
     ARM_hideSPAS: false,
     ARM_copyClientAddress: true,
     ARM_copyClientCard: true,

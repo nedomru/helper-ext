@@ -10,7 +10,7 @@
     "GENESYS_hideUselessButtons",
     "GENESYS_hideChatHeader",
     "GENESYS_showOCTPLineStatus",
-    "GENESYS_showClientChannelOnCard",
+    // "GENESYS_showClientChannelOnCard",
     "ARM_hideSPAS",
     "ARM_copyClientAddress",
     "ARM_copyClientCard",
