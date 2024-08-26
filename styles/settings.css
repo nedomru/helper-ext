@@ -92,3 +92,15 @@ body.dark-theme .list-group-item {
 body.dark-theme .list-group-item.active {
   background-color: #007bff;
 }
+
+.img-thumbnail {
+  transition: opacity 0.2s ease-in-out; /* плавный переход для прозрачности */
+  max-width: none; /* Убираем максимальную ширину */
+  max-height: none;
+}
+
+.tooltip-inner {
+  max-width: max-content;
+  opacity: 1 !important;
+  padding: 1px !important;
+}

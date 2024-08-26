@@ -183,3 +183,7 @@
 function onError(error) {
   console.log(`Ошибка: ${error}`);
 }
+
+$(document).ready(function () {
+  $('[data-bs-toggle="tooltip"]').tooltip();
+});
