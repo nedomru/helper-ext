@@ -19,7 +19,28 @@
     "ARM_copyTimeSlots",
     "ARM_showHelperSMSButtons",
     "ARM_changeRequestFastButtons",
-    "ARM_changeRequestFastButtonsLeftFrame",
+    "ARM_changeRequestFBLF",
+    "ARM_changeRequestFBLF_KCNCK1",
+    "ARM_changeRequestFBLF_KCNCK2",
+    "ARM_changeRequestFBLF_SZVG",
+    "ARM_changeRequestFBLF_VhodNRD",
+    "ARM_changeRequestFBLF_Accident",
+    "ARM_changeRequestFBLF_Self_Balance",
+    "ARM_changeRequestFBLF_Self_Priost",
+    "ARM_changeRequestFBLF_Self_Activation",
+    "ARM_changeRequestFBLF_Self_ChangeTP",
+    "ARM_changeRequestFBLF_Self_PromisedPayment",
+    "ARM_changeRequestFBLF_Self_SpeedBonus",
+    "ARM_changeRequestFBLF_Self_WiFiKey",
+    "ARM_changeRequestFBLF_Self_RouterSetup",
+    "ARM_changeRequestFBLF_Self_RiseAP",
+    "ARM_changeRequestFBLF_Self_KTV",
+    "ARM_changeRequestFBLF_Self_ActivateKey",
+    "ARM_changeRequestFBLF_Self_PIN",
+    "ARM_changeRequestFBLF_Self_Zvonok",
+    "ARM_changeRequestFBLF_Self_CameraVN",
+    "ARM_changeRequestFBLF_Self_Pult",
+    "ARM_changeRequestFBLF_Self_BadPult",
     "ARM_checkForSpecialClient",
     "ARM_hideTabIPTV",
     "ARM_hideTabMVNO",
@@ -187,4 +208,23 @@ function onError(error) {
 
 $(document).ready(function () {
   $('[data-bs-toggle="tooltip"]').tooltip();
+});
+
+$(document).ready(function () {
+  // Логика для вложенных дропдаунов
+  $(".dropdown-submenu a.dropdown-item").on("click", function (e) {
+    e.preventDefault(); // предотвращает переход по ссылке
+    e.stopPropagation(); // предотвращает всплытие события к родительским элементам
+
+    // Инициализируем вкладку, если она неактивна
+    if (!$(this).hasClass("active")) {
+      $('[data-bs-toggle="tab"]').removeClass("active");
+      $(this).addClass("active"); // Добавляем активный класс
+    }
+
+    // Переключаем вкладку
+    var targetTab = $(this).attr("href");
+    $(".tab-pane").removeClass("show active"); // Скрываем все вкладки
+    $(targetTab).addClass("show active"); // Показываем выбранную вкладку
+  });
 });

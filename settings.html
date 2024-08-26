@@ -42,6 +42,7 @@
                     <!-- Содержимое вкладок -->
                     <div class="tab-content" id="settingsTabContent">
                         </br>
+                        <!-- Содержимое вкладки Общее -->
                         <div class="tab-pane fade show active" id="general" role="tabpanel"
                             aria-labelledby="general-tab">
                             <!-- Общее -->
@@ -96,12 +97,12 @@
                             </div>
                         </div>
 
+                        <!-- Содержимое вкладки Генезис -->
                         <div class="tab-pane fade" id="genesys" role="tabpanel" aria-labelledby="genesys-tab">
-                            <!-- Содержимое вкладки Генезис -->
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Генезис</h5>
-                                    <p class="card-text">Функционал, применяемый к странице Генезиса
+                                    <p class="card-text">Общий функционал, применяемый к странице Генезиса
                                     </p>
                                 </div>
                                 <div class="list-group">
@@ -222,22 +223,41 @@
                             </div>
                         </div>
 
+                        <!-- Содержимое вкладки АРМ -->
                         <div class="tab-pane fade" id="arm" role="tabpanel" aria-labelledby="arm-tab">
-                            <!-- Содержимое вкладки АРМ -->
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <!-- Основные настройки -->
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link active" id="main-tab" data-bs-toggle="tab" href="#main"
                                         role="tab" aria-controls="main" aria-selected="true">Основные настройки</a>
                                 </li>
+                                <!-- Быстрые кнопки -->
+                                <li class="nav-item dropdown" role="presentation">
+                                    <a class="nav-link dropdown-toggle" href="#" id="fastsettings-dropdown"
+                                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Быстрые кнопки
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="fastsettings-dropdown">
+                                        <li><a class="dropdown-item" href="#leftframe" role="tab"
+                                                aria-controls="leftframe" data-bs-toggle="tab">Левый фрейм</a></li>
+                                        <li><a class="dropdown-item" href="#changerequest" role="tab"
+                                                aria-controls="changerequest" data-bs-toggle="tab">Изменение
+                                                обращения</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <!-- Копирование элементов -->
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link" id="copyelements-tab" data-bs-toggle="tab" href="#copyelements"
                                         role="tab" aria-controls="copyelements" aria-selected="false">Копирование
                                         элементов</a>
                                 </li>
+                                <!-- Скрытие вкладок -->
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link" id="hidetabs-tab" data-bs-toggle="tab" href="#hidetabs"
                                         role="tab" aria-controls="hidetabs" aria-selected="false">Скрытие вкладок</a>
                                 </li>
+                                <!-- Подсветка обращений -->
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link" id="highlights-tab" data-bs-toggle="tab" href="#highlights"
                                         role="tab" aria-controls="highlights" aria-selected="false">Подсветка
@@ -245,60 +265,18 @@
                                 </li>
                             </ul>
 
+
                             <div class="tab-content" id="myTabContent"><br />
+                                <!--АРМ-->
                                 <div class="tab-pane fade show active" id="main" role="tabpanel"
                                     aria-labelledby="main-tab">
                                     <div class="card">
                                         <div class="card-body">
                                             <h5 class="card-title">АРМ</h5>
-                                            <p class="card-text">Функционал, применяемый к странице АРМа
+                                            <p class="card-text">Общий функционал, применяемый к странице АРМа
                                             </p>
                                         </div>
                                         <div class="list-group">
-                                            <!-- Быстрые классы в левом фрейме -->
-                                            <div class="list-group-item">
-                                                <div class="row align-items-center">
-                                                    <div class="col">
-                                                        <strong class="mb-0" data-bs-toggle="tooltip"
-                                                            data-bs-html="true" data-bs-placement="right"
-                                                            data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/euAOQll.png'/>">
-                                                            Быстрые классы в левом фрейме</strong>
-                                                        <p class="mb-0">Добавляет кнопки для быстрой смены класса
-                                                            обращения в левый фрейм
-                                                        </p>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="ARM_changeRequestFastButtonsLeftFrame" />
-                                                            <span class="custom-control-label"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Быстрые классы в изменении обращения -->
-                                            <div class="list-group-item">
-                                                <div class="row align-items-center">
-                                                    <div class="col">
-                                                        <strong class="mb-0" data-bs-toggle="tooltip"
-                                                            data-bs-html="true" data-bs-placement="right"
-                                                            data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/gnltcYY.png'/>">
-                                                            Быстрые классы в изменении</strong>
-                                                        <p class="mb-0">Добавляет кнопки для быстрой смены класса
-                                                            обращения на страницу редактирования обращения
-                                                        </p>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="ARM_changeRequestFastButtons" />
-                                                            <span class="custom-control-label"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
                                             <!-- Скрывать СПАС -->
                                             <div class="list-group-item">
                                                 <div class="row align-items-center">
@@ -417,532 +395,1169 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="copyelements" role="tabpanel"
-                                    aria-labelledby="copyelements-tab">
-                                    <!-- Копирование элементов -->
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Копирование элементов</h5>
-                                            <p class="card-text">Настройки, отвечающие за отображение кнопок копирования
-                                            </p>
-                                        </div>
-                                        <div class="list-group">
-                                            <!-- Отображать копирование адреса -->
-                                            <div class="list-group-item">
-                                                <div class="row align-items-center">
-                                                    <div class="col">
-                                                        <strong class="mb-0" data-bs-toggle="tooltip"
-                                                            data-bs-html="true" data-bs-placement="right"
-                                                            data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/54cNcaz.png'/>">
-                                                            Отображать копирование адреса</strong>
-                                                        <p class="mb-0">Добавляет кнопку на договор для
-                                                            копирования
-                                                            адреса
-                                                            клиента
-                                                        </p>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="ARM_copyClientAddress" />
-                                                            <span class="custom-control-label"></span>
-                                                        </div>
+                                <!-- Быстрые кнопки - Левый фрейм-->
+                                <div class="tab-pane fade" id="leftframe" role="tabpanel" aria-labelledby="leftframe">
+                                    <div class="list-group">
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong data-bs-toggle="tooltip" data-bs-html="true"
+                                                        data-bs-placement="right"
+                                                        data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/euAOQll.png'/>">
+                                                        Включить быстрые кнопки в левом фрейме</strong>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="ARM_changeRequestFBLF" />
+                                                        <span class="custom-control-label"></span>
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <!-- Копировать адрес без города -->
-                                            <div class="list-group-item">
-                                                <div class="row align-items-center">
-                                                    <div class="col">
-                                                        <strong class="mb-0">Копировать адрес без города</strong>
-                                                        <p class="mb-0">Убирает город при копировании адреса
-                                                        </p>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="ARM_copyClientAddressWithoutCity" />
-                                                            <span class="custom-control-label"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Отображать копирование карточки -->
-                                            <div class="list-group-item">
-                                                <div class="row align-items-center">
-                                                    <div class="col">
-                                                        <strong class="mb-0" data-bs-toggle="tooltip"
-                                                            data-bs-html="true" data-bs-placement="right"
-                                                            data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/T5v3jYi.png'/>">
-                                                            Отображать копирование карточки</strong>
-                                                        <p class="mb-0">Добавляет кнопку на договор для
-                                                            копирования
-                                                            карточки
-                                                            клиента
-                                                        </p>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="ARM_copyClientCard" />
-                                                            <span class="custom-control-label"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Отображать копирование договора -->
-                                            <div class="list-group-item">
-                                                <div class="row align-items-center">
-                                                    <div class="col">
-                                                        <strong class="mb-0" data-bs-toggle="tooltip"
-                                                            data-bs-html="true" data-bs-placement="right"
-                                                            data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/ZdlkaL0.png'/>">
-                                                            Отображать копирование договора</strong>
-                                                        <p class="mb-0">Добавляет кнопку на договор для
-                                                            копирования
-                                                            договора
-                                                            клиента
-                                                        </p>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="ARM_copyClientAgreement" />
-                                                            <span class="custom-control-label"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Отображать копирование слотов СЗ -->
-                                            <div class="list-group-item">
-                                                <div class="row align-items-center">
-                                                    <div class="col">
-                                                        <strong class="mb-0" data-bs-toggle="tooltip"
-                                                            data-bs-html="true" data-bs-placement="right"
-                                                            data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/HRUwsYb.png'/>">
-                                                            Отображать копирование слотов СЗ</strong>
-                                                        <p class="mb-0">Добавляет кнопку на обращение для
-                                                            копирования
-                                                            слотов
-                                                            СЗ
-                                                        </p>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="ARM_copyTimeSlots" />
-                                                            <span class="custom-control-label"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="list-group-item">
-                                                <div class="row align-items-center">
-                                                    <div class="col">
-                                                        <strong class="mb-0" data-bs-toggle="tooltip"
-                                                            data-bs-html="true" data-bs-placement="right"
-                                                            data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/hlRguh6.png'/>">
-                                                            Отображать копирование и проверку
-                                                            MAC-адреса</strong>
-                                                        <p class="mb-0">Добавляет кнопки копирования и проверки
-                                                            MAC-адреса в
-                                                            проверку сессии и сессии за период
-                                                        </p>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="ARM_copySearchMAC" />
-                                                            <span class="custom-control-label"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="hidetabs" role="tabpanel" aria-labelledby="hidetabs-tab">
-                                    <!-- Вкладки договора -->
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Начисления</h5>
-                                            <p class="card-text">Вкладки, связанные с начислениями
-                                            </p>
-                                        </div>
-                                        <div class="list-group">
-                                            <!-- Скрывать Абонемент -->
-                                            <div class="list-group-item">
-                                                <div class="row align-items-center">
-                                                    <div class="col">
-                                                        <strong class="mb-0">Скрывать Абонемент</strong>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="ARM_hideTabABONEMENT" />
-                                                            <span class="custom-control-label"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- Скрывать Новая ПЛ -->
-                                            <div class="list-group-item">
-                                                <div class="row align-items-center">
-                                                    <div class="col">
-                                                        <strong class="mb-0">Скрывать Новая ПЛ</strong>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="ARM_hideTabPL" />
-                                                            <span class="custom-control-label"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Скрывать Счета -->
-                                            <div class="list-group-item">
-                                                <div class="row align-items-center">
-                                                    <div class="col">
-                                                        <strong class="mb-0">Скрывать Счета</strong>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="ARM_hideTabInvoices" />
-                                                            <span class="custom-control-label"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Скрывать Платежи -->
-                                            <div class="list-group-item">
-                                                <div class="row align-items-center">
-                                                    <div class="col">
-                                                        <strong class="mb-0">Скрывать Платежи</strong>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="ARM_hideTabPayments" />
-                                                            <span class="custom-control-label"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Скрывать Карты и автоплатеж -->
-                                            <div class="list-group-item">
-                                                <div class="row align-items-center">
-                                                    <div class="col">
-                                                        <strong class="mb-0">Скрывать Карты и автоплатеж</strong>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="ARM_hideTabAutopayment" />
-                                                            <span class="custom-control-label"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Скрывать Спецпредложения -->
-                                            <div class="list-group-item">
-                                                <div class="row align-items-center">
-                                                    <div class="col">
-                                                        <strong class="mb-0">Скрывать Спецпредложения</strong>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="ARM_hideTabSpecialOffers" />
-                                                            <span class="custom-control-label"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Скрывать Ограничение по балансу -->
-                                            <div class="list-group-item">
-                                                <div class="row align-items-center">
-                                                    <div class="col">
-                                                        <strong class="mb-0">Скрывать Ограничение по балансу</strong>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="ARM_hideTabBalanceLimit" />
-                                                            <span class="custom-control-label"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Скрывать Основные продажи -->
-                                            <div class="list-group-item">
-                                                <div class="row align-items-center">
-                                                    <div class="col">
-                                                        <strong class="mb-0">Скрывать Основные продажи</strong>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="ARM_hideTabMainSales" />
-                                                            <span class="custom-control-label"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Скрывать Кредиты -->
-                                            <div class="list-group-item">
-                                                <div class="row align-items-center">
-                                                    <div class="col">
-                                                        <strong class="mb-0">Скрывать Кредиты</strong>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="ARM_hideTabLoans" />
-                                                            <span class="custom-control-label"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <button id="toggleMoneyCheckboxes" class="btn btn-outline-secondary">Скрыть
-                                                все
-                                                начисления</button>
                                         </div>
                                     </div>
                                     <br />
+                                    <!-- Левый фрейм - Открытые обращения -->
                                     <div class="card">
                                         <div class="card-body">
-                                            <h5 class="card-title">Остальные вкладки</h5>
-                                            <p class="card-text">Вкладки, не связанные с начислениями</p>
+                                            <h5 class="card-title">Открытые обращения</h5>
                                         </div>
                                         <div class="list-group">
-                                            <!-- Скрывать Агентское IPTV -->
+                                            <!-- КС НЦК1 -->
                                             <div class="list-group-item">
                                                 <div class="row align-items-center">
                                                     <div class="col">
-                                                        <strong class="mb-0">Скрывать Агентское IPTV</strong>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="ARM_hideTabIPTV" />
-                                                            <span class="custom-control-label"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Скрывать Агентское MVNO -->
-                                            <div class="list-group-item">
-                                                <div class="row align-items-center">
-                                                    <div class="col">
-                                                        <strong class="mb-0">Скрывать MVNO</strong>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="ARM_hideTabMVNO" />
-                                                            <span class="custom-control-label"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Скрывать АвтоСП -->
-                                            <div class="list-group-item">
-                                                <div class="row align-items-center">
-                                                    <div class="col">
-                                                        <strong class="mb-0">Скрывать АвтоСП</strong>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="ARM_hideTabAVTOSP" />
-                                                            <span class="custom-control-label"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Скрывать Портрет клиента -->
-                                            <div class="list-group-item">
-                                                <div class="row align-items-center">
-                                                    <div class="col">
-                                                        <strong class="mb-0">Скрывать Портрет клиента</strong>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="ARM_hideTabPORTRET" />
-                                                            <span class="custom-control-label"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Скрывать MNP -->
-                                            <div class="list-group-item">
-                                                <div class="row align-items-center">
-                                                    <div class="col">
-                                                        <strong class="mb-0">Скрывать MNP</strong>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="ARM_hideTabMNP" />
-                                                            <span class="custom-control-label"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Скрывать Диагностика -->
-                                            <div class="list-group-item">
-                                                <div class="row align-items-center">
-                                                    <div class="col">
-                                                        <strong class="mb-0">Скрывать Диагностика</strong>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="ARM_hideTabDiagnostic" />
-                                                            <span class="custom-control-label"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Скрывать Диагностика (New) -->
-                                            <div class="list-group-item">
-                                                <div class="row align-items-center">
-                                                    <div class="col">
-                                                        <strong class="mb-0">Скрывать Диагностика (New)</strong>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="ARM_hideTabDiagnosticNew" />
-                                                            <span class="custom-control-label"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <button id="toggleOtherCheckboxes" class="btn btn-outline-secondary">Скрыть
-                                                все
-                                                прочее</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="highlights" role="tabpanel"
-                                    aria-labelledby="highlights-tab">
-                                    <!-- Подсветка классов обращений -->
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Подсветка классов обращений</h5>
-                                            <p class="card-text">Выбор цвета для подсветки классификаторов обращений в
-                                                АРМе
-                                            </p>
-                                        </div>
-                                        <div class="list-group">
-                                            <!-- Включение подсветки -->
-                                            <div class="list-group-item">
-                                                <div class="row align-items-center">
-                                                    <div class="col">
-                                                        <strong class="mb-0">Подсветка классификаторов
-                                                            обращений</strong>
-                                                        <p class="mb-0">Активация подсветки для классов обращений
+                                                        <strong class="mb-0">КС НЦК1</strong>
+                                                        <p class="mb-0">Продукт - <i>не изменяется</i><br />Обработка -
+                                                            <i>Онлайн - Входящая связь</i><br />Причина обращения -
+                                                            <i>Контакт сорвался</i>
                                                         </p>
                                                     </div>
                                                     <div class="col-auto">
                                                         <div class="custom-control custom-switch">
                                                             <input type="checkbox" class="custom-control-input"
-                                                                id="ARM_highlightRequestsClasses" />
+                                                                id="ARM_changeRequestFBLF_KCNCK1" />
                                                             <span class="custom-control-label"></span>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- Цвет подсветки обращений "Контакт
+
+                                            <!-- КС НЦК2 -->
+                                            <div class="list-group-item">
+                                                <div class="row align-items-center">
+                                                    <div class="col">
+                                                        <strong class="mb-0">КС НЦК2</strong>
+                                                        <p class="mb-0">Продукт - <i>не изменяется</i><br />Обработка -
+                                                            <i>ОЦТП - Исходящая связь</i><br />Причина обращения -
+                                                            <i>Контакт сорвался</i>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="custom-control custom-switch">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="ARM_changeRequestFBLF_KCNCK2" />
+                                                            <span class="custom-control-label"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- СЗВГ -->
+                                            <div class="list-group-item">
+                                                <div class="row align-items-center">
+                                                    <div class="col">
+                                                        <strong class="mb-0">СЗВГ</strong>
+                                                        <p class="mb-0">Продукт - <i>не изменяется</i><br />Обработка -
+                                                            <i>Служба эксплуатации сети</i><br />Причина обращения -
+                                                            <i>Претензии - Требуется СЗ вне графика</i>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="custom-control custom-switch">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="ARM_changeRequestFBLF_SZVG" />
+                                                            <span class="custom-control-label"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- ВХОД НРД -->
+                                            <div class="list-group-item">
+                                                <div class="row align-items-center">
+                                                    <div class="col">
+                                                        <strong class="mb-0">ВХОД НРД</strong>
+                                                        <p class="mb-0">Продукт - <i>не изменяется</i><br />Обработка -
+                                                            <i>НСК - Входящая связь</i><br />Причина обращения -
+                                                            <i>Намерение расторгнуть договор</i>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="custom-control custom-switch">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="ARM_changeRequestFBLF_VhodNRD" />
+                                                            <span class="custom-control-label"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <!-- Левый фрейм - Закрытые обращения -->
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Закрытые обращения</h5>
+                                        </div>
+                                        <div class="list-group">
+                                            <!-- Авария -->
+                                            <div class="list-group-item">
+                                                <div class="row align-items-center">
+                                                    <div class="col">
+                                                        <strong class="mb-0">Авария</strong>
+                                                        <p class="mb-0">Продукт - <i>не изменяется</i><br />Обработка -
+                                                            <i>Не требует дальнейшей обработки</i><br />Причина
+                                                            обращения -
+                                                            <i>Авария/ППР - Авария</i>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="custom-control custom-switch">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="ARM_changeRequestFBLF_Accident" />
+                                                            <span class="custom-control-label"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <!-- Левый фрейм - Самообслуживание -->
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Самообслуживание</h5>
+                                        </div>
+                                        <div class="list-group">
+                                            <!-- Начисления или баланс -->
+                                            <div class="list-group-item">
+                                                <div class="row align-items-center">
+                                                    <div class="col">
+                                                        <strong class="mb-0">Начисления или баланс</strong>
+                                                        <p class="mb-0">Продукт - <i>не изменяется</i><br />Обработка -
+                                                            <i>Онлайн - Входящая связь</i><br />Причина
+                                                            обращения -
+                                                            <i>Начисления или баланс - Запрос баланса / АП / суммы долга
+                                                                или платежа</i>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="custom-control custom-switch">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="ARM_changeRequestFBLF_Self_Balance" />
+                                                            <span class="custom-control-label"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Консультация по условиям
+                                                            приостановления -->
+                                            <div class="list-group-item">
+                                                <div class="row align-items-center">
+                                                    <div class="col">
+                                                        <strong class="mb-0">Консультация по условиям
+                                                            приостановления</strong>
+                                                        <p class="mb-0">Продукт - <i>не изменяется</i><br />Обработка -
+                                                            <i>Онлайн - Входящая связь</i><br />Причина
+                                                            обращения -
+                                                            <i>Консультация по сервисам услугам — Консультация по
+                                                                условиям приостановления</i>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="custom-control custom-switch">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="ARM_changeRequestFBLF_Self_Priost" />
+                                                            <span class="custom-control-label"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Активация ТП -->
+                                            <div class="list-group-item">
+                                                <div class="row align-items-center">
+                                                    <div class="col">
+                                                        <strong class="mb-0">Активация ТП</strong>
+                                                        <p class="mb-0">Продукт - <i>не изменяется</i><br />Обработка -
+                                                            <i>Онлайн - Входящая связь</i><br />Причина
+                                                            обращения -
+                                                            <i>Операции с договором — Смена ТП/Активация ТП</i>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="custom-control custom-switch">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="ARM_changeRequestFBLF_Self_Activation" />
+                                                            <span class="custom-control-label"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Смена ТП -->
+                                            <div class="list-group-item">
+                                                <div class="row align-items-center">
+                                                    <div class="col">
+                                                        <strong class="mb-0">Смена ТП</strong>
+                                                        <p class="mb-0">Продукт - <i>не изменяется</i><br />Обработка -
+                                                            <i>Онлайн - Входящая связь</i><br />Причина
+                                                            обращения -
+                                                            <i>Консультация по сервисам услугам — Консультация по
+                                                                тарифам</i>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="custom-control custom-switch">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="ARM_changeRequestFBLF_Self_ChangeTP" />
+                                                            <span class="custom-control-label"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Обещанный платеж -->
+                                            <div class="list-group-item">
+                                                <div class="row align-items-center">
+                                                    <div class="col">
+                                                        <strong class="mb-0">Обещанный платеж</strong>
+                                                        <p class="mb-0">Продукт - <i>не изменяется</i><br />Обработка -
+                                                            <i>Онлайн - Входящая связь</i><br />Причина
+                                                            обращения -
+                                                            <i>Начисления и платежи — Обещанный платёж</i>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="custom-control custom-switch">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="ARM_changeRequestFBLF_Self_PromisedPayment" />
+                                                            <span class="custom-control-label"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Скоростной бонус -->
+                                            <div class="list-group-item">
+                                                <div class="row align-items-center">
+                                                    <div class="col">
+                                                        <strong class="mb-0">Скоростной бонус</strong>
+                                                        <p class="mb-0">Продукт - <i>Интернет</i><br />Обработка -
+                                                            <i>Онлайн - Входящая связь</i><br />Причина
+                                                            обращения -
+                                                            <i>Консультация по сервисам услугам — Консультация по
+                                                                платному контенту</i>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="custom-control custom-switch">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="ARM_changeRequestFBLF_Self_SpeedBonus" />
+                                                            <span class="custom-control-label"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Ключ сети -->
+                                            <div class="list-group-item">
+                                                <div class="row align-items-center">
+                                                    <div class="col">
+                                                        <strong class="mb-0">Ключ сети</strong>
+                                                        <p class="mb-0">Продукт - <i>Интернет</i><br />Обработка -
+                                                            <i>Онлайн - Входящая связь</i><br />Причина
+                                                            обращения -
+                                                            <i>Настройка и диагностика — Настройка роутера — Изменение
+                                                                настроек Wi-Fi</i>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="custom-control custom-switch">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="ARM_changeRequestFBLF_Self_WiFiKey" />
+                                                            <span class="custom-control-label"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Настройка роутера -->
+                                            <div class="list-group-item">
+                                                <div class="row align-items-center">
+                                                    <div class="col">
+                                                        <strong class="mb-0">Настройка роутера</strong>
+                                                        <p class="mb-0">Продукт - <i>не изменяется</i><br />Обработка -
+                                                            <i>Онлайн - Входящая связь</i><br />Причина
+                                                            обращения -
+                                                            <i>Настройка и диагностика — Настройка роутера — Настройка
+                                                                роутера</i>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="custom-control custom-switch">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="ARM_changeRequestFBLF_Self_RouterSetup" />
+                                                            <span class="custom-control-label"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Повышение АП -->
+                                            <div class="list-group-item">
+                                                <div class="row align-items-center">
+                                                    <div class="col">
+                                                        <strong class="mb-0">Повышение АП</strong>
+                                                        <p class="mb-0">Продукт - <i>не изменяется</i><br />Обработка -
+                                                            <i>Онлайн - Входящая связь</i><br />Причина
+                                                            обращения -
+                                                            <i>Начисления и платежи — Повышение АП — Консультация по
+                                                                повышению АП</i>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="custom-control custom-switch">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="ARM_changeRequestFBLF_Self_RiseAP" />
+                                                            <span class="custom-control-label"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- КТВ, нет вещания на всех каналах -->
+                                            <div class="list-group-item">
+                                                <div class="row align-items-center">
+                                                    <div class="col">
+                                                        <strong class="mb-0">КТВ, нет вещания на всех каналах</strong>
+                                                        <p class="mb-0">Продукт - <i>не изменяется</i><br />Обработка -
+                                                            <i>Онлайн - Входящая связь</i><br />Причина
+                                                            обращения -
+                                                            <i>Настройка и диагностика — Отсутствие вещания на каналах —
+                                                                Нет вещания на всех каналах</i>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="custom-control custom-switch">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="ARM_changeRequestFBLF_Self_KTV" />
+                                                            <span class="custom-control-label"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Активация ключа в МП  -->
+                                            <div class="list-group-item">
+                                                <div class="row align-items-center">
+                                                    <div class="col">
+                                                        <strong class="mb-0">Активация ключа в МП</strong>
+                                                        <p class="mb-0">Продукт - <i>не изменяется</i><br />Обработка -
+                                                            <i>Онлайн - Входящая связь</i><br />Причина
+                                                            обращения -
+                                                            <i>Настройка и диагностика — Вопросы по ключам — Проблема с
+                                                                добавлением/верификацией ключа в МП</i>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="custom-control custom-switch">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="ARM_changeRequestFBLF_Self_ActivateKey" />
+                                                            <span class="custom-control-label"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Восстановление ПИН-кода РК Movix  -->
+                                            <div class="list-group-item">
+                                                <div class="row align-items-center">
+                                                    <div class="col">
+                                                        <strong class="mb-0">Восстановление ПИН-кода РК Movix</strong>
+                                                        <p class="mb-0">Продукт - <i>не изменяется</i><br />Обработка -
+                                                            <i>Онлайн - Входящая связь</i><br />Причина
+                                                            обращения -
+                                                            <i>Настройка и диагностика — Настройка
+                                                                ТВ/приставки/САМ-модуля — PIN код и родительский
+                                                                контроль</i>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="custom-control custom-switch">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="ARM_changeRequestFBLF_Self_PIN" />
+                                                            <span class="custom-control-label"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Не проходит звонок в «Умный Дом.ru»  -->
+                                            <div class="list-group-item">
+                                                <div class="row align-items-center">
+                                                    <div class="col">
+                                                        <strong class="mb-0">Не проходит звонок в «Умный
+                                                            Дом.ru»</strong>
+                                                        <p class="mb-0">Продукт - <i>не изменяется</i><br />Обработка -
+                                                            <i>Онлайн - Входящая связь</i><br />Причина
+                                                            обращения -
+                                                            <i>Настройка и диагностика — Сложность со звонком в МП Умный
+                                                                Дом.ru — Не проходит звонок в приложение</i>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="custom-control custom-switch">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="ARM_changeRequestFBLF_Self_Zvonok" />
+                                                            <span class="custom-control-label"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- ВН. Камера в статусе «недоступна»  -->
+                                            <div class="list-group-item">
+                                                <div class="row align-items-center">
+                                                    <div class="col">
+                                                        <strong class="mb-0">ВН. Камера в статусе «недоступна»</strong>
+                                                        <p class="mb-0">Продукт - <i>не изменяется</i><br />Обработка -
+                                                            <i>Онлайн - Входящая связь</i><br />Причина
+                                                            обращения -
+                                                            <i>Настройка и диагностика — МП Умный Дом.ru — Камера в
+                                                                статусе "недоступна"</i>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="custom-control custom-switch">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="ARM_changeRequestFBLF_Self_CameraVN" />
+                                                            <span class="custom-control-label"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Привязка пульта к ТВ (Movix Go, Movix Pro Model 2021)  -->
+                                            <div class="list-group-item">
+                                                <div class="row align-items-center">
+                                                    <div class="col">
+                                                        <strong class="mb-0">Привязка пульта к ТВ (Movix Go, Movix Pro
+                                                            Model 2021)</strong>
+                                                        <p class="mb-0">Продукт - <i>не изменяется</i><br />Обработка -
+                                                            <i>Онлайн - Входящая связь</i><br />Причина
+                                                            обращения -
+                                                            <i>Настройка и диагностика — Сложности с переключением
+                                                                каналов — Нет сигнала при переключении каналов</i>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="custom-control custom-switch">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="ARM_changeRequestFBLF_Self_Pult" />
+                                                            <span class="custom-control-label"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Приставка не реагирует на пульт (Movix Go, Movix Pro Model 2021)  -->
+                                            <div class="list-group-item">
+                                                <div class="row align-items-center">
+                                                    <div class="col">
+                                                        <strong class="mb-0">Приставка не реагирует на пульт (Movix Go,
+                                                            Movix Pro Model 2021)</strong>
+                                                        <p class="mb-0">Продукт - <i>не изменяется</i><br />Обработка -
+                                                            <i>Онлайн - Входящая связь</i><br />Причина
+                                                            обращения -
+                                                            <i>Настройка и диагностика — Сложности с переключением
+                                                                каналов — Нет сигнала при переключении каналов</i>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="custom-control custom-switch">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="ARM_changeRequestFBLF_Self_BadPult" />
+                                                            <span class="custom-control-label"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- Быстрые кнопки - Изменение обращения -->
+                                <div class="tab-pane fade" id="changerequest" role="tabpanel"
+                                    aria-labelledby="changerequest">
+                                    <div class="list-group">
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0" data-bs-toggle="tooltip" data-bs-html="true"
+                                                        data-bs-placement="right"
+                                                        data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/euAOQll.png'/>">
+                                                        Включить быстрые кнопки в изменении обращения</strong>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="ARM_changeRequestFastButtons" />
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Изменение обращения</h5>
+                                                <p class="card-text">Быстрые кнопки в окне изменения обращения
+                                                </p>
+                                            </div>
+                                            <div class="list-group">
+                                                <div class="list-group-item">
+                                                    <div class="row align-items-center">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="copyelements" role="tabpanel"
+                                        aria-labelledby="copyelements-tab">
+                                        <!-- Копирование элементов -->
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Копирование элементов</h5>
+                                                <p class="card-text">Настройки, отвечающие за отображение кнопок
+                                                    копирования
+                                                </p>
+                                            </div>
+                                            <div class="list-group">
+                                                <!-- Отображать копирование адреса -->
+                                                <div class="list-group-item">
+                                                    <div class="row align-items-center">
+                                                        <div class="col">
+                                                            <strong class="mb-0" data-bs-toggle="tooltip"
+                                                                data-bs-html="true" data-bs-placement="right"
+                                                                data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/54cNcaz.png'/>">
+                                                                Отображать копирование адреса</strong>
+                                                            <p class="mb-0">Добавляет кнопку на договор для
+                                                                копирования
+                                                                адреса
+                                                                клиента
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="custom-control custom-switch">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="ARM_copyClientAddress" />
+                                                                <span class="custom-control-label"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Копировать адрес без города -->
+                                                <div class="list-group-item">
+                                                    <div class="row align-items-center">
+                                                        <div class="col">
+                                                            <strong class="mb-0">Копировать адрес без города</strong>
+                                                            <p class="mb-0">Убирает город при копировании адреса
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="custom-control custom-switch">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="ARM_copyClientAddressWithoutCity" />
+                                                                <span class="custom-control-label"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Отображать копирование карточки -->
+                                                <div class="list-group-item">
+                                                    <div class="row align-items-center">
+                                                        <div class="col">
+                                                            <strong class="mb-0" data-bs-toggle="tooltip"
+                                                                data-bs-html="true" data-bs-placement="right"
+                                                                data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/T5v3jYi.png'/>">
+                                                                Отображать копирование карточки</strong>
+                                                            <p class="mb-0">Добавляет кнопку на договор для
+                                                                копирования
+                                                                карточки
+                                                                клиента
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="custom-control custom-switch">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="ARM_copyClientCard" />
+                                                                <span class="custom-control-label"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Отображать копирование договора -->
+                                                <div class="list-group-item">
+                                                    <div class="row align-items-center">
+                                                        <div class="col">
+                                                            <strong class="mb-0" data-bs-toggle="tooltip"
+                                                                data-bs-html="true" data-bs-placement="right"
+                                                                data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/ZdlkaL0.png'/>">
+                                                                Отображать копирование договора</strong>
+                                                            <p class="mb-0">Добавляет кнопку на договор для
+                                                                копирования
+                                                                договора
+                                                                клиента
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="custom-control custom-switch">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="ARM_copyClientAgreement" />
+                                                                <span class="custom-control-label"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Отображать копирование слотов СЗ -->
+                                                <div class="list-group-item">
+                                                    <div class="row align-items-center">
+                                                        <div class="col">
+                                                            <strong class="mb-0" data-bs-toggle="tooltip"
+                                                                data-bs-html="true" data-bs-placement="right"
+                                                                data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/HRUwsYb.png'/>">
+                                                                Отображать копирование слотов СЗ</strong>
+                                                            <p class="mb-0">Добавляет кнопку на обращение для
+                                                                копирования
+                                                                слотов
+                                                                СЗ
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="custom-control custom-switch">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="ARM_copyTimeSlots" />
+                                                                <span class="custom-control-label"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="list-group-item">
+                                                    <div class="row align-items-center">
+                                                        <div class="col">
+                                                            <strong class="mb-0" data-bs-toggle="tooltip"
+                                                                data-bs-html="true" data-bs-placement="right"
+                                                                data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/hlRguh6.png'/>">
+                                                                Отображать копирование и проверку
+                                                                MAC-адреса</strong>
+                                                            <p class="mb-0">Добавляет кнопки копирования и проверки
+                                                                MAC-адреса в
+                                                                проверку сессии и сессии за период
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="custom-control custom-switch">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="ARM_copySearchMAC" />
+                                                                <span class="custom-control-label"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="hidetabs" role="tabpanel"
+                                        aria-labelledby="hidetabs-tab">
+                                        <!-- Вкладки договора -->
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Начисления</h5>
+                                                <p class="card-text">Вкладки, связанные с начислениями
+                                                </p>
+                                            </div>
+                                            <div class="list-group">
+                                                <!-- Скрывать Абонемент -->
+                                                <div class="list-group-item">
+                                                    <div class="row align-items-center">
+                                                        <div class="col">
+                                                            <strong class="mb-0">Скрывать Абонемент</strong>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="custom-control custom-switch">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="ARM_hideTabABONEMENT" />
+                                                                <span class="custom-control-label"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Скрывать Новая ПЛ -->
+                                                <div class="list-group-item">
+                                                    <div class="row align-items-center">
+                                                        <div class="col">
+                                                            <strong class="mb-0">Скрывать Новая ПЛ</strong>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="custom-control custom-switch">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="ARM_hideTabPL" />
+                                                                <span class="custom-control-label"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Скрывать Счета -->
+                                                <div class="list-group-item">
+                                                    <div class="row align-items-center">
+                                                        <div class="col">
+                                                            <strong class="mb-0">Скрывать Счета</strong>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="custom-control custom-switch">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="ARM_hideTabInvoices" />
+                                                                <span class="custom-control-label"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Скрывать Платежи -->
+                                                <div class="list-group-item">
+                                                    <div class="row align-items-center">
+                                                        <div class="col">
+                                                            <strong class="mb-0">Скрывать Платежи</strong>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="custom-control custom-switch">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="ARM_hideTabPayments" />
+                                                                <span class="custom-control-label"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Скрывать Карты и автоплатеж -->
+                                                <div class="list-group-item">
+                                                    <div class="row align-items-center">
+                                                        <div class="col">
+                                                            <strong class="mb-0">Скрывать Карты и автоплатеж</strong>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="custom-control custom-switch">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="ARM_hideTabAutopayment" />
+                                                                <span class="custom-control-label"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Скрывать Спецпредложения -->
+                                                <div class="list-group-item">
+                                                    <div class="row align-items-center">
+                                                        <div class="col">
+                                                            <strong class="mb-0">Скрывать Спецпредложения</strong>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="custom-control custom-switch">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="ARM_hideTabSpecialOffers" />
+                                                                <span class="custom-control-label"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Скрывать Ограничение по балансу -->
+                                                <div class="list-group-item">
+                                                    <div class="row align-items-center">
+                                                        <div class="col">
+                                                            <strong class="mb-0">Скрывать Ограничение по
+                                                                балансу</strong>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="custom-control custom-switch">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="ARM_hideTabBalanceLimit" />
+                                                                <span class="custom-control-label"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Скрывать Основные продажи -->
+                                                <div class="list-group-item">
+                                                    <div class="row align-items-center">
+                                                        <div class="col">
+                                                            <strong class="mb-0">Скрывать Основные продажи</strong>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="custom-control custom-switch">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="ARM_hideTabMainSales" />
+                                                                <span class="custom-control-label"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Скрывать Кредиты -->
+                                                <div class="list-group-item">
+                                                    <div class="row align-items-center">
+                                                        <div class="col">
+                                                            <strong class="mb-0">Скрывать Кредиты</strong>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="custom-control custom-switch">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="ARM_hideTabLoans" />
+                                                                <span class="custom-control-label"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button id="toggleMoneyCheckboxes"
+                                                    class="btn btn-outline-secondary">Скрыть
+                                                    все
+                                                    начисления</button>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Остальные вкладки</h5>
+                                                <p class="card-text">Вкладки, не связанные с начислениями</p>
+                                            </div>
+                                            <div class="list-group">
+                                                <!-- Скрывать Агентское IPTV -->
+                                                <div class="list-group-item">
+                                                    <div class="row align-items-center">
+                                                        <div class="col">
+                                                            <strong class="mb-0">Скрывать Агентское IPTV</strong>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="custom-control custom-switch">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="ARM_hideTabIPTV" />
+                                                                <span class="custom-control-label"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Скрывать Агентское MVNO -->
+                                                <div class="list-group-item">
+                                                    <div class="row align-items-center">
+                                                        <div class="col">
+                                                            <strong class="mb-0">Скрывать MVNO</strong>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="custom-control custom-switch">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="ARM_hideTabMVNO" />
+                                                                <span class="custom-control-label"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Скрывать АвтоСП -->
+                                                <div class="list-group-item">
+                                                    <div class="row align-items-center">
+                                                        <div class="col">
+                                                            <strong class="mb-0">Скрывать АвтоСП</strong>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="custom-control custom-switch">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="ARM_hideTabAVTOSP" />
+                                                                <span class="custom-control-label"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Скрывать Портрет клиента -->
+                                                <div class="list-group-item">
+                                                    <div class="row align-items-center">
+                                                        <div class="col">
+                                                            <strong class="mb-0">Скрывать Портрет клиента</strong>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="custom-control custom-switch">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="ARM_hideTabPORTRET" />
+                                                                <span class="custom-control-label"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Скрывать MNP -->
+                                                <div class="list-group-item">
+                                                    <div class="row align-items-center">
+                                                        <div class="col">
+                                                            <strong class="mb-0">Скрывать MNP</strong>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="custom-control custom-switch">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="ARM_hideTabMNP" />
+                                                                <span class="custom-control-label"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Скрывать Диагностика -->
+                                                <div class="list-group-item">
+                                                    <div class="row align-items-center">
+                                                        <div class="col">
+                                                            <strong class="mb-0">Скрывать Диагностика</strong>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="custom-control custom-switch">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="ARM_hideTabDiagnostic" />
+                                                                <span class="custom-control-label"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Скрывать Диагностика (New) -->
+                                                <div class="list-group-item">
+                                                    <div class="row align-items-center">
+                                                        <div class="col">
+                                                            <strong class="mb-0">Скрывать Диагностика (New)</strong>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="custom-control custom-switch">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="ARM_hideTabDiagnosticNew" />
+                                                                <span class="custom-control-label"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button id="toggleOtherCheckboxes"
+                                                    class="btn btn-outline-secondary">Скрыть
+                                                    все
+                                                    прочее</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="highlights" role="tabpanel"
+                                        aria-labelledby="highlights-tab">
+                                        <!-- Подсветка классов обращений -->
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Подсветка классов обращений</h5>
+                                                <p class="card-text">Выбор цвета для подсветки классификаторов обращений
+                                                    в
+                                                    АРМе
+                                                </p>
+                                            </div>
+                                            <div class="list-group">
+                                                <!-- Включение подсветки -->
+                                                <div class="list-group-item">
+                                                    <div class="row align-items-center">
+                                                        <div class="col">
+                                                            <strong class="mb-0">Подсветка классификаторов
+                                                                обращений</strong>
+                                                            <p class="mb-0">Активация подсветки для классов обращений
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="custom-control custom-switch">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="ARM_highlightRequestsClasses" />
+                                                                <span class="custom-control-label"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Цвет подсветки обращений "Контакт
                                                                                         Сорвался" -->
-                                            <div class="list-group-item">
-                                                <div class="row align-items-center">
-                                                    <div class="col">
-                                                        <strong class="mb-0">Цвет подсветки обращений "Контакт
-                                                            Сорвался"</strong>
-                                                        <p class="mb-0">Изменить цвет для подсветки "Контакт
-                                                            сорвался"
-                                                        </p>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <input type="color" id="HIGHLIGHTER_CS"
-                                                            class="form-control form-control-color" value="#007bff"
-                                                            title="Выберите цвет" />
+                                                <div class="list-group-item">
+                                                    <div class="row align-items-center">
+                                                        <div class="col">
+                                                            <strong class="mb-0">Цвет подсветки обращений "Контакт
+                                                                Сорвался"</strong>
+                                                            <p class="mb-0">Изменить цвет для подсветки "Контакт
+                                                                сорвался"
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <input type="color" id="HIGHLIGHTER_CS"
+                                                                class="form-control form-control-color" value="#007bff"
+                                                                title="Выберите цвет" />
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                            <!-- Цвет подсветки обращений "Обращение из
+                                                <!-- Цвет подсветки обращений "Обращение из
                                                                                         Email" -->
-                                            <div class="list-group-item">
-                                                <div class="row align-items-center">
-                                                    <div class="col">
-                                                        <strong class="mb-0">Цвет подсветки обращений "Обращение из
-                                                            Email"</strong>
-                                                        <p class="mb-0">Изменить цвет для подсветки "Обращение из
-                                                            Email"
-                                                        </p>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <input type="color" id="HIGHLIGHTER_EMAIL"
-                                                            class="form-control form-control-color" value="#006400"
-                                                            title="Выберите цвет" />
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Цвет подсветки обращений "ОЦТП - Входящая связь" -->
-                                            <div class="list-group-item">
-                                                <div class="row align-items-center">
-                                                    <div class="col">
-                                                        <strong class="mb-0">Цвет подсветки обращений "ОЦТП - Входящая
-                                                            связь"</strong>
-                                                        <p class="mb-0">Изменить цвет для подсветки "ОЦТП - Входящая
-                                                            связь"</p>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <input type="color" id="HIGHLIGHTER_OCTP"
-                                                            class="form-control form-control-color" value="#008080"
-                                                            title="Выберите цвет" />
+                                                <div class="list-group-item">
+                                                    <div class="row align-items-center">
+                                                        <div class="col">
+                                                            <strong class="mb-0">Цвет подсветки обращений "Обращение из
+                                                                Email"</strong>
+                                                            <p class="mb-0">Изменить цвет для подсветки "Обращение из
+                                                                Email"
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <input type="color" id="HIGHLIGHTER_EMAIL"
+                                                                class="form-control form-control-color" value="#006400"
+                                                                title="Выберите цвет" />
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                            <!-- Цвет подсветки обращений "Компенсация за
+                                                <!-- Цвет подсветки обращений "ОЦТП - Входящая связь" -->
+                                                <div class="list-group-item">
+                                                    <div class="row align-items-center">
+                                                        <div class="col">
+                                                            <strong class="mb-0">Цвет подсветки обращений "ОЦТП -
+                                                                Входящая
+                                                                связь"</strong>
+                                                            <p class="mb-0">Изменить цвет для подсветки "ОЦТП - Входящая
+                                                                связь"</p>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <input type="color" id="HIGHLIGHTER_OCTP"
+                                                                class="form-control form-control-color" value="#008080"
+                                                                title="Выберите цвет" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Цвет подсветки обращений "Компенсация за
                                                                                         аварию" -->
-                                            <div class="list-group-item">
-                                                <div class="row align-items-center">
-                                                    <div class="col">
-                                                        <strong class="mb-0">Цвет подсветки обращений "Компенсация за
-                                                            аварию"</strong>
-                                                        <p class="mb-0">Изменить цвет для подсветки "Компенсация за
-                                                            аварию"</p>
+                                                <div class="list-group-item">
+                                                    <div class="row align-items-center">
+                                                        <div class="col">
+                                                            <strong class="mb-0">Цвет подсветки обращений "Компенсация
+                                                                за
+                                                                аварию"</strong>
+                                                            <p class="mb-0">Изменить цвет для подсветки "Компенсация за
+                                                                аварию"</p>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <input type="color" id="HIGHLIGHTER_COMPENSATION"
+                                                                class="form-control form-control-color" value="#008080"
+                                                                title="Выберите цвет" />
+                                                        </div>
                                                     </div>
-                                                    <div class="col-auto">
-                                                        <input type="color" id="HIGHLIGHTER_COMPENSATION"
-                                                            class="form-control form-control-color" value="#008080"
-                                                            title="Выберите цвет" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Содержимое вкладки Линия -->
+                            <div class="tab-pane fade" id="line" role="tabpanel" aria-labelledby="line-tab">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Линия</h5>
+                                        <p class="card-text">Функционал, применяемый к странице Линии
+                                        </p>
+                                    </div>
+                                    <div class="list-group">
+                                        <!-- Быстрые кнопки -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0" data-bs-toggle="tooltip" data-bs-html="true"
+                                                        data-bs-placement="right"
+                                                        data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/3w0geoT.png'/>">
+                                                        Быстрые кнопки</strong>
+                                                    <p class="mb-0">Почта, ОКЦ, обеды, АРМ, БЗ</p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="LINE_showFastButtons" />
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Подсветка назначений -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0" data-bs-toggle="tooltip" data-bs-html="true"
+                                                        data-bs-placement="right"
+                                                        data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/djGQg0d.png'/>">
+                                                        Подсветка назначений</strong>
+                                                    <p class="mb-0">Подсветка специалистов в назначениях
+                                                        отдельными
+                                                        цветами
+                                                        для
+                                                        удобного отображения</p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="LINE_highlightOperators" />
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Кнопки дежурных -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0" data-bs-toggle="tooltip" data-bs-html="true"
+                                                        data-bs-placement="right"
+                                                        data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/oM49OUS.png'/>">
+                                                        Кнопки дежурных</strong>
+                                                    <p class="mb-0">Прогноз SL, очередь вопросов, заглушки,
+                                                        предложка
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="LINE_dutyButtons" />
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Прогноз SL -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0" data-bs-toggle="tooltip" data-bs-html="true"
+                                                        data-bs-placement="right"
+                                                        data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/1dEeD1C.png'/>">
+                                                        Прогноз SL</strong>
+                                                    <p class="mb-0">Отображает прогноз SL на следующие 30 минут
+                                                        при
+                                                        наведении
+                                                        на
+                                                        иконку SL на линии</p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="LINE_updateNeededSL" />
+                                                        <span class="custom-control-label"></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -951,113 +1566,12 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="tab-pane fade" id="line" role="tabpanel" aria-labelledby="line-tab">
-                        <!-- Содержимое вкладки Линия -->
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Линия</h5>
-                                <p class="card-text">Функционал, применяемый к странице Линии
-                                </p>
-                            </div>
-                            <div class="list-group">
-                                <!-- Быстрые кнопки -->
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0" data-bs-toggle="tooltip" data-bs-html="true"
-                                                data-bs-placement="right"
-                                                data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/3w0geoT.png'/>">
-                                                Быстрые кнопки</strong>
-                                            <p class="mb-0">Почта, ОКЦ, обеды, АРМ, БЗ</p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-switch">
-                                                <input type="checkbox" class="custom-control-input"
-                                                    id="LINE_showFastButtons" />
-                                                <span class="custom-control-label"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <!-- Подсветка назначений -->
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0" data-bs-toggle="tooltip" data-bs-html="true"
-                                                data-bs-placement="right"
-                                                data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/djGQg0d.png'/>">
-                                                Подсветка назначений</strong>
-                                            <p class="mb-0">Подсветка специалистов в назначениях
-                                                отдельными
-                                                цветами
-                                                для
-                                                удобного отображения</p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-switch">
-                                                <input type="checkbox" class="custom-control-input"
-                                                    id="LINE_highlightOperators" />
-                                                <span class="custom-control-label"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Кнопки дежурных -->
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0" data-bs-toggle="tooltip" data-bs-html="true"
-                                                data-bs-placement="right"
-                                                data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/oM49OUS.png'/>">
-                                                Кнопки дежурных</strong>
-                                            <p class="mb-0">Прогноз SL, очередь вопросов, заглушки,
-                                                предложка
-                                            </p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-switch">
-                                                <input type="checkbox" class="custom-control-input"
-                                                    id="LINE_dutyButtons" />
-                                                <span class="custom-control-label"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Прогноз SL -->
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0" data-bs-toggle="tooltip" data-bs-html="true"
-                                                data-bs-placement="right"
-                                                data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/1dEeD1C.png'/>">
-                                                Прогноз SL</strong>
-                                            <p class="mb-0">Отображает прогноз SL на следующие 30 минут
-                                                при
-                                                наведении
-                                                на
-                                                иконку SL на линии</p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-switch">
-                                                <input type="checkbox" class="custom-control-input"
-                                                    id="LINE_updateNeededSL" />
-                                                <span class="custom-control-label"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </body>
 

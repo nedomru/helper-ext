@@ -1194,40 +1194,221 @@ function fastButtonsRequests() {
   }
 }
 
-function fastButtonsARM() {
+async function fastButtonsARM() {
   if (document.querySelector(".helper") != null) {
     return;
   }
+
   const container = document.querySelector(".create_request_block");
 
-  // Создаем новые кнопки
-  const buttons = [
-    {
+  const settingsKeys = [
+    "ARM_changeRequestFBLF_Accident",
+    "ARM_changeRequestFBLF_VhodNRD",
+    "ARM_changeRequestFBLF_SZVG",
+    "ARM_changeRequestFBLF_KCNCK2",
+    "ARM_changeRequestFBLF_KCNCK1",
+    "ARM_changeRequestFBLF_Self_Balance",
+    "ARM_changeRequestFBLF_Self_Priost",
+    "ARM_changeRequestFBLF_Self_Activation",
+    "ARM_changeRequestFBLF_Self_ChangeTP",
+    "ARM_changeRequestFBLF_Self_PromisedPayment",
+    "ARM_changeRequestFBLF_Self_SpeedBonus",
+    "ARM_changeRequestFBLF_Self_WiFiKey",
+    "ARM_changeRequestFBLF_Self_RouterSetup",
+    "ARM_changeRequestFBLF_Self_RiseAP",
+    "ARM_changeRequestFBLF_Self_KTV",
+    "ARM_changeRequestFBLF_Self_ActivateKey",
+    "ARM_changeRequestFBLF_Self_PIN",
+    "ARM_changeRequestFBLF_Self_Zvonok",
+    "ARM_changeRequestFBLF_Self_CameraVN",
+    "ARM_changeRequestFBLF_Self_Pult",
+    "ARM_changeRequestFBLF_Self_BadPult",
+  ];
+
+  // Получение значений всех настроек
+
+  const settings = await Promise.all(
+    settingsKeys.map((key) => browser.storage.sync.get(key))
+  );
+
+  const buttons = [];
+
+  // Проверка настроек и добавление кнопок
+  if (settings[0][settingsKeys[0]]) {
+    buttons.push({
       value: "Авария",
       class: "btn btn-sm btn-info helper",
       action: handleAccident,
-    },
-    {
+    });
+  }
+
+  if (settings[1][settingsKeys[1]]) {
+    buttons.push({
       value: "ВХОД НРД",
       class: "btn btn-sm btn-info helper",
       action: handleNRD,
-    },
-    {
+    });
+  }
+
+  if (settings[2][settingsKeys[2]]) {
+    buttons.push({
       value: "СЗВГ",
       class: "btn btn-sm btn-info helper",
       action: handleSZVG,
-    },
-    {
+    });
+  }
+
+  if (settings[3][settingsKeys[3]]) {
+    buttons.push({
       value: "КС НЦК2",
       class: "btn btn-sm btn-info helper",
       action: handleKСNCK2Click,
-    },
-    {
+    });
+  }
+
+  if (settings[4][settingsKeys[4]]) {
+    buttons.push({
       value: "КС НЦК1",
       class: "btn btn-sm btn-info helper",
       action: handleKСNCK1Click,
-    },
-  ];
+    });
+  }
+
+  if (settings[5][settingsKeys[5]]) {
+    buttons.push({
+      value: "СО Баланс",
+      class: "btn btn-sm btn-info helper",
+      action: handleSS_Balance,
+    });
+  }
+
+  if (settings[6][settingsKeys[6]]) {
+    buttons.push({
+      value: "СО Приост",
+      class: "btn btn-sm btn-info helper",
+      action: handleSS_Priost,
+    });
+  }
+
+  if (settings[7][settingsKeys[7]]) {
+    buttons.push({
+      value: "СО Активация ТП",
+      class: "btn btn-sm btn-info helper",
+      action: handleSS_Activation,
+    });
+  }
+
+  if (settings[8][settingsKeys[8]]) {
+    buttons.push({
+      value: "СО Смена ТП",
+      class: "btn btn-sm btn-info helper",
+      action: handleSS_ChangeTP,
+    });
+  }
+
+  if (settings[9][settingsKeys[9]]) {
+    buttons.push({
+      value: "СО Обещ. платеж",
+      class: "btn btn-sm btn-info helper",
+      action: handleSS_PromisedPayment,
+    });
+  }
+
+  if (settings[10][settingsKeys[10]]) {
+    buttons.push({
+      value: "СО Скорост. бонус",
+      class: "btn btn-sm btn-info helper",
+      action: handleSS_SpeedBonus,
+    });
+  }
+
+  if (settings[11][settingsKeys[11]]) {
+    buttons.push({
+      value: "СО Ключ сети",
+      class: "btn btn-sm btn-info helper",
+      action: handleSS_WiFiKey,
+    });
+  }
+
+  if (settings[12][settingsKeys[12]]) {
+    buttons.push({
+      value: "СО Настройка роутера",
+      class: "btn btn-sm btn-info helper",
+      action: handleSS_RouterSetup,
+    });
+  }
+
+  if (settings[13][settingsKeys[13]]) {
+    buttons.push({
+      value: "СО Рост АП",
+      class: "btn btn-sm btn-info helper",
+      action: handleSS_RiseAP,
+    });
+  }
+
+  if (settings[14][settingsKeys[14]]) {
+    buttons.push({
+      value: "СО КТВ",
+      class: "btn btn-sm btn-info helper",
+      action: handleSS_KTV,
+    });
+  }
+
+  if (settings[15][settingsKeys[15]]) {
+    buttons.push({
+      value: "СО КТВ",
+      class: "btn btn-sm btn-info helper",
+      action: handleSS_KTV,
+    });
+  }
+
+  if (settings[16][settingsKeys[16]]) {
+    buttons.push({
+      value: "СО Актив. ключа",
+      class: "btn btn-sm btn-info helper",
+      action: handleSS_ActivateKey,
+    });
+  }
+
+  if (settings[17][settingsKeys[17]]) {
+    buttons.push({
+      value: "СО Восст. пина",
+      class: "btn btn-sm btn-info helper",
+      action: handleSS_PIN,
+    });
+  }
+
+  if (settings[18][settingsKeys[18]]) {
+    buttons.push({
+      value: "СО МП Звонок",
+      class: "btn btn-sm btn-info helper",
+      action: handleSS_Zvonok,
+    });
+  }
+
+  if (settings[19][settingsKeys[19]]) {
+    buttons.push({
+      value: "СО Камера ВН",
+      class: "btn btn-sm btn-info helper",
+      action: handleSS_CameraVN,
+    });
+  }
+
+  if (settings[20][settingsKeys[20]]) {
+    buttons.push({
+      value: "СО Привяз. пульта",
+      class: "btn btn-sm btn-info helper",
+      action: handleSS_Pult,
+    });
+  }
+
+  if (settings[21][settingsKeys[21]]) {
+    buttons.push({
+      value: "СО Не раб пульт",
+      class: "btn btn-sm btn-info helper",
+      action: handleSS_BadPult,
+    });
+  }
 
   // Вставляем кнопки в начало контейнера
   buttons.forEach((button) => {
@@ -1280,6 +1461,7 @@ function fastButtonsARM() {
       substep.dispatchEvent(changeEvent);
     });
   }
+
   function handleNRD() {
     const step = document.querySelector(".uni_reas_step");
     step.value = "1195";
@@ -1325,6 +1507,391 @@ function fastButtonsARM() {
 
     waitForElement(".uni_load_obj_reason", (substep) => {
       substep.value = "2123";
+      substep.dispatchEvent(changeEvent);
+    });
+  }
+
+  function handleSS_Balance() {
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "2296";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "1042";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_main_reason", (substep) => {
+      substep.value = "18252";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_child_reason", (substep) => {
+      substep.value = "18254";
+      substep.dispatchEvent(changeEvent);
+    });
+  }
+
+  function handleSS_Priost() {
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "2296";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "1047";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_main_reason", (substep) => {
+      substep.value = "6089";
+      substep.dispatchEvent(changeEvent);
+    });
+  }
+
+  function handleSS_Activation() {
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "2296";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "1043";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_main_reason", (substep) => {
+      substep.value = "4152";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_child_reason", (substep) => {
+      substep.value = "4154";
+      substep.dispatchEvent(changeEvent);
+    });
+  }
+
+  function handleSS_ChangeTP() {
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "2296";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "1047";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_main_reason", (substep) => {
+      substep.value = "18208";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_child_reason", (substep) => {
+      substep.value = "18209";
+      substep.dispatchEvent(changeEvent);
+    });
+  }
+
+  function handleSS_PromisedPayment() {
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "2296";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "1042";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_main_reason", (substep) => {
+      substep.value = "18262";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_child_reason", (substep) => {
+      substep.value = "18264";
+      substep.dispatchEvent(changeEvent);
+    });
+  }
+
+  function handleSS_SpeedBonus() {
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "2296";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "1047";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_main_reason", (substep) => {
+      substep.value = "18196";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_child_reason", (substep) => {
+      substep.value = "18199";
+      substep.dispatchEvent(changeEvent);
+    });
+  }
+
+  function handleSS_WiFiKey() {
+    const product = document.querySelector(".uni_reas_prod");
+    if (product.value != "70") {
+      product.value = "70";
+      product.dispatchEvent(changeEvent);
+    }
+
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "2296";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "1046";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_main_reason", (substep) => {
+      substep.value = "18298";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_child_reason", (substep) => {
+      substep.value = "18299";
+      substep.dispatchEvent(changeEvent);
+    });
+  }
+
+  function handleSS_RouterSetup() {
+    const product = document.querySelector(".uni_reas_prod");
+    if (product.value != "70") {
+      product.value = "70";
+      product.dispatchEvent(changeEvent);
+    }
+
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "2296";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "1046";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_main_reason", (substep) => {
+      substep.value = "18298";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_child_reason", (substep) => {
+      substep.value = "18647";
+      substep.dispatchEvent(changeEvent);
+    });
+  }
+
+  function handleSS_RiseAP() {
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "2296";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "1042";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_main_reason", (substep) => {
+      substep.value = "4119";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_child_reason", (substep) => {
+      substep.value = "4706";
+      substep.dispatchEvent(changeEvent);
+    });
+  }
+
+  function handleSS_KTV() {
+    const product = document.querySelector(".uni_reas_prod");
+    if (product.value != "101") {
+      product.value = "101";
+      product.dispatchEvent(changeEvent);
+    }
+
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "2296";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "1046";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_main_reason", (substep) => {
+      substep.value = "18369";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_child_reason", (substep) => {
+      substep.value = "18372";
+      substep.dispatchEvent(changeEvent);
+    });
+  }
+
+  function handleSS_ActivateKey() {
+    const product = document.querySelector(".uni_reas_prod");
+    if (product.value != "1451") {
+      product.value = "1451";
+      product.dispatchEvent(changeEvent);
+    }
+
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "2296";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "1046";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_main_reason", (substep) => {
+      substep.value = "18583";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_child_reason", (substep) => {
+      substep.value = "19712";
+      substep.dispatchEvent(changeEvent);
+    });
+  }
+
+  function handleSS_PIN() {
+    const product = document.querySelector(".uni_reas_prod");
+    if (product.value != "101") {
+      product.value = "101";
+      product.dispatchEvent(changeEvent);
+    }
+
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "2296";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "1046";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_main_reason", (substep) => {
+      substep.value = "18229";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_child_reason", (substep) => {
+      substep.value = "18230";
+      substep.dispatchEvent(changeEvent);
+    });
+  }
+
+  function handleSS_Zvonok() {
+    const product = document.querySelector(".uni_reas_prod");
+    if (product.value != "1451") {
+      product.value = "1451";
+      product.dispatchEvent(changeEvent);
+    }
+
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "2296";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "1046";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_main_reason", (substep) => {
+      substep.value = "18600";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_child_reason", (substep) => {
+      substep.value = "19732";
+      substep.dispatchEvent(changeEvent);
+    });
+  }
+
+  function handleSS_CameraVN() {
+    const product = document.querySelector(".uni_reas_prod");
+    if (product.value != "1762") {
+      product.value = "1762";
+      product.dispatchEvent(changeEvent);
+    }
+
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "2296";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "1046";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_main_reason", (substep) => {
+      substep.value = "18470";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_child_reason", (substep) => {
+      substep.value = "19243";
+      substep.dispatchEvent(changeEvent);
+    });
+  }
+
+  function handleSS_Pult() {
+    const product = document.querySelector(".uni_reas_prod");
+    if (product.value != "101") {
+      product.value = "101";
+      product.dispatchEvent(changeEvent);
+    }
+
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "2296";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "1046";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_main_reason", (substep) => {
+      substep.value = "18384";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_child_reason", (substep) => {
+      substep.value = "18386";
+      substep.dispatchEvent(changeEvent);
+    });
+  }
+
+  function handleSS_BadPult() {
+    const product = document.querySelector(".uni_reas_prod");
+    if (product.value != "101") {
+      product.value = "101";
+      product.dispatchEvent(changeEvent);
+    }
+
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "2296";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "1046";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_main_reason", (substep) => {
+      substep.value = "18384";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_child_reason", (substep) => {
+      substep.value = "18386";
       substep.dispatchEvent(changeEvent);
     });
   }
