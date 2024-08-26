@@ -51,15 +51,16 @@ function highlightText(element) {
 }
 
 function highlightCells() {
-  const frameSrc = "wcc2_main.frame_left_reasons";
-  if (
-    document.URL.includes("db.ertelecom.ru/cgi-bin") &&
-    !document.URL.includes("wcc_request_appl_support.change_request_appl") &&
-    !document.URL.includes(frameSrc)
-  ) {
-    const cells = document.querySelectorAll("td");
-    cells.forEach((cell) => {
-      highlightText(cell);
+  if (document.URL.includes("db.ertelecom.ru/cgi-bin")) {
+    const rows = document.querySelectorAll("tr");
+    rows.forEach((row) => {
+      const cells = row.querySelectorAll("td");
+
+      // Проверяем, что в ячейке с индексом 10 (11-й элемент) находится текст ссылки
+      if (cells.length > 10) {
+        const linkCell = cells[10]; // берём 11-ю ячейку
+        highlightText(linkCell);
+      }
     });
   }
 }
