@@ -1,8 +1,22 @@
 // Подсветка классификаторов на вкладке Обращений
 if (document.URL.indexOf("db.ertelecom.ru/cgi-bin") != -1) {
-  getHighlightColors(() => {
-    const intervalId = setInterval(highlightRequestsTab, 1000); // если необходимо продолжать
+  const config = {
+    ARM_highlightRequestsClasses: highlightClasses,
+  };
+
+  browser.storage.sync.get(Object.keys(config)).then((result) => {
+    Object.keys(config).forEach((key) => {
+      if (result[key]) {
+        config[key]();
+      }
+    });
   });
+
+  function highlightClasses() {
+    getHighlightColors(() => {
+      const intervalId = setInterval(highlightRequestsTab, 1000); // если необходимо продолжать
+    });
+  }
 }
 
 // Подсветка классификаторов на вкладке Изменения обращений

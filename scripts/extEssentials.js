@@ -71,6 +71,7 @@ async function setDefaults() {
     ARM_checkWrongTransfer: false,
     ARM_checkSetToMe: false,
     ARM_copyClientAddressWithoutCity: false,
+    ARM_highlightRequestsClasses: true,
     LINE_highlightOperators: false,
     LINE_dutyButtons: false,
     LINE_showFastButtons: true,

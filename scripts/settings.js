@@ -40,6 +40,7 @@
     "ARM_checkWrongTransfer",
     "ARM_checkSetToMe",
     "ARM_copyClientAddressWithoutCity",
+    "ARM_highlightRequestsClasses",
     "LINE_highlightOperators",
     "LINE_dutyButtons",
     "LINE_showFastButtons",
