@@ -308,13 +308,17 @@ function updateNeededSL() {
   );
   const url = `https://okc.ertelecom.ru/stats/genesys-reports/ntp/get-sl-forecast-report`;
   const now = new Date();
-  const formattedDate = now.toLocaleDateString("en-GB");
 
   const options = {
     timeZone: "Asia/Yekaterinburg",
-    hour: "2-digit",
-    minute: "2-digit",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
   };
+
+  const formattedDate = now
+    .toLocaleDateString("en-GB", options)
+    .replace(/\//g, ".");
 
   // Получаем текущее время
   let hours = now.getHours();
@@ -338,6 +342,7 @@ function updateNeededSL() {
     ".v-icon.header-stat-icon.mr-1.mdi.mdi-chart-line.grey--text.text--lighten-3"
   );
 
+  console.log(formattedDate);
   function getSL() {
     fetch(url, {
       credentials: "include",
@@ -357,6 +362,7 @@ function updateNeededSL() {
         return response.json();
       })
       .then((data) => {
+        console.log(data);
         half_time_data = data.halfHourReport.data.find(
           (obj) => obj.HALF_HOUR_TEXT === roundedTime
         );
@@ -378,7 +384,7 @@ function updateNeededSL() {
         );
         $.notify("Не удалось получить прогноз SL. Прогноз отключен.");
         clearInterval(interval);
-        browser.storage.local.set({ LINE_updateNeededSL: false });
+        browser.storage.sync.set({ LINE_updateNeededSL: false });
       });
   }
   getSL();
