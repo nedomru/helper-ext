@@ -50,6 +50,7 @@ async function setDefaults() {
     ARM_showHelperSMSButtons: true,
     ARM_copyTimeSlots: true,
     ARM_changeRequestFBCR: true,
+    ARM_changeRequestFBCR_Open_KCNCK1: true,
     ARM_changeRequestFBLF: true,
     ARM_changeRequestFBLF_Open_KCNCK1: true,
     ARM_checkForSpecialClient: true,

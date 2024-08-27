@@ -21,7 +21,7 @@ if (
 
 if (document.URL.indexOf("wcc2_main.frame_left_reasons") != -1) {
   const ARM_config = {
-    ARM_changeRequestFBLF: fastButtonsARM,
+    ARM_changeRequestFBLF: fastButtonsLeftFrame,
   };
 
   browser.storage.sync.get(Object.keys(ARM_config)).then((result) => {
@@ -105,7 +105,7 @@ if (
     ARM_checkWrongTransfer: wrongTransferFalse,
     ARM_checkSetToMe: removeSetForMe,
     ARM_copyTimeSlots: copyTimeSlots,
-    ARM_changeRequestFBCR: fastButtonsRequests,
+    ARM_changeRequestFBCR: fastButtonsChangeRequest,
   };
 
   browser.storage.sync.get(Object.keys(ARM_config)).then((result) => {
@@ -850,7 +850,7 @@ function removeSetForMe() {
   );
 }
 
-function fastButtonsRequests() {
+async function fastButtonsChangeRequest() {
   if (document.querySelector(".helper") != null) {
     return;
   }
@@ -859,75 +859,91 @@ function fastButtonsRequests() {
     bubbles: true,
     cancelable: true,
   });
+
   // Находим кнопку изменения обращения
   const existingButton = document.getElementById("update_request_appl");
 
-  // Создаем текстовые узлы с пробелами
-  const space1 = document.createTextNode(" ");
-  const space2 = document.createTextNode(" ");
-  const space3 = document.createTextNode(" ");
-  const space4 = document.createTextNode(" ");
-  const space5 = document.createTextNode(" ");
-  const space6 = document.createTextNode(" ");
+  // Получение значений настроек
+  const settingsKeys = [
+    "ARM_changeRequestFBCR_Open_KCNCK1",
+    "ARM_changeRequestFBCR_Open_KCNCK2",
+    "ARM_changeRequestFBCR_Open_TS",
+    "ARM_changeRequestFBCR_Open_NRD",
+    "ARM_changeRequestFBCR_Open_NTPISH",
+    "ARM_changeRequestFBCR_Open_ABONISH",
+  ];
 
-  // Кнопка Онлайн-Вход-КС
-  const online_cs = document.createElement("input");
-  online_cs.setAttribute("type", "button");
-  online_cs.setAttribute("class", "btn btn-sm btn-info helper");
-  online_cs.setAttribute("value", "КС - НЦК1");
-
-  // Кнопка ОЦТП-Исход-КС
-  const octp_cs = document.createElement("input");
-  octp_cs.setAttribute("type", "button");
-  octp_cs.setAttribute("class", "btn btn-sm btn-info helper");
-  octp_cs.setAttribute("value", "КС - НЦК2");
-
-  // Кнопка ТС/ААО
-  const ts_aao = document.createElement("input");
-  ts_aao.setAttribute("type", "button");
-  ts_aao.setAttribute("class", "btn btn-sm btn-danger helper");
-  ts_aao.setAttribute("value", "ТС - ААО");
-
-  // Кнопка НРД - Исход
-  const nrd_ishod = document.createElement("input");
-  nrd_ishod.setAttribute("type", "button");
-  nrd_ishod.setAttribute("class", "btn btn-sm btn-danger helper");
-  nrd_ishod.setAttribute("value", "НРД - Исход");
-
-  // Кнопка НТП - Исход
-  const ntp_ishod = document.createElement("input");
-  ntp_ishod.setAttribute("type", "button");
-  ntp_ishod.setAttribute("class", "btn btn-sm btn-warning helper");
-  ntp_ishod.setAttribute("value", "НТП - Исход");
-
-  // Кнопка Абон - Исход
-  const abon_ishod = document.createElement("input");
-  abon_ishod.setAttribute("type", "button");
-  abon_ishod.setAttribute("class", "btn btn-sm btn-warning helper");
-  abon_ishod.setAttribute("value", "Абон - Исход");
-
-  online_cs.addEventListener("click", handleOnlineCSClick);
-  octp_cs.addEventListener("click", handleOCTPCSClick);
-  ts_aao.addEventListener("click", handleTSAAOClick);
-  nrd_ishod.addEventListener("click", handleNRDClick);
-  ntp_ishod.addEventListener("click", handleNTPIshodClick);
-  abon_ishod.addEventListener("click", handleAbonIshodClick);
-
-  // Вставляем новую кнопку после существующей кнопки
-  existingButton.before(
-    nrd_ishod,
-    space6,
-    ts_aao,
-    space5,
-    abon_ishod,
-    space4,
-    ntp_ishod,
-    space3,
-    online_cs,
-    space2,
-    octp_cs,
-    space1
+  const settings = await Promise.all(
+    settingsKeys.map((key) => browser.storage.sync.get(key))
   );
+
+  const buttons = [];
+
+  if (settings[0].ARM_changeRequestFBCR_Open_KCNCK1) {
+    const online_cs = document.createElement("input");
+    online_cs.setAttribute("type", "button");
+    online_cs.setAttribute("class", "btn btn-sm btn-info helper");
+    online_cs.setAttribute("value", "КС - НЦК1");
+    online_cs.addEventListener("click", handleOnlineCSClick);
+    buttons.push(online_cs);
+  }
+
+  if (settings[1].ARM_changeRequestFBCR_Open_KCNCK2) {
+    const octp_cs = document.createElement("input");
+    octp_cs.setAttribute("type", "button");
+    octp_cs.setAttribute("class", "btn btn-sm btn-info helper");
+    octp_cs.setAttribute("value", "КС - НЦК2");
+    octp_cs.addEventListener("click", handleOCTPCSClick);
+    buttons.push(octp_cs);
+  }
+
+  if (settings[2].ARM_changeRequestFBCR_Open_TS) {
+    const ts_aao = document.createElement("input");
+    ts_aao.setAttribute("type", "button");
+    ts_aao.setAttribute("class", "btn btn-sm btn-danger helper");
+    ts_aao.setAttribute("value", "ТС - ААО");
+    ts_aao.addEventListener("click", handleTSAAOClick);
+    buttons.push(ts_aao);
+  }
+
+  if (settings[3].ARM_changeRequestFBCR_Open_NRD) {
+    const nrd_ishod = document.createElement("input");
+    nrd_ishod.setAttribute("type", "button");
+    nrd_ishod.setAttribute("class", "btn btn-sm btn-danger helper");
+    nrd_ishod.setAttribute("value", "НРД - Исход");
+    nrd_ishod.addEventListener("click", handleNRDClick);
+    buttons.push(nrd_ishod);
+  }
+
+  if (settings[4].ARM_changeRequestFBCR_Open_NTPISH) {
+    const ntp_ishod = document.createElement("input");
+    ntp_ishod.setAttribute("type", "button");
+    ntp_ishod.setAttribute("class", "btn btn-sm btn-warning helper");
+    ntp_ishod.setAttribute("value", "НТП - Исход");
+    ntp_ishod.addEventListener("click", handleNTPIshodClick);
+    buttons.push(ntp_ishod);
+  }
+
+  if (settings[5].ARM_changeRequestFBCR_Open_ABONISH) {
+    const abon_ishod = document.createElement("input");
+    abon_ishod.setAttribute("type", "button");
+    abon_ishod.setAttribute("class", "btn btn-sm btn-warning helper");
+    abon_ishod.setAttribute("value", "Абон - Исход");
+    abon_ishod.addEventListener("click", handleAbonIshodClick);
+    buttons.push(abon_ishod);
+  }
+
+  // Создаем текстовые узлы с пробелами для оформления кнопок
+  const spaces = Array(6)
+    .fill()
+    .map(() => document.createTextNode(" "));
+
+  // Вставляем новые кнопки после существующей кнопки
+  const firstButton = existingButton;
+  buttons.reduce((prev, curr, idx) => {
+    prev.before(curr, spaces[idx]);
+    return curr;
+  }, firstButton);
 
   function handleOnlineCSClick() {
     step = document.querySelector("#change_step_id");
@@ -1194,7 +1210,7 @@ function fastButtonsRequests() {
   }
 }
 
-async function fastButtonsARM() {
+async function fastButtonsLeftFrame() {
   if (document.querySelector(".helper") != null) {
     return;
   }
