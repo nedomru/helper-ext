@@ -115,3 +115,11 @@ body.dark-theme .tab button.active {
 .tabcontent {
   display: none;
 }
+
+body.dark-theme a {
+  color: #76abae;
+}
+
+body a {
+  color: #7695ff;
+}
