@@ -1229,6 +1229,7 @@ async function fastButtonsARM() {
     "ARM_changeRequestFBLF_Closed_Disconnections",
     "ARM_changeRequestFBLF_Closed_NoTV",
     "ARM_changeRequestFBLF_Open_Ticket",
+    "ARM_changeRequestFBLF_Closed_Youtube",
   ];
 
   // Получение значений всех настроек
@@ -1453,6 +1454,14 @@ async function fastButtonsARM() {
       value: "Тикет",
       class: "btn btn-sm btn-info helper",
       action: handleOpen_Ticket,
+    });
+  }
+
+  if (settings[27][settingsKeys[27]]) {
+    buttons.push({
+      value: "Youtube",
+      class: "btn btn-sm btn-info helper",
+      action: handleClosed_Youtube,
     });
   }
 
@@ -1948,7 +1957,7 @@ async function fastButtonsARM() {
       product.value = "70";
       product.dispatchEvent(changeEvent);
     }
-    
+
     const step = document.querySelector(".uni_reas_step");
     step.value = "-1";
     step.dispatchEvent(changeEvent);
@@ -2079,6 +2088,33 @@ async function fastButtonsARM() {
 
     waitForElement(".uni_load_obj_reason", (substep) => {
       substep.value = "2197";
+      substep.dispatchEvent(changeEvent);
+    });
+  }
+
+  function handleClosed_Youtube() {
+    const product = document.querySelector(".uni_reas_prod");
+    if (product.value != "70") {
+      product.value = "70";
+      product.dispatchEvent(changeEvent);
+    }
+
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "-1";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "1046";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_main_reason", (substep) => {
+      substep.value = "18360";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_child_reason", (substep) => {
+      substep.value = "22187";
       substep.dispatchEvent(changeEvent);
     });
   }

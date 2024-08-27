@@ -31,6 +31,7 @@
     "ARM_changeRequestFBLF_Closed_LowSpeed",
     "ARM_changeRequestFBLF_Closed_Disconnections",
     "ARM_changeRequestFBLF_Closed_NoTV",
+    "ARM_changeRequestFBLF_Closed_Youtube",
     "ARM_changeRequestFBLF_Self_Balance",
     "ARM_changeRequestFBLF_Self_Priost",
     "ARM_changeRequestFBLF_Self_Activation",
