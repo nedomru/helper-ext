@@ -105,7 +105,7 @@ if (
     ARM_checkWrongTransfer: wrongTransferFalse,
     ARM_checkSetToMe: removeSetForMe,
     ARM_copyTimeSlots: copyTimeSlots,
-    ARM_changeRequestFastButtons: fastButtonsRequests,
+    ARM_changeRequestFBCR: fastButtonsRequests,
   };
 
   browser.storage.sync.get(Object.keys(ARM_config)).then((result) => {

@@ -24,7 +24,7 @@ if (document.URL.indexOf("genesys-ntp") != -1) {
   ];
 
   const LINE_config = {
-    LINE_showFastButtons: fastButtons,
+    LINE_showFB: fastButtons,
     LINE_highlightOperators: highlightOperators,
     LINE_dutyButtons: dutyButtons,
     LINE_updateNeededSL: updateNeededSL,
@@ -110,7 +110,7 @@ function dutyButtons() {
   observer.observe(document.body, { childList: true, subtree: true });
 }
 
-function fastButtons() {
+async function fastButtons() {
   if (document.querySelector(".helper-specialist-button") != null) {
     return;
   }
@@ -130,42 +130,104 @@ function fastButtons() {
     }
   }, 1000);
 
+  const settingsKeys = [
+    "LINE_showFB_Mail",
+    "LINE_showFB_Lunch",
+    "LINE_showFB_OKC",
+    "LINE_showFB_BZ",
+    "LINE_showFB_ARM",
+    "LINE_showFB_BreakNCK1",
+    "LINE_showFB_BreakNCK2",
+    "LINE_showFB_JIRA",
+    "LINE_showFB_NTP1",
+    "LINE_showFB_NTP2",
+  ];
+
+  // Получение значений всех настроек
+  const settings = await Promise.all(
+    settingsKeys.map((key) => browser.storage.sync.get(key))
+  );
+
   const buttonData = [
-    { text: "Почта", link: "https://mail.domru.ru" },
-    { text: "Обеды", link: "https://okc2.ertelecom.ru/wfm/vueapp/day" },
-    { text: "ОКЦ", link: "https://okc.ertelecom.ru/stats/#octpNck" },
-    { text: "БЗ", link: "https://clever.ertelecom.ru" },
+    {
+      text: "Почта",
+      link: "https://mail.domru.ru",
+      show: settings[0].LINE_showFB_Mail,
+    },
+    {
+      text: "Обеды",
+      link: "https://okc2.ertelecom.ru/wfm/vueapp/day",
+      show: settings[1].LINE_showFB_Lunch,
+    },
+    {
+      text: "ОКЦ",
+      link: "https://okc.ertelecom.ru/stats/#octpNck",
+      show: settings[2].LINE_showFB_OKC,
+    },
+    {
+      text: "БЗ",
+      link: "https://clever.ertelecom.ru",
+      show: settings[3].LINE_showFB_BZ,
+    },
     {
       text: "АРМ",
       link: "https://perm.db.ertelecom.ru/cgi-bin/ppo/excells/wcc_main.entry_continue",
+      show: settings[4].LINE_showFB_ARM,
+    },
+    {
+      text: "Перики",
+      link: "https://okc.ertelecom.ru/stats/breaks/ntp-nck-one",
+      show: settings[5].LINE_showFB_BreakNCK1,
+    },
+    {
+      text: "Перики",
+      link: "https://okc.ertelecom.ru/stats/breaks/ntp-nck-two",
+      show: settings[6].LINE_showFB_BreakNCK2,
+    },
+    {
+      text: "JIRA",
+      link: "https://ticket.ertelecom.ru",
+      show: settings[7].LINE_showFB_JIRA,
+    },
+    {
+      text: "NTP1",
+      link: "https://okc.ertelecom.ru/stats/line_ts/ntp1/index",
+      show: settings[7].LINE_showFB_NTP1,
+    },
+    {
+      text: "NTP2",
+      link: "https://okc.ertelecom.ru/stats/line_ts/ntp2/index",
+      show: settings[7].LINE_showFB_NTP2,
     },
   ];
 
   buttonData.forEach((item) => {
-    const button = document.createElement("a");
-    button.textContent = item.text;
-    button.setAttribute("href", item.link);
-    button.setAttribute("target", "_blank");
-    button.setAttribute("class", "v-btn helper-specialist-button");
-    button.style.display = "flex";
-    button.style.justifyContent = "center";
-    button.style.alignItems = "center"; // Центрирование содержимого
-    button.style.width = "70px";
-    button.style.height = "28px";
-    button.style.backgroundColor = "#403e3e";
-    button.style.borderRadius = "16px";
-    button.style.marginRight = "8px"; // Отступ между кнопками
-    button.style.textDecoration = "none";
-    button.style.color = "inherit";
-
-    button.addEventListener("mouseenter", () => {
-      button.style.backgroundColor = "#595757";
-    });
-    button.addEventListener("mouseleave", () => {
+    if (item.show) {
+      const button = document.createElement("a");
+      button.textContent = item.text;
+      button.setAttribute("href", item.link);
+      button.setAttribute("target", "_blank");
+      button.setAttribute("class", "v-btn helper-specialist-button");
+      button.style.display = "flex";
+      button.style.justifyContent = "center";
+      button.style.alignItems = "center";
+      button.style.width = "70px";
+      button.style.height = "28px";
       button.style.backgroundColor = "#403e3e";
-    });
+      button.style.borderRadius = "16px";
+      button.style.marginRight = "8px";
+      button.style.textDecoration = "none";
+      button.style.color = "inherit";
 
-    buttonsDiv.appendChild(button);
+      button.addEventListener("mouseenter", () => {
+        button.style.backgroundColor = "#595757";
+      });
+      button.addEventListener("mouseleave", () => {
+        button.style.backgroundColor = "#403e3e";
+      });
+
+      buttonsDiv.appendChild(button);
+    }
   });
 
   console.log(
