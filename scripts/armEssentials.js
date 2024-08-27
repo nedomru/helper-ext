@@ -21,7 +21,7 @@ if (
 
 if (document.URL.indexOf("wcc2_main.frame_left_reasons") != -1) {
   const ARM_config = {
-    ARM_changeRequestFastButtonsLeftFrame: fastButtonsARM,
+    ARM_changeRequestFBLF: fastButtonsARM,
   };
 
   browser.storage.sync.get(Object.keys(ARM_config)).then((result) => {
@@ -1202,11 +1202,11 @@ async function fastButtonsARM() {
   const container = document.querySelector(".create_request_block");
 
   const settingsKeys = [
-    "ARM_changeRequestFBLF_Accident",
-    "ARM_changeRequestFBLF_VhodNRD",
-    "ARM_changeRequestFBLF_SZVG",
-    "ARM_changeRequestFBLF_KCNCK2",
-    "ARM_changeRequestFBLF_KCNCK1",
+    "ARM_changeRequestFBLF_Closed_Accident",
+    "ARM_changeRequestFBLF_Open_VhodNRD",
+    "ARM_changeRequestFBLF_Open_SZVG",
+    "ARM_changeRequestFBLF_Open_KCNCK2",
+    "ARM_changeRequestFBLF_Open_KCNCK1",
     "ARM_changeRequestFBLF_Self_Balance",
     "ARM_changeRequestFBLF_Self_Priost",
     "ARM_changeRequestFBLF_Self_Activation",
@@ -1223,6 +1223,12 @@ async function fastButtonsARM() {
     "ARM_changeRequestFBLF_Self_CameraVN",
     "ARM_changeRequestFBLF_Self_Pult",
     "ARM_changeRequestFBLF_Self_BadPult",
+    "ARM_changeRequestFBLF_Closed_NoPages", // тут новое
+    "ARM_changeRequestFBLF_Closed_NoSession",
+    "ARM_changeRequestFBLF_Closed_LowSpeed",
+    "ARM_changeRequestFBLF_Closed_Disconnections",
+    "ARM_changeRequestFBLF_Closed_NoTV",
+    "ARM_changeRequestFBLF_Open_Ticket",
   ];
 
   // Получение значений всех настроек
@@ -1356,21 +1362,13 @@ async function fastButtonsARM() {
 
   if (settings[15][settingsKeys[15]]) {
     buttons.push({
-      value: "СО КТВ",
-      class: "btn btn-sm btn-info helper",
-      action: handleSS_KTV,
-    });
-  }
-
-  if (settings[16][settingsKeys[16]]) {
-    buttons.push({
       value: "СО Актив. ключа",
       class: "btn btn-sm btn-info helper",
       action: handleSS_ActivateKey,
     });
   }
 
-  if (settings[17][settingsKeys[17]]) {
+  if (settings[16][settingsKeys[16]]) {
     buttons.push({
       value: "СО Восст. пина",
       class: "btn btn-sm btn-info helper",
@@ -1378,7 +1376,7 @@ async function fastButtonsARM() {
     });
   }
 
-  if (settings[18][settingsKeys[18]]) {
+  if (settings[17][settingsKeys[17]]) {
     buttons.push({
       value: "СО МП Звонок",
       class: "btn btn-sm btn-info helper",
@@ -1386,7 +1384,7 @@ async function fastButtonsARM() {
     });
   }
 
-  if (settings[19][settingsKeys[19]]) {
+  if (settings[18][settingsKeys[18]]) {
     buttons.push({
       value: "СО Камера ВН",
       class: "btn btn-sm btn-info helper",
@@ -1394,7 +1392,7 @@ async function fastButtonsARM() {
     });
   }
 
-  if (settings[20][settingsKeys[20]]) {
+  if (settings[19][settingsKeys[19]]) {
     buttons.push({
       value: "СО Привяз. пульта",
       class: "btn btn-sm btn-info helper",
@@ -1402,11 +1400,59 @@ async function fastButtonsARM() {
     });
   }
 
-  if (settings[21][settingsKeys[21]]) {
+  if (settings[20][settingsKeys[20]]) {
     buttons.push({
       value: "СО Не раб пульт",
       class: "btn btn-sm btn-info helper",
       action: handleSS_BadPult,
+    });
+  }
+
+  if (settings[21][settingsKeys[21]]) {
+    buttons.push({
+      value: "Неоткрывашки",
+      class: "btn btn-sm btn-info helper",
+      action: handleClosed_NoPages,
+    });
+  }
+
+  if (settings[22][settingsKeys[22]]) {
+    buttons.push({
+      value: "Нет сессии",
+      class: "btn btn-sm btn-info helper",
+      action: handleClosed_NoSession,
+    });
+  }
+
+  if (settings[23][settingsKeys[23]]) {
+    buttons.push({
+      value: "Низкая",
+      class: "btn btn-sm btn-info helper",
+      action: handleClosed_LowSpeed,
+    });
+  }
+
+  if (settings[24][settingsKeys[24]]) {
+    buttons.push({
+      value: "Разрывы",
+      class: "btn btn-sm btn-info helper",
+      action: handleClosed_Disconnections,
+    });
+  }
+
+  if (settings[25][settingsKeys[25]]) {
+    buttons.push({
+      value: "Нет вещания",
+      class: "btn btn-sm btn-info helper",
+      action: handleClosed_NoTV,
+    });
+  }
+
+  if (settings[26][settingsKeys[26]]) {
+    buttons.push({
+      value: "Тикет",
+      class: "btn btn-sm btn-info helper",
+      action: handleOpen_Ticket,
     });
   }
 
@@ -1892,6 +1938,147 @@ async function fastButtonsARM() {
 
     waitForElement(".uni_load_child_reason", (substep) => {
       substep.value = "18386";
+      substep.dispatchEvent(changeEvent);
+    });
+  }
+
+  function handleClosed_NoPages() {
+    const product = document.querySelector(".uni_reas_prod");
+    if (product.value != "70") {
+      product.value = "70";
+      product.dispatchEvent(changeEvent);
+    }
+    
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "-1";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "1046";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_main_reason", (substep) => {
+      substep.value = "4205";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_child_reason", (substep) => {
+      substep.value = "18303";
+      substep.dispatchEvent(changeEvent);
+    });
+  }
+
+  function handleClosed_NoSession() {
+    const product = document.querySelector(".uni_reas_prod");
+    if (product.value != "70") {
+      product.value = "70";
+      product.dispatchEvent(changeEvent);
+    }
+
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "-1";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "1046";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_main_reason", (substep) => {
+      substep.value = "18378";
+      substep.dispatchEvent(changeEvent);
+    });
+  }
+
+  function handleClosed_LowSpeed() {
+    const product = document.querySelector(".uni_reas_prod");
+    if (product.value != "70") {
+      product.value = "70";
+      product.dispatchEvent(changeEvent);
+    }
+
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "-1";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "1046";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_main_reason", (substep) => {
+      substep.value = "18360";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_child_reason", (substep) => {
+      substep.value = "18363";
+      substep.dispatchEvent(changeEvent);
+    });
+  }
+
+  function handleClosed_Disconnections() {
+    const product = document.querySelector(".uni_reas_prod");
+    if (product.value != "70") {
+      product.value = "70";
+      product.dispatchEvent(changeEvent);
+    }
+
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "-1";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "1046";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_main_reason", (substep) => {
+      substep.value = "18405";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_child_reason", (substep) => {
+      substep.value = "18407";
+      substep.dispatchEvent(changeEvent);
+    });
+  }
+
+  function handleClosed_NoTV() {
+    const product = document.querySelector(".uni_reas_prod");
+    if (product.value != "101") {
+      product.value = "101";
+      product.dispatchEvent(changeEvent);
+    }
+
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "-1";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "1046";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_main_reason", (substep) => {
+      substep.value = "18369";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_child_reason", (substep) => {
+      substep.value = "18372";
+      substep.dispatchEvent(changeEvent);
+    });
+  }
+
+  function handleOpen_Ticket() {
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "2296";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "2197";
       substep.dispatchEvent(changeEvent);
     });
   }

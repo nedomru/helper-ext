@@ -50,7 +50,7 @@ async function setDefaults() {
     ARM_showHelperSMSButtons: true,
     ARM_copyTimeSlots: true,
     ARM_changeRequestFastButtons: true,
-    ARM_changeRequestFastButtonsLeftFrame: true,
+    ARM_changeRequestFBLF: true,
     ARM_checkForSpecialClient: true,
     ARM_hideTabIPTV: false,
     ARM_hideTabMVNO: false,
