@@ -97,16 +97,19 @@ function highlightRequestsTab() {
     // Проверяем, что в 6-й и 11-й ячейках есть текст ссылки
     if (cells.length > 10) {
       const linkCell11 = cells[10]; // 11-я ячейка
+      const linkCell2 = cells[2]; // 3-я ячейка
       const linkCell6 = cells[5]; // 6-я ячейка
 
       if (
         linkCell11.classList.contains("helper-highlighted") ||
-        linkCell6.classList.contains("helper-highlighted")
+        linkCell6.classList.contains("helper-highlighted") ||
+        linkCell2.classList.contains("helper-highlighted")
       ) {
         clearInterval(intervalId);
         return; // Выходим, если уже подсвечено
       }
 
+      highlightText(linkCell2);
       highlightText(linkCell11);
       linkCell11.classList += "helper-highlighted";
 
