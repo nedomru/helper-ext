@@ -1,4 +1,6 @@
 // Подсветка классификаторов на вкладке Обращений
+let intervalId;
+
 if (document.URL.indexOf("db.ertelecom.ru/cgi-bin") != -1) {
   const config = {
     ARM_highlightRequestsClasses: highlightClasses,
@@ -92,14 +94,24 @@ function highlightRequestsTab() {
   rows.forEach((row) => {
     const cells = row.querySelectorAll("td");
 
-    // Проверяем, что в ячейке с индексом 10 (11-й элемент) находится текст ссылки
+    // Проверяем, что в 6-й и 11-й ячейках есть текст ссылки
     if (cells.length > 10) {
-      const linkCell = cells[10]; // берём 11-ю ячейку
-      if (linkCell.classList.contains("helper-highlighted")) {
+      const linkCell11 = cells[10]; // 11-я ячейка
+      const linkCell6 = cells[5]; // 6-я ячейка
+
+      if (
+        linkCell11.classList.contains("helper-highlighted") ||
+        linkCell6.classList.contains("helper-highlighted")
+      ) {
         clearInterval(intervalId);
+        return; // Выходим, если уже подсвечено
       }
-      highlightText(linkCell);
-      linkCell.classList += "helper-highlighted";
+
+      highlightText(linkCell11);
+      linkCell11.classList += "helper-highlighted";
+
+      highlightText(linkCell6);
+      linkCell6.classList += "helper-highlighted";
     }
   });
 }
