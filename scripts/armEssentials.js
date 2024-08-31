@@ -2247,13 +2247,16 @@ function initFilterClientSessions() {
 }
 
 function loadLastDayClientSessions() {
+  if (document.querySelector(".helper-button") !== null) {
+    return;
+  }
   const loadDataButton = document.getElementById("js-get-data");
 
   if (loadDataButton) {
     const button = document.createElement("input");
     button.type = "button";
     button.value = "Последние сутки";
-    button.className = "btn btn-secondary";
+    button.className = "btn btn-secondary helper-button";
     button.style.marginTop = "10px"; // Отступ сверху
 
     button.onclick = () => {
@@ -2265,6 +2268,16 @@ function loadLastDayClientSessions() {
 
       // Нажимаем кнопку "Загрузить"
       loadDataButton.click();
+
+      // Устанавливаем наблюдателя для изменения таблицы
+      const observer = new MutationObserver(() => {
+        updateReasonCounts(); // Обновляем количество найденных результатов
+      });
+
+      const targetNode = document.querySelector("#js-res-app table tbody");
+      if (targetNode) {
+        observer.observe(targetNode, { childList: true, subtree: true }); // Наблюдаем за изменениями
+      }
     };
     loadDataButton.parentNode.insertBefore(button, loadDataButton.nextSibling); // Добавляем кнопку после кнопки "Загрузить"
   }
