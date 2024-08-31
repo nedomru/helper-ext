@@ -1,18 +1,15 @@
-﻿setTimeout(function () {
-  document.getElementById("waiter").parentNode.removeAttribute("style");
-  document.getElementById("waiter").parentNode.removeAttribute("onselectstart");
-  document.getElementById("formform").onmousedown = function (event) {
-    event.stopPropagation();
-  };
-  document.getElementById("formform").onselectstart = function (event) {
-    event.stopPropagation();
-  };
+﻿setTimeout(() => {
+  const waiter = document.getElementById("waiter");
+  if (!waiter) return; // Проверка на наличие waiter
 
-  document.getElementById("waiter").onselectstart = function (event) {
-    event.stopPropagation();
-  };
+  const { parentNode: parent } = waiter;
+  parent.style = "";
+  parent.onselectstart = "";
 
-  document.getElementById("waiter").onmousedown = function (event) {
-    event.stopPropagation();
-  };
+  const formform = document.getElementById("formform");
+  if (!formform) return; // Проверка на наличие formform
+
+  [waiter, formform].forEach((el) => {
+    el.onmousedown = el.onselectstart = (event) => event.stopPropagation();
+  });
 }, 2000);
