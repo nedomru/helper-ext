@@ -75,6 +75,7 @@
     "ARM_checkSetToMe",
     "ARM_copyClientAddressWithoutCity",
     "ARM_highlightRequestsClasses",
+    "ARM_filterClientSessions",
     "LINE_highlightOperators",
     "LINE_dutyButtons",
     "LINE_showFB",
