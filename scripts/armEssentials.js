@@ -1,5 +1,23 @@
 if (
   document.URL.indexOf(
+    "db.ertelecom.ru/static_pages/private/wcc/client_session/?user_id"
+  ) != -1
+) {
+  const config = {
+    ARM_filterClientSessions: initFilterClientSessions,
+  };
+
+  browser.storage.sync.get(Object.keys(config)).then((result) => {
+    Object.keys(config).forEach((key) => {
+      if (result[key]) {
+        config[key]();
+      }
+    });
+  });
+}
+
+if (
+  document.URL.indexOf(
     "db.ertelecom.ru/cgi-bin/ppo/excells/radius_accounting_info.login_detail?id_session"
   ) != -1 ||
   document.URL.indexOf(
@@ -2133,5 +2151,86 @@ async function fastButtonsLeftFrame() {
       substep.value = "22187";
       substep.dispatchEvent(changeEvent);
     });
+  }
+}
+
+function initFilterClientSessions() {
+  const addFilter = (uniqueReasons) => {
+    const filterContainer = document.createElement("div");
+    const options = uniqueReasons
+      .map((reason) => `<option value="${reason}">${reason}</option>`)
+      .join("");
+
+    filterContainer.innerHTML = `
+            <label for="reason-filter">Фильтр по причине завершения:</label>
+            <select id="reason-filter">
+                <option value="all">Все</option>
+                ${options}
+            </select>
+        `;
+
+    // Обработчик события для фильтра
+    filterContainer.querySelector("#reason-filter").onchange = () => {
+      filterClientSessions();
+    };
+
+    document
+      .querySelector(".container")
+      .insertBefore(filterContainer, document.getElementById("js-log-app"));
+  };
+
+  const filterClientSessions = () => {
+    const filter = document.getElementById("reason-filter").value;
+    const table = document.querySelector("#js-res-app table tbody");
+    const rows = table.getElementsByTagName("tr");
+
+    for (let i = 0; i < rows.length; i++) {
+      const reasonCell = rows[i].getElementsByTagName("td")[6]; // 7-й столбец (индекс 6)
+      if (reasonCell) {
+        rows[i].style.display =
+          filter === "all" || reasonCell.innerText.includes(filter)
+            ? ""
+            : "none";
+      }
+    }
+  };
+
+  const getUniqueReasons = () => {
+    const table = document.querySelector("#js-res-app table tbody");
+    const rows = table.getElementsByTagName("tr");
+    const reasonsSet = new Set();
+
+    for (let i = 0; i < rows.length; i++) {
+      const reasonCell = rows[i].getElementsByTagName("td")[6]; // 7-й столбец (индекс 6)
+      if (reasonCell) {
+        reasonsSet.add(reasonCell.innerText.trim());
+      }
+    }
+
+    return Array.from(reasonsSet); // Превращаем Set в массив
+  };
+
+  const observerCallback = (mutationsList, observer) => {
+    for (const mutation of mutationsList) {
+      if (mutation.type === "childList") {
+        const tableAvailable =
+          document.querySelector("#js-res-app table tbody") !== null;
+        if (tableAvailable) {
+          const uniqueReasons = getUniqueReasons(); // Получаем уникальные причины завершения
+          addFilter(uniqueReasons); // Добавляем фильтр
+          observer.disconnect(); // Останавливаем наблюдатель
+          break; // Прерываем цикл
+        }
+      }
+    }
+  };
+
+  const targetNode = document.getElementById("js-res-app");
+  if (targetNode) {
+    const observer = new MutationObserver(observerCallback);
+    observer.observe(targetNode, { childList: true, subtree: true });
+  } else {
+    const uniqueReasons = getUniqueReasons(); // Получаем уникальные причины завершения, если элемент уже доступен
+    addFilter(uniqueReasons); // Добавляем фильтр сразу
   }
 }
