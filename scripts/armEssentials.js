@@ -14,6 +14,7 @@ if (
       }
     });
   });
+  loadLastDayClientSessions();
 }
 
 if (
@@ -2156,23 +2157,33 @@ async function fastButtonsLeftFrame() {
 
 function initFilterClientSessions() {
   const addFilter = (uniqueReasons) => {
+    const existingFilter = document.getElementById("reason-filter");
+
+    if (existingFilter) {
+      // Обновляем опции фильтра
+      const options = uniqueReasons
+        .map((reason) => `<option value="${reason}">${reason}</option>`)
+        .join("");
+      existingFilter.innerHTML = `<option value="all">Все</option>${options}`;
+      return;
+    }
+
     const filterContainer = document.createElement("div");
     const options = uniqueReasons
       .map((reason) => `<option value="${reason}">${reason}</option>`)
       .join("");
 
     filterContainer.innerHTML = `
-            <label for="reason-filter">Фильтр по причине завершения:</label>
-            <select id="reason-filter">
-                <option value="all">Все</option>
-                ${options}
-            </select>
-        `;
+      <label for="reason-filter">Фильтр по причине завершения:</label>
+      <select id="reason-filter">
+          <option value="all">Все</option>
+          ${options}
+      </select>
+    `;
 
     // Обработчик события для фильтра
-    filterContainer.querySelector("#reason-filter").onchange = () => {
-      filterClientSessions();
-    };
+    filterContainer.querySelector("#reason-filter").onchange =
+      filterClientSessions;
 
     document
       .querySelector(".container")
@@ -2217,8 +2228,8 @@ function initFilterClientSessions() {
           document.querySelector("#js-res-app table tbody") !== null;
         if (tableAvailable) {
           const uniqueReasons = getUniqueReasons(); // Получаем уникальные причины завершения
-          addFilter(uniqueReasons); // Добавляем фильтр
-          observer.disconnect(); // Останавливаем наблюдатель
+          addFilter(uniqueReasons); // Добавляем/обновляем фильтр
+          filterClientSessions(); // Применяем фильтр к текущим данным
           break; // Прерываем цикл
         }
       }
@@ -2232,5 +2243,29 @@ function initFilterClientSessions() {
   } else {
     const uniqueReasons = getUniqueReasons(); // Получаем уникальные причины завершения, если элемент уже доступен
     addFilter(uniqueReasons); // Добавляем фильтр сразу
+  }
+}
+
+function loadLastDayClientSessions() {
+  const loadDataButton = document.getElementById("js-get-data");
+
+  if (loadDataButton) {
+    const button = document.createElement("input");
+    button.type = "button";
+    button.value = "Последние сутки";
+    button.className = "btn btn-secondary";
+    button.style.marginTop = "10px"; // Отступ сверху
+
+    button.onclick = () => {
+      const currentDate = new Date();
+      currentDate.setDate(currentDate.getDate() - 1); // Уменьшаем на 1 день
+      const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+      const formattedDate = currentDate.toLocaleDateString("ru-RU", options);
+      document.querySelector(".js-active-from").value = formattedDate; // Устанавливаем значение в поле ввода
+
+      // Нажимаем кнопку "Загрузить"
+      loadDataButton.click();
+    };
+    loadDataButton.parentNode.insertBefore(button, loadDataButton.nextSibling); // Добавляем кнопку после кнопки "Загрузить"
   }
 }
