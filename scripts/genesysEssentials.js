@@ -115,21 +115,6 @@ function hideUselessButtons() {
       );
     }
   });
-
-  const observerSearchField = new MutationObserver(() => {
-    const searchingField = document.querySelector(".wwe-team-communicator");
-
-    if (searchingField) {
-      searchingField.style.display = "none";
-      observerSearchField.disconnect();
-    }
-  });
-
-  observerSearchField.observe(document.body, {
-    childList: true,
-    subtree: true,
-  });
-  observerOther.observe(document.body, { childList: true, subtree: true });
 }
 
 function createGenesysLink(url, text) {
