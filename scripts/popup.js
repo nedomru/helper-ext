@@ -23,7 +23,7 @@
   document
     .getElementById("openTelegram")
     .addEventListener("click", function () {
-      window.open("https://t.me/nedomru", "_blank");
+      window.open("https://t.me/+jH1mblw0ytcwOWUy", "_blank");
     });
 });
 
