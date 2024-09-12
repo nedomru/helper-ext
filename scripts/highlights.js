@@ -53,7 +53,7 @@ function getHighlightColors(callback) {
         "Контакт сорвался": settings.HIGHLIGHTER_CS || "#ff0000",
         "Обращение из Email": settings.HIGHLIGHTER_EMAIL || "#006400",
         "ОЦТП - Входящая связь": settings.HIGHLIGHTER_OCTP || "#008080",
-        "Компенсация за аварию": settings.HIGHLIGHTER_COMPENSATION || "#008080",
+        "Компенсация за аварию": settings.HIGHLIGHTER_COMPENSATION || "#66CDAA",
       };
       if (callback) callback(); // вызываем callback после загрузки данных
     })
