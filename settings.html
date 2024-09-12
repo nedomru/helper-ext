@@ -106,29 +106,6 @@
                                     </p>
                                 </div>
                                 <div class="list-group">
-                                    <!-- Быстрые кнопки -->
-                                    <div class="list-group-item">
-                                        <div class="row align-items-center">
-                                            <div class="col">
-                                                <strong class="mb-0" data-bs-toggle="tooltip" data-bs-html="true"
-                                                    data-bs-placement="right"
-                                                    data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/ce6EeQp.png'/>">
-                                                    Быстрые кнопки</strong>
-                                                <p class="mb-0">Для применения настроек нужно обновить
-                                                    страницу
-                                                    генезиса
-                                                </p>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                        id="GENESYS_showFastButtons" />
-                                                    <span class="custom-control-label"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <!-- Скрывать бесполезные кнопки -->
                                     <div class="list-group-item">
                                         <div class="row align-items-center">
@@ -163,8 +140,6 @@
                                                     Отображение аварийности НЦК2</strong>
                                                 <p class="mb-0">Включить отображение статуса аварийности НЦК2
                                                     линии
-                                                    <br />
-                                                    <b>НЕ ВКЛЮЧАТЬ НА НЦК1, ВАША АВАРИЙКА ПЕРЕСТАНЕТ ОТОБРАЖАТЬСЯ</b>
                                                 </p>
                                             </div>
                                             <div class="col-auto">
@@ -219,6 +194,200 @@
                                             </div>
                                         </div>
                                     </div>-->
+                                </div>
+                            </div>
+                            <br />
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Быстрые кнопки</h5>
+                                </div>
+                                <div class="list-group">
+                                    <!-- Включить быстрые кнопки -->
+                                    <div class="list-group-item">
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                <strong class="mb-0" data-bs-toggle="tooltip" data-bs-html="true"
+                                                    data-bs-placement="right"
+                                                    data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/ce6EeQp.png'/>">
+                                                    Быстрые кнопки</strong>
+                                                <p class="mb-0">Для применения настроек нужно обновить
+                                                    страницу
+                                                    генезиса
+                                                </p>
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                        id="GENESYS_showFastButtons" />
+                                                    <span class="custom-control-label"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- ЧатМастер -->
+                                    <div class="list-group-item">
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                <strong class="mb-0">ЧатМастер</strong>
+                                                <p class="mb-0">Название кнопки: <i>ЧМ</i><br />
+                                                    Ссылка: <i>https://cm.roool.ru</i></p>
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                        id="GENESYS_showFB_chatMaster" />
+                                                    <span class="custom-control-label"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Настройка роутеров -->
+                                    <div class="list-group-item">
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                <strong class="mb-0">Настройка роутеров</strong>
+                                                <p class="mb-0">Название кнопки: <i>Роутеры</i><br />
+                                                    Ссылка:
+                                                    <i>https://dom.ru/service/knowledgebase/internet/kak-nastroit-router</i>
+                                                </p>
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                        id="GENESYS_showFB_setupRouter" />
+                                                    <span class="custom-control-label"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Настройка ТВ -->
+                                    <div class="list-group-item">
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                <strong class="mb-0">Настройка ТВ</strong>
+                                                <p class="mb-0">Название кнопки: <i>ТВ</i><br />
+                                                    Ссылка:
+                                                    <i>https://dom.ru/faq/televidenie/kak-nastroit-cifrovye-kanaly-na-televizore</i>
+                                                </p>
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                        id="GENESYS_showFB_setupTV" />
+                                                    <span class="custom-control-label"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Настройка декодеров -->
+                                    <div class="list-group-item">
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                <strong class="mb-0">Настройка декодеров</strong>
+                                                <p class="mb-0">Название кнопки: <i>Декодеры</i><br />
+                                                    Ссылка:
+                                                    <i>https://dom.ru/service/knowledgebase/domru-tv/nastrojka-tv-pristavok</i>
+                                                </p>
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                        id="GENESYS_showFB_setupDecoder" />
+                                                    <span class="custom-control-label"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- FTP ПК -->
+                                    <div class="list-group-item">
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                <strong class="mb-0">FTP с ПК</strong>
+                                                <p class="mb-0">Название кнопки: <i>FTP ПК</i><br />
+                                                    Ссылка:
+                                                    <i>http://octptest.corp.ertelecom.loc/diagnostic-results/perm/?C=M;O=D</i><br />
+                                                    Кнопка ведет на FTP сервер, куда приходят результаты test.exe с
+                                                    ПК<br />
+                                                    Сортировка результатов идет по дате.
+                                                </p>
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                        id="GENESYS_showFB_ftpPC" />
+                                                    <span class="custom-control-label"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- FTP Моб -->
+                                    <div class="list-group-item">
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                <strong class="mb-0">FTP с андроида</strong>
+                                                <p class="mb-0">Название кнопки: <i>FTP Моб</i><br />
+                                                    Ссылка:
+                                                    <i>http://octptest.corp.ertelecom.loc/diagnostic-results/mobile/?C=M;O=D</i><br />
+                                                    Кнопка ведет на FTP сервер, куда приходят результаты test.exe с
+                                                    андроида<br />
+                                                    Сортировка результатов идет по дате.
+                                                </p>
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                        id="GENESYS_showFB_ftpAndroid" />
+                                                    <span class="custom-control-label"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Dashboard -->
+                                    <div class="list-group-item">
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                <strong class="mb-0">Dashboard домофонии</strong>
+                                                <p class="mb-0">Название кнопки: <i>Dashboard</i><br />
+                                                    Ссылка:
+                                                    <i>https://mh-dashboard-erth.proptech.ru/web</i>
+                                                </p>
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                        id="GENESYS_showFB_dashboard" />
+                                                    <span class="custom-control-label"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Провижининг -->
+                                    <div class="list-group-item">
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                <strong class="mb-0">Провижининг</strong>
+                                                <p class="mb-0">Название кнопки: <i>Провиж</i><br />
+                                                    Ссылка:
+                                                    <i>https://provisioning.ertelecom.ru/devices</i>
+                                                </p>
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                        id="GENESYS_showFB_provisioning" />
+                                                    <span class="custom-control-label"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1909,7 +2078,8 @@
                                                     при
                                                     наведении
                                                     на
-                                                    иконку SL на линии</p>
+                                                    иконку SL на линии. Работает только у спецов с доступом к
+                                                    инструменту.</p>
                                             </div>
                                             <div class="col-auto">
                                                 <div class="custom-control custom-switch">

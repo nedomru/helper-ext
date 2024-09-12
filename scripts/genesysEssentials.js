@@ -136,7 +136,7 @@ function createGenesysLink(url, text) {
   return link;
 }
 
-function genesysButtons() {
+async function genesysButtons() {
   if (document.querySelector(".helper")) return;
 
   // Удаляем !important у border-radius для кнопок
@@ -159,31 +159,58 @@ function genesysButtons() {
     "display: flex; justify-content: center; align-items: center; height: 100%; margin-left: 15px;";
 
   const linksData = [
-    { url: "http://cm.roool.ru/", text: "ЧМ" },
+    {
+      url: "http://cm.roool.ru",
+      text: "ЧМ",
+      key: "GENESYS_showFB_chatMaster",
+    },
     {
       url: "https://dom.ru/service/knowledgebase/internet/kak-nastroit-router",
       text: "Роутеры",
+      key: "GENESYS_showFB_setupRouter",
     },
     {
       url: "https://dom.ru/faq/televidenie/kak-nastroit-cifrovye-kanaly-na-televizore",
       text: "ТВ",
+      key: "GENESYS_showFB_setupTV",
     },
     {
       url: "https://dom.ru/service/knowledgebase/domru-tv/nastrojka-tv-pristavok",
       text: "Декодеры",
+      key: "GENESYS_showFB_setupDecoder",
     },
     {
       url: "http://octptest.corp.ertelecom.loc/diagnostic-results/perm/?C=M;O=D",
       text: "FTP ПК",
+      key: "GENESYS_showFB_ftpPC",
     },
     {
       url: "http://octptest.corp.ertelecom.loc/diagnostic-results/mobile/?C=M;O=D",
       text: "FTP Моб",
+      key: "GENESYS_showFB_ftpAndroid",
+    },
+    {
+      url: "https://mh-dashboard-erth.proptech.ru/web",
+      text: "Dashboard",
+      key: "GENESYS_showFB_dashboard",
+    },
+    {
+      url: "https://provisioning.ertelecom.ru/devices",
+      text: "Провиж",
+      key: "GENESYS_showFB_provisioning",
     },
   ];
 
-  linksData.forEach((linkData) => {
-    buttonsDiv.appendChild(createGenesysLink(linkData.url, linkData.text));
+  // Получение значений всех настроек
+  const settingsKeys = linksData.map((link) => link.key);
+  const settings = await Promise.all(
+    settingsKeys.map((key) => browser.storage.sync.get(key))
+  );
+
+  linksData.forEach((linkData, index) => {
+    if (settings[index][linkData.key]) {
+      buttonsDiv.appendChild(createGenesysLink(linkData.url, linkData.text));
+    }
   });
 
   const observer = new MutationObserver(() => {
