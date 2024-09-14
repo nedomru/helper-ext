@@ -115,6 +115,11 @@ function hideUselessButtons() {
       );
     }
   });
+
+  observerOther.observe(document.body, {
+    childList: true,
+    subtree: true,
+  });
 }
 
 function createGenesysLink(url, text) {
@@ -328,4 +333,41 @@ function otpcLineStatus() {
   console.log(
     `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Аварийность] Загружена аварийность НЦК2`
   );
+}
+
+function socketConnection() {
+  const url =
+    "wss://okc.ertelecom.ru/ts-line-genesys-okcdb-ws/?EIO=4&transport=websocket";
+  const socket = new WebSocket(url);
+
+  socket.onopen = function () {
+    console.log("Соединение установлено.");
+
+    // Отправка сообщения для установки соединения
+    socket.send("40/ts-line-genesys-okcdb-ws");
+  };
+
+  socket.onmessage = function (event) {
+    // Проверка на сообщение типа 2
+    if (event.data === "2") {
+      console.log("Получено сообщение от сервера: 2. Отправка 3 в ответ.");
+      socket.send("3"); // Ответ на сообщение 2
+    } else if (event.data === '42/ts-line-genesys-okcdb-ws,["connected"]') {
+      console.log("Получено сообщение о подключении. Отправка ID.");
+      socket.send(
+        '42/ts-line-genesys-okcdb-ws,["id","f6pk92a36msk673qmq51169c14"]'
+      );
+    } else {
+      // Просто выводим полученное сообщение
+      console.log("Получено сообщение:", event.data);
+    }
+  };
+
+  socket.onclose = function () {
+    console.log("Соединение закрыто.");
+  };
+
+  socket.onerror = function (error) {
+    console.error("Ошибка:", error);
+  };
 }
