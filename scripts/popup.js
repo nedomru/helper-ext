@@ -319,3 +319,57 @@ function searchRouter() {
     }
   }
 }
+
+async function fetchRouters() {
+  try {
+    const response = await fetch(
+      "http://localhost:4321/domru-helper/api/routers.json"
+    );
+    const data = await response.json();
+
+    // Логируем полученные данные для отладки
+    console.log("Полученные данные:", data);
+
+    // Проверяем, содержит ли объект ключ 'routers'
+    if (data.routers && Array.isArray(data.routers)) {
+      const tableBody = document.getElementById("routersBody");
+
+      data.routers.forEach((router) => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+                            <td>${router.name}</td>
+                            <td><a href="${
+                              router.PPPoE
+                            }" target="_blank">PPPoE</a></td>
+                            <td><a href="${
+                              router.DHCP
+                            }" target="_blank">DHCP</a></td>
+                            <td><a href="${
+                              router.IPoE
+                            }" target="_blank">IPoE</a></td>
+                            <td><a href="${
+                              router.Каналы
+                            }" target="_blank">Каналы</a></td>
+                            <td>${router.Интерфейс}</td>
+                            <td><a href="${
+                              router.БЗ
+                            }" target="_blank">БЗ</a></td>
+                            <td><a href="${
+                              Array.isArray(router.Эмулятор)
+                                ? router.Эмулятор.join(", ")
+                                : router.Эмулятор
+                            }" target="_blank">Эмулятор</a></td>
+                        `;
+
+        tableBody.appendChild(row);
+      });
+    } else {
+      console.error('Ключ "routers" не найден или не является массивом:', data);
+    }
+  } catch (error) {
+    console.error("Ошибка при получении данных:", error);
+  }
+}
+
+fetchRouters();
