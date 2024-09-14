@@ -152,8 +152,8 @@ async function deleteTabs(tabList) {
   );
 }
 
-function checkForSpecialClient() {
-  const observerSpecial = new MutationObserver((mutationsList, observer) => {
+async function checkForSpecialClient() {
+  const observerSpecial = new MutationObserver((mutationsList) => {
     for (const mutation of mutationsList) {
       if (mutation.type === "childList") {
         mutation.addedNodes.forEach(checkForSpecial);
@@ -161,38 +161,37 @@ function checkForSpecialClient() {
     }
   });
 
-  special = document.querySelectorAll(".bl_antic_head_w");
-  if (special) {
-    special.forEach((element) => {
-      if (element.textContent.trim() === "Особый Клиент") {
-        alert("Внимание! Особый клиент!");
-        console.log(
-          `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Особый клиент] Найден особый клиент`
-        );
-      }
-    });
-  } else {
-    function checkForSpecial(node) {
-      if (
-        node.nodeType === Node.ELEMENT_NODE &&
-        node.classList.contains("bl_antic_head_w")
-      ) {
-        if (node.textContent.trim() === "Особый Клиент") {
-          alert("Внимание! Особый клиент!");
-
-          observerSpecial.disconnect();
-          clearTimeout(timeout);
-
-          console.log(
-            `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Особый клиент] Найден особый клиент`
-          );
-        }
-      }
+  const checkSpecialClient = (element) => {
+    if (element.textContent.trim() === "Особый Клиент") {
+      alert("Внимание! Особый клиент!");
+      console.log(
+        `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Особый клиент] Найден особый клиент`
+      );
+      observerSpecial.disconnect();
     }
+  };
+
+  const special = document.querySelectorAll(".bl_antic_head_w");
+  if (special.length > 0) {
+    special.forEach(checkSpecialClient);
+  } else {
     observerSpecial.observe(document.body, { childList: true, subtree: true });
     const timeout = setTimeout(() => {
       observerSpecial.disconnect();
     }, 3000);
+
+    const checkForSpecial = (node) => {
+      if (
+        node.nodeType === Node.ELEMENT_NODE &&
+        node.classList.contains("bl_antic_head_w")
+      ) {
+        checkSpecialClient(node);
+      }
+    };
+
+    // Подключение для вызывания для существующих дочерних элементов
+    const existingNodes = document.body.querySelectorAll(".bl_antic_head_w");
+    existingNodes.forEach(checkSpecialClient);
   }
 }
 
