@@ -323,7 +323,7 @@ function searchRouter() {
 async function fetchRouters() {
   try {
     const response = await fetch(
-      "http://localhost:4321/domru-helper/api/routers.json"
+      "https://authfailed.github.io/domru-helper/api/routers.json"
     );
     const data = await response.json();
 
@@ -338,7 +338,7 @@ async function fetchRouters() {
         const row = document.createElement("tr");
 
         row.innerHTML = `
-                            <td>${router.name}</td>
+                            <td>${router.Name}</td>
                             <td><a href="${
                               router.PPPoE
                             }" target="_blank">PPPoE</a></td>
@@ -349,16 +349,16 @@ async function fetchRouters() {
                               router.IPoE
                             }" target="_blank">IPoE</a></td>
                             <td><a href="${
-                              router.Каналы
+                              router.Channels
                             }" target="_blank">Каналы</a></td>
-                            <td>${router.Интерфейс}</td>
+                            <td>${router.Settings}</td>
                             <td><a href="${
-                              router.БЗ
+                              router.BZ
                             }" target="_blank">БЗ</a></td>
                             <td><a href="${
-                              Array.isArray(router.Эмулятор)
-                                ? router.Эмулятор.join(", ")
-                                : router.Эмулятор
+                              Array.isArray(router.Emulator)
+                                ? router.Emulator.join(", ")
+                                : router.Emulator
                             }" target="_blank">Эмулятор</a></td>
                         `;
 
@@ -372,4 +372,38 @@ async function fetchRouters() {
   }
 }
 
+async function fetchMNA() {
+  try {
+    const response = await fetch(
+      "https://authfailed.github.io/domru-helper/api/mna.json"
+    );
+    const data = await response.json();
+
+    // Логируем полученные данные для отладки
+    console.log("Полученные данные:", data);
+
+    // Проверяем, содержит ли объект ключ 'mna'
+    if (data.mna && Array.isArray(data.mna)) {
+      const tableBody = document.getElementById("mnaBody");
+
+      data.mna.forEach((provider) => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+                            <td><a href="${provider.link}" target="_blank">${provider.name}</td>
+                            <td>${provider.authorization}</td>
+                            <td><a href="${provider.connection}" target="_blank">DHCP</a></td>
+                        `;
+
+        tableBody.appendChild(row);
+      });
+    } else {
+      console.error('Ключ "mna" не найден или не является массивом:', data);
+    }
+  } catch (error) {
+    console.error("Ошибка при получении данных:", error);
+  }
+}
+
+fetchMNA();
 fetchRouters();
