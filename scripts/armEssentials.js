@@ -136,16 +136,16 @@ if (
   });
 }
 
-// Скрытие кнопок договора
-function deleteTabs(tabList) {
+async function deleteTabs(tabList) {
   const listItems = document.querySelectorAll(".tabs_new");
 
-  // Перебираем все вкладки и удаляем их, если их название совпадает с переданными в массиве tabNames
-  listItems.forEach(function (item) {
+  const removePromises = Array.from(listItems).map(async (item) => {
     if (tabList.includes(item.textContent.trim())) {
       item.remove();
     }
   });
+
+  await Promise.all(removePromises);
 
   console.log(
     `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Удаление вкладок] Вкладки удалены: ${tabList}`
