@@ -8,12 +8,12 @@ document.addEventListener("DOMContentLoaded", function () {
       // Получаем имя разделов из id кнопок
       var sectionName = this.id.split("-")[1];
       openSection(event, sectionName);
+      saveLastTab(sectionName); // Сохранение последней вкладки
     });
   }
-  var firstTabLink = document.querySelector(".tablinks");
-  if (firstTabLink) {
-    firstTabLink.click();
-  }
+
+  // Восстанавливаем последнюю открытую вкладку
+  restoreLastTab(tablinks);
 });
 
 function openSection(evt, sectionName) {
@@ -34,4 +34,23 @@ function openSection(evt, sectionName) {
   // Отображение текущей вкладки, добавления класса "active" кнопке
   document.getElementById(sectionName).style.display = "block";
   evt.currentTarget.className += " active";
+}
+
+function saveLastTab(sectionName) {
+  browser.storage.sync.set({ lastTab: sectionName }).then(() => {
+    console.log("Последняя вкладка сохранена: " + sectionName);
+  });
+}
+
+function restoreLastTab(tablinks) {
+  browser.storage.sync.get("lastTab").then((data) => {
+    if (data.lastTab) {
+      var lastTabLink = document.getElementById("tablink-" + data.lastTab); // Убедитесь, что добавлен префикс
+      if (lastTabLink) {
+        lastTabLink.click(); // Клик по последней вкладке
+      }
+    } else if (tablinks.length > 0) {
+      tablinks[0].click(); // Если нет сохраненной вкладки, открываем первую
+    }
+  });
 }
