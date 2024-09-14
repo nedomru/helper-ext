@@ -8,11 +8,13 @@
   const form_mac = document.getElementById("form-mac");
   const form_link = document.getElementById("form-link");
   const form_ip = document.getElementById("form-ip");
+  const form_premium = document.getElementById("form-premium");
   const search_provider = document.getElementById("searchProvider");
   const search_router = document.getElementById("searchRouter");
   form_mac.addEventListener("submit", handleFormSubmitMac);
   form_link.addEventListener("submit", handleFormSubmitLink);
   form_ip.addEventListener("submit", handleFormSubmitIP);
+  form_premium.addEventListener("submit", handleFormPremium);
   search_provider.addEventListener("input", searchProvider);
   search_router.addEventListener("input", searchRouter);
   document
@@ -135,6 +137,142 @@ async function handleFormSubmitLink(event) {
     }
   } catch (error) {
     console.error("Fetch error:", error);
+  }
+}
+
+async function handleFormPremium(event) {
+  event.preventDefault(); // предотвращаем стандартное поведение формы
+  const formData = new FormData(event.target);
+  const inputField = formData.get("premium-select");
+
+  inputField == "nck2"
+    ? (url =
+        "https://okc.ertelecom.ru/stats/premium/ntp-nck2/get-premium-spec-month")
+    : (url =
+        "https://okc.ertelecom.ru/stats/premium/ntp-nck1/get-premium-spec-month");
+
+  const requestBody = new URLSearchParams();
+  requestBody.append("period", "01.09.2024");
+  requestBody.append("subdivisionId[]", "16231");
+
+  try {
+    const response = await fetch(url, {
+      credentials: "include",
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0",
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+      },
+      body: requestBody.toString(),
+      method: "POST",
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text(); // или response.json() если ожидается JSON
+      throw new Error(`Network response was not ok: ${errorText}`);
+    }
+
+    const data = await response.json();
+    console.log(data);
+    const result = data["result"][0];
+
+    specialist_name = data["result"][0]["USER_FIO"];
+    premium = data["result"][0]["TOTAL_PREMIUM"];
+    chats_count = data["result"][0]["TOTAL_CHATS"];
+
+    csi = data["result"][0]["CSI"];
+    csi_normative = data["result"][0]["CSI_NORMATIVE"];
+    csi_premium = data["result"][0]["PERC_CSI"];
+
+    csi_response = data["result"][0]["CSI_RESPONSE"];
+    csi_response_normative = data["result"][0]["CSI_RESPONSE"];
+
+    flr = data["result"][0]["FLR"];
+    flr_normative = data["result"][0]["FLR_NORMATIVE"];
+    flr_premium = data["result"][0]["PERC_FLR"];
+
+    gok = data["result"][0]["GOK"];
+    gok_normative = data["result"][0]["GOK_NORMATIVE"];
+    gok_premium = data["result"][0]["PERC_GOK"];
+
+    pers = data["result"][0]["PERS_FACT"];
+    pers_plan_1 = data["result"][0]["PERS_PLAN_1"];
+    pers_plan_2 = data["result"][0]["PERS_PLAN_2"];
+    pers_premium = data["result"][0]["PERS_PERCENT"];
+
+    tests_premium = data["result"][0]["PERC_TESTING"];
+    thanks_premium = data["result"][0]["PERC_THANKS"];
+
+    const tableHTML = `
+            <table>
+                <thead>
+                    <tr>
+                        <th>Параметр</th>
+                        <th>Факт</th>
+                        <th>Норматив</th>
+                        <th>Процент</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Специалист</td>
+                        <td colspan="3">${result["USER_FIO"]}</td>
+                    </tr>
+                    <tr>
+                        <td>Общая премия</td>
+                        <td colspan="3">${result["TOTAL_PREMIUM"]}%</td>
+                    </tr>
+                    <tr>
+                        <td>Кол-во чатов</td>
+                        <td colspan="3">${result["TOTAL_CHATS"]}</td>
+                    </tr>
+                    <tr>
+                        <td>Тесты</td>
+                        <td colspan="3">${result["PERC_TESTING"]}%</td>
+                    </tr>
+                    <tr>
+                        <td>Благодарности</td>
+                        <td colspan="3">${result["PERC_THANKS"]}%</td>
+                    </tr>
+                    <tr>
+                        <td>Оценка</td>
+                        <td>${result["CSI"]}</td>
+                        <td>${result["CSI_NORMATIVE"]}</td>
+                        <td>${result["PERC_CSI"]}%</td>
+                    </tr>
+                    <tr>
+                        <td>Отклик</td>
+                        <td>${result["CSI_RESPONSE"]}</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>FLR</td>
+                        <td>${result["FLR"]}</td>
+                        <td>${result["FLR_NORMATIVE"]}</td>
+                        <td>${result["PERC_FLR"]}%</td>
+                    </tr>
+                    <tr>
+                        <td>ГОК</td>
+                        <td>${result["GOK"]}</td>
+                        <td>${result["GOK_NORMATIVE"]}</td>
+                        <td>${result["PERC_GOK"]}%</td>
+                    </tr>
+                    <tr>
+                        <td>АХТ</td>
+                        <td>${result["PERS_FACT"]}</td>
+                        <td>${result["PERS_PLAN_1"]} / ${result["PERS_PLAN_2"]}</td>
+                        <td>${result["PERS_PERCENT"]}%</td>
+                    </tr>
+                </tbody>
+            </table>
+        `;
+    console.log(data);
+    document.getElementById("result-container").innerHTML = tableHTML;
+  } catch (error) {
+    document.getElementById("result-container").innerText =
+      "Не удалось получить премию";
+    console.error("Ошибка:", error);
   }
 }
 
