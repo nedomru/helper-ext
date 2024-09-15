@@ -6,6 +6,9 @@
   const checkboxIds = [
     "OTHER_CheckUpdates",
     "OTHER_DarkTheme",
+    "GENESYS_showLineStatus_nck1",
+    "GENESYS_showLineStatus_nck2",
+    "GENESYS_showLineMessages",
     "GENESYS_showFastButtons",
     "GENESYS_showFB_chatMaster",
     "GENESYS_showFB_setupRouter",

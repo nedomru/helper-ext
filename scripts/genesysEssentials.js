@@ -19,6 +19,164 @@ if (document.URL.indexOf("genesys-app1") != -1) {
     .catch((error) => {
       console.error("Ошибка при получении настроек:", error);
     });
+
+  browser.storage.sync.get(
+    [
+      "GENESYS_showLineStatus_nck1",
+      "GENESYS_showLineStatus_nck2",
+      "GENESYS_showLineMessages",
+    ],
+    function (result) {
+      const showLineStatusNck1 = result.GENESYS_showLineStatus_nck1;
+      const showLineStatusNck2 = result.GENESYS_showLineStatus_nck2;
+      const showLineMessages = result.GENESYS_showLineMessages;
+
+      if (showLineStatusNck1 || showLineStatusNck2 || showLineMessages) {
+        if (showLineStatusNck1) addMessageDiv("line-status-nck1");
+        if (showLineStatusNck2) addMessageDiv("line-status-nck2");
+        socketConnect();
+      }
+    }
+  );
+}
+
+var isActive = false;
+async function socketConnect() {
+  if (isActive) {
+    return;
+  }
+
+  isActive = true;
+  browser.storage.sync.get(["phpSessionId"], function (result) {
+    phpSessionId = result.phpSessionId;
+  });
+
+  const url =
+    "wss://okc.ertelecom.ru/ts-line-genesys-okcdb-ws/?EIO=4&transport=websocket";
+  const socket = new WebSocket(url);
+
+  socket.onopen = function () {
+    console.log(
+      `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Линия] Соединение установлено`
+    );
+  };
+
+  socket.onmessage = function (event) {
+    if (event.data === "2") {
+      socket.send("3");
+    } else if (event.data === '42/ts-line-genesys-okcdb-ws,["connected"]') {
+      console.log(
+        `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Линия] Получен PHPSESSID: ${phpSessionId}`
+      );
+      $.notify("Установлено соединение с линией", "success");
+      socket.send(`42/ts-line-genesys-okcdb-ws,["id","${phpSessionId}"]`);
+    } else if (event.data.startsWith("0{")) {
+      const response = JSON.parse(event.data.substring(1)); // Извлекаем JSON
+      const sid = response.sid; // Получаем sid
+      console.log(
+        `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Линия] Получен sid: ${sid}`
+      );
+      socket.send("40/ts-line-genesys-okcdb-ws,"); // Ответ на сообщение
+    } else {
+      const parts = event.data.split(/,\s*(.+)/);
+      const data = JSON.parse(parts[1])[1];
+      handleSocketMessages(data);
+    }
+  };
+
+  socket.onclose = function (event) {
+    if (event.wasClean) {
+      console.log(
+        `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Линия] Соединение закрыто чисто, код: ${
+          event.code
+        }, причина: ${event.reason}`
+      );
+    } else {
+      console.error(
+        `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Линия] Соединение прервано.`
+      );
+    }
+  };
+
+  socket.onerror = function (error) {
+    console.error(
+      `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Линия] Ошибка WebSocket:`,
+      error
+    );
+  };
+}
+
+// Функция для добавления нового div
+async function addMessageDiv(id) {
+  if (document.querySelector(`#${id}`)) return;
+  const observer = new MutationObserver(() => {
+    const title = document.querySelector(".title");
+
+    if (title) {
+      const newDiv = document.createElement("div");
+      newDiv.id = id; // Уникальный ID для нового div
+      newDiv.style.padding = "10px"; // Добавление отступов
+      newDiv.style.marginLeft = "10px";
+      newDiv.style.fontSize = "15px";
+      newDiv.style.border = "1px solid #949494"; // Обводка
+      newDiv.style.backgroundColor = "#4c5961"; // Цвет фона
+      newDiv.style.color = "white"; // Цвет текста
+
+      // Вставка нового div после элемента имеющего класс 'title'
+      title.parentNode.insertBefore(newDiv, title.nextSibling);
+      observer.disconnect();
+    }
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+  });
+}
+
+async function handleSocketMessages(data) {
+  settings = {
+    showLineNCK1: (
+      await browser.storage.sync.get("GENESYS_showLineStatus_nck1")
+    ).GENESYS_showLineStatus_nck1,
+    showLineNCK2: (
+      await browser.storage.sync.get("GENESYS_showLineStatus_nck2")
+    ).GENESYS_showLineStatus_nck2,
+    showLineMessages: await browser.storage.sync.get("GENESYS_showLineMessages")
+      .GENESYS_showLineMessages,
+  };
+
+  if (settings.showLineNCK1) {
+    lineStats = document.querySelector("#line-status-nck1");
+    if (lineStats == null) return;
+    data.waitingChats.nck1 > 0
+      ? (lineStats.style.color = "red")
+      : (lineStats.style.color = "white");
+    contentToShow = `Слоты: ${data.chatCapacity.nck1.available}/${data.chatCapacity.nck1.max} | SL: ${data.daySl.nck1}`;
+    data.waitingChats.nck1 > 0
+      ? (contentToShow += ` | ОЧЕРЕДЬ: ${data.waitingChats.nck1}`)
+      : "";
+    lineStats.innerHTML = `<p>${contentToShow}</p>`;
+  }
+
+  if (settings.showLineNCK2) {
+    lineStats = document.querySelector("#line-status-nck2");
+    if (lineStats == null) return;
+    data.waitingChats.nck2 > 0
+      ? (lineStats.style.color = "red")
+      : (lineStats.style.color = "white");
+    contentToShow = `Слоты: ${data.chatCapacity.nck2.available}/${data.chatCapacity.nck2.max} | SL: ${data.daySl.nck2}`;
+    data.waitingChats.nck2 > 0
+      ? (contentToShow += ` | ОЧЕРЕДЬ: ${data.waitingChats.nck2}`)
+      : "";
+    lineStats.innerHTML = `<p>${contentToShow}</p>`;
+  }
+}
+
+async function stripHtml(html) {
+  let tmp = document.createElement("DIV");
+  tmp.innerHTML = html;
+  return tmp.textContent || tmp.innerText || "";
 }
 
 function hideHeader() {
@@ -160,6 +318,7 @@ async function genesysButtons() {
   });
 
   const buttonsDiv = document.createElement("div");
+  buttonsDiv.classList.add("helper-buttons");
   buttonsDiv.style.cssText =
     "display: flex; justify-content: center; align-items: center; height: 100%; margin-left: 15px;";
 
@@ -333,41 +492,4 @@ function otpcLineStatus() {
   console.log(
     `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Аварийность] Загружена аварийность НЦК2`
   );
-}
-
-function socketConnection() {
-  const url =
-    "wss://okc.ertelecom.ru/ts-line-genesys-okcdb-ws/?EIO=4&transport=websocket";
-  const socket = new WebSocket(url);
-
-  socket.onopen = function () {
-    console.log("Соединение установлено.");
-
-    // Отправка сообщения для установки соединения
-    socket.send("40/ts-line-genesys-okcdb-ws");
-  };
-
-  socket.onmessage = function (event) {
-    // Проверка на сообщение типа 2
-    if (event.data === "2") {
-      console.log("Получено сообщение от сервера: 2. Отправка 3 в ответ.");
-      socket.send("3"); // Ответ на сообщение 2
-    } else if (event.data === '42/ts-line-genesys-okcdb-ws,["connected"]') {
-      console.log("Получено сообщение о подключении. Отправка ID.");
-      socket.send(
-        '42/ts-line-genesys-okcdb-ws,["id","f6pk92a36msk673qmq51169c14"]'
-      );
-    } else {
-      // Просто выводим полученное сообщение
-      console.log("Получено сообщение:", event.data);
-    }
-  };
-
-  socket.onclose = function () {
-    console.log("Соединение закрыто.");
-  };
-
-  socket.onerror = function (error) {
-    console.error("Ошибка:", error);
-  };
 }

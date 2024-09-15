@@ -195,8 +195,7 @@ async function checkForSpecialClient() {
   }
 }
 
-// Замена предвосхищения
-function setHelperAnticipation() {
+async function setHelperAnticipation() {
   var button = document.querySelector(".top_3_butt");
   if (button.textContent.includes("Помощник")) {
     return;
