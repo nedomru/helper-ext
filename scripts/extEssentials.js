@@ -88,10 +88,11 @@ async function setDefaults() {
     LINE_countAppointments: false,
 
     // Стандартные цвета
-    HIGHLIGHTER_CS: "#ff0000", // Красный
-    HIGHLIGHTER_EMAIL: "#006400", // Темно-зеленый
-    HIGHLIGHTER_OCTP: "#008080", // Бирюзовый
-    HIGHLIGHTER_COMPENSATION: "#66CDAA", // Бирюзовый
+    HIGHLIGHTER_CS: "#ff0000",
+    HIGHLIGHTER_EMAIL: "#006400",
+    HIGHLIGHTER_OCTP: "#008080",
+    HIGHLIGHTER_SZVG: "#FF00FF",
+    HIGHLIGHTER_COMPENSATION: "#66CDAA",
   };
 
   browser.storage.sync
