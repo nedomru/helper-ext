@@ -327,9 +327,6 @@ async function fetchRouters() {
     );
     const data = await response.json();
 
-    // Логируем полученные данные для отладки
-    console.log("Полученные данные:", data);
-
     // Проверяем, содержит ли объект ключ 'routers'
     if (data.routers && Array.isArray(data.routers)) {
       const tableBody = document.getElementById("routersBody");
@@ -379,9 +376,6 @@ async function fetchMNA() {
     );
     const data = await response.json();
 
-    // Логируем полученные данные для отладки
-    console.log("Полученные данные:", data);
-
     // Проверяем, содержит ли объект ключ 'mna'
     if (data.mna && Array.isArray(data.mna)) {
       const tableBody = document.getElementById("mnaBody");
@@ -392,7 +386,7 @@ async function fetchMNA() {
         row.innerHTML = `
                             <td><a href="${provider.link}" target="_blank">${provider.name}</td>
                             <td>${provider.authorization}</td>
-                            <td><a href="${provider.connection}" target="_blank">DHCP</a></td>
+                            <td>${provider.connection}</td>
                         `;
 
         tableBody.appendChild(row);
