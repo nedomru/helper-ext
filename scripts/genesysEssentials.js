@@ -24,14 +24,14 @@ if (document.URL.indexOf("genesys-app1") != -1) {
     [
       "GENESYS_showLineStatus_nck1",
       "GENESYS_showLineStatus_nck2",
-      "GENESYS_showLineMessages",
+      // "GENESYS_showLineMessages",
     ],
     function (result) {
       const showLineStatusNck1 = result.GENESYS_showLineStatus_nck1;
       const showLineStatusNck2 = result.GENESYS_showLineStatus_nck2;
-      const showLineMessages = result.GENESYS_showLineMessages;
+      // const showLineMessages = result.GENESYS_showLineMessages;
 
-      if (showLineStatusNck1 || showLineStatusNck2 || showLineMessages) {
+      if (showLineStatusNck1 || showLineStatusNck2) {
         if (showLineStatusNck1) addMessageDiv("line-status-nck1");
         if (showLineStatusNck2) addMessageDiv("line-status-nck2");
         socketConnect();
@@ -71,11 +71,6 @@ async function socketConnect() {
       $.notify("Установлено соединение с линией", "success");
       socket.send(`42/ts-line-genesys-okcdb-ws,["id","${phpSessionId}"]`);
     } else if (event.data.startsWith("0{")) {
-      const response = JSON.parse(event.data.substring(1)); // Извлекаем JSON
-      const sid = response.sid; // Получаем sid
-      console.log(
-        `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Линия] Получен sid: ${sid}`
-      );
       socket.send("40/ts-line-genesys-okcdb-ws,"); // Ответ на сообщение
     } else {
       const parts = event.data.split(/,\s*(.+)/);
@@ -134,7 +129,9 @@ async function addMessageDiv(id) {
   });
 }
 
+var lastDutyMessage;
 async function handleSocketMessages(data) {
+  if (!data || !data.availQueues) return;
   settings = {
     showLineNCK1: (
       await browser.storage.sync.get("GENESYS_showLineStatus_nck1")
@@ -142,8 +139,9 @@ async function handleSocketMessages(data) {
     showLineNCK2: (
       await browser.storage.sync.get("GENESYS_showLineStatus_nck2")
     ).GENESYS_showLineStatus_nck2,
-    showLineMessages: await browser.storage.sync.get("GENESYS_showLineMessages")
-      .GENESYS_showLineMessages,
+    showLineMessages: (
+      await browser.storage.sync.get("GENESYS_showLineMessages")
+    ).GENESYS_showLineMessages,
   };
 
   if (settings.showLineNCK1) {
@@ -207,8 +205,17 @@ Web: ${data.availQueues[3][1].currentWaitingCalls} / ${data.availQueues[3][1].to
     lineStats.setAttribute("title", tooltipMessage);
   }
 
-  if (settings.showLineMessages) {
-  }
+  // if (settings.showLineMessages) {
+  //   console.log(
+  //     `Сохраненное сообщение: ${await stripHtml(
+  //       lastDutyMessage
+  //     )}. Сообщение от сокета: ${await stripHtml(data.lastMessage.message)}`
+  //   );
+  //   if (lastDutyMessage == data.lastMessage.message) return;
+  //   lastDutyMessage = data.lastMessage.message;
+  //   lastDutyAuthor = data.lastMessage.author;
+  //   $.notify(`${lastDutyAuthor}: ${await stripHtml(lastDutyMessage)}`, "info");
+  // }
 }
 
 async function stripHtml(html) {
