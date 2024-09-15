@@ -157,6 +157,24 @@ async function handleSocketMessages(data) {
       ? (contentToShow += ` | ОЧЕРЕДЬ: ${data.waitingChats.nck1}`)
       : "";
     lineStats.innerHTML = `<p>${contentToShow}</p>`;
+
+    tooltipMessage = `Статистика НЦК1 за день
+
+Чаты:
+Mobile: ${data.availQueues[0][0].currentWaitingCalls} / ${data.availQueues[0][0].totalEnteredCalls}
+Web: ${data.availQueues[0][1].currentWaitingCalls} / ${data.availQueues[0][1].totalEnteredCalls}
+SmartDom: ${data.availQueues[0][2].currentWaitingCalls} / ${data.availQueues[0][2].totalEnteredCalls}
+DHCP: ${data.availQueues[0][3].currentWaitingCalls} / ${data.availQueues[0][3].totalEnteredCalls}
+---
+Тикеты:
+Email: ${data.availQueues[0][6].currentWaitingCalls} / ${data.availQueues[0][6].totalEnteredCalls}
+LK: ${data.availQueues[0][7].currentWaitingCalls} / ${data.availQueues[0][7].totalEnteredCalls}
+---
+Переливы:
+Mobile: ${data.availQueues[1][0].currentWaitingCalls} / ${data.availQueues[1][0].totalEnteredCalls}
+Web: ${data.availQueues[1][1].currentWaitingCalls} / ${data.availQueues[1][1].totalEnteredCalls}
+`;
+    lineStats.setAttribute("title", tooltipMessage);
   }
 
   if (settings.showLineNCK2) {
@@ -170,6 +188,26 @@ async function handleSocketMessages(data) {
       ? (contentToShow += ` | ОЧЕРЕДЬ: ${data.waitingChats.nck2}`)
       : "";
     lineStats.innerHTML = `<p>${contentToShow}</p>`;
+
+    tooltipMessage = `Статистика НЦК2 за день
+
+Чаты:
+Mobile: ${data.availQueues[2][0].currentWaitingCalls} / ${data.availQueues[2][0].totalEnteredCalls}
+Web: ${data.availQueues[2][1].currentWaitingCalls} / ${data.availQueues[2][1].totalEnteredCalls}
+SmartDom: ${data.availQueues[2][2].currentWaitingCalls} / ${data.availQueues[2][2].totalEnteredCalls}
+---
+Тикеты:
+Email: ${data.availQueues[2][6].currentWaitingCalls} / ${data.availQueues[2][6].totalEnteredCalls}
+LK: ${data.availQueues[2][7].currentWaitingCalls} / ${data.availQueues[2][7].totalEnteredCalls}
+---
+Переливы:
+Mobile: ${data.availQueues[3][0].currentWaitingCalls} / ${data.availQueues[3][0].totalEnteredCalls}
+Web: ${data.availQueues[3][1].currentWaitingCalls} / ${data.availQueues[3][1].totalEnteredCalls}
+`;
+    lineStats.setAttribute("title", tooltipMessage);
+  }
+
+  if (settings.showLineMessages) {
   }
 }
 
