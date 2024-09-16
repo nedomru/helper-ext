@@ -2445,6 +2445,47 @@ input {
   document.head.appendChild(style);
 }
 
+function topFrame() {
+  const style = document.createElement("style");
+
+  const darkThemeCSS = `
+body {
+  background-color: #1c1c1c !important;
+  color: #ffffff !important;
+}
+#btnViewKnowlegeBase {
+background-color: #03545e !important
+}
+
+#actual_number {
+background-color: #4a2021 !important
+}
+
+#btnViewScripting {
+background-color: #665106 !important
+}
+
+#number_cc_field {
+  background-color: #1c1c1c !important;
+}
+
+a, b {
+  color: #ffffff !important;
+}
+
+.ui-accordion-header > form:nth-child(3) > div:nth-child(4) {
+  background-color: #1c1c1c !important;
+}
+    `;
+
+  // Append the CSS to the style element
+  style.appendChild(document.createTextNode(darkThemeCSS));
+
+  // Append the style element to the head of the document
+  document.head.appendChild(style);
+}
+
+
 if (
   document.URL.indexOf(
     "ertelecom.ru/cgi-bin/ppo/excells/wcc2_main.frame_left_reasons"
@@ -2459,4 +2500,12 @@ if (
   ) != -1
 ) {
   clientFind();
+}
+
+if (
+  document.URL.indexOf(
+    "ertelecom.ru/cgi-bin/ppo/excells/wcc2_main.frame_top"
+  ) != -1
+) {
+  topFrame();
 }
