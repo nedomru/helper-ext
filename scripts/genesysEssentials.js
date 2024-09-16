@@ -20,24 +20,34 @@ if (document.URL.indexOf("genesys-app1") != -1) {
       console.error("Ошибка при получении настроек:", error);
     });
 
-  browser.storage.sync.get(
-    [
-      "GENESYS_showLineStatus_nck1",
-      "GENESYS_showLineStatus_nck2",
-      // "GENESYS_showLineMessages",
-    ],
-    function (result) {
-      const showLineStatusNck1 = result.GENESYS_showLineStatus_nck1;
-      const showLineStatusNck2 = result.GENESYS_showLineStatus_nck2;
-      // const showLineMessages = result.GENESYS_showLineMessages;
+  browser.storage.sync.get(["phpSessionId"], function (result) {
+    phpSessionId = result.phpSessionId;
+    if (!phpSessionId) {
+      $.notify(
+        "Статус линии не будет загружен. Нужно авторизоваться на странице линии и обновить страницу Генезиса.",
+        "error"
+      );
+    } else {
+      browser.storage.sync.get(
+        [
+          "GENESYS_showLineStatus_nck1",
+          "GENESYS_showLineStatus_nck2",
+          // "GENESYS_showLineMessages",
+        ],
+        function (result) {
+          const showLineStatusNck1 = result.GENESYS_showLineStatus_nck1;
+          const showLineStatusNck2 = result.GENESYS_showLineStatus_nck2;
+          // const showLineMessages = result.GENESYS_showLineMessages;
 
-      if (showLineStatusNck1 || showLineStatusNck2) {
-        if (showLineStatusNck1) addMessageDiv("line-status-nck1");
-        if (showLineStatusNck2) addMessageDiv("line-status-nck2");
-        socketConnect();
-      }
+          if (showLineStatusNck1 || showLineStatusNck2) {
+            if (showLineStatusNck1) addMessageDiv("line-status-nck1");
+            if (showLineStatusNck2) addMessageDiv("line-status-nck2");
+            socketConnect();
+          }
+        }
+      );
     }
-  );
+  });
 }
 
 var isActive = false;
