@@ -43,6 +43,7 @@
     "ARM_changeRequestFBLF_Open_VhodNRD",
     "ARM_changeRequestFBLF_Open_Ticket",
     "ARM_changeRequestFBLF_Closed_Accident",
+    "ARM_changeRequestFBLF_Closed_CancelSZ",
     "ARM_changeRequestFBLF_Closed_NoPages",
     "ARM_changeRequestFBLF_Closed_NoSession",
     "ARM_changeRequestFBLF_Closed_LowSpeed",

@@ -1263,6 +1263,7 @@ async function fastButtonsLeftFrame() {
     "ARM_changeRequestFBLF_Closed_NoTV",
     "ARM_changeRequestFBLF_Open_Ticket",
     "ARM_changeRequestFBLF_Closed_Youtube",
+    "ARM_changeRequestFBLF_Closed_CancelSZ",
   ];
 
   // Получение значений всех настроек
@@ -1495,6 +1496,14 @@ async function fastButtonsLeftFrame() {
       value: "Youtube",
       class: "btn btn-sm btn-info helper",
       action: handleClosed_Youtube,
+    });
+  }
+
+  if (settings[28][settingsKeys[28]]) {
+    buttons.push({
+      value: "Отмена СЗ",
+      class: "btn btn-sm btn-info helper",
+      action: handleClosed_CancelSZ,
     });
   }
 
@@ -2148,6 +2157,22 @@ async function fastButtonsLeftFrame() {
 
     waitForElement(".uni_load_child_reason", (substep) => {
       substep.value = "22187";
+      substep.dispatchEvent(changeEvent);
+    });
+  }
+
+  function handleClosed_CancelSZ() {
+    const step = document.querySelector(".uni_reas_step");
+    step.value = "-1";
+    step.dispatchEvent(changeEvent);
+
+    waitForElement(".uni_load_obj_reason", (substep) => {
+      substep.value = "1045";
+      substep.dispatchEvent(changeEvent);
+    });
+
+    waitForElement(".uni_load_main_reason", (substep) => {
+      substep.value = "4665";
       substep.dispatchEvent(changeEvent);
     });
   }
