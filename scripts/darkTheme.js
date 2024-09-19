@@ -294,6 +294,9 @@ select:focus {
   border-color: #0060df !important;
 }
 
+.btn, button {
+  background-color: #3c3c3c !important;
+}
     `;
   await applyStyles(darkThemeCSS);
 }
