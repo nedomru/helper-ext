@@ -5,7 +5,7 @@ async function applyStyles(styleContent) {
 }
 
 // Левый фрейм
-async function skvozRequests() {
+async function leftFrame() {
   const darkThemeCSS = `
 body {
   background-color: #1c1c1c !important;
@@ -21,8 +21,6 @@ select {
   background-color: #363535 !important;
   color: #ffffff !important;
   border: 1px solid #444444 !important;
-  appearance: none;
-  -moz-appearance: none;
 }
 select option {
   background-color: #1e1e1e !important;
@@ -104,8 +102,6 @@ select {
   background-color: #363535 !important;
   color: #ffffff !important;
   border: 1px solid #444444 !important;
-  appearance: none;
-  -moz-appearance: none;
 }
 select option {
   background-color: #1e1e1e !important;
@@ -301,7 +297,7 @@ select:focus {
   await applyStyles(darkThemeCSS);
 }
 
-// Сессии за период
+// Акции на удержание
 async function compensations() {
   const darkThemeCSS = `
 body {
@@ -372,7 +368,7 @@ async function applyTheme() {
       "ertelecom.ru/cgi-bin/ppo/excells/wcc2_main.frame_left_reasons"
     )
   ) {
-    await skvozRequests();
+    await leftFrame();
   }
 
   if (
