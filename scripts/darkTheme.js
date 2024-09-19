@@ -4,6 +4,7 @@ async function applyStyles(styleContent) {
   document.head.appendChild(style);
 }
 
+// Левый фрейм
 async function skvozRequests() {
   const darkThemeCSS = `
 body {
@@ -86,6 +87,7 @@ input {
   await applyStyles(darkThemeCSS);
 }
 
+// Окно поиска клиента
 async function clientFind() {
   const darkThemeCSS = `
 body {
@@ -152,6 +154,7 @@ input {
   await applyStyles(darkThemeCSS);
 }
 
+//Хедер АРМа
 async function topFrame() {
   const darkThemeCSS = `
 body {
@@ -180,6 +183,7 @@ a, b {
   await applyStyles(darkThemeCSS);
 }
 
+// Найти сессию
 async function findSession() {
   const darkThemeCSS = `
 body {
@@ -196,6 +200,7 @@ span.mac {
   await applyStyles(darkThemeCSS);
 }
 
+// Проверка доступа
 async function checkAccess() {
   const darkThemeCSS = `
 body {
@@ -223,6 +228,72 @@ select:focus {
   outline: none;
   border-color: #0060df !important;
 }
+    `;
+  await applyStyles(darkThemeCSS);
+}
+
+// Сессии за период
+async function sessionsByTime() {
+  const darkThemeCSS = `
+body {
+  background-color: #1c1c1c !important;
+  color: #ffffff !important;
+}
+a, b {
+  color: #ffffff !important;
+}
+input {
+  background-color: #1e1e1e !important;
+  color: #ffffff !important;
+  border: 1px solid #444444 !important;
+}
+.dropdown-menu {
+  background-color: #1e1e1e !important;
+}
+.datepicker table tr td.day:hover, .datepicker table tr td.day.focused {
+background: #444444 !important;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #1e1e1e;
+}
+
+.table th,
+.table td {
+  border: 1px solid #1e1e1e;
+  background-color: #444444;
+  padding: 8px;
+  text-align: center;
+}
+
+.table th {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+.text-primary {
+  color: #3bd2f2; /* Цвет ссылок */
+}
+
+.breadcrumb {
+  background-color: #1a1a1a;
+}
+
+select {
+  background-color: #363535 !important;
+  color: #ffffff !important;
+  border: 1px solid #444444 !important;
+}
+select option {
+  background-color: #1e1e1e !important;
+  color: #ffffff !important;
+}
+select:focus {
+  outline: none;
+  border-color: #0060df !important;
+}
+
     `;
   await applyStyles(darkThemeCSS);
 }
@@ -258,6 +329,14 @@ async function applyTheme() {
     )
   ) {
     await findSession();
+  }
+
+  if (
+    document.URL.includes(
+      "ertelecom.ru/static_pages/private/wcc/client_session"
+    )
+  ) {
+    await sessionsByTime();
   }
 
   if (
