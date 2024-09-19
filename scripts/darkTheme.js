@@ -362,6 +362,63 @@ background: #444444 !important;
   await applyStyles(darkThemeCSS);
 }
 
+// Смена ТП
+async function changeTariff() {
+  const darkThemeCSS = `
+body {
+  background-color: #1c1c1c !important;
+  color: #ffffff !important;
+}
+input {
+  background-color: #1e1e1e !important;
+  color: #ffffff !important;
+  border: 1px solid #444444 !important;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #1e1e1e;
+}
+
+.table th, td {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+.table > :not(caption) > * > * {
+  background-color: #1a1a1a;
+}
+
+.row {
+  background-color: #1a1a1a;
+}
+.select2-results__option--selectable {
+  background-color: #1a1a1a;
+}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active {
+  background: #0060df;
+}
+.ui-slider-horizontal .ui-slider-range {
+  background-color: #444444;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+background-color: #444444;
+}
+.table-light {
+--bs-table-hover-bg: #444444;
+}
+.modal-content {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+.card {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+    `;
+  await applyStyles(darkThemeCSS);
+}
+
 async function applyTheme() {
   if (
     document.URL.includes(
@@ -407,6 +464,12 @@ async function applyTheme() {
     document.URL.includes("ertelecom.ru/cgi-bin/ppo/excells/adv_act_retention")
   ) {
     await compensations();
+  }
+
+  if (
+    document.URL.includes("ertelecom.ru/static_pages/private/wcc/change_tariff")
+  ) {
+    await changeTariff();
   }
 
   if (
