@@ -196,6 +196,37 @@ span.mac {
   await applyStyles(darkThemeCSS);
 }
 
+async function checkAccess() {
+  const darkThemeCSS = `
+body {
+  background-color: #1c1c1c !important;
+  color: #ffffff !important;
+}
+a, b {
+  color: #ffffff !important;
+}
+input {
+  background-color: #1e1e1e !important;
+  color: #ffffff !important;
+  border: 1px solid #444444 !important;
+}
+select {
+  background-color: #363535 !important;
+  color: #ffffff !important;
+  border: 1px solid #444444 !important;
+}
+select option {
+  background-color: #1e1e1e !important;
+  color: #ffffff !important;
+}
+select:focus {
+  outline: none;
+  border-color: #0060df !important;
+}
+    `;
+  await applyStyles(darkThemeCSS);
+}
+
 async function applyTheme() {
   if (
     document.URL.includes(
@@ -227,6 +258,17 @@ async function applyTheme() {
     )
   ) {
     await findSession();
+  }
+
+  if (
+    document.URL.includes(
+      "ertelecom.ru/cgi-bin/ppo/excells/access_show.show_access"
+    ) ||
+    document.URL.includes(
+      "ertelecom.ru/cgi-bin/ppo/excells/access_show.show_fr_trace"
+    )
+  ) {
+    await checkAccess();
   }
 }
 
