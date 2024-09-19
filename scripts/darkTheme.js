@@ -301,6 +301,71 @@ select:focus {
   await applyStyles(darkThemeCSS);
 }
 
+// Сессии за период
+async function compensations() {
+  const darkThemeCSS = `
+body {
+  background-color: #1c1c1c !important;
+  color: #ffffff !important;
+}
+a, b {
+  color: #ffffff !important;
+}
+input {
+  background-color: #1e1e1e !important;
+  color: #ffffff !important;
+  border: 1px solid #444444 !important;
+}
+.dropdown-menu {
+  background-color: #1e1e1e !important;
+}
+.datepicker table tr td.day:hover, .datepicker table tr td.day.focused {
+background: #444444 !important;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #1e1e1e;
+}
+
+.compensation {
+  color: #1e1e1e;
+}
+
+.table th {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+#ui-datepicker-div {
+  color: #ffffff !important;
+  background-color: #1e1e1e !important;
+}
+.ui-state-default,
+.ui-widget-content .ui-state-default {
+  border: 1px solid #d3d3d3;
+  background: none;
+  background-color: #1e1e1e !important;
+  font-weight: normal;
+  color: #555555;
+}
+.ui-widget-content {
+  background: #1e1e1e !important;
+  border: 1px solid #444444 !important;
+}
+.ui-accordion .ui-accordion-header {
+  background: #2a2a2a !important;
+  border-bottom: 1px solid #444444 !important;
+  color: #ffffff !important;
+}
+.ui-accordion .ui-accordion-content {
+  background: #1e1e1e !important;
+  color: #ffffff !important;
+}
+    `;
+  await applyStyles(darkThemeCSS);
+}
+
 async function applyTheme() {
   if (
     document.URL.includes(
@@ -340,6 +405,12 @@ async function applyTheme() {
     )
   ) {
     await sessionsByTime();
+  }
+
+  if (
+    document.URL.includes("ertelecom.ru/cgi-bin/ppo/excells/adv_act_retention")
+  ) {
+    await compensations();
   }
 
   if (
