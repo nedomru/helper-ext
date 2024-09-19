@@ -46,6 +46,7 @@ function getHighlightColors(callback) {
       "HIGHLIGHTER_CS",
       "HIGHLIGHTER_EMAIL",
       "HIGHLIGHTER_OCTP",
+      "HIGHLIGHTER_SZVG",
       "HIGHLIGHTER_COMPENSATION",
     ])
     .then((settings) => {
@@ -53,6 +54,7 @@ function getHighlightColors(callback) {
         "Контакт сорвался": settings.HIGHLIGHTER_CS || "#ff0000",
         "Обращение из Email": settings.HIGHLIGHTER_EMAIL || "#006400",
         "ОЦТП - Входящая связь": settings.HIGHLIGHTER_OCTP || "#008080",
+        "Требуется СЗ вне графика": settings.HIGHLIGHTER_SZVG || "#FF00FF",
         "Компенсация за аварию": settings.HIGHLIGHTER_COMPENSATION || "#66CDAA",
       };
       if (callback) callback(); // вызываем callback после загрузки данных
@@ -133,11 +135,9 @@ function highlightCompensation() {
   const cells = document.querySelectorAll("th");
   cells.forEach((cell) => {
     if (cell.innerText === "Компенсация за аварию") {
-      cell.style.color = "black";
-      cell.style.backgroundColor = "white";
+      cell.style.color = "#66CDAA";
       const tdCell = cell.parentElement.querySelector("td");
-      tdCell.style.color = "black";
-      tdCell.style.backgroundColor = "white";
+      tdCell.style.backgroundColor = "#66CDAA";
     }
   });
 }

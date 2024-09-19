@@ -328,7 +328,7 @@ background: #444444 !important;
   color: #1e1e1e;
 }
 
-.table th {
+.table th, td {
   background-color: #1a1a1a;
   color: #ffffff;
 }
