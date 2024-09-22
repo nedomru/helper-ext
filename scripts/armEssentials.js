@@ -491,7 +491,8 @@ async function copyClientAddress() {
   }
 
   if (settings.ARM_copyClientAddressWithoutCity) {
-    const city_regex = /.*?(ул\.)/i;
+    const city_regex = /.*ул\./i;
+    address_text = address_text.replace(city_regex, "").trim();
     const city_match = address_text.match(city_regex);
     if (city_match) {
       address_text = address_text.replace(city_regex, "$1").trim();
