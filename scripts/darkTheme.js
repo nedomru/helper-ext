@@ -419,6 +419,177 @@ background-color: #444444;
   await applyStyles(darkThemeCSS);
 }
 
+// Скриптинг
+// async function scripting() {
+//   const darkThemeCSS = `
+// .layout-row {
+//   background-color: #1c1c1c !important;
+//   color: #ffffff !important;
+// }
+
+// md-tabs.md-default-theme .md-tab, md-tabs .md-tab {
+//   color: #ffffff !important;
+// }
+
+// md-bottom-sheet.md-default-theme, md-bottom-sheet {
+// background-color: #444444;
+// }
+
+// .breadcrumb {
+// background-color: #353535;
+// }
+
+// .script > div:nth-child(1) > div:nth-child(1) > ccs-scenario-select-button:nth-child(1) > div:nth-child(1) > span:nth-child(2) {
+// color: #ffffff !important;
+// }
+
+// textarea {
+// color: #ffffff !important;
+// }
+
+// md-option {
+// color: #ffffff !important;
+// background-color: #444444; }
+
+// .md-select-menu-container.md-active md-select-menu > * {
+// background-color: #444444;
+// }
+
+// md-menu-content {
+// background-color: #444444;
+// }
+// .md-select-value > span:not(.md-select-icon) .md-text {
+// color: #ffffff !important;
+// }
+
+// md-dialog md-dialog-content {
+// background-color: #444444;
+// }
+
+// md-dialog md-dialog-content:not([layout="row"]) > :first-child:not(.md-subheader) {
+// color: #ffffff !important;
+// }
+
+// md-dialog .md-actions, md-dialog md-dialog-actions {
+// background-color: #353535;
+// }
+
+// md-select.md-default-theme .md-select-value, md-select .md-select-value {
+// background-color: #353535;
+// }
+
+// .black-text, .black-text li, .black-text p {
+// color: #ffffff !important;
+// }
+
+// .layout-fill {
+// background-color: #444444;
+//   color: #ffffff !important;
+// }
+
+// p {
+//   color: #ffffff !important;
+// }
+
+// .md-subheader.md-default-theme, .md-subheader {
+// background-color: #444444;
+//   color: #ffffff !important;
+// }
+
+// .md-api-table tr:nth-child(2n+1) td, .odd {
+// background-color: #444444;
+// }
+
+// .md-button.md-default-theme.md-primary.md-fab, .md-button.md-primary.md-fab, .md-button.md-default-theme.md-primary.md-raised, .md-button.md-primary.md-raised {
+// background-color: #996e00;
+// color: #f2d593;
+// }
+
+// button.md-raised:nth-child(2) {
+//   background-color: #444444;
+//   color: #ffffff !important;
+// }
+
+// md-content.layout-column {
+//   background-color: #1c1c1c !important;
+//   color: #ffffff !important;
+// }
+
+// md-toolbar.md-table-toolbar.md-default-theme:not(.md-menu-toolbar).md-default, md-toolbar.md-table-toolbar:not(.md-menu-toolbar).md-default {
+//   background-color: #444444;
+//   color: #ffffff !important;
+//   }
+
+// #input-9 {
+//   background-color: #1e1e1e !important;
+//   color: #ffffff !important;
+// }
+
+// .md-datepicker-input {
+//   background-color: #1e1e1e;
+//   color: #ffffff !important;
+// }
+
+// md-input-container.md-block:nth-child(1) > label:nth-child(1) {
+
+//   color: #ffffff !important;
+//   }
+
+// .md-calendar-month-label.md-calendar-label-clickable {
+//   background-color: #444444;
+//   color: #ffffff !important;
+// }
+
+// .md-default-theme .md-datepicker-calendar, .md-datepicker-calendar {
+//   background-color: #444444;
+// }
+
+//     `;
+//   await applyStyles(darkThemeCSS);
+// }
+
+// Страница входа
+async function loginPage() {
+  const darkThemeCSS = `
+body {
+  background-color: #1c1c1c !important;
+  color: #ffffff !important;
+}
+
+.ui-state-default,
+.ui-widget-content .ui-state-default {
+  background: none;
+  background-color: #1e1e1e !important;
+  font-weight: normal;
+  color: #555555;
+}
+.ui-widget-content {
+  background: #1e1e1e !important;
+}
+.ui-accordion .ui-accordion-header {
+  background: #2a2a2a !important;
+  color: #ffffff !important;
+}
+.ui-accordion .ui-accordion-content {
+  background: #1e1e1e !important;
+  color: #ffffff !important;
+}
+
+.validateTips {
+  color: #ffffff !important;
+ }
+
+td {
+  color: #ffffff !important;
+}
+
+.ui-button-text-only .ui-button-text {
+  color: #ffffff !important;
+}
+    `;
+  await applyStyles(darkThemeCSS);
+}
+
 async function applyTheme() {
   if (
     document.URL.includes(
@@ -470,6 +641,16 @@ async function applyTheme() {
     document.URL.includes("ertelecom.ru/static_pages/private/wcc/change_tariff")
   ) {
     await changeTariff();
+  }
+
+  // if (document.URL.includes("scripting-app")) {
+  //   await scripting();
+  // }
+
+  if (
+    document.URL.includes("ertelecom.ru/cgi-bin/ppo/excells/wcc_main.login")
+  ) {
+    await loginPage();
   }
 
   if (
