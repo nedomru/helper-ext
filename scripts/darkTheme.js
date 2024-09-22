@@ -419,6 +419,7 @@ background-color: #444444;
   await applyStyles(darkThemeCSS);
 }
 
+// Страница виджета
 async function widgetPage() {
   const darkThemeCSS = `
 body {
@@ -448,6 +449,46 @@ input {
 .header-dom-ru {
 background-color: #996e00;
 }
+    `;
+  await applyStyles(darkThemeCSS);
+}
+
+async function speedupPage() {
+  const darkThemeCSS = `
+body, .b-page__wrapper, .b-popup-common__content_padding {
+  background-color: #1c1c1c !important;
+  color: #ffffff !important;
+}
+
+.b-link {
+  color: #ffffff !important;
+}
+
+.typo-link {
+  color: #ffffff !important;
+}
+
+.increase-speed__block {
+  background: #1e1e1e !important;
+  color: #ffffff !important;
+}
+
+.increase-speed__notice {
+  background: #483939 !important;
+}
+
+.increase-speed__notice--green {
+  background: #364824 !important;
+}
+
+.b-mus__sublist.b-text.b-text_inet {
+  background-color: #292929 !important;
+  color: #ffffff !important;
+}
+
+span, p {
+  color: #ffffff !important;
+  }
     `;
   await applyStyles(darkThemeCSS);
 }
@@ -699,6 +740,10 @@ async function applyTheme() {
     )
   ) {
     await widgetPage();
+  }
+
+  if (document.URL.includes("change-tariff.ertelecom.ru/internet/speedup")) {
+    await speedupPage();
   }
 
   if (
