@@ -19,12 +19,13 @@
       "all_frames": true,
       "js": [
         "scripts/background.js",
-        "scripts/highlights.js",
         "scripts/jquery.min.js",
         "scripts/notify.js",
         "scripts/armEssentials.js",
         "scripts/lineEssentials.js",
         "scripts/genesysEssentials.js",
+        "scripts/highlights.js",
+        "scripts/darkTheme.js",
         "scripts/settings.js"
       ],
       "matches": ["http://*/*", "https://*/*"]
