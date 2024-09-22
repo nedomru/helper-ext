@@ -586,6 +586,10 @@ td {
 .ui-button-text-only .ui-button-text {
   color: #ffffff !important;
 }
+
+#add_user_phnum > form:nth-child(1) {
+  color: #ffffff !important;
+}
     `;
   await applyStyles(darkThemeCSS);
 }
@@ -648,7 +652,10 @@ async function applyTheme() {
   // }
 
   if (
-    document.URL.includes("ertelecom.ru/cgi-bin/ppo/excells/wcc_main.login")
+    document.URL.includes("ertelecom.ru/cgi-bin/ppo/excells/wcc_main.login") ||
+    document.URL.includes(
+      "ertelecom.ru/cgi-bin/ppo/excells/wcc_main.entry_continue"
+    )
   ) {
     await loginPage();
   }
