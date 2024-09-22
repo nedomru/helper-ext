@@ -19,7 +19,13 @@ if (document.URL.indexOf("genesys-app1") != -1) {
     .catch((error) => {
       console.error("Ошибка при получении настроек:", error);
     });
+}
 
+if (
+  document.URL.indexOf(
+    "http://genesys-app1.cc4.ertelecom.ru:82/ui/ad/v1/index"
+  ) != -1
+) {
   browser.storage.sync.get(["phpSessionId"], function (result) {
     phpSessionId = result.phpSessionId;
     if (!phpSessionId) {
@@ -85,7 +91,15 @@ async function socketConnect() {
     } else {
       const parts = event.data.split(/,\s*(.+)/);
       const data = JSON.parse(parts[1])[1];
-      handleSocketMessages(data);
+      const date = new Date();
+      const offset = date.getTimezoneOffset() * 60 * 1000;
+      const ekbTime = new Date(date.getTime() + offset + 5 * 60 * 60 * 1000);
+      const timeString = ekbTime.toLocaleString("ru-RU", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
+      handleSocketMessages(data, timeString);
     }
   };
 
@@ -140,7 +154,7 @@ async function addMessageDiv(id) {
 }
 
 var lastDutyMessage;
-async function handleSocketMessages(data) {
+async function handleSocketMessages(data, time) {
   if (!data || !data.availQueues) return;
   settings = {
     showLineNCK1: (
@@ -154,6 +168,7 @@ async function handleSocketMessages(data) {
     ).GENESYS_showLineMessages,
   };
 
+  console.log(data);
   if (settings.showLineNCK1) {
     lineStats = document.querySelector("#line-status-nck1");
     if (lineStats == null) return;
@@ -181,7 +196,8 @@ LK: ${data.availQueues[0][7].currentWaitingCalls} / ${data.availQueues[0][7].tot
 Переливы:
 Mobile: ${data.availQueues[1][0].currentWaitingCalls} / ${data.availQueues[1][0].totalEnteredCalls}
 Web: ${data.availQueues[1][1].currentWaitingCalls} / ${data.availQueues[1][1].totalEnteredCalls}
-`;
+
+Состояние на ${time}`;
     lineStats.setAttribute("title", tooltipMessage);
   }
 
@@ -211,7 +227,8 @@ LK: ${data.availQueues[2][7].currentWaitingCalls} / ${data.availQueues[2][7].tot
 Переливы:
 Mobile: ${data.availQueues[3][0].currentWaitingCalls} / ${data.availQueues[3][0].totalEnteredCalls}
 Web: ${data.availQueues[3][1].currentWaitingCalls} / ${data.availQueues[3][1].totalEnteredCalls}
-`;
+
+Состояние на ${time}ПРМ`;
     lineStats.setAttribute("title", tooltipMessage);
   }
 
