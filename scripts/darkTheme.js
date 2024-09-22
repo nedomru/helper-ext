@@ -389,9 +389,6 @@ input {
   background-color: #1a1a1a;
 }
 
-.row {
-  background-color: #1a1a1a;
-}
 .select2-results__option--selectable {
   background-color: #1a1a1a;
 }
@@ -404,6 +401,14 @@ input {
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
 background-color: #444444;
 }
+.table-hover > tbody > tr:hover > * {
+  color: #ffffff;
+}
+
+.btn-outline-secondary {
+  color: #ffffff;
+}
+
 .table-light {
 --bs-table-hover-bg: #444444;
 }
@@ -414,6 +419,11 @@ background-color: #444444;
 .card {
   background-color: #1a1a1a;
   color: #ffffff;
+}
+
+.bg-light {
+  background-color: #1a1a1a;
+  --bs-bg-opacity: 0;
 }
     `;
   await applyStyles(darkThemeCSS);
@@ -518,7 +528,9 @@ span, p {
 // }
 
 // textarea {
-// color: #ffffff !important;
+//   background-color: #1e1e1e !important;
+//   color: #ffffff !important;
+//   border: 1px solid #444444 !important;
 // }
 
 // md-option {
