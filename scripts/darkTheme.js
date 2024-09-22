@@ -668,6 +668,44 @@ td {
   await applyStyles(darkThemeCSS);
 }
 
+async function balanceCalculations() {
+  const darkThemeCSS = `
+body {
+  background-color: #1c1c1c !important;
+  color: #ffffff !important;
+}
+
+.header {
+background-color: #996e00;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #33373a;
+}
+
+.table th,
+.table td {
+  border: 1px solid #1e1e1e;
+  background-color: #33373a;
+  padding: 8px;
+  text-align: center;
+}
+
+.table th {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+.btn {
+  background-color: #1c738d;
+  color: #ffffff;
+}
+    `;
+  await applyStyles(darkThemeCSS);
+}
+
 async function applyTheme() {
   if (
     document.URL.includes(
@@ -744,6 +782,14 @@ async function applyTheme() {
 
   if (document.URL.includes("change-tariff.ertelecom.ru/internet/speedup")) {
     await speedupPage();
+  }
+
+  if (
+    document.URL.includes(
+      "ertelecom.ru/static_pages/private/wcc/balance_calculation"
+    )
+  ) {
+    await balanceCalculations();
   }
 
   if (
