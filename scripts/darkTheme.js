@@ -419,6 +419,39 @@ background-color: #444444;
   await applyStyles(darkThemeCSS);
 }
 
+async function widgetPage() {
+  const darkThemeCSS = `
+body {
+  background-color: #1c1c1c !important;
+  color: #ffffff !important;
+}
+
+select {
+  background-color: #363535 !important;
+  color: #ffffff !important;
+  border: 1px solid #444444 !important;
+}
+select option {
+  background-color: #1e1e1e !important;
+  color: #ffffff !important;
+}
+select:focus {
+  outline: none;
+  border-color: #0060df !important;
+}
+
+input {
+  background-color: #1e1e1e !important;
+  color: #ffffff !important;
+  border: 1px solid #444444 !important;
+}
+.header-dom-ru {
+background-color: #996e00;
+}
+    `;
+  await applyStyles(darkThemeCSS);
+}
+
 // Скриптинг
 // async function scripting() {
 //   const darkThemeCSS = `
@@ -658,6 +691,14 @@ async function applyTheme() {
     )
   ) {
     await loginPage();
+  }
+
+  if (
+    document.URL.includes(
+      "ertelecom.ru/static_pages/private/wcc/intercom_connection"
+    )
+  ) {
+    await widgetPage();
   }
 
   if (
