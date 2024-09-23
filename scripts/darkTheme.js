@@ -463,6 +463,7 @@ background-color: #996e00;
   await applyStyles(darkThemeCSS);
 }
 
+// Бонус скорости
 async function speedupPage() {
   const darkThemeCSS = `
 body, .b-page__wrapper, .b-popup-common__content_padding {
@@ -680,6 +681,7 @@ td {
   await applyStyles(darkThemeCSS);
 }
 
+// Проверка баланса
 async function balanceCalculations() {
   const darkThemeCSS = `
 body {
@@ -713,6 +715,32 @@ background-color: #996e00;
 .btn {
   background-color: #1c738d;
   color: #ffffff;
+}
+    `;
+  await applyStyles(darkThemeCSS);
+}
+
+// Изменение периода оплаты
+async function changePayPeriod() {
+  const darkThemeCSS = `
+body {
+  background-color: #1c1c1c !important;
+  color: #ffffff !important;
+}
+
+
+select {
+  background-color: #363535 !important;
+  color: #ffffff !important;
+  border: 1px solid #444444 !important;
+}
+select option {
+  background-color: #1e1e1e !important;
+  color: #ffffff !important;
+}
+select:focus {
+  outline: none;
+  border-color: #0060df !important;
 }
     `;
   await applyStyles(darkThemeCSS);
@@ -802,6 +830,14 @@ async function applyTheme() {
     )
   ) {
     await balanceCalculations();
+  }
+
+  if (
+    document.URL.includes(
+      "ertelecom.ru/static_pages/private/wcc/change_fix_period"
+    )
+  ) {
+    await changePayPeriod();
   }
 
   if (
