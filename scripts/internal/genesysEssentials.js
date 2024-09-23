@@ -115,6 +115,16 @@ async function socketConnect() {
         `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Линия] Соединение прервано.`
       );
     }
+
+    $.notify(
+      "Соединение с линией разорвано, причина: " + event.reason,
+      "error"
+    );
+    lineStats = document.querySelector("#line-status-nck1");
+    if (!lineStats) {
+      lineStats = document.querySelector("#line-status-nck2");
+    }
+    lineStats.innerText = "Закрыто";
   };
 
   socket.onerror = function (error) {
@@ -232,17 +242,17 @@ Web: ${data.availQueues[3][1].currentWaitingCalls} / ${data.availQueues[3][1].to
     lineStats.setAttribute("title", tooltipMessage);
   }
 
-  // if (settings.showLineMessages) {
-  //   console.log(
-  //     `Сохраненное сообщение: ${await stripHtml(
-  //       lastDutyMessage
-  //     )}. Сообщение от сокета: ${await stripHtml(data.lastMessage.message)}`
-  //   );
-  //   if (lastDutyMessage == data.lastMessage.message) return;
-  //   lastDutyMessage = data.lastMessage.message;
-  //   lastDutyAuthor = data.lastMessage.author;
-  //   $.notify(`${lastDutyAuthor}: ${await stripHtml(lastDutyMessage)}`, "info");
-  // }
+  if (settings.showLineMessages) {
+    console.log(
+      `Сохраненное сообщение: ${await stripHtml(
+        lastDutyMessage
+      )}. Сообщение от сокета: ${await stripHtml(data.lastMessage.message)}`
+    );
+    if (lastDutyMessage == data.lastMessage.message) return;
+    lastDutyMessage = data.lastMessage.message;
+    lastDutyAuthor = data.lastMessage.author;
+    $.notify(`${lastDutyAuthor}: ${await stripHtml(lastDutyMessage)}`, "info");
+  }
 }
 
 async function stripHtml(html) {
