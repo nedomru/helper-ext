@@ -173,7 +173,6 @@ async function handleFormPremium(event) {
     }
 
     const data = await response.json();
-    console.log(data);
     const result = data["result"][0];
 
     specialist_name = data["result"][0]["USER_FIO"];
@@ -267,8 +266,8 @@ async function handleFormPremium(event) {
                 </tbody>
             </table>
         `;
-    console.log(data);
-    document.getElementById("result-container").innerHTML = tableHTML;
+    safeHTML = DOMPurify.sanitize(tableHTML);
+    document.getElementById("result-container").innerHTML = safeHTML;
   } catch (error) {
     document.getElementById("result-container").innerText =
       "Не удалось получить премию";
@@ -329,38 +328,51 @@ async function fetchRouters() {
 
     // Проверяем, содержит ли объект ключ 'routers'
     if (data.routers && Array.isArray(data.routers)) {
-      const tableBody = document.getElementById("routersBody");
+      // Создаем содержимое таблицы
+      const rows = data.routers
+        .map(
+          (router) => `
+        <tr>
+          <td>${router.Name}</td>
+          <td><a href="${router.PPPoE}" target="_blank">PPPoE</a></td>
+          <td><a href="${router.DHCP}" target="_blank">DHCP</a></td>
+          <td><a href="${router.IPoE}" target="_blank">IPoE</a></td>
+          <td><a href="${router.Channels}" target="_blank">Каналы</a></td>
+          <td>${router.Settings}</td>
+          <td><a href="${router.BZ}" target="_blank">БЗ</a></td>
+          <td><a href="${
+            Array.isArray(router.Emulator)
+              ? router.Emulator.join(", ")
+              : router.Emulator
+          }" target="_blank">Эмулятор</a></td>
+        </tr>
+      `
+        )
+        .join("");
 
-      data.routers.forEach((router) => {
-        const row = document.createElement("tr");
+      // Формируем полную таблицу
+      const tableHTML = `
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>PPPoE</th>
+                    <th>DHCP</th>
+                    <th>IPoE</th>
+                    <th>Каналы</th>
+                    <th>Интерфейс</th>
+                    <th>БЗ</th>
+                    <th>Эмулятор</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${rows}
+            </tbody>
+        </table>
+      `;
 
-        row.innerHTML = `
-                            <td>${router.Name}</td>
-                            <td><a href="${
-                              router.PPPoE
-                            }" target="_blank">PPPoE</a></td>
-                            <td><a href="${
-                              router.DHCP
-                            }" target="_blank">DHCP</a></td>
-                            <td><a href="${
-                              router.IPoE
-                            }" target="_blank">IPoE</a></td>
-                            <td><a href="${
-                              router.Channels
-                            }" target="_blank">Каналы</a></td>
-                            <td>${router.Settings}</td>
-                            <td><a href="${
-                              router.BZ
-                            }" target="_blank">БЗ</a></td>
-                            <td><a href="${
-                              Array.isArray(router.Emulator)
-                                ? router.Emulator.join(", ")
-                                : router.Emulator
-                            }" target="_blank">Эмулятор</a></td>
-                        `;
-
-        tableBody.appendChild(row);
-      });
+      const safeHTML = DOMPurify.sanitize(tableHTML);
+      document.getElementById("routersTable").innerHTML = safeHTML;
     } else {
       console.error('Ключ "routers" не найден или не является массивом:', data);
     }
@@ -378,19 +390,39 @@ async function fetchMNA() {
 
     // Проверяем, содержит ли объект ключ 'mna'
     if (data.mna && Array.isArray(data.mna)) {
-      const tableBody = document.getElementById("mnaBody");
+      // Создаём содержимое таблицы
+      const rows = data.mna
+        .map(
+          (provider) => `
+          <tr>
+            <td><a href="${provider.link}" target="_blank">${provider.name}</a></td>
+            <td>${provider.authorization}</td>
+            <td>${provider.connection}</td>
+          </tr>
+        `
+        )
+        .join("");
 
-      data.mna.forEach((provider) => {
-        const row = document.createElement("tr");
+      // Формируем полную таблицу
+      const tableHTML = `
+        <table id="providersTable">
+          <thead>
+            <tr>
+              <th>Провайдер</th>
+              <th>Авторизация</th>
+              <th>Подключение</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows}
+          </tbody>
+        </table>
+      `;
 
-        row.innerHTML = `
-                            <td><a href="${provider.link}" target="_blank">${provider.name}</td>
-                            <td>${provider.authorization}</td>
-                            <td>${provider.connection}</td>
-                        `;
-
-        tableBody.appendChild(row);
-      });
+      // Обрабатываем через DOMPurify
+      const safeHTML = DOMPurify.sanitize(tableHTML);
+      // Обновляем контейнер с таблицей
+      document.getElementById("providersTable").innerHTML = safeHTML;
     } else {
       console.error('Ключ "mna" не найден или не является массивом:', data);
     }

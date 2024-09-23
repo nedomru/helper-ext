@@ -1,9 +1,10 @@
 ﻿<!DOCTYPE html>
 <html>
-<script src="scripts/popup.js"></script>
-<script src="scripts/sections.js"></script>
-<script src="scripts/jquery.min.js"></script>
-<script src="scripts/notify.js"></script>
+<script type="text/javascript" src="scripts/internal/popup.js"></script>
+<script type="text/javascript" src="scripts/internal/sections.js"></script>
+<script type="text/javascript" src="scripts/external/jquery.min.js"></script>
+<script type="text/javascript" src="scripts/external/dompurify.min.js"></script>
+<script type="text/javascript" src="scripts/external/notify.js"></script>
 <link rel="stylesheet" type="text/css" href="styles/popup.css">
 
 <body>
@@ -128,38 +129,11 @@
         </div>
         <div id="MnA" class="tabcontent">
                 <input type="text" id="searchProvider" placeholder="Поиск провайдера" autofocus>
-                <table id="providersTable">
-                        <thead>
-                                <tr>
-                                        <th>Провайдер</th>
-                                        <th>Авторизация</th>
-                                        <th>Подключение</th>
-                                </tr>
-                        </thead>
-                        <tbody id="mnaBody">
-                                <!-- Данные провайдеров будут добавлены здесь -->
-                        </tbody>
-                </table>
+                <div id="providersTable"></div>
         </div>
         <div id="Роутеры" class="tabcontent">
                 <input type="text" id="searchRouter" placeholder="Поиск роутера" autofocus>
-                <table id="routersTable" border="1">
-                        <thead>
-                                <tr>
-                                        <th>Название</th>
-                                        <th>PPPoE</th>
-                                        <th>DHCP</th>
-                                        <th>IPoE</th>
-                                        <th>Каналы</th>
-                                        <th>Интерфейс</th>
-                                        <th>БЗ</th>
-                                        <th>Эмулятор</th>
-                                </tr>
-                        </thead>
-                        <tbody id="routersBody">
-                                <!-- Данные роутеров будут добавлены здесь -->
-                        </tbody>
-                </table>
+                <div id="routersTable"></div>
         </div>
         <div id="Инструменты" class="tabcontent">
                 <h4>Проверка MAC-адреса</h4>

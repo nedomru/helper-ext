@@ -18,20 +18,21 @@
     {
       "all_frames": true,
       "js": [
-        "scripts/background.js",
-        "scripts/highlights.js",
-        "scripts/jquery.min.js",
-        "scripts/notify.js",
-        "scripts/armEssentials.js",
-        "scripts/lineEssentials.js",
-        "scripts/genesysEssentials.js",
-        "scripts/settings.js"
+        "scripts/external/notify.js",
+        "scripts/external/dompurify.min.js",
+        "scripts/external/jquery.min.js",
+        "scripts/internal/background.js",
+        "scripts/internal/highlights.js",
+        "scripts/internal/armEssentials.js",
+        "scripts/internal/lineEssentials.js",
+        "scripts/internal/genesysEssentials.js",
+        "scripts/internal/settings.js"
       ],
       "matches": ["http://*/*", "https://*/*"]
     }
   ],
   "background": {
-    "scripts": ["scripts/extEssentials.js"],
+    "scripts": ["scripts/internal/extEssentials.js"],
     "persistent": false
   },
   "permissions": [
