@@ -1,7 +1,13 @@
 ﻿{
   "manifest_version": 2,
-  "name": "Помощник",
-  "description": "",
+  "name": "Хелпер",
+  "author": "Roman Chursanov",
+  "developer": {
+    "name": "Roman Chursanov",
+    "url": "https://chrsnv.ru"
+  },
+  "homepage_url": "https://authfailed.github.io/domru-helper/",
+  "description": "Твой швейцарский нож для работы 😎",
   "version": "2.7",
   "browser_specific_settings": {
     "gecko": {
@@ -18,9 +24,9 @@
     {
       "all_frames": true,
       "js": [
+        "scripts/external/jquery.min.js",
         "scripts/external/notify.js",
         "scripts/external/dompurify.min.js",
-        "scripts/external/jquery.min.js",
         "scripts/internal/background.js",
         "scripts/internal/highlights.js",
         "scripts/internal/armEssentials.js",
@@ -46,7 +52,7 @@
     "notifications"
   ],
   "browser_action": {
-    "default_title": "Помощник",
+    "default_title": "Хелпер",
     "default_icon": "icons/icon128.png",
     "default_popup": "popup.html"
   },
