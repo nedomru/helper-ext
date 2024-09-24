@@ -30,9 +30,10 @@ if (
     phpSessionId = result.phpSessionId;
     if (!phpSessionId) {
       $.notify(
-        "Статус линии не будет загружен. Нужно авторизоваться на странице линии и обновить страницу Генезиса.",
+        "Статус линии не будет загружен. Авторизуйся на странице линии и обнови страницу Генезиса",
         "error"
       );
+      return;
     } else {
       browser.storage.sync.get(
         [
@@ -46,8 +47,6 @@ if (
           // const showLineMessages = result.GENESYS_showLineMessages;
 
           if (showLineStatusNck1 || showLineStatusNck2) {
-            if (showLineStatusNck1) addMessageDiv("line-status-nck1");
-            if (showLineStatusNck2) addMessageDiv("line-status-nck2");
             socketConnect();
           }
         }
@@ -62,10 +61,18 @@ async function socketConnect() {
     return;
   }
 
-  isActive = true;
   browser.storage.sync.get(["phpSessionId"], function (result) {
     phpSessionId = result.phpSessionId;
   });
+
+  if (!phpSessionId) {
+    $.notify(
+      "Статус линии не будет загружен. Авторизуйся на странице линии и обнови страницу Генезиса",
+      "error"
+    );
+    return;
+  }
+  isActive = true;
 
   const url =
     "wss://okc.ertelecom.ru/ts-line-genesys-okcdb-ws/?EIO=4&transport=websocket";
@@ -88,6 +95,19 @@ async function socketConnect() {
       socket.send(`42/ts-line-genesys-okcdb-ws,["id","${phpSessionId}"]`);
     } else if (event.data.startsWith("0{")) {
       socket.send("40/ts-line-genesys-okcdb-ws,"); // Ответ на сообщение
+    } else if (
+      event.data.startsWith('42/ts-line-genesys-okcdb-ws,["notAuthorized"]')
+    ) {
+      socket.close();
+      lineStats = document.querySelector("#line-status-nck1");
+      if (!lineStats) {
+        lineStats = document.querySelector("#line-status-nck2");
+      }
+      if (lineStats) lineStats.innerText = "Нет авторизации";
+      $.notify(
+        "Статус линии не будет загружен. Авторизуйся на странице линии и обнови страницу Генезиса",
+        "error"
+      );
     } else {
       const parts = event.data.split(/,\s*(.+)/);
       const data = JSON.parse(parts[1])[1];
@@ -117,14 +137,14 @@ async function socketConnect() {
     }
 
     $.notify(
-      "Соединение с линией разорвано, причина: " + event.reason,
+      "Соединение с линией разорвано. Причина: " + event.reason,
       "error"
     );
-    lineStats = document.querySelector("#line-status-nck1");
-    if (!lineStats) {
-      lineStats = document.querySelector("#line-status-nck2");
-    }
-    lineStats.innerText = "Закрыто";
+
+    lineStats =
+      document.querySelector("#line-status-nck1") ||
+      document.querySelector("#line-status-nck2");
+    if (lineStats) lineStats.innerText = "Закрыто";
   };
 
   socket.onerror = function (error) {
@@ -132,6 +152,8 @@ async function socketConnect() {
       `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Линия] Ошибка WebSocket:`,
       error
     );
+    $.notify("Ошибка WebSocket<br/>Причина: " + error, "error");
+    new Promise((resolve, reject) => {});
   };
 }
 
@@ -180,6 +202,7 @@ async function handleSocketMessages(data, time) {
 
   console.log(data);
   if (settings.showLineNCK1) {
+    if (!document.querySelector("#line-status-nck1")) addMessageDiv("nck1");
     lineStats = document.querySelector("#line-status-nck1");
     if (lineStats == null) return;
     data.waitingChats.nck1 > 0
@@ -212,6 +235,7 @@ Web: ${data.availQueues[1][1].currentWaitingCalls} / ${data.availQueues[1][1].to
   }
 
   if (settings.showLineNCK2) {
+    if (!document.querySelector("#line-status-nck2")) addMessageDiv("nck1");
     lineStats = document.querySelector("#line-status-nck2");
     if (lineStats == null) return;
     data.waitingChats.nck2 > 0
