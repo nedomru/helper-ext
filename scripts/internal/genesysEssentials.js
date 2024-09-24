@@ -82,6 +82,16 @@ async function socketConnect() {
     console.log(
       `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Линия] Соединение установлено`
     );
+    browser.storage.sync.get(
+      ["GENESYS_showLineStatus_nck1", "GENESYS_showLineStatus_nck2"],
+      function (result) {
+        const showLineStatusNck1 = result.GENESYS_showLineStatus_nck1;
+        const showLineStatusNck2 = result.GENESYS_showLineStatus_nck2;
+
+        if (showLineStatusNck1) addMessageDiv("line-status-nck1");
+        if (showLineStatusNck2) addMessageDiv("line-status-nck2");
+      }
+    );
   };
 
   socket.onmessage = function (event) {
@@ -200,9 +210,7 @@ async function handleSocketMessages(data, time) {
     ).GENESYS_showLineMessages,
   };
 
-  console.log(data);
   if (settings.showLineNCK1) {
-    if (!document.querySelector("#line-status-nck1")) addMessageDiv("nck1");
     lineStats = document.querySelector("#line-status-nck1");
     if (lineStats == null) return;
     data.waitingChats.nck1 > 0
@@ -235,7 +243,6 @@ Web: ${data.availQueues[1][1].currentWaitingCalls} / ${data.availQueues[1][1].to
   }
 
   if (settings.showLineNCK2) {
-    if (!document.querySelector("#line-status-nck2")) addMessageDiv("nck1");
     lineStats = document.querySelector("#line-status-nck2");
     if (lineStats == null) return;
     data.waitingChats.nck2 > 0
