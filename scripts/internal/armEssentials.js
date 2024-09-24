@@ -93,7 +93,6 @@ if (
       }
     });
 
-    console.log(TABS_config);
     deleteTabs(tabsToDelete);
   });
 
