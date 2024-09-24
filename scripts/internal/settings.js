@@ -1,4 +1,5 @@
 ﻿document.addEventListener("DOMContentLoaded", async function () {
+  $('[data-bs-toggle="tooltip"]').tooltip();
   const version = browser.runtime.getManifest().version;
   document.getElementById("extension-version").textContent = version;
 
@@ -242,10 +243,6 @@
 function onError(error) {
   console.log(`Ошибка: ${error}`);
 }
-
-$(document).ready(function () {
-  $('[data-bs-toggle="tooltip"]').tooltip();
-});
 
 $(document).ready(function () {
   // Логика для вложенных дропдаунов

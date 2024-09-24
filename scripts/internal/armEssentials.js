@@ -156,7 +156,14 @@ async function checkForSpecialClient() {
   const observerSpecial = new MutationObserver((mutationsList) => {
     for (const mutation of mutationsList) {
       if (mutation.type === "childList") {
-        mutation.addedNodes.forEach(checkForSpecial);
+        mutation.addedNodes.forEach((node) => {
+          if (
+            node.nodeType === Node.ELEMENT_NODE &&
+            node.classList.contains("bl_antic_head_w")
+          ) {
+            checkSpecialClient(node);
+          }
+        });
       }
     }
   });
@@ -180,15 +187,6 @@ async function checkForSpecialClient() {
       observerSpecial.disconnect();
     }, 3000);
 
-    const checkForSpecial = (node) => {
-      if (
-        node.nodeType === Node.ELEMENT_NODE &&
-        node.classList.contains("bl_antic_head_w")
-      ) {
-        checkSpecialClient(node);
-      }
-    };
-
     // Подключение для вызывания для существующих дочерних элементов
     const existingNodes = document.body.querySelectorAll(".bl_antic_head_w");
     existingNodes.forEach(checkSpecialClient);
@@ -197,9 +195,8 @@ async function checkForSpecialClient() {
 
 async function setHelperAnticipation() {
   var button = document.querySelector(".top_3_butt");
-  if (button.textContent.includes("Помощник")) {
-    return;
-  }
+  if (!button) return;
+  if (button.textContent.includes("Помощник")) return;
   button.textContent = "Помощник";
 
   const observerSPAS = new MutationObserver((mutationsList, observer) => {
@@ -444,7 +441,8 @@ async function setHelperAnticipation() {
 
 function hideSPAS() {
   // Своваричаем предвосхищение
-  document.getElementById("collapse-top-3").className = "collapse";
+  header = document.getElementById("collapse-top-3");
+  if (header) header.className = "collapse";
 }
 
 function copyTextToClipboard(text) {
@@ -576,6 +574,7 @@ function copyClientAgreement() {
     return;
   }
   var agreementTab = document.getElementById("agr_with_type");
+  if (!agreementTab) return;
   var agreementBeforeTab = agreementTab.previousElementSibling;
   var agreement_number = agreementTab.getElementsByTagName("b")[0];
 
@@ -1234,6 +1233,7 @@ async function fastButtonsLeftFrame() {
   }
 
   const container = document.querySelector(".create_request_block");
+  if (!container) return;
 
   const settingsKeys = [
     "ARM_changeRequestFBLF_Closed_Accident",
