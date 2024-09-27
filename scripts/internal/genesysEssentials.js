@@ -56,6 +56,7 @@ if (
 }
 
 var isActive = false;
+var reconnectInterval = 3000;
 async function socketConnect() {
   if (isActive) {
     return;
@@ -155,6 +156,11 @@ async function socketConnect() {
       document.querySelector("#line-status-nck1") ||
       document.querySelector("#line-status-nck2");
     if (lineStats) lineStats.innerText = "Закрыто";
+
+    setTimeout(() => {
+      $.notify("Пытаемся переподключиться...", "warning");
+      socketConnect(), reconnectInterval;
+    });
   };
 
   socket.onerror = function (error) {
@@ -163,7 +169,7 @@ async function socketConnect() {
       error
     );
     $.notify("Ошибка WebSocket<br/>Причина: " + error, "error");
-    new Promise((resolve, reject) => {});
+    socket.close();
   };
 }
 
