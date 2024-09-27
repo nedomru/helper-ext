@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="ru">
 <script type="text/javascript" src="scripts/internal/popup.js"></script>
 <script type="text/javascript" src="scripts/internal/sections.js"></script>
 <script type="text/javascript" src="scripts/external/jquery.min.js"></script>
@@ -13,7 +13,6 @@
                 <button class="tablinks" id="tablink-Основные ссылки">Главная</button>
                 <button class="tablinks" id="tablink-MnA">MnA</button>
                 <button class="tablinks" id="tablink-Роутеры">Роутеры</button>
-                <button class="tablinks" id="tablink-ЧМ">ЧМ</button>
                 <button class="tablinks" id="tablink-Инструменты">Инструменты</button>
                 <button id="openSettings">Настройки</button>
                 <button id="openTelegram">ТГ</button>
@@ -133,39 +132,48 @@
                 </div>
         </div>
         <div id="MnA" class="tabcontent">
-                <input type="text" id="searchProvider" placeholder="Поиск провайдера" autofocus>
+                <label for="searchProvider">
+                        <input type="text" id="searchProvider" placeholder="Поиск провайдера" autofocus>
+                </label>
                 <div id="providersTable"></div>
         </div>
         <div id="Роутеры" class="tabcontent">
-                <input type="text" id="searchRouter" placeholder="Поиск роутера" autofocus>
+                <label for="searchRouter">
+                        <input type="text" id="searchRouter" placeholder="Поиск роутера" autofocus>
+                </label>
                 <div id="routersTable"></div>
-        </div>
-        <div id="ЧМ" class="tabcontent"></div>
-        <div id="chatmasterTable"></div>
         </div>
         <div id="Инструменты" class="tabcontent">
                 <h4>Проверка MAC-адреса</h4>
                 <form id="form-mac">
-                        <input type="text" id="input-mac" name="input-mac" placeholder="Введи мак" />
+                        <label for="input-mac">
+                                <input type="text" id="input-mac" name="input-mac" placeholder="Введи мак" />
+                        </label>
                         <button id="submit-mac">Проверить</button>
                 </form>
                 <h4>Проверка IP</h4>
                 <form id="form-ip">
-                        <input type="text" id="input-ip" name="input-ip" placeholder="Введи IP-адрес" />
+                        <label for="input-ip">
+                                <input type="text" id="input-ip" name="input-ip" placeholder="Введи IP-адрес" />
+                        </label>
                         <button id="submit-ip" class="submit-ip-button">Проверить</button>
                 </form>
                 <h4>Сокращатель ссылок</h4>
                 <form id="form-link">
-                        <input type="text" id="input-link" name="input-link" placeholder="Введи ссылку" />
+                        <label for="input-link">
+                                <input type="text" id="input-link" name="input-link" placeholder="Введи ссылку" />
+                        </label>
                         <button id="submit-link" class="submit-link-button">Сократить</button>
                 </form>
                 <h4>Проверка премии</h4>
                 <form id="form-premium">
-                        <select name="premium-select">
-                                <!--Supplement an id here instead of using 'name'-->
-                                <option value="nck1">нцк1</option>
-                                <option value="nck2">нцк2</option>
-                        </select>
+                        <label>
+                                <select name="premium-select">
+                                        <!--Supplement an id here instead of using 'name'-->
+                                        <option value="nck1">нцк1</option>
+                                        <option value="nck2">нцк2</option>
+                                </select>
+                        </label>
                         <button id="submit-premium" class="submit-premium-button">Проверить</button>
                         <div id="result-container"></div>
                 </form>
