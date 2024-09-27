@@ -226,7 +226,17 @@ async function handleSocketMessages(data, time) {
     data.waitingChats.nck1 > 0
       ? (contentToShow += ` | ОЧЕРЕДЬ: ${data.waitingChats.nck1}`)
       : "";
-    lineStats.innerHTML = `<p>${contentToShow}</p>`;
+
+    if (lineStats.innerHTML !== `<p>${contentToShow}</p>`) {
+      lineStats.innerHTML = `<p>${contentToShow}</p>`;
+
+      lineStats.style.transition = "background-color 0.3s";
+      lineStats.style.backgroundColor = "#909ea6";
+
+      setTimeout(() => {
+        lineStats.style.backgroundColor = "#4c5961";
+      }, 300);
+    }
 
     tooltipMessage = `Статистика НЦК1 за день
 
@@ -258,7 +268,16 @@ Web: ${data.availQueues[1][1].currentWaitingCalls} / ${data.availQueues[1][1].to
     data.waitingChats.nck2 > 0
       ? (contentToShow += ` | ОЧЕРЕДЬ: ${data.waitingChats.nck2}`)
       : "";
-    lineStats.innerHTML = `<p>${contentToShow}</p>`;
+    if (lineStats.innerHTML !== `<p>${contentToShow}</p>`) {
+      lineStats.innerHTML = `<p>${contentToShow}</p>`;
+
+      lineStats.style.transition = "background-color 0.3s";
+      lineStats.style.backgroundColor = "#909ea6";
+
+      setTimeout(() => {
+        lineStats.style.backgroundColor = "#4c5961";
+      }, 300);
+    }
 
     tooltipMessage = `Статистика НЦК2 за день
 
