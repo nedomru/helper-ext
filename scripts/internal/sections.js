@@ -1,12 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
   // Получаем все кнопки с классом "tablinks"
-  var tablinks = document.getElementsByClassName("tablinks");
+  const tablinks = document.getElementsByClassName("tablinks");
 
   // Добавляем обработчик событий для каждой кнопки
-  for (var i = 0; i < tablinks.length; i++) {
+  for (let i = 0; i < tablinks.length; i++) {
     tablinks[i].addEventListener("click", function (event) {
       // Получаем имя разделов из id кнопок
-      var sectionName = this.id.split("-")[1];
+      const sectionName = this.id.split("-")[1];
       openSection(event, sectionName);
       saveLastTab(sectionName); // Сохранение последней вкладки
     });
@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function openSection(evt, sectionName) {
-  var i, tabcontent, tablinks;
+  let i, tabcontent, tablinks;
 
   // Получаем все элементы с классом "tabcontent" и прячем их
   tabcontent = document.getElementsByClassName("tabcontent");
@@ -45,7 +45,7 @@ function saveLastTab(sectionName) {
 function restoreLastTab(tablinks) {
   browser.storage.sync.get("lastTab").then((data) => {
     if (data.lastTab) {
-      var lastTabLink = document.getElementById("tablink-" + data.lastTab); // Убедитесь, что добавлен префикс
+      const lastTabLink = document.getElementById("tablink-" + data.lastTab); // Убедитесь, что добавлен префикс
       if (lastTabLink) {
         lastTabLink.click(); // Клик по последней вкладке
       }

@@ -1,7 +1,7 @@
 // Подсветка классификаторов на вкладке Обращений
 let intervalId;
 
-if (document.URL.indexOf("db.ertelecom.ru/cgi-bin") != -1) {
+if (document.URL.indexOf("db.ertelecom.ru/cgi-bin") !== -1) {
   const config = {
     ARM_highlightRequestsClasses: highlightClasses,
   };
@@ -16,14 +16,14 @@ if (document.URL.indexOf("db.ertelecom.ru/cgi-bin") != -1) {
 
   function highlightClasses() {
     getHighlightColors(() => {
-      const intervalId = setInterval(highlightRequestsTab, 1000); // если необходимо продолжать
+      setInterval(highlightRequestsTab, 1000);
     });
   }
 }
 
 // Подсветка классификаторов на вкладке Изменения обращений
 if (
-  document.URL.indexOf("wcc_request_appl_support.change_request_appl") != -1
+  document.URL.indexOf("wcc_request_appl_support.change_request_appl") !== -1
 ) {
   highlightRequestsEdit();
 }
@@ -32,7 +32,7 @@ if (
 if (
   document.URL.indexOf(
     "db.ertelecom.ru/cgi-bin/ppo/excells/adv_act_retention"
-  ) != -1
+  ) !== -1
 ) {
   highlightCompensation();
 }
@@ -126,7 +126,7 @@ function highlightRequestsEdit() {
   if (block) {
     block.innerHTML = block.innerHTML.replaceAll(
       "Контакт сорвался",
-      "<font style='color: red; font-weight:bold'>Контакт сорвался</font>"
+      "<span style='color: red; font-weight:bold'>Контакт сорвался</span>"
     );
   }
 }

@@ -1,7 +1,6 @@
 ﻿document.addEventListener("DOMContentLoaded", async function () {
   $('[data-bs-toggle="tooltip"]').tooltip();
-  const version = browser.runtime.getManifest().version;
-  document.getElementById("extension-version").textContent = version;
+  document.getElementById("extension-version").textContent = browser.runtime.getManifest().version;
 
   // Загрузка сохраненных настроек
   const checkboxIds = [
@@ -9,7 +8,7 @@
     "OTHER_DarkTheme",
     "GENESYS_showLineStatus_nck1",
     "GENESYS_showLineStatus_nck2",
-    // "GENESYS_showLineMessages",
+    /*"GENESYS_showLineMessages",*/
     "GENESYS_showFastButtons",
     "GENESYS_showFB_chatMaster",
     "GENESYS_showFB_setupRouter",
@@ -142,7 +141,7 @@
   }
 
   // Загрузка состояния темной темы
-  darkThemeActive = result.OTHER_DarkTheme;
+  let darkThemeActive = result.OTHER_DarkTheme;
   toggleDarkTheme(darkThemeActive);
 
   // Обработчик изменения состояния переключателя темной темы

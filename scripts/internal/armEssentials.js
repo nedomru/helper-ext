@@ -1,7 +1,7 @@
 if (
   document.URL.indexOf(
     "db.ertelecom.ru/static_pages/private/wcc/client_session/?user_id"
-  ) != -1
+  ) !== -1
 ) {
   const config = {
     ARM_filterClientSessions: initFilterClientSessions,
@@ -20,10 +20,10 @@ if (
 if (
   document.URL.indexOf(
     "db.ertelecom.ru/cgi-bin/ppo/excells/radius_accounting_info.login_detail?id_session"
-  ) != -1 ||
+  ) !== -1 ||
   document.URL.indexOf(
     "db.ertelecom.ru/static_pages/private/wcc/client_session/?user_id"
-  ) != -1
+  ) !== -1
 ) {
   const ARM_config = {
     ARM_copySearchMAC: copyMAC,
@@ -38,7 +38,7 @@ if (
   });
 }
 
-if (document.URL.indexOf("wcc2_main.frame_left_reasons") != -1) {
+if (document.URL.indexOf("wcc2_main.frame_left_reasons") !== -1) {
   const ARM_config = {
     ARM_changeRequestFBLF: fastButtonsLeftFrame,
   };
@@ -53,8 +53,8 @@ if (document.URL.indexOf("wcc2_main.frame_left_reasons") != -1) {
 }
 
 if (
-  document.URL.indexOf("db.ertelecom.ru/cgi-bin") != -1 &&
-  document.URL.indexOf("wcc_request_appl_support.change_request_appl") == -1
+  document.URL.indexOf("db.ertelecom.ru/cgi-bin") !== -1 &&
+  document.URL.indexOf("wcc_request_appl_support.change_request_appl") === -1
 ) {
   const TABS_config = {
     ARM_hideTabIPTV: "Агентское IPTV",
@@ -93,7 +93,9 @@ if (
       }
     });
 
-    deleteTabs(tabsToDelete);
+    deleteTabs(tabsToDelete).then(() => {console.log(
+        `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Удаление вкладок] Вкладки удалены`
+    )})
   });
 
   browser.storage.sync
@@ -109,7 +111,9 @@ if (
       console.error("Ошибка при получении настроек:", error);
     });
 
-  setHelperAnticipation();
+  setHelperAnticipation().then(() => {console.log(
+      `[${new Date().toLocaleTimeString()}] [Помощник] - [Предвосхищение] Предвосхищение загружено`
+  )})
 }
 
 if (
@@ -145,10 +149,6 @@ async function deleteTabs(tabList) {
   });
 
   await Promise.all(removePromises);
-
-  console.log(
-    `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Удаление вкладок] Вкладки удалены: ${tabList}`
-  );
 }
 
 async function checkForSpecialClient() {
@@ -182,23 +182,22 @@ async function checkForSpecialClient() {
     special.forEach(checkSpecialClient);
   } else {
     observerSpecial.observe(document.body, { childList: true, subtree: true });
-    const timeout = setTimeout(() => {
+    setTimeout(() => {
       observerSpecial.disconnect();
     }, 3000);
-
-    // Подключение для вызывания для существующих дочерних элементов
+// Подключение для вызывания для существующих дочерних элементов
     const existingNodes = document.body.querySelectorAll(".bl_antic_head_w");
     existingNodes.forEach(checkSpecialClient);
   }
 }
 
 async function setHelperAnticipation() {
-  var button = document.querySelector(".top_3_butt");
+  const button = document.querySelector(".top_3_butt");
   if (!button) return;
   if (button.textContent.includes("Помощник")) return;
   button.textContent = "Помощник";
 
-  const observerSPAS = new MutationObserver((mutationsList, observer) => {
+  const observerSPAS = new MutationObserver((mutationsList) => {
     for (const mutation of mutationsList) {
       if (mutation.type === "childList") {
         mutation.addedNodes.forEach(checkForSPAS);
@@ -206,7 +205,7 @@ async function setHelperAnticipation() {
     }
   });
 
-  const observerAccess = new MutationObserver((mutationsList, observer) => {
+  const observerAccess = new MutationObserver((mutationsList) => {
     for (const mutation of mutationsList) {
       if (mutation.type === "childList") {
         mutation.addedNodes.forEach(checkForAccess);
@@ -214,7 +213,7 @@ async function setHelperAnticipation() {
     }
   });
 
-  const observerAccident = new MutationObserver((mutationsList, observer) => {
+  const observerAccident = new MutationObserver((mutationsList) => {
     for (const mutation of mutationsList) {
       if (mutation.type === "childList") {
         mutation.addedNodes.forEach(checkForAccident);
@@ -222,7 +221,7 @@ async function setHelperAnticipation() {
     }
   });
 
-  const observerPPR = new MutationObserver((mutationsList, observer) => {
+  const observerPPR = new MutationObserver((mutationsList) => {
     for (const mutation of mutationsList) {
       if (mutation.type === "childList") {
         mutation.addedNodes.forEach(checkForPPR);
@@ -230,7 +229,7 @@ async function setHelperAnticipation() {
     }
   });
 
-  const observerSpecial = new MutationObserver((mutationsList, observer) => {
+  const observerSpecial = new MutationObserver((mutationsList) => {
     for (const mutation of mutationsList) {
       if (mutation.type === "childList") {
         mutation.addedNodes.forEach(checkForSpecial);
@@ -238,10 +237,10 @@ async function setHelperAnticipation() {
     }
   });
 
-  var problems = 0;
+  let problems = 0;
 
   // СПАС
-  spas = document.querySelector(".spas_body");
+  let spas = document.querySelector(".spas_body");
   if (spas) {
     button.innerHTML += " | СПАС";
     button.style.backgroundColor = "#cc3300";
@@ -274,7 +273,7 @@ async function setHelperAnticipation() {
   }
 
   // Закрытый доступ
-  access = document.querySelectorAll(".bl_antic_head_w");
+  let access = document.querySelectorAll(".bl_antic_head_w");
   if (access) {
     access.forEach((element) => {
       if (element.textContent.trim() === "Доступ отсутствует") {
@@ -313,7 +312,7 @@ async function setHelperAnticipation() {
   }
 
   // Авария
-  accident = document.querySelectorAll(".bl_antic_head_w");
+  let accident = document.querySelectorAll(".bl_antic_head_w");
   if (accident) {
     accident.forEach((element) => {
       if (element.textContent.trim() === "Аварии на адресе") {
@@ -352,9 +351,9 @@ async function setHelperAnticipation() {
   }
 
   // ППР
-  ppr = document.querySelectorAll(".bl_antic_head_w");
-  if (accident) {
-    accident.forEach((element) => {
+  let ppr = document.querySelectorAll(".bl_antic_head_w");
+  if (ppr) {
+    ppr.forEach((element) => {
       if (element.textContent.trim() === "ППР на адресе") {
         button.innerHTML += " | ППР";
         button.style.backgroundColor = "#cc3300";
@@ -391,7 +390,7 @@ async function setHelperAnticipation() {
   }
 
   // Особый клиент
-  special = document.querySelectorAll(".bl_antic_head_w");
+  let special = document.querySelectorAll(".bl_antic_head_w");
   if (special) {
     special.forEach((element) => {
       if (element.textContent.trim() === "Особый Клиент") {
@@ -430,7 +429,7 @@ async function setHelperAnticipation() {
     }, 3000);
   }
 
-  if (problems == 0) {
+  if (problems === 0) {
     button.style.backgroundColor = "#008000";
   }
   console.log(
@@ -440,18 +439,17 @@ async function setHelperAnticipation() {
 
 function hideSPAS() {
   // Своваричаем предвосхищение
-  header = document.getElementById("collapse-top-3");
+  let header = document.getElementById("collapse-top-3");
   if (header) header.className = "collapse";
 }
 
 function copyTextToClipboard(text) {
-  var textarea = document.createElement("textarea");
+  const textarea = document.createElement("textarea");
   textarea.value = text;
   document.body.appendChild(textarea);
   textarea.select();
   try {
-    var successful = document.execCommand("copy");
-    var msg = successful ? "successful" : "unsuccessful";
+    document.execCommand("copy");
   } catch (err) {
     console.error("Oops, unable to copy", err);
   }
@@ -459,6 +457,7 @@ function copyTextToClipboard(text) {
 }
 
 async function copyClientAddress() {
+  let address_text;
   const settings = await browser.storage.sync.get(
     "ARM_copyClientAddressWithoutCity"
   );
@@ -467,7 +466,7 @@ async function copyClientAddress() {
     return;
   }
   try {
-    var address_text = document.getElementById("dr").innerText;
+    address_text = document.getElementById("dr").innerText;
   } catch (e) {
     console.log(
       `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Копирование адреса] Не найдено поле адреса для копирования`
@@ -498,10 +497,10 @@ async function copyClientAddress() {
 
   // Поиск клетки Адрес для добавления кнопки
   const address = document.querySelector("#dr").previousElementSibling;
-  var lineBreak = document.createElement("br");
+  const lineBreak = document.createElement("br");
 
   // Обманка АРМа, чтобы не думал, что это кнопка
-  var copyButton = document.createElement("button");
+  const copyButton = document.createElement("button");
   copyButton.textContent = "📋 Адрес";
   copyButton.classList.add("btn", "btn-primary", "btn-sm", "helper-address"); // Добавляем классы для стилизации
 
@@ -523,12 +522,12 @@ async function copyClientAddress() {
 }
 
 function copyClientCard() {
+  const clientCardShowButton = document.getElementById("write_let");
+  const clientCardRow = document.getElementById("namcl");
   if (document.querySelector(".helper-card") != null) {
     return;
   }
   try {
-    var clientCardRow = document.getElementById("namcl");
-    var clientCardShowButton = document.getElementById("write_let");
 
     // Раскрываем карточку
     clientCardShowButton.click();
@@ -539,16 +538,16 @@ function copyClientCard() {
     return;
   }
 
-  var clienCardText = $("#to_copy").val();
+  const clientCardText = $("#to_copy").val();
 
   // Скрываем карточки
   clientCardShowButton.click();
 
   const clientCard = clientCardRow.previousElementSibling;
-  var lineBreak = document.createElement("br");
+  const lineBreak = document.createElement("br");
 
   // Обманка АРМа, чтобы не думал, что это кнопка
-  var copyButton = document.createElement("button");
+  const copyButton = document.createElement("button");
   copyButton.textContent = "📋 Карточка";
   copyButton.classList.add("btn", "btn-primary", "btn-sm", "helper-card"); // Добавляем классы для стилизации
 
@@ -557,7 +556,7 @@ function copyClientCard() {
     event.preventDefault();
     event.stopPropagation();
 
-    copyTextToClipboard(clienCardText);
+    copyTextToClipboard(clientCardText);
     $.notify("Карточка скопирована", "success");
   });
   clientCard.appendChild(lineBreak);
@@ -572,13 +571,13 @@ function copyClientAgreement() {
   if (document.querySelector(".helper-agreement") != null) {
     return;
   }
-  var agreementTab = document.getElementById("agr_with_type");
+  const agreementTab = document.getElementById("agr_with_type");
   if (!agreementTab) return;
-  var agreementBeforeTab = agreementTab.previousElementSibling;
-  var agreement_number = agreementTab.getElementsByTagName("b")[0];
+  const agreementBeforeTab = agreementTab.previousElementSibling;
+  const agreement_number = agreementTab.getElementsByTagName("b")[0];
 
-  var lineBreak = document.createElement("br");
-  var copyButton = document.createElement("button");
+  const lineBreak = document.createElement("br");
+  const copyButton = document.createElement("button");
   copyButton.textContent = "📋 Договор";
   copyButton.classList.add("btn", "btn-primary", "btn-sm", "helper-agreement"); // Добавляем классы для стилизации
 
@@ -611,7 +610,7 @@ function copyTimeSlots() {
           return null; // Пропускаем элемент "Выберите время"
         let timeValue = option.value.split(" ")[1];
         if (timeValue) {
-          const [hours, minutes] = timeValue.split(":");
+          const [hours] = timeValue.split(":");
           const endHour = (parseInt(hours) + 1).toString().padStart(2, "0");
           return `${hours}-${endHour}`;
         }
@@ -621,7 +620,7 @@ function copyTimeSlots() {
       .join(", ");
   }
 
-  const observer = new MutationObserver((mutations, obs) => {
+  const observer = new MutationObserver(() => {
     const targetNode = document.getElementById("uni_tech_time_req");
 
     if (targetNode) {
@@ -699,17 +698,17 @@ function copyMAC() {
               },
             })
               .then((response) => {
-                if (response.status == 429) {
+                if (response.status === 429) {
                   $.notify("Превышен лимит запросов (2 в сек)", "error");
                   return;
-                } else if (response.status != 200) {
+                } else if (response.status !== 200) {
                   $.notify("Не удалось найти", "error");
                   return;
                 }
                 return response.json();
               })
               .then((result) => {
-                if (result.found == false) {
+                if (result.found === false) {
                   $.notify("Не удалось найти MAC в базе", "error");
                   return;
                 }
@@ -774,14 +773,13 @@ function copyMAC() {
 }
 
 function showClientAgreementOnChangeRequest() {
-  headerText = document.querySelector(".text-primary");
+  let headerText = document.querySelector(".text-primary");
   headerText.innerText = `Обращение по договору №${
     document.querySelector('input[name="agr_num"]').value
   }`;
 }
 
 function smsButtons() {
-  const sendButton = $(".tab-content .send_sms_from_info .sms_web_a");
   const changeEvent = new Event("change", {
     bubbles: true,
     cancelable: true,
@@ -871,7 +869,7 @@ async function fastButtonsChangeRequest() {
     return;
   }
 
-  var changeEvent = new Event("change", {
+  const changeEvent = new Event("change", {
     bubbles: true,
     cancelable: true,
   });
@@ -955,15 +953,13 @@ async function fastButtonsChangeRequest() {
     .map(() => document.createTextNode(" "));
 
   // Вставляем новые кнопки после существующей кнопки
-  const firstButton = existingButton;
   buttons.reduce((prev, curr, idx) => {
     prev.before(curr, spaces[idx]);
     return curr;
-  }, firstButton);
+  }, existingButton);
 
   function handleOnlineCSClick() {
-    step = document.querySelector("#change_step_id");
-    objReason = document.querySelector(".uni_load_obj_reason");
+    let step = document.querySelector("#change_step_id");
     let exists = false;
 
     for (let option of step.options) {
@@ -982,11 +978,11 @@ async function fastButtonsChangeRequest() {
       document.getElementById("change_class").click();
     }
 
-    if (step.value != "2296") {
+    if (step.value !== "2296") {
       step.value = "2296";
       step.dispatchEvent(changeEvent);
 
-      const observer = new MutationObserver((mutations) => {
+      const observer = new MutationObserver(() => {
         const objReason = document.querySelector(".uni_load_obj_reason");
         if (objReason) {
           observer.disconnect();
@@ -1008,8 +1004,7 @@ async function fastButtonsChangeRequest() {
   }
 
   function handleOCTPCSClick() {
-    step = document.querySelector("#change_step_id");
-    objReason = document.querySelector(".uni_load_obj_reason");
+    let step = document.querySelector("#change_step_id");
     let exists = false;
 
     for (let option of step.options) {
@@ -1029,11 +1024,11 @@ async function fastButtonsChangeRequest() {
       $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
     }
 
-    if (step.value != "1520") {
+    if (step.value !== "1520") {
       step.value = "1520";
       step.dispatchEvent(changeEvent);
 
-      const observer = new MutationObserver((mutations) => {
+      const observer = new MutationObserver(() => {
         $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
         const objReason = document.querySelector(".uni_load_obj_reason");
         if (objReason) {
@@ -1055,8 +1050,7 @@ async function fastButtonsChangeRequest() {
   }
 
   function handleTSAAOClick() {
-    step = document.querySelector("#change_step_id");
-    objReason = document.querySelector(".uni_load_obj_reason");
+    let step = document.querySelector("#change_step_id");
     let exists = false;
 
     for (let option of step.options) {
@@ -1076,11 +1070,11 @@ async function fastButtonsChangeRequest() {
       document.getElementById("change_class").click();
     }
 
-    if (step.value != "1056") {
+    if (step.value !== "1056") {
       step.value = "1056";
       step.dispatchEvent(changeEvent);
 
-      const observer = new MutationObserver((mutations) => {
+      const observer = new MutationObserver(() => {
         const objReason = document.querySelector(".uni_load_obj_reason");
         if (objReason) {
           observer.disconnect();
@@ -1101,7 +1095,7 @@ async function fastButtonsChangeRequest() {
   }
 
   function handleNRDClick() {
-    step = document.querySelector("#change_step_id");
+    let step = document.querySelector("#change_step_id");
     let exists = false;
 
     for (let option of step.options) {
@@ -1123,11 +1117,11 @@ async function fastButtonsChangeRequest() {
       document.getElementById("change_class").click();
     }
 
-    if (step.value != "1521") {
+    if (step.value !== "1521") {
       step.value = "1521";
       step.dispatchEvent(changeEvent);
 
-      const observer = new MutationObserver((mutations) => {
+      const observer = new MutationObserver(() => {
         const objReason = document.querySelector(".uni_load_obj_reason");
         if (objReason) {
           observer.disconnect();
@@ -1148,7 +1142,7 @@ async function fastButtonsChangeRequest() {
   }
 
   function handleNTPIshodClick() {
-    step = document.querySelector("#change_step_id");
+    let step = document.querySelector("#change_step_id");
     objReason = document.querySelector(".uni_load_obj_reason");
     let exists = false;
 
@@ -1169,11 +1163,11 @@ async function fastButtonsChangeRequest() {
       document.getElementById("change_class").click();
     }
 
-    if (step.value != "2277") {
+    if (step.value !== "2277") {
       step.value = "2277";
       step.dispatchEvent(changeEvent);
 
-      const observer = new MutationObserver((mutations) => {
+      const observer = new MutationObserver(() => {
         const objReason = document.querySelector(".uni_load_obj_reason");
         if (objReason) {
           observer.disconnect();
@@ -1194,7 +1188,7 @@ async function fastButtonsChangeRequest() {
   }
 
   function handleAbonIshodClick() {
-    step = document.querySelector("#change_step_id");
+    let step = document.querySelector("#change_step_id");
     let exists = false;
 
     for (let option of step.options) {
@@ -1214,7 +1208,7 @@ async function fastButtonsChangeRequest() {
       document.getElementById("change_class").click();
     }
 
-    if (step.value != "616") {
+    if (step.value !== "616") {
       step.value = "616";
       step.dispatchEvent(changeEvent);
     }
@@ -1303,7 +1297,7 @@ async function fastButtonsLeftFrame() {
     buttons.push({
       value: "КС НЦК2",
       class: "btn btn-sm btn-info helper",
-      action: handleKСNCK2Click,
+      action: handleKCNCK2Click,
     });
   }
 
@@ -1311,7 +1305,7 @@ async function fastButtonsLeftFrame() {
     buttons.push({
       value: "КС НЦК1",
       class: "btn btn-sm btn-info helper",
-      action: handleKСNCK1Click,
+      action: handleKCNCK1Click,
     });
   }
 
@@ -1525,7 +1519,7 @@ async function fastButtonsLeftFrame() {
     container.insertAdjacentText("afterbegin", " ");
   });
 
-  var changeEvent = new Event("change", {
+  const changeEvent = new Event("change", {
     bubbles: true,
     cancelable: true,
   });
@@ -1586,18 +1580,7 @@ async function fastButtonsLeftFrame() {
     });
   }
 
-  function handleKСNCK1Click() {
-    const step = document.querySelector(".uni_reas_step");
-    step.value = "2296";
-    step.dispatchEvent(changeEvent);
-
-    waitForElement(".uni_load_obj_reason", (substep) => {
-      substep.value = "2123";
-      substep.dispatchEvent(changeEvent);
-    });
-  }
-
-  function handleKСNCK2Click() {
+  function handleKCNCK2Click() {
     const step = document.querySelector(".uni_reas_step");
     step.value = "1520";
     step.dispatchEvent(changeEvent);
@@ -1731,7 +1714,7 @@ async function fastButtonsLeftFrame() {
 
   function handleSS_WiFiKey() {
     const product = document.querySelector(".uni_reas_prod");
-    if (product.value != "70") {
+    if (product.value !== "70") {
       product.value = "70";
       product.dispatchEvent(changeEvent);
     }
@@ -1758,7 +1741,7 @@ async function fastButtonsLeftFrame() {
 
   function handleSS_RouterSetup() {
     const product = document.querySelector(".uni_reas_prod");
-    if (product.value != "70") {
+    if (product.value !== "70") {
       product.value = "70";
       product.dispatchEvent(changeEvent);
     }
@@ -1806,7 +1789,7 @@ async function fastButtonsLeftFrame() {
 
   function handleSS_KTV() {
     const product = document.querySelector(".uni_reas_prod");
-    if (product.value != "101") {
+    if (product.value !== "101") {
       product.value = "101";
       product.dispatchEvent(changeEvent);
     }
@@ -1833,7 +1816,7 @@ async function fastButtonsLeftFrame() {
 
   function handleSS_ActivateKey() {
     const product = document.querySelector(".uni_reas_prod");
-    if (product.value != "1451") {
+    if (product.value !== "1451") {
       product.value = "1451";
       product.dispatchEvent(changeEvent);
     }
@@ -1860,7 +1843,7 @@ async function fastButtonsLeftFrame() {
 
   function handleSS_PIN() {
     const product = document.querySelector(".uni_reas_prod");
-    if (product.value != "101") {
+    if (product.value !== "101") {
       product.value = "101";
       product.dispatchEvent(changeEvent);
     }
@@ -1887,7 +1870,7 @@ async function fastButtonsLeftFrame() {
 
   function handleSS_Zvonok() {
     const product = document.querySelector(".uni_reas_prod");
-    if (product.value != "1451") {
+    if (product.value !== "1451") {
       product.value = "1451";
       product.dispatchEvent(changeEvent);
     }
@@ -1914,7 +1897,7 @@ async function fastButtonsLeftFrame() {
 
   function handleSS_CameraVN() {
     const product = document.querySelector(".uni_reas_prod");
-    if (product.value != "1762") {
+    if (product.value !== "1762") {
       product.value = "1762";
       product.dispatchEvent(changeEvent);
     }
@@ -1941,7 +1924,7 @@ async function fastButtonsLeftFrame() {
 
   function handleSS_Pult() {
     const product = document.querySelector(".uni_reas_prod");
-    if (product.value != "101") {
+    if (product.value !== "101") {
       product.value = "101";
       product.dispatchEvent(changeEvent);
     }
@@ -1968,7 +1951,7 @@ async function fastButtonsLeftFrame() {
 
   function handleSS_BadPult() {
     const product = document.querySelector(".uni_reas_prod");
-    if (product.value != "101") {
+    if (product.value !== "101") {
       product.value = "101";
       product.dispatchEvent(changeEvent);
     }
@@ -1995,7 +1978,7 @@ async function fastButtonsLeftFrame() {
 
   function handleClosed_NoPages() {
     const product = document.querySelector(".uni_reas_prod");
-    if (product.value != "70") {
+    if (product.value !== "70") {
       product.value = "70";
       product.dispatchEvent(changeEvent);
     }
@@ -2022,7 +2005,7 @@ async function fastButtonsLeftFrame() {
 
   function handleClosed_NoSession() {
     const product = document.querySelector(".uni_reas_prod");
-    if (product.value != "70") {
+    if (product.value !== "70") {
       product.value = "70";
       product.dispatchEvent(changeEvent);
     }
@@ -2044,7 +2027,7 @@ async function fastButtonsLeftFrame() {
 
   function handleClosed_LowSpeed() {
     const product = document.querySelector(".uni_reas_prod");
-    if (product.value != "70") {
+    if (product.value !== "70") {
       product.value = "70";
       product.dispatchEvent(changeEvent);
     }
@@ -2071,7 +2054,7 @@ async function fastButtonsLeftFrame() {
 
   function handleClosed_Disconnections() {
     const product = document.querySelector(".uni_reas_prod");
-    if (product.value != "70") {
+    if (product.value !== "70") {
       product.value = "70";
       product.dispatchEvent(changeEvent);
     }
@@ -2098,7 +2081,7 @@ async function fastButtonsLeftFrame() {
 
   function handleClosed_NoTV() {
     const product = document.querySelector(".uni_reas_prod");
-    if (product.value != "101") {
+    if (product.value !== "101") {
       product.value = "101";
       product.dispatchEvent(changeEvent);
     }
@@ -2136,7 +2119,7 @@ async function fastButtonsLeftFrame() {
 
   function handleClosed_Youtube() {
     const product = document.querySelector(".uni_reas_prod");
-    if (product.value != "70") {
+    if (product.value !== "70") {
       product.value = "70";
       product.dispatchEvent(changeEvent);
     }
@@ -2244,7 +2227,7 @@ function initFilterClientSessions() {
     return Array.from(reasonsSet); // Превращаем Set в массив
   };
 
-  const observerCallback = (mutationsList, observer) => {
+  const observerCallback = (mutationsList) => {
     for (const mutation of mutationsList) {
       if (mutation.type === "childList") {
         const tableAvailable =
@@ -2286,8 +2269,7 @@ function loadLastDayClientSessions() {
       const currentDate = new Date();
       currentDate.setDate(currentDate.getDate() - 1); // Уменьшаем на 1 день
       const options = { year: "numeric", month: "2-digit", day: "2-digit" };
-      const formattedDate = currentDate.toLocaleDateString("ru-RU", options);
-      document.querySelector(".js-active-from").value = formattedDate; // Устанавливаем значение в поле ввода
+      document.querySelector(".js-active-from").value = currentDate.toLocaleDateString("ru-RU", options); // Устанавливаем значение в поле ввода
 
       // Нажимаем кнопку "Загрузить"
       loadDataButton.click();

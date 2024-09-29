@@ -1,11 +1,11 @@
-if (document.URL.indexOf("genesys-ntp") != -1) {
+if (document.URL.indexOf("genesys-ntp") !== -1) {
   function getCookie(cname) {
-    var name = cname + "=";
-    var ca = document.cookie.split(";");
-    for (var i = 0; i < ca.length; i++) {
-      var c = ca[i];
-      while (c.charAt(0) == " ") c = c.substring(1);
-      if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+    const name = cname + "=";
+    const ca = document.cookie.split(";");
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) === " ") c = c.substring(1);
+      if (c.indexOf(name) === 0) return c.substring(name.length, c.length);
     }
     return "";
   }
@@ -383,6 +383,9 @@ function createLinkTab(id, href, iconClass, textContent) {
 }
 
 function updateNeededSL() {
+  const interval = setInterval(() => {
+    getSL();
+  }, 10000);
   console.log(
     `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Прогноз SL] Загружен модуль прогнозирования SL`
   );
@@ -443,17 +446,16 @@ function updateNeededSL() {
       })
       .then((data) => {
         console.log(data);
-        half_time_data = data.halfHourReport.data.find(
-          (obj) => obj.HALF_HOUR_TEXT === roundedTime
+        let half_time_data = data.halfHourReport.data.find(
+            (obj) => obj.HALF_HOUR_TEXT === roundedTime
         );
-        const title_to_display = `Прогноз на ${half_time_data["HALF_HOUR_TEXT"]}
+        element.title = `Прогноз на ${half_time_data["HALF_HOUR_TEXT"]}
 
 Прогнозный SL: ${data.daySl.SL}
 Прогноз чатов: ${half_time_data["FORECAST_CHATS"]}
 Разница людей: ${half_time_data["DIFF_USERS"]}
 Нужно держать ${data.daySl.NeededSl} SL
 Прогноз SL: ${half_time_data["FORECAST_SL"]}`;
-        element.title = title_to_display;
         console.log(
           `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Прогноз SL] Обновлен прогноз SL`
         );
@@ -468,7 +470,4 @@ function updateNeededSL() {
       });
   }
   getSL();
-  var interval = setInterval(() => {
-    getSL();
-  }, 10000);
 }

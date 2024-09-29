@@ -11,8 +11,7 @@ async function fetchReleaseInfo() {
   );
   const data = await response.json();
 
-  const latestVersion = data.tag_name;
-  document.getElementById("latest-version").textContent = latestVersion;
+  document.getElementById("latest-version").textContent = data.tag_name;
 
   const changelog = data.body.split("\n");
   const changeLogList = document.getElementById("change-log");
@@ -26,4 +25,4 @@ async function fetchReleaseInfo() {
   });
 }
 
-fetchReleaseInfo();
+fetchReleaseInfo().then(() => "Хелпер - Получено описание релиза");

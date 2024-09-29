@@ -1,4 +1,6 @@
-﻿document.addEventListener("DOMContentLoaded", function () {
+﻿/* global browser */
+
+document.addEventListener("DOMContentLoaded", function () {
   browser.storage.sync.get("OTHER_DarkTheme").then(function (settings) {
     if (settings.OTHER_DarkTheme) {
       document.body.classList.add("dark-theme");
@@ -9,14 +11,12 @@
   const form_link = document.getElementById("form-link");
   const form_ip = document.getElementById("form-ip");
   const form_premium = document.getElementById("form-premium");
-  const search_provider = document.getElementById("searchProvider");
-  const search_router = document.getElementById("searchRouter");
   form_mac.addEventListener("submit", handleFormSubmitMac);
   form_link.addEventListener("submit", handleFormSubmitLink);
   form_ip.addEventListener("submit", handleFormSubmitIP);
   form_premium.addEventListener("submit", handleFormPremium);
-  search_provider.addEventListener("input", searchProvider);
-  search_router.addEventListener("input", searchRouter);
+  document.getElementById("searchProvider").addEventListener("input", () => searchTable("searchProvider", "providersTable"));
+  document.getElementById("searchRouter").addEventListener("input", () => searchTable("searchRouter", "routersTable"));
   document
     .getElementById("openSettings")
     .addEventListener("click", function () {
@@ -35,8 +35,7 @@ async function handleFormSubmitMac(event) {
   const inputField = formData.get("input-mac").trim();
   const mac_regex = new RegExp("^([0-9A-Fa-f]{2}[:-]?){5}([0-9A-Fa-f]{2})$");
 
-  // Проверка корректности ввода MAC адреса
-  if (mac_regex.test(inputField) == false) {
+  if (mac_regex.test(inputField) === false) {
     $.notify("Это не MAC", "error");
     return;
   }
@@ -52,14 +51,13 @@ async function handleFormSubmitMac(event) {
         },
       }
     );
-    if (response.status != 200) {
+    if (response.status !== 200) {
       $.notify("Не удалось найти", "error");
       return;
     }
 
     const result = await response.json();
 
-    // Assuming the API returns an array of objects and you want the company name from the first object
     const companyName = result.company;
 
     if (companyName) {
@@ -79,8 +77,7 @@ async function handleFormSubmitIP(event) {
     "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
   );
 
-  // Проверка корректности ввода IP
-  if (ip_regex.test(inputField) == false) {
+  if (ip_regex.test(inputField) === false) {
     $.notify("IP некорректный", "error");
     return;
   }
@@ -94,7 +91,7 @@ async function handleFormSubmitIP(event) {
       }
     );
 
-    if (response.status != 200) {
+    if (response.status !== 200) {
       $.notify("Ошибка", "error");
       return;
     }
@@ -123,7 +120,7 @@ async function handleFormSubmitLink(event) {
     const response = await fetch(`https://clck.ru/--?url=${inputField}`, {
       method: "GET",
     });
-    if (response.status != 200) {
+    if (response.status !== 200) {
       $.notify("Ошибка", "error");
       return;
     }
@@ -145,7 +142,8 @@ async function handleFormPremium(event) {
   const formData = new FormData(event.target);
   const inputField = formData.get("premium-select");
 
-  inputField == "nck2"
+  let url;
+  inputField === "nck2"
     ? (url =
         "https://okc.ertelecom.ru/stats/premium/ntp-nck2/get-premium-spec-month")
     : (url =
@@ -174,33 +172,6 @@ async function handleFormPremium(event) {
 
     const data = await response.json();
     const result = data["result"][0];
-
-    specialist_name = data["result"][0]["USER_FIO"];
-    premium = data["result"][0]["TOTAL_PREMIUM"];
-    chats_count = data["result"][0]["TOTAL_CHATS"];
-
-    csi = data["result"][0]["CSI"];
-    csi_normative = data["result"][0]["CSI_NORMATIVE"];
-    csi_premium = data["result"][0]["PERC_CSI"];
-
-    csi_response = data["result"][0]["CSI_RESPONSE"];
-    csi_response_normative = data["result"][0]["CSI_RESPONSE"];
-
-    flr = data["result"][0]["FLR"];
-    flr_normative = data["result"][0]["FLR_NORMATIVE"];
-    flr_premium = data["result"][0]["PERC_FLR"];
-
-    gok = data["result"][0]["GOK"];
-    gok_normative = data["result"][0]["GOK_NORMATIVE"];
-    gok_premium = data["result"][0]["PERC_GOK"];
-
-    pers = data["result"][0]["PERS_FACT"];
-    pers_plan_1 = data["result"][0]["PERS_PLAN_1"];
-    pers_plan_2 = data["result"][0]["PERS_PLAN_2"];
-    pers_premium = data["result"][0]["PERS_PERCENT"];
-
-    tests_premium = data["result"][0]["PERC_TESTING"];
-    thanks_premium = data["result"][0]["PERC_THANKS"];
 
     const tableHTML = `
             <table>
@@ -266,8 +237,8 @@ async function handleFormPremium(event) {
                 </tbody>
             </table>
         `;
-    safeHTML = DOMPurify.sanitize(tableHTML);
-    document.getElementById("result-container").innerHTML = safeHTML;
+
+    document.getElementById("result-container").innerHTML = DOMPurify.sanitize(tableHTML);
   } catch (error) {
     document.getElementById("result-container").innerText =
       "Не удалось получить премию";
@@ -275,46 +246,17 @@ async function handleFormPremium(event) {
   }
 }
 
-function searchProvider() {
-  // Объявить переменные
-  var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById("searchProvider");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("providersTable");
-  tr = table.getElementsByTagName("tr");
+function searchTable(inputId, tableId) {
+  const input = document.getElementById(inputId);
+  const filter = input.value.toUpperCase();
+  const table = document.getElementById(tableId);
+  const rows = table.getElementsByTagName("tr");
 
-  // Перебирайте все строки таблицы и скрывайте тех, кто не соответствует поисковому запросу
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[0];
-    if (td) {
-      txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
-    }
-  }
-}
-
-function searchRouter() {
-  // Объявить переменные
-  var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById("searchRouter");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("routersTable");
-  tr = table.getElementsByTagName("tr");
-
-  // Перебирайте все строки таблицы и скрывайте тех, кто не соответствует поисковому запросу
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[0];
-    if (td) {
-      txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
+  for (let row of rows) {
+    const cell = row.getElementsByTagName("td")[0];
+    if (cell) {
+      const txtValue = cell.textContent || cell.innerText;
+      row.style.display = txtValue.toUpperCase().includes(filter) ? "" : "none";
     }
   }
 }
@@ -352,7 +294,7 @@ async function fetchRouters() {
 
       // Формируем полную таблицу
       const tableHTML = `
-        <table border="1">
+        <table>
             <thead>
                 <tr>
                     <th>Название</th>
@@ -371,8 +313,7 @@ async function fetchRouters() {
         </table>
       `;
 
-      const safeHTML = DOMPurify.sanitize(tableHTML);
-      document.getElementById("routersTable").innerHTML = safeHTML;
+      document.getElementById("routersTable").innerHTML = DOMPurify.sanitize(tableHTML);
     } else {
       console.error('Ключ "routers" не найден или не является массивом:', data);
     }
@@ -419,10 +360,7 @@ async function fetchMNA() {
         </table>
       `;
 
-      // Обрабатываем через DOMPurify
-      const safeHTML = DOMPurify.sanitize(tableHTML);
-      // Обновляем контейнер с таблицей
-      document.getElementById("providersTable").innerHTML = safeHTML;
+      document.getElementById("providersTable").innerHTML = DOMPurify.sanitize(tableHTML);
     } else {
       console.error('Ключ "mna" не найден или не является массивом:', data);
     }
@@ -431,5 +369,9 @@ async function fetchMNA() {
   }
 }
 
-fetchMNA();
-fetchRouters();
+fetchMNA().then(() => console.log(
+    `[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] Загружен список провайдеров`
+))
+fetchRouters().then(() => console.log(
+    `[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] Загружен список провайдеров`
+));

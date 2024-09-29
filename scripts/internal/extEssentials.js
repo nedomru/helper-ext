@@ -26,7 +26,7 @@ async function checkForUpdates() {
     const currentVersion = browser.runtime.getManifest().version;
 
     if (compareVersions(latestVersion, currentVersion) > 0) {
-      browser.tabs.create({
+      await browser.tabs.create({
         url: browser.runtime.getURL("update.html"),
       });
     }
@@ -37,7 +37,7 @@ async function setDefaults() {
   const defaultSettings = {
     OTHER_CheckUpdates: true,
     OTHER_DarkTheme: false,
-    // GENESYS_showLineMessages: true,
+    /*GENESYS_showLineMessages: true,*/
     GENESYS_showFastButtons: true,
     GENESYS_showFB_chatMaster: true,
     GENESYS_showFB_setupRouter: true,
@@ -117,7 +117,7 @@ async function setDefaults() {
 }
 
 browser.runtime.onInstalled.addListener(() => {
-  checkForUpdates();
-  setDefaults();
+  checkForUpdates().then(() => {console.log("Хелпер - Проверка обновлений")});
+  setDefaults().then(() => {console.log("Хелпер - Установка стандартных настроек")});
 });
 browser.runtime.onStartup.addListener(checkForUpdates);
