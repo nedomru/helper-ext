@@ -43,7 +43,7 @@ async function setDefaults() {
     GENESYS_showFB_setupRouter: true,
     GENESYS_showFB_setupTV: true,
     GENESYS_hideUselessButtons: false,
-    GENESYS_hideChatHeader: false,
+    // GENESYS_hideChatHeader: false,
     GENESYS_showOCTPLineStatus: false,
     // GENESYS_showClientChannelOnCard: false,
     ARM_hideSPAS: false,

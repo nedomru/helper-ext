@@ -19,7 +19,7 @@
     "GENESYS_showFB_dashboard",
     "GENESYS_showFB_provisioning",
     "GENESYS_hideUselessButtons",
-    "GENESYS_hideChatHeader",
+    // "GENESYS_hideChatHeader",
     "GENESYS_showOCTPLineStatus",
     // "GENESYS_showClientChannelOnCard",
     "ARM_hideSPAS",

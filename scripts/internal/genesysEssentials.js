@@ -3,7 +3,7 @@ if (document.URL.indexOf("genesys-app1") !== -1) {
         GENESYS_hideUselessButtons: hideUselessButtons,
         GENESYS_showFastButtons: genesysButtons,
         GENESYS_showOCTPLineStatus: otpcLineStatus,
-        GENESYS_hideChatHeader: hideHeader,
+        // GENESYS_hideChatHeader: hideHeader,
         GENESYS_showClientChannelOnCard: showClientChannelOnCard,
     };
 
@@ -48,7 +48,7 @@ if (
                 }
             );
         }
-    }).then(() => console.log("Хелпер - Проверка необходимости подключения к сокету"));
+    })
 }
 
 let isActive = false;
@@ -237,8 +237,9 @@ async function handleSocketMessages(data, time) {
             setTimeout(() => {
                 lineStats.style.backgroundColor = "#4c5961";
             }, 300);
+        }
 
-            tooltipMessage = `Статистика НЦК1 за день
+        tooltipMessage = `Статистика НЦК1 за день
 
 Чаты:
 Mobile: ${data.availQueues[0][0].currentWaitingCalls} / ${data.availQueues[0][0].totalEnteredCalls}
@@ -255,34 +256,33 @@ Mobile: ${data.availQueues[1][0].currentWaitingCalls} / ${data.availQueues[1][0]
 Web: ${data.availQueues[1][1].currentWaitingCalls} / ${data.availQueues[1][1].totalEnteredCalls}
 
 Состояние на ${time}`;
-            lineStats.setAttribute("title", tooltipMessage);
-        }
+        lineStats.setAttribute("title", tooltipMessage);
     }
 
-    if (settings.showLineNCK2) {
-        lineStats = document.querySelector("#line-status-nck2");
+if (settings.showLineNCK2) {
+    lineStats = document.querySelector("#line-status-nck2");
 
-        if (lineStats == null) return;
+    if (lineStats == null) return;
 
-        data.waitingChats.nck2 > 0
-            ? (lineStats.style.color = "red")
-            : (lineStats.style.color = "white");
-        contentToShow = `Слоты: ${data.chatCapacity.nck2.available}/${data.chatCapacity.nck2.max} | SL: ${data.daySl.nck2}`;
-        data.waitingChats.nck2 > 0
-            ? (contentToShow += ` | ОЧЕРЕДЬ: ${data.waitingChats.nck2}`)
-            : "";
-        if (lineStats.innerHTML !== `<p>${contentToShow}</p>`) {
-            lineStats.innerHTML = `<p>${contentToShow}</p>`;
+    data.waitingChats.nck2 > 0
+        ? (lineStats.style.color = "red")
+        : (lineStats.style.color = "white");
+    contentToShow = `Слоты: ${data.chatCapacity.nck2.available}/${data.chatCapacity.nck2.max} | SL: ${data.daySl.nck2}`;
+    data.waitingChats.nck2 > 0
+        ? (contentToShow += ` | ОЧЕРЕДЬ: ${data.waitingChats.nck2}`)
+        : "";
+    if (lineStats.innerHTML !== `<p>${contentToShow}</p>`) {
+        lineStats.innerHTML = `<p>${contentToShow}</p>`;
 
-            lineStats.style.transition = "background-color 0.3s";
-            lineStats.style.backgroundColor = "#909ea6";
+        lineStats.style.transition = "background-color 0.3s";
+        lineStats.style.backgroundColor = "#909ea6";
 
-            setTimeout(() => {
-                lineStats.style.backgroundColor = "#4c5961";
-            }, 300);
-        }
+        setTimeout(() => {
+            lineStats.style.backgroundColor = "#4c5961";
+        }, 300);
+    }
 
-        tooltipMessage = `Статистика НЦК2 за день
+    tooltipMessage = `Статистика НЦК2 за день
 
 Чаты:
 Mobile: ${data.availQueues[2][0].currentWaitingCalls} / ${data.availQueues[2][0].totalEnteredCalls}
@@ -298,26 +298,26 @@ Mobile: ${data.availQueues[3][0].currentWaitingCalls} / ${data.availQueues[3][0]
 Web: ${data.availQueues[3][1].currentWaitingCalls} / ${data.availQueues[3][1].totalEnteredCalls}
 
 Состояние на ${time}ПРМ`;
-        lineStats.setAttribute("title", tooltipMessage);
-    }
+    lineStats.setAttribute("title", tooltipMessage);
+}
 
-    // if (settings.showLineMessages) {
-    //   console.log(
-    //     `Сохраненное сообщение: ${await stripHtml(
-    //       lastDutyMessage
-    //     )}. Сообщение от сокета: ${await stripHtml(data.lastMessage.message)}`
-    //   );
-    //   if (lastDutyMessage == data.lastMessage.message) return;
-    //   lastDutyMessage = data.lastMessage.message;
-    //   lastDutyAuthor = data.lastMessage.author;
-    //   $(".container-fluid").notify(
-    //     `${lastDutyAuthor}: ${stripHtml(lastDutyMessage)}`,
-    //     "info",
-    //     {
-    //       position: "bottom center",
-    //     }
-    //   );
-    // }
+// if (settings.showLineMessages) {
+//   console.log(
+//     `Сохраненное сообщение: ${await stripHtml(
+//       lastDutyMessage
+//     )}. Сообщение от сокета: ${await stripHtml(data.lastMessage.message)}`
+//   );
+//   if (lastDutyMessage == data.lastMessage.message) return;
+//   lastDutyMessage = data.lastMessage.message;
+//   lastDutyAuthor = data.lastMessage.author;
+//   $(".container-fluid").notify(
+//     `${lastDutyAuthor}: ${stripHtml(lastDutyMessage)}`,
+//     "info",
+//     {
+//       position: "bottom center",
+//     }
+//   );
+// }
 }
 
 // async function stripHtml(html) {
