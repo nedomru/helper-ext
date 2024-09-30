@@ -2232,93 +2232,102 @@ async function fastButtonsLeftFrame() {
 }
 
 function initFilterClientSessions() {
-    const addFilter = (uniqueReasons) => {
-        const existingFilter = document.getElementById("reason-filter");
+    const container = document.querySelector(".container");
+    const targetNode = document.getElementById("js-res-app");
+    let filterContainer, countDisplay;
 
-        if (existingFilter) {
-            // Обновляем опции фильтра
-            const options = uniqueReasons
-                .map((reason) => `<option value="${reason}">${reason}</option>`)
-                .join("");
-            existingFilter.innerHTML = `<option value="all">Все</option>${options}`;
-            return;
-        }
-
-        const filterContainer = document.createElement("div");
-        const options = uniqueReasons
-            .map((reason) => `<option value="${reason}">${reason}</option>`)
-            .join("");
-
+    const createFilterAndCountElements = () => {
+        filterContainer = document.createElement("div");
         filterContainer.innerHTML = `
-      <label for="reason-filter">Фильтр по причине завершения:</label>
-      <select id="reason-filter">
-          <option value="all">Все</option>
-          ${options}
-      </select>
+            <label for="reason-filter">Фильтр по причине завершения:</label>
+            <select id="reason-filter"></select>
+            <div id="reason-count-display" style="max-width: 200px; margin-top: 10px;"></div>
+        `;
+        container.insertBefore(filterContainer, targetNode);
+
+        const reasonFilter = filterContainer.querySelector("#reason-filter");
+        reasonFilter.addEventListener("change", filterClientSessions);
+
+        countDisplay = filterContainer.querySelector("#reason-count-display");
+    };
+
+    const updateFilterAndCount = () => {
+        const { uniqueReasons, reasonCounts } = getUniqueReasonsAndCounts();
+        updateFilter(uniqueReasons);
+        updateCountDisplay(reasonCounts);
+    };
+
+    const updateFilter = (uniqueReasons) => {
+        const reasonFilter = document.getElementById("reason-filter");
+        reasonFilter.innerHTML = `<option value="all">Все</option>${
+            uniqueReasons.map(reason => `<option value="${reason}">${reason}</option>`).join("")
+        }`;
+    };
+
+    const updateCountDisplay = (reasonCounts) => {
+        if (!countDisplay) return;
+
+        const sortedReasons = Object.entries(reasonCounts).sort((a, b) => b[1] - a[1]);
+
+        countDisplay.innerHTML = `
+        <table style="width:100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid black; padding: 5px; text-align: center;">Разрыв</th>
+                    <th style="border: 1px solid black; padding: 5px; text-align: center;">Кол-во</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${sortedReasons.map(([reason, count]) => `
+                    <tr>
+                        <td style="border: 1px solid black; padding: 5px;">${reason}</td>
+                        <td style="border: 1px solid black; padding: 5px;">${count}</td>
+                    </tr>
+                `).join("")}
+            </tbody>
+        </table>
     `;
-
-        // Обработчик события для фильтра
-        filterContainer.querySelector("#reason-filter").onchange =
-            filterClientSessions;
-
-        document
-            .querySelector(".container")
-            .insertBefore(filterContainer, document.getElementById("js-log-app"));
     };
 
     const filterClientSessions = () => {
         const filter = document.getElementById("reason-filter").value;
-        const table = document.querySelector("#js-res-app table tbody");
-        const rows = table.getElementsByTagName("tr");
-
-        for (let i = 0; i < rows.length; i++) {
-            const reasonCell = rows[i].getElementsByTagName("td")[6]; // 7-й столбец (индекс 6)
+        const rows = document.querySelectorAll("#js-res-app table tbody tr");
+        rows.forEach(row => {
+            const reasonCell = row.cells[6]; // 7th column (index 6)
             if (reasonCell) {
-                rows[i].style.display =
-                    filter === "all" || reasonCell.innerText.includes(filter)
-                        ? ""
-                        : "none";
+                row.style.display = filter === "all" || reasonCell.textContent.includes(filter) ? "" : "none";
             }
+        });
+    };
+
+    const getUniqueReasonsAndCounts = () => {
+        const rows = document.querySelectorAll("#js-res-app table tbody tr");
+        const reasonCounts = {};
+        rows.forEach(row => {
+            const reason = row.cells[6]?.textContent.trim();
+            if (reason) {
+                reasonCounts[reason] = (reasonCounts[reason] || 0) + 1;
+            }
+        });
+        return {
+            uniqueReasons: Object.keys(reasonCounts),
+            reasonCounts
+        };
+    };
+
+    const observerCallback = () => {
+        if (document.querySelector("#js-res-app table tbody")) {
+            if (!filterContainer) createFilterAndCountElements();
+            updateFilterAndCount();
+            filterClientSessions();
         }
     };
 
-    const getUniqueReasons = () => {
-        const table = document.querySelector("#js-res-app table tbody");
-        const rows = table.getElementsByTagName("tr");
-        const reasonsSet = new Set();
-
-        for (let i = 0; i < rows.length; i++) {
-            const reasonCell = rows[i].getElementsByTagName("td")[6]; // 7-й столбец (индекс 6)
-            if (reasonCell) {
-                reasonsSet.add(reasonCell.innerText.trim());
-            }
-        }
-
-        return Array.from(reasonsSet); // Превращаем Set в массив
-    };
-
-    const observerCallback = (mutationsList) => {
-        for (const mutation of mutationsList) {
-            if (mutation.type === "childList") {
-                const tableAvailable =
-                    document.querySelector("#js-res-app table tbody") !== null;
-                if (tableAvailable) {
-                    const uniqueReasons = getUniqueReasons(); // Получаем уникальные причины завершения
-                    addFilter(uniqueReasons); // Добавляем/обновляем фильтр
-                    filterClientSessions(); // Применяем фильтр к текущим данным
-                    break; // Прерываем цикл
-                }
-            }
-        }
-    };
-
-    const targetNode = document.getElementById("js-res-app");
     if (targetNode) {
         const observer = new MutationObserver(observerCallback);
-        observer.observe(targetNode, {childList: true, subtree: true});
+        observer.observe(targetNode, { childList: true, subtree: true });
     } else {
-        const uniqueReasons = getUniqueReasons(); // Получаем уникальные причины завершения, если элемент уже доступен
-        addFilter(uniqueReasons); // Добавляем фильтр сразу
+        observerCallback();
     }
 }
 
