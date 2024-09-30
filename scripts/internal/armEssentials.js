@@ -1284,7 +1284,7 @@ async function fastButtonsLeftFrame() {
         buttons.push({
             value: "Авария",
             class: "btn btn-sm btn-info helper",
-            action: handleAccident,
+            action: fastChat_Accident,
         });
     }
 
@@ -1562,22 +1562,6 @@ async function fastButtonsLeftFrame() {
 
         // Наблюдаем за изменениями в документе
         observer.observe(document, {childList: true, subtree: true});
-    }
-
-    function handleAccident() {
-        const step = document.querySelector(".uni_reas_step");
-        step.value = "-1";
-        step.dispatchEvent(changeEvent);
-
-        waitForElement(".uni_load_obj_reason", (substep) => {
-            substep.value = "1125";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_main_reason", (substep) => {
-            substep.value = "4110";
-            substep.dispatchEvent(changeEvent);
-        });
     }
 
     function handleNRD() {
@@ -2183,6 +2167,22 @@ async function fastButtonsLeftFrame() {
 
         waitForElement(".uni_load_main_reason", (substep) => {
             substep.value = "4665";
+            substep.dispatchEvent(changeEvent);
+        });
+    }
+
+    function fastChat_Accident() {
+        const step = document.querySelector(".uni_reas_step");
+        step.value = "-1";
+        step.dispatchEvent(changeEvent);
+
+        waitForElement(".uni_load_obj_reason", (substep) => {
+            substep.value = "1125";
+            substep.dispatchEvent(changeEvent);
+        });
+
+        waitForElement(".uni_load_main_reason", (substep) => {
+            substep.value = "4110";
             substep.dispatchEvent(changeEvent);
         });
     }
