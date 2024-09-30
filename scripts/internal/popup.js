@@ -264,35 +264,28 @@ function searchTable(inputId, tableId) {
 async function fetchRouters() {
   try {
     const response = await fetch(
-      "https://authfailed.github.io/domru-helper/api/routers.json"
+        "https://authfailed.github.io/domru-helper/api/routers.json"
     );
     const data = await response.json();
 
-    // Проверяем, содержит ли объект ключ 'routers'
     if (data.routers && Array.isArray(data.routers)) {
-      // Создаем содержимое таблицы
       const rows = data.routers
-        .map(
-          (router) => `
+          .map(
+              (router) => `
         <tr>
           <td>${router.Name}</td>
-          <td><a href="${router.PPPoE}" target="_blank">PPPoE</a></td>
-          <td><a href="${router.DHCP}" target="_blank">DHCP</a></td>
-          <td><a href="${router.IPoE}" target="_blank">IPoE</a></td>
-          <td><a href="${router.Channels}" target="_blank">Каналы</a></td>
+          <td>${createLinkOrText(router.PPPoE, "PPPoE")}</td>
+          <td>${createLinkOrText(router.DHCP, "DHCP")}</td>
+          <td>${createLinkOrText(router.IPoE, "IPoE")}</td>
+          <td>${createLinkOrText(router.Channels, "Каналы")}</td>
           <td>${router.Settings}</td>
-          <td><a href="${router.BZ}" target="_blank">БЗ</a></td>
-          <td><a href="${
-            Array.isArray(router.Emulator)
-              ? router.Emulator.join(", ")
-              : router.Emulator
-          }" target="_blank">Эмулятор</a></td>
+          <td>${createLinkOrText(router.BZ, "БЗ")}</td>
+          <td>${createLinkOrText(router.Emulator, "Эмулятор", true)}</td>
         </tr>
       `
-        )
-        .join("");
+          )
+          .join("");
 
-      // Формируем полную таблицу
       const tableHTML = `
         <table>
             <thead>
@@ -320,6 +313,16 @@ async function fetchRouters() {
   } catch (error) {
     console.error("Ошибка при получении данных:", error);
   }
+}
+
+function createLinkOrText(value, text, isEmulator = false) {
+  if (value === "Нет") {
+    return "Нет";
+  }
+  if (isEmulator && Array.isArray(value)) {
+    return value.map(link => `<a href="${link}" target="_blank">${text}</a>`).join(", ");
+  }
+  return `<a href="${value}" target="_blank">${text}</a>`;
 }
 
 async function fetchMNA() {

@@ -54,7 +54,8 @@ if (
 let isActive = false;
 let reconnectAttempts = 0;
 const maxReconnectAttempts = 5;
-const baseReconnectDelay = 1000; // 1 секунда
+const baseReconnectDelay = 1000; // 1 second
+let socket;
 
 async function socketConnect(sessionID) {
     if (isActive) {
@@ -71,6 +72,7 @@ async function socketConnect(sessionID) {
         console.log(
             `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Линия] Соединение установлено`
         );
+        reconnectAttempts = 0;
         browser.storage.sync.get(
             ["GENESYS_showLineStatus_nck1", "GENESYS_showLineStatus_nck2"],
             function (result) {
@@ -138,7 +140,7 @@ async function socketConnect(sessionID) {
         }
 
         $.notify(
-            "Соединение с линией разорвано. Причина: " + event.reason,
+            "Соединение с линией разорвано",
             "error"
         );
 
@@ -150,15 +152,22 @@ async function socketConnect(sessionID) {
 
         if (reconnectAttempts < maxReconnectAttempts) {
             const delay = baseReconnectDelay * Math.pow(2, reconnectAttempts);
-            $.notify("Пытаемся переподключиться к линии...", "warning");
-            console.log(`Пробуем переподключиться через ${delay / 1000} секунд...`);
-            setTimeout(socketConnect, delay);
+            $.notify(`Пытаемся переподключиться к линии... (Попытка ${reconnectAttempts + 1}/${maxReconnectAttempts})`, "warning");
+            console.log(`Хелпер - Пробуем переподключиться через ${delay / 1000} секунд...`);
+
+            setTimeout(() => {
+                browser.storage.sync.get(["phpSessionId"], function (result) {
+                    let phpSessionId = result.phpSessionId;
+                    if (phpSessionId) {
+                        reconnectAttempts = 0;
+                        socketConnect(phpSessionId);
+                    }
+                })
+            }, delay);
             reconnectAttempts++;
         } else {
-            $.notify("Не удалось переподключиться", "error");
-            console.log(
-                "Достигнуто максимальное кол-во попыток подключения к сокету. Попробуйте позже."
-            );
+            $.notify("Не удалось переподключиться, достигнут максимум попыток", "error");
+            console.log("Хелпер - Достигнуто максимальное количество попыток подключения к сокету. Попробуйте позже.");
         }
     };
 
@@ -172,6 +181,21 @@ async function socketConnect(sessionID) {
     };
 }
 
+async function manualReconnect() {
+    if (socket) {
+        socket.close();
+    }
+    await browser.storage.sync.get(["phpSessionId"], async function (result) {
+        let phpSessionId = result.phpSessionId;
+        if (phpSessionId) {
+            reconnectAttempts = 0;
+            isActive = false
+            $.notify("Переподключаемся к линии", "info")
+            await socketConnect(phpSessionId);
+        }
+    })
+}
+
 // Функция для добавления нового div
 async function addMessageDiv(id) {
     if (document.querySelector(`#${id}`)) return;
@@ -179,16 +203,34 @@ async function addMessageDiv(id) {
         const title = document.querySelector(".title");
 
         if (title) {
+            const containerDiv = document.createElement("div");
+            containerDiv.style.alignItems = "center";
+            containerDiv.style.justifyContent = "space-between";
+            containerDiv.style.padding = "10px";
+            containerDiv.style.marginLeft = "10px";
+            containerDiv.style.fontSize = "15px";
+            containerDiv.style.border = "1px solid #949494";
+            containerDiv.style.backgroundColor = "#4c5961";
+            containerDiv.style.color = "white";
+
             const newDiv = document.createElement("div");
             newDiv.id = id;
-            newDiv.style.padding = "10px";
-            newDiv.style.marginLeft = "10px";
-            newDiv.style.fontSize = "15px";
-            newDiv.style.border = "1px solid #949494";
-            newDiv.style.backgroundColor = "#4c5961";
-            newDiv.style.color = "white";
+            newDiv.style.display = "flex";
+            newDiv.style.alignItems = "center";
 
-            title.parentNode.insertBefore(newDiv, title.nextSibling);
+            const refreshIcon = document.createElement("span");
+            refreshIcon.innerHTML = "&#x21BB;"; // Unicode for a circular arrow
+            refreshIcon.style.cursor = "pointer";
+            refreshIcon.style.marginLeft = "5px"
+            refreshIcon.style.fontSize = "20px";
+            refreshIcon.style.marginLeft = "10px";
+            refreshIcon.setAttribute("title", "Переподключиться к линии");
+            refreshIcon.addEventListener('click', manualReconnect);
+
+            containerDiv.appendChild(newDiv);
+            containerDiv.appendChild(refreshIcon);
+
+            title.parentNode.insertBefore(containerDiv, title.nextSibling);
             observer.disconnect();
         }
     });
@@ -197,6 +239,14 @@ async function addMessageDiv(id) {
         childList: true,
         subtree: true,
     });
+}
+
+function blinkGreenIcon(containerDiv) {
+    const greenIcon = containerDiv.querySelector('svg');
+    greenIcon.style.opacity = '1';
+    setTimeout(() => {
+        greenIcon.style.opacity = '0';
+    }, 300);
 }
 
 // var lastDutyMessage;
@@ -259,30 +309,30 @@ Web: ${data.availQueues[1][1].currentWaitingCalls} / ${data.availQueues[1][1].to
         lineStats.setAttribute("title", tooltipMessage);
     }
 
-if (settings.showLineNCK2) {
-    lineStats = document.querySelector("#line-status-nck2");
+    if (settings.showLineNCK2) {
+        lineStats = document.querySelector("#line-status-nck2");
 
-    if (lineStats == null) return;
+        if (lineStats == null) return;
 
-    data.waitingChats.nck2 > 0
-        ? (lineStats.style.color = "red")
-        : (lineStats.style.color = "white");
-    contentToShow = `Слоты: ${data.chatCapacity.nck2.available}/${data.chatCapacity.nck2.max} | SL: ${data.daySl.nck2}`;
-    data.waitingChats.nck2 > 0
-        ? (contentToShow += ` | ОЧЕРЕДЬ: ${data.waitingChats.nck2}`)
-        : "";
-    if (lineStats.innerHTML !== `<p>${contentToShow}</p>`) {
-        lineStats.innerHTML = `<p>${contentToShow}</p>`;
+        data.waitingChats.nck2 > 0
+            ? (lineStats.style.color = "red")
+            : (lineStats.style.color = "white");
+        contentToShow = `Слоты: ${data.chatCapacity.nck2.available}/${data.chatCapacity.nck2.max} | SL: ${data.daySl.nck2}`;
+        data.waitingChats.nck2 > 0
+            ? (contentToShow += ` | ОЧЕРЕДЬ: ${data.waitingChats.nck2}`)
+            : "";
+        if (lineStats.innerHTML !== `<p>${contentToShow}</p>`) {
+            lineStats.innerHTML = `<p>${contentToShow}</p>`;
 
-        lineStats.style.transition = "background-color 0.3s";
-        lineStats.style.backgroundColor = "#909ea6";
+            lineStats.style.transition = "background-color 0.3s";
+            lineStats.style.backgroundColor = "#909ea6";
 
-        setTimeout(() => {
-            lineStats.style.backgroundColor = "#4c5961";
-        }, 300);
-    }
+            setTimeout(() => {
+                lineStats.style.backgroundColor = "#4c5961";
+            }, 300);
+        }
 
-    tooltipMessage = `Статистика НЦК2 за день
+        tooltipMessage = `Статистика НЦК2 за день
 
 Чаты:
 Mobile: ${data.availQueues[2][0].currentWaitingCalls} / ${data.availQueues[2][0].totalEnteredCalls}
@@ -298,8 +348,8 @@ Mobile: ${data.availQueues[3][0].currentWaitingCalls} / ${data.availQueues[3][0]
 Web: ${data.availQueues[3][1].currentWaitingCalls} / ${data.availQueues[3][1].totalEnteredCalls}
 
 Состояние на ${time}ПРМ`;
-    lineStats.setAttribute("title", tooltipMessage);
-}
+        lineStats.setAttribute("title", tooltipMessage);
+    }
 
 // if (settings.showLineMessages) {
 //   console.log(
