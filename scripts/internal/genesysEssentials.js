@@ -3,8 +3,9 @@ if (document.URL.indexOf("genesys-app1") !== -1) {
         GENESYS_hideUselessButtons: hideUselessButtons,
         GENESYS_showFastButtons: genesysButtons,
         GENESYS_showOCTPLineStatus: otpcLineStatus,
+        GENESYS_chatColors: setupGenesysChatColors,
         // GENESYS_hideChatHeader: hideHeader,
-        GENESYS_showClientChannelOnCard: showClientChannelOnCard,
+
     };
 
     browser.storage.sync
@@ -671,3 +672,58 @@ function otpcLineStatus() {
         `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Аварийность] Загружена аварийность НЦК2`
     );
 }
+
+function setupGenesysChatColors() {
+    function applyColors() {
+        browser.storage.sync.get([
+            "GENESYS_chatColors_agentPromptColor",
+            "GENESYS_chatColors_agentTextColor",
+            "GENESYS_chatColors_clientPromptColor",
+            "GENESYS_chatColors_clientTextColor",
+        ], function (result) {
+            const agentNameColor = result.GENESYS_chatColors_agentPromptColor;
+            const agentTextColor = result.GENESYS_chatColors_agentTextColor;
+            const clientNameColor = result.GENESYS_chatColors_clientPromptColor;
+            const clientTextColor = result.GENESYS_chatColors_clientTextColor;
+
+            const colorScript = document.createElement('script');
+            colorScript.type = 'text/javascript';
+            let code = `
+window.genesys.wwe.configuration.set("chat.agent.prompt-color", "${agentNameColor}");
+window.genesys.wwe.configuration.set("chat.agent.text-color", "${agentTextColor}");
+window.genesys.wwe.configuration.set("chat.client.prompt-color", "${clientNameColor}");
+window.genesys.wwe.configuration.set("chat.client.text-color", "${clientTextColor}");
+      `
+            colorScript.appendChild(document.createTextNode(code));
+
+            document.body.appendChild(colorScript)
+            // window.genesys.wwe.configuration.set("chat.agent.prompt-color", agentNameColor);
+            // window.genesys.wwe.configuration.set("chat.agent.text-color", agentTextColor);
+            // window.genesys.wwe.configuration.set("chat.client.prompt-color", clientNameColor);
+            // window.genesys.wwe.configuration.set("chat.client.text-color", clientTextColor);
+
+            console.log("Хелпер - кастомные цвета чата применены");
+        });
+    }
+
+    function checkForGenesys() {
+        if (document.querySelector(".wwe-account-state")) {
+            observer.disconnect();
+            applyColors();
+        }
+    }
+
+    const observer = new MutationObserver(() => {
+        checkForGenesys();
+    });
+
+    observer.observe(document, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        characterData: true
+    });
+
+    checkForGenesys();
+}
+

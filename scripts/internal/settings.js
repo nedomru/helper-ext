@@ -22,6 +22,7 @@
         "GENESYS_hideUselessButtons",
         // "GENESYS_hideChatHeader",
         "GENESYS_showOCTPLineStatus",
+        "GENESYS_chatColors",
         // "GENESYS_showClientChannelOnCard",
         "ARM_allowCopy",
         "ARM_hideSPAS",
@@ -114,6 +115,10 @@
         "HIGHLIGHTER_OCTP",
         "HIGHLIGHTER_SZVG",
         "HIGHLIGHTER_COMPENSATION",
+        "GENESYS_chatColors_agentPromptColor",
+        "GENESYS_chatColors_agentTextColor",
+        "GENESYS_chatColors_clientPromptColor",
+        "GENESYS_chatColors_clientTextColor"
     ];
 
     const result = await browser.storage.sync.get(checkboxIds);

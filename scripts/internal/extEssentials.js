@@ -94,6 +94,10 @@ async function setDefaults() {
     HIGHLIGHTER_OCTP: "#008080",
     HIGHLIGHTER_SZVG: "#FF00FF",
     HIGHLIGHTER_COMPENSATION: "#66CDAA",
+    GENESYS_chatColors_agentPromptColor: "#3893E8",
+    GENESYS_chatColors_agentTextColor: "#3893E8",
+    GENESYS_chatColors_clientPromptColor: "#ED5252",
+    GENESYS_chatColors_clientTextColor: "#ED5252"
   };
 
   browser.storage.sync
