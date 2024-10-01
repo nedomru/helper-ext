@@ -97,7 +97,10 @@ async function setDefaults() {
     GENESYS_chatColors_agentPromptColor: "#3893E8",
     GENESYS_chatColors_agentTextColor: "#3893E8",
     GENESYS_chatColors_clientPromptColor: "#ED5252",
-    GENESYS_chatColors_clientTextColor: "#ED5252"
+    GENESYS_chatColors_clientTextColor: "#ED5252",
+
+    GENESYS_chatSound_newChatSound: "resources/sounds/Sound_1.mp3",
+    GENESYS_chatSound_newMessageSound: "resources/sounds/Sound_1.mp3",
   };
 
   browser.storage.sync

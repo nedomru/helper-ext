@@ -160,6 +160,7 @@
 
                     <!-- Содержимое вкладки Генезис -->
                     <div class="tab-pane fade" id="genesys" role="tabpanel" aria-labelledby="genesys-tab">
+                        <!-- Генезис -->
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Генезис</h5>
@@ -331,6 +332,7 @@
                             </div>
                         </div>
                         <br>
+                        <!-- Цвета чата -->
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Цвета чата</h5>
@@ -419,6 +421,87 @@
                             </div>
                         </div>
                         <br>
+                        <!-- Звук чата -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Звук чата</h5>
+                            </div>
+                            <div class="list-group">
+                                <!-- Активировать кастомный звук -->
+                                <div class="list-group-item">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <strong class="mb-0">Активировать кастомный звук</strong>
+                                            <p class="mb-0">Функция активирует выбранный ниже звук чата
+                                            </p>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="custom-control custom-switch">
+                                                <label for="GENESYS_chatSound">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                           id="GENESYS_chatSound"/>
+                                                </label>
+                                                <span class="custom-control-label"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group-item">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <strong class="mb-0">Выбор звука нового чата</strong>
+                                            <p class="mb-0">Звук активируется при получении нового чата</p>
+                                            <div class="input-group mt-2">
+                                                <label for="chatSoundSelect">
+                                                    <select id="chatSoundSelect" class="form-control">
+                                                        <option value="resources/sounds/Sound_1.mp3">Звук 1</option>
+                                                        <option value="resources/sounds/Sound_2.mp3">Звук 2</option>
+                                                        <option value="resources/sounds/Sound_3.mp3">Звук 3</option>
+                                                        <option value="resources/sounds/Sound_4.mp3">Звук 4</option>
+                                                        <option value="resources/sounds/Sound_5.mp3">Звук 5</option>
+                                                        <option value="resources/sounds/Sound_6.mp3">Звук 6</option>
+                                                        <option value="resources/sounds/Sound_7.mp3">Звук 7</option>
+                                                        <option value="resources/sounds/Sound_8.mp3">Звук 8</option>
+                                                        <option value="resources/sounds/Sound_9.mp3">Звук 9</option>
+                                                        <option value="resources/sounds/zvuk-chpok-4.mp3">Звук 10</option>
+                                                    </select>
+                                                </label>
+                                                <button id="chatPlaySound" class="btn btn-primary">Прослушать</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="list-group-item">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <strong class="mb-0">Выбор звука нового сообщения в чате</strong>
+                                            <p class="mb-0">Звук активируется при получении нового сообщения в чате</p>
+                                            <div class="input-group mt-2">
+                                                <label for="messageSoundSelect">
+                                                    <select id="messageSoundSelect" class="form-control">
+                                                        <option value="resources/sounds/Sound_1.mp3">Звук 1</option>
+                                                        <option value="resources/sounds/Sound_2.mp3">Звук 2</option>
+                                                        <option value="resources/sounds/Sound_3.mp3">Звук 3</option>
+                                                        <option value="resources/sounds/Sound_4.mp3">Звук 4</option>
+                                                        <option value="resources/sounds/Sound_5.mp3">Звук 5</option>
+                                                        <option value="resources/sounds/Sound_6.mp3">Звук 6</option>
+                                                        <option value="resources/sounds/Sound_7.mp3">Звук 7</option>
+                                                        <option value="resources/sounds/Sound_8.mp3">Звук 8</option>
+                                                        <option value="resources/sounds/Sound_9.mp3">Звук 9</option>
+                                                        <option value="resources/sounds/zvuk-chpok-4.mp3">Звук 10</option>
+                                                    </select>
+                                                </label>
+                                                <button id="messagePlaySound" class="btn btn-primary">Прослушать</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <audio id="audioPlayer" src=""></audio>
+                            </div>
+                        </div>
+                        <br>
+                        <!-- Быстрые кнопки -->
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Быстрые кнопки</h5>

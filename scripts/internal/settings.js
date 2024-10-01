@@ -1,6 +1,57 @@
 ﻿document.addEventListener("DOMContentLoaded", async function () {
     $('[data-bs-toggle="tooltip"]').tooltip();
     document.getElementById("extension-version").textContent = browser.runtime.getManifest().version;
+    document.getElementById('chatPlaySound').addEventListener('click', function() {
+        const selectedSound = document.getElementById('chatSoundSelect').value;
+        const audioPlayer = document.getElementById('audioPlayer');
+        audioPlayer.src = selectedSound;
+
+        audioPlayer.play().then(function() {
+            console.log("Звук воспроизводится.");
+        }).catch(function(error) {
+            console.error("Ошибка воспроизведения:", error);
+        });
+    });
+    document.getElementById('messagePlaySound').addEventListener('click', function() {
+        const selectedSound = document.getElementById('messageSoundSelect').value;
+        const audioPlayer = document.getElementById('audioPlayer');
+        audioPlayer.src = selectedSound;
+
+        audioPlayer.play().then(function() {
+            console.log("Звук воспроизводится.");
+        }).catch(function(error) {
+            console.error("Ошибка воспроизведения:", error);
+        });
+    });
+
+    const chatSoundSelect = document.getElementById('chatSoundSelect');
+    const messageSoundSelect = document.getElementById('messageSoundSelect');
+
+    chatSoundSelect.addEventListener('change', saveChatSelectedSound);
+    function saveChatSelectedSound() {
+        const selectedSound = chatSoundSelect.value;
+        browser.storage.sync.set({ GENESYS_chatSound_newChatSound: selectedSound })
+            .then(() => {
+                console.log(`[${new Date().toLocaleTimeString()}] [Помощник] - Настройка выбранного звука изменена на ${selectedSound}`);
+            })
+            .catch(error => {
+                console.error("Ошибка при сохранении выбранного звука:", error);
+            });
+    }
+
+    messageSoundSelect.addEventListener('change', saveMessageSelectedSound);
+    function saveMessageSelectedSound() {
+        const selectedSound = messageSoundSelect.value;
+        browser.storage.sync.set({ GENESYS_chatSound_newMessageSound: selectedSound })
+            .then(() => {
+                console.log(`[${new Date().toLocaleTimeString()}] [Помощник] - Настройка выбранного звука изменена на ${selectedSound}`);
+            })
+            .catch(error => {
+                console.error("Ошибка при сохранении выбранного звука:", error);
+            });
+    }
+
+
 
     // Загрузка сохраненных настроек
     const checkboxIds = [
@@ -23,6 +74,7 @@
         // "GENESYS_hideChatHeader",
         "GENESYS_showOCTPLineStatus",
         "GENESYS_chatColors",
+        "GENESYS_chatSound",
         // "GENESYS_showClientChannelOnCard",
         "ARM_allowCopy",
         "ARM_hideSPAS",
@@ -121,6 +173,11 @@
         "GENESYS_chatColors_clientTextColor"
     ];
 
+    const soundPick = [
+        "GENESYS_chatSound_newChatSound",
+        "GENESYS_chatSound_newMessageSound"
+    ]
+
     const result = await browser.storage.sync.get(checkboxIds);
     try {
         checkboxIds.forEach((id) => {
@@ -139,6 +196,14 @@
         });
     } catch (error) {
         console.error(`Ошибка при загрузке цветов: ${error}`);
+    }
+
+    try {
+        const soundSelects = await browser.storage.sync.get(soundPick);
+        document.getElementById('chatSoundSelect').value = soundSelects.GENESYS_chatSound_newChatSound;
+        document.getElementById('messageSoundSelect').value = soundSelects.GENESYS_chatSound_newMessageSound;
+    } catch (error) {
+        console.error(`Ошибка при загрузке звуков: ${error}`);
     }
 
     function toggleDarkTheme(isDark) {

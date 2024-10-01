@@ -4,8 +4,8 @@ if (document.URL.indexOf("genesys-app1") !== -1) {
         GENESYS_showFastButtons: genesysButtons,
         GENESYS_showOCTPLineStatus: otpcLineStatus,
         GENESYS_chatColors: setupGenesysChatColors,
+        GENESYS_chatSound: setupGenesysChatSound,
         // GENESYS_hideChatHeader: hideHeader,
-
     };
 
     browser.storage.sync
@@ -697,11 +697,8 @@ window.genesys.wwe.configuration.set("chat.client.text-color", "${clientTextColo
             colorScript.appendChild(document.createTextNode(code));
 
             document.body.appendChild(colorScript)
-            // window.genesys.wwe.configuration.set("chat.agent.prompt-color", agentNameColor);
-            // window.genesys.wwe.configuration.set("chat.agent.text-color", agentTextColor);
-            // window.genesys.wwe.configuration.set("chat.client.prompt-color", clientNameColor);
-            // window.genesys.wwe.configuration.set("chat.client.text-color", clientTextColor);
 
+            $.notify("Загружены кастомные цвета чата", "success")
             console.log("Хелпер - кастомные цвета чата применены");
         });
     }
@@ -727,3 +724,53 @@ window.genesys.wwe.configuration.set("chat.client.text-color", "${clientTextColo
     checkForGenesys();
 }
 
+function setupGenesysChatSound() {
+    const baseURL = 'http://genesys-srv.cc3.ertelecom.ru/sounds/';
+    function convertPath(path) {
+        const fileName = path.split('/').pop(); // Получаем имя файла
+        return `${baseURL}${fileName}|-1|0`; // Формируем новый URL с добавлением |-1|0
+    }
+
+    function applySound() {
+        browser.storage.sync.get([
+            "GENESYS_chatSound_newChatSound",
+            "GENESYS_chatSound_newMessageSound",
+        ], function (result) {
+            const newChatSound = convertPath(result.GENESYS_chatSound_newChatSound);
+            const newMessageSound = convertPath(result.GENESYS_chatSound_newMessageSound);
+
+            const soundScript = document.createElement('script');
+            soundScript.type = 'text/javascript';
+            let code = `
+window.genesys.wwe.configuration.set("chat.ringing-bell", "${newChatSound}")
+window.genesys.wwe.configuration.set("chat.new-message-bell", "${newMessageSound}")
+      `
+            soundScript.appendChild(document.createTextNode(code));
+
+            document.body.appendChild(soundScript)
+
+            $.notify("Загружены кастомные звуки чата", "success")
+            console.log("Хелпер - кастомные звуки чата применены");
+        });
+    }
+
+    function checkForGenesys() {
+        if (document.querySelector(".wwe-account-state")) {
+            observer.disconnect();
+            applySound();
+        }
+    }
+
+    const observer = new MutationObserver(() => {
+        checkForGenesys();
+    });
+
+    observer.observe(document, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        characterData: true
+    });
+
+    checkForGenesys();
+}
