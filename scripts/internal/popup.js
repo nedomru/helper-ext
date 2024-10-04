@@ -15,18 +15,26 @@ document.addEventListener("DOMContentLoaded", function () {
   form_link.addEventListener("submit", handleFormSubmitLink);
   form_ip.addEventListener("submit", handleFormSubmitIP);
   form_premium.addEventListener("submit", handleFormPremium);
-  document.getElementById("searchProvider").addEventListener("input", () => searchTable("searchProvider", "providersTable"));
-  document.getElementById("searchRouter").addEventListener("input", () => searchTable("searchRouter", "routersTable"));
+  document
+    .getElementById("searchProvider")
+    .addEventListener("input", () =>
+      searchTable("searchProvider", "providersTable"),
+    );
+  document
+    .getElementById("searchRouter")
+    .addEventListener("input", () =>
+      searchTable("searchRouter", "routersTable"),
+    );
   document
     .getElementById("openSettings")
     .addEventListener("click", function () {
       browser.runtime.openOptionsPage();
     });
-  document
-    .getElementById("openTelegram")
-    .addEventListener("click", function () {
-      window.open("https://t.me/+jH1mblw0ytcwOWUy", "_blank");
-    });
+  // document
+  //   .getElementById("openTelegram")
+  //   .addEventListener("click", function () {
+  //     window.open("https://t.me/+jH1mblw0ytcwOWUy", "_blank");
+  //   });
 });
 
 async function handleFormSubmitMac(event) {
@@ -49,7 +57,7 @@ async function handleFormSubmitMac(event) {
         headers: {
           "Content-Type": "application/json",
         },
-      }
+      },
     );
     if (response.status !== 200) {
       $.notify("Не удалось найти", "error");
@@ -74,7 +82,7 @@ async function handleFormSubmitIP(event) {
   const formData = new FormData(event.target);
   const inputField = formData.get("input-ip").trim();
   const ip_regex = new RegExp(
-    "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+    "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",
   );
 
   if (ip_regex.test(inputField) === false) {
@@ -88,7 +96,7 @@ async function handleFormSubmitIP(event) {
       `http://ip-api.com/json/${inputField}?fields=country,regionName,city,org&lang=ru`,
       {
         method: "GET",
-      }
+      },
     );
 
     if (response.status !== 200) {
@@ -101,7 +109,7 @@ async function handleFormSubmitIP(event) {
     if (result) {
       $.notify(
         `Страна: ${result["country"]}\nГород: ${result["city"]}\nОрганизация: ${result["org"]}`,
-        "success"
+        "success",
       );
       document.getElementById("input-ip").value = "";
     }
@@ -238,7 +246,8 @@ async function handleFormPremium(event) {
             </table>
         `;
 
-    document.getElementById("result-container").innerHTML = DOMPurify.sanitize(tableHTML);
+    document.getElementById("result-container").innerHTML =
+      DOMPurify.sanitize(tableHTML);
   } catch (error) {
     document.getElementById("result-container").innerText =
       "Не удалось получить премию";
@@ -264,14 +273,14 @@ function searchTable(inputId, tableId) {
 async function fetchRouters() {
   try {
     const response = await fetch(
-        "https://authfailed.github.io/domru-helper/api/routers.json"
+      "https://authfailed.github.io/domru-helper/api/routers.json",
     );
     const data = await response.json();
 
     if (data.routers && Array.isArray(data.routers)) {
       const rows = data.routers
-          .map(
-              (router) => `
+        .map(
+          (router) => `
         <tr>
           <td>${router.Name}</td>
           <td>${createLinkOrText(router.PPPoE, "PPPoE")}</td>
@@ -282,9 +291,9 @@ async function fetchRouters() {
           <td>${createLinkOrText(router.BZ, "БЗ")}</td>
           <td>${createLinkOrText(router.Emulator, "Эмулятор", true)}</td>
         </tr>
-      `
-          )
-          .join("");
+      `,
+        )
+        .join("");
 
       const tableHTML = `
         <table>
@@ -306,7 +315,8 @@ async function fetchRouters() {
         </table>
       `;
 
-      document.getElementById("routersTable").innerHTML = DOMPurify.sanitize(tableHTML);
+      document.getElementById("routersTable").innerHTML =
+        DOMPurify.sanitize(tableHTML);
     } else {
       console.error('Ключ "routers" не найден или не является массивом:', data);
     }
@@ -320,7 +330,9 @@ function createLinkOrText(value, text, isEmulator = false) {
     return "Нет";
   }
   if (isEmulator && Array.isArray(value)) {
-    return value.map(link => `<a href="${link}" target="_blank">${text}</a>`).join(", ");
+    return value
+      .map((link) => `<a href="${link}" target="_blank">${text}</a>`)
+      .join(", ");
   }
   return `<a href="${value}" target="_blank">${text}</a>`;
 }
@@ -328,7 +340,7 @@ function createLinkOrText(value, text, isEmulator = false) {
 async function fetchMNA() {
   try {
     const response = await fetch(
-      "https://authfailed.github.io/domru-helper/api/mna.json"
+      "https://authfailed.github.io/domru-helper/api/mna.json",
     );
     const data = await response.json();
 
@@ -343,7 +355,7 @@ async function fetchMNA() {
             <td>${provider.authorization}</td>
             <td>${provider.connection}</td>
           </tr>
-        `
+        `,
         )
         .join("");
 
@@ -363,7 +375,8 @@ async function fetchMNA() {
         </table>
       `;
 
-      document.getElementById("providersTable").innerHTML = DOMPurify.sanitize(tableHTML);
+      document.getElementById("providersTable").innerHTML =
+        DOMPurify.sanitize(tableHTML);
     } else {
       console.error('Ключ "mna" не найден или не является массивом:', data);
     }
@@ -372,9 +385,13 @@ async function fetchMNA() {
   }
 }
 
-fetchMNA().then(() => console.log(
-    `[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] Загружен список провайдеров`
-))
-fetchRouters().then(() => console.log(
-    `[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] Загружен список провайдеров`
-));
+fetchMNA().then(() =>
+  console.log(
+    `[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] Загружен список провайдеров`,
+  ),
+);
+fetchRouters().then(() =>
+  console.log(
+    `[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] Загружен список провайдеров`,
+  ),
+);

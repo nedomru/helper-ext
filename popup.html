@@ -1,184 +1,343 @@
-﻿<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="ru">
-<script type="text/javascript" src="scripts/internal/popup.js"></script>
-<script type="text/javascript" src="scripts/internal/sections.js"></script>
-<script type="text/javascript" src="scripts/external/jquery.min.js"></script>
-<script type="text/javascript" src="scripts/external/dompurify.min.js"></script>
-<script type="text/javascript" src="scripts/external/notify.js"></script>
-<link rel="stylesheet" type="text/css" href="styles/internal/popup.css">
+    <script type="text/javascript" src="scripts/internal/popup.js"></script>
+    <script type="text/javascript" src="scripts/internal/sections.js"></script>
+    <script
+        type="text/javascript"
+        src="scripts/external/jquery.min.js"
+    ></script>
+    <script
+        type="text/javascript"
+        src="scripts/external/dompurify.min.js"
+    ></script>
+    <script type="text/javascript" src="scripts/external/notify.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles/internal/popup.css" />
 
-<body>
+    <body>
         <!-- Разделы -->
         <div class="tab">
-                <button class="tablinks" id="tablink-Основные ссылки">Главная</button>
-                <button class="tablinks" id="tablink-MnA">MnA</button>
-                <button class="tablinks" id="tablink-Роутеры">Роутеры</button>
-                <button class="tablinks" id="tablink-Инструменты">Инструменты</button>
-                <button id="openSettings">Настройки</button>
-                <button id="openTelegram">ТГ</button>
+            <button class="tablinks" id="tablink-Основные ссылки">
+                Главная
+            </button>
+            <button class="tablinks" id="tablink-MnA">MnA</button>
+            <button class="tablinks" id="tablink-Роутеры">Роутеры</button>
+            <button class="tablinks" id="tablink-Инструменты">
+                Инструменты
+            </button>
+            <button id="openSettings">Настройки</button>
         </div>
 
         <div id="Основные ссылки" class="tabcontent">
-                <div class="row">
-                        <div class="column">
-                                <h4>Главное</h4>
-                                <a href="http://genesys-app1.cc4.ertelecom.ru:82/ui/ad/v1/index.html"
-                                        target="_blank">Генезис</a>
-                                <br />
-                                <a href="https://perm.db.ertelecom.ru/cgi-bin/ppo/excells/wcc_main.entry_continue"
-                                        target="_blank">Веб-АРМ</a>
-                                <br />
-                                <a href="https://mail.domru.ru/owa/" target="_blank">Почта</a>
-                                <br /><br />
-                                <h4>Линии</h4>
-                                <a href="https://okc.ertelecom.ru/stats/genesys-ntp/line" target="_blank">НЦК</a>
-                                <br />
-                                <a href="https://okc.ertelecom.ru/stats/line_ts/ntp1/index" target="_blank">НТП1</a>
-                                <br />
-                                <a href="https://okc.ertelecom.ru/stats/line_ts/ntp2/index" target="_blank">НТП2</a>
-                                <br />
-                                <a href="https://okc.ertelecom.ru/stats/line/okc2wfm_okc" target="_blank">ОКЦ</a>
-                                <br /><br />
-                                <h4>Перерывы</h4>
-                                <a href="https://okc.ertelecom.ru/stats/breaks/ntp-nck-one" target="_blank">НЦК1</a>
-                                <br />
-                                <a href="https://okc.ertelecom.ru/stats/breaks/ntp-nck-two" target="_blank">НЦК2</a>
-                                <br /><br />
-                                <h4>Графики</h4>
-                                <a href="https://okc2.ertelecom.ru/wfm/vueapp/personal" target="_blank">Личный</a>
-                                <br />
-                                <a href="https://okc2.ertelecom.ru/wfm/vueapp/day" target="_blank">День</a>
-                                <br />
-                                <a href="https://okc2.ertelecom.ru/wfm/vueapp/month" target="_blank">Месяц</a>
-                                <br /><br />
-                        </div>
-                        <div class="column">
-                                <h4>Базы знаний</h4>
-                                <a href="https://clever.ertelecom.ru" target="_blank">Clever</a>
-                                <br /><br />
-                                <h4>Статистика</h4>
-                                <a href="https://okc.ertelecom.ru/stats/ure/main/ure" target="_blank">URE</a>
-                                <br />
-                                <a href="https://okc.ertelecom.ru/test/gok/ntp-nck-one/" target="_blank">Гок | НЦК1</a>
-                                <br />
-                                <a href="https://okc.ertelecom.ru/test/gok/ntp-nck-two/" target="_blank">Гок | НЦК2</a>
-                                <br />
-                                <a href="https://okc.ertelecom.ru/stats/csi/csi/index" target="_blank">Оценки CSI</a>
-                                <br /><a href="https://okc.ertelecom.ru/stats/thanks-appl/view/index"
-                                        target="_blank">Благодарности</a>
-                                <br />
-                                <a href="https://okc.ertelecom.ru/stats/premium/ntp-nck1/spec_month"
-                                        target="_blank">Премия |
-                                        НЦК1</a>
-                                <br />
-                                <a href="https://okc.ertelecom.ru/stats/premium/ntp-nck2/spec_month"
-                                        target="_blank">Премия |
-                                        НЦК2</a><br />
-                                <a href="https://okc.ertelecom.ru/stats/cost_sales/main/costsales"
-                                        target="_blank">Эконом. справка</a><br />
-                                <a href="https://okc.ertelecom.ru/stats/sales_kc/main/saleskc" target="_blank">Отчет по
-                                        продажам</a>
-                                <br /> <br />
-                                <h4>Обучение</h4>
-                                <a href="https://okc.ertelecom.ru/stats/testing/lk/profile" target="_blank">Тесты</a>
-                                <br />
-                                <a href="https://clever.ertelecom.ru/content/space/4/article/8036"
-                                        target="_blank">Электронные
-                                        курсы</a>
-                                <br />
-                                <a href="https://clever.ertelecom.ru/content/space/4/article/2677" target="_blank">Гайд
-                                        по АРМу</a>
-                                <br />
-                                <a href="https://clever.ertelecom.ru/content/space/4/article/2504" target="_blank">Гайд
-                                        по EQM Starter</a>
-
-                        </div>
-                        <div class="column">
-                                <h4>Для работы</h4>
-                                <h5>Интернет</h5>
-                                <a href="http://octptest.corp.ertelecom.loc/diagnostic-results/" target="_blank">FTP</a>
-                                <br />
-                                <a href="http://octptest.corp.ertelecom.loc/diagnostic-results/mobile/"
-                                        target="_blank">Тест |
-                                        Телефон</a>
-                                <br />
-                                <a href="http://octptest.corp.ertelecom.loc/diagnostic-results/perm/"
-                                        target="_blank">Тест/ПК</a>
-                                <br />
-                                <a href="https://provisioning.ertelecom.ru/devices/" target="_blank">Провижининг</a>
-                                <br /><br />
-                                <h5>Приставки</h5>
-                                <a href="http://cpe.domru.ru/tv/swupdate_primary/STB/add_nuid_and_version.php"
-                                        target="_blank">Прошивки</a> (thinktwice)
-                                <br />
-                                <a href="https://okc.ertelecom.ru/stats/emulator/index" target="_blank">Эмулятор</a>
-                                <br />
-                                <a href="https://cms.ertelecom.ru" target="_blank">Сброс ПИНа</a>
-                                <br /><br />
-                                <h5>Другое</h5>
-                                <a href="http://cm.roool.ru/" target="_blank">Чат мастер</a>
-                                <br />
-                                <a href="https://okc.ertelecom.ru/stats/appl/chart/index" target="_blank">Обращения в
-                                        КЦ</a>
-                                <br />
-                                <a href="http://kbn.ertelecom.ru/download/attachments/26169803/Разблокировка логинов.pdf"
-                                        target="_blank">Разблокировка логинов</a>
-                                <br />
-                                <a href="https://mh-dashboard-erth.proptech.ru/web/" target="_blank">Дашборд
-                                        домофонии</a>
-                                <br />
-                                <a href="http://10.121.15.99/lenta" target="_blank">Генератор ленты</a>
-                        </div>
+            <div class="row">
+                <div class="column">
+                    <h4>Главное</h4>
+                    <a
+                        href="http://genesys-app1.cc4.ertelecom.ru:82/ui/ad/v1/index.html"
+                        target="_blank"
+                        >Генезис</a
+                    >
+                    <br />
+                    <a
+                        href="https://perm.db.ertelecom.ru/cgi-bin/ppo/excells/wcc_main.entry_continue"
+                        target="_blank"
+                        >Веб-АРМ</a
+                    >
+                    <br />
+                    <a href="https://mail.domru.ru/owa/" target="_blank"
+                        >Почта</a
+                    >
+                    <br /><br />
+                    <h4>Линии</h4>
+                    <a
+                        href="https://okc.ertelecom.ru/stats/genesys-ntp/line"
+                        target="_blank"
+                        >НЦК</a
+                    >
+                    <br />
+                    <a
+                        href="https://okc.ertelecom.ru/stats/line_ts/ntp1/index"
+                        target="_blank"
+                        >НТП1</a
+                    >
+                    <br />
+                    <a
+                        href="https://okc.ertelecom.ru/stats/line_ts/ntp2/index"
+                        target="_blank"
+                        >НТП2</a
+                    >
+                    <br />
+                    <a
+                        href="https://okc.ertelecom.ru/stats/line/okc2wfm_okc"
+                        target="_blank"
+                        >ОКЦ</a
+                    >
+                    <br /><br />
+                    <h4>Перерывы</h4>
+                    <a
+                        href="https://okc.ertelecom.ru/stats/breaks/ntp-nck-one"
+                        target="_blank"
+                        >НЦК1</a
+                    >
+                    <br />
+                    <a
+                        href="https://okc.ertelecom.ru/stats/breaks/ntp-nck-two"
+                        target="_blank"
+                        >НЦК2</a
+                    >
+                    <br /><br />
+                    <h4>Графики</h4>
+                    <a
+                        href="https://okc2.ertelecom.ru/wfm/vueapp/personal"
+                        target="_blank"
+                        >Личный</a
+                    >
+                    <br />
+                    <a
+                        href="https://okc2.ertelecom.ru/wfm/vueapp/day"
+                        target="_blank"
+                        >День</a
+                    >
+                    <br />
+                    <a
+                        href="https://okc2.ertelecom.ru/wfm/vueapp/month"
+                        target="_blank"
+                        >Месяц</a
+                    >
+                    <br /><br />
                 </div>
+                <div class="column">
+                    <h4>Базы знаний</h4>
+                    <a href="https://clever.ertelecom.ru" target="_blank"
+                        >Clever</a
+                    >
+                    <br /><br />
+                    <h4>Статистика</h4>
+                    <a
+                        href="https://okc.ertelecom.ru/stats/ure/main/ure"
+                        target="_blank"
+                        >URE</a
+                    >
+                    <br />
+                    <a
+                        href="https://okc.ertelecom.ru/test/gok/ntp-nck-one/"
+                        target="_blank"
+                        >Гок | НЦК1</a
+                    >
+                    <br />
+                    <a
+                        href="https://okc.ertelecom.ru/test/gok/ntp-nck-two/"
+                        target="_blank"
+                        >Гок | НЦК2</a
+                    >
+                    <br />
+                    <a
+                        href="https://okc.ertelecom.ru/stats/csi/csi/index"
+                        target="_blank"
+                        >Оценки CSI</a
+                    >
+                    <br /><a
+                        href="https://okc.ertelecom.ru/stats/thanks-appl/view/index"
+                        target="_blank"
+                        >Благодарности</a
+                    >
+                    <br />
+                    <a
+                        href="https://okc.ertelecom.ru/stats/premium/ntp-nck1/spec_month"
+                        target="_blank"
+                        >Премия | НЦК1</a
+                    >
+                    <br />
+                    <a
+                        href="https://okc.ertelecom.ru/stats/premium/ntp-nck2/spec_month"
+                        target="_blank"
+                        >Премия | НЦК2</a
+                    ><br />
+                    <a
+                        href="https://okc.ertelecom.ru/stats/cost_sales/main/costsales"
+                        target="_blank"
+                        >Эконом. справка</a
+                    ><br />
+                    <a
+                        href="https://okc.ertelecom.ru/stats/sales_kc/main/saleskc"
+                        target="_blank"
+                        >Отчет по продажам</a
+                    >
+                    <br />
+                    <br />
+                    <h4>Обучение</h4>
+                    <a
+                        href="https://okc.ertelecom.ru/stats/testing/lk/profile"
+                        target="_blank"
+                        >Тесты</a
+                    >
+                    <br />
+                    <a
+                        href="https://clever.ertelecom.ru/content/space/4/article/8036"
+                        target="_blank"
+                        >Электронные курсы</a
+                    >
+                    <br />
+                    <a
+                        href="https://clever.ertelecom.ru/content/space/4/article/2677"
+                        target="_blank"
+                        >Гайд по АРМу</a
+                    >
+                    <br />
+                    <a
+                        href="https://clever.ertelecom.ru/content/space/4/article/2504"
+                        target="_blank"
+                        >Гайд по EQM Starter</a
+                    >
+                </div>
+                <div class="column">
+                    <h4>Для работы</h4>
+                    <h5>Интернет</h5>
+                    <a
+                        href="http://octptest.corp.ertelecom.loc/diagnostic-results/"
+                        target="_blank"
+                        >FTP</a
+                    >
+                    <br />
+                    <a
+                        href="http://octptest.corp.ertelecom.loc/diagnostic-results/mobile/"
+                        target="_blank"
+                        >Тест | Телефон</a
+                    >
+                    <br />
+                    <a
+                        href="http://octptest.corp.ertelecom.loc/diagnostic-results/perm/"
+                        target="_blank"
+                        >Тест/ПК</a
+                    >
+                    <br />
+                    <a
+                        href="https://provisioning.ertelecom.ru/devices/"
+                        target="_blank"
+                        >Провижининг</a
+                    >
+                    <br /><br />
+                    <h5>Приставки</h5>
+                    <a
+                        href="http://cpe.domru.ru/tv/swupdate_primary/STB/add_nuid_and_version.php"
+                        target="_blank"
+                        >Прошивки</a
+                    >
+                    (thinktwice)
+                    <br />
+                    <a
+                        href="https://okc.ertelecom.ru/stats/emulator/index"
+                        target="_blank"
+                        >Эмулятор</a
+                    >
+                    <br />
+                    <a href="https://cms.ertelecom.ru" target="_blank"
+                        >Сброс ПИНа</a
+                    >
+                    <br /><br />
+                    <h5>Другое</h5>
+                    <a href="http://cm.roool.ru/" target="_blank">Чат мастер</a>
+                    <br />
+                    <a
+                        href="https://okc.ertelecom.ru/stats/appl/chart/index"
+                        target="_blank"
+                        >Обращения в КЦ</a
+                    >
+                    <br />
+                    <a
+                        href="http://kbn.ertelecom.ru/download/attachments/26169803/Разблокировка логинов.pdf"
+                        target="_blank"
+                        >Разблокировка логинов</a
+                    >
+                    <br />
+                    <a
+                        href="https://mh-dashboard-erth.proptech.ru/web/"
+                        target="_blank"
+                        >Дашборд домофонии</a
+                    >
+                    <br />
+                    <a href="http://10.121.15.99/lenta" target="_blank"
+                        >Генератор ленты</a
+                    >
+                </div>
+            </div>
         </div>
         <div id="MnA" class="tabcontent">
-                <label for="searchProvider">
-                        <input type="text" id="searchProvider" placeholder="Поиск провайдера" autofocus>
-                </label>
-                <div id="providersTable"></div>
+            <label for="searchProvider">
+                <input
+                    type="text"
+                    id="searchProvider"
+                    placeholder="Поиск провайдера"
+                    autofocus
+                />
+            </label>
+            <div id="providersTable"></div>
         </div>
         <div id="Роутеры" class="tabcontent">
-                <label for="searchRouter">
-                        <input type="text" id="searchRouter" placeholder="Поиск роутера" autofocus>
-                </label>
-                <div id="routersTable"></div>
+            <label for="searchRouter">
+                <input
+                    type="text"
+                    id="searchRouter"
+                    placeholder="Поиск роутера"
+                    autofocus
+                />
+            </label>
+            <div id="routersTable"></div>
         </div>
         <div id="Инструменты" class="tabcontent">
-                <h4>Проверка MAC-адреса</h4>
-                <form id="form-mac">
-                        <label for="input-mac">
-                                <input type="text" id="input-mac" name="input-mac" placeholder="Введи мак" />
-                        </label>
-                        <button id="submit-mac">Проверить</button>
-                </form>
-                <h4>Проверка IP</h4>
-                <form id="form-ip">
-                        <label for="input-ip">
-                                <input type="text" id="input-ip" name="input-ip" placeholder="Введи IP-адрес" />
-                        </label>
-                        <button id="submit-ip" class="submit-ip-button">Проверить</button>
-                </form>
-                <h4>Сокращатель ссылок</h4>
-                <form id="form-link">
-                        <label for="input-link">
-                                <input type="text" id="input-link" name="input-link" placeholder="Введи ссылку" />
-                        </label>
-                        <button id="submit-link" class="submit-link-button">Сократить</button>
-                </form>
-                <h4>Проверка премии</h4>
-                <form id="form-premium">
-                        <label>
-                                <select name="premium-select">
-                                        <!--Supplement an id here instead of using 'name'-->
-                                        <option value="nck1">нцк1</option>
-                                        <option value="nck2">нцк2</option>
-                                </select>
-                        </label>
-                        <button id="submit-premium" class="submit-premium-button">Проверить</button>
-                        <div id="result-container"></div>
-                </form>
+            <h4>Проверка MAC-адреса</h4>
+            <form id="form-mac">
+                <label for="input-mac">
+                    <input
+                        type="text"
+                        id="input-mac"
+                        name="input-mac"
+                        placeholder="Введи мак"
+                    />
+                </label>
+                <button id="submit-mac">Проверить</button>
+            </form>
+            <h4>Проверка IP</h4>
+            <form id="form-ip">
+                <label for="input-ip">
+                    <input
+                        type="text"
+                        id="input-ip"
+                        name="input-ip"
+                        placeholder="Введи IP-адрес"
+                    />
+                </label>
+                <button id="submit-ip" class="submit-ip-button">
+                    Проверить
+                </button>
+            </form>
+            <h4>Сокращатель ссылок</h4>
+            <form id="form-link">
+                <label for="input-link">
+                    <input
+                        type="text"
+                        id="input-link"
+                        name="input-link"
+                        placeholder="Введи ссылку"
+                    />
+                </label>
+                <button id="submit-link" class="submit-link-button">
+                    Сократить
+                </button>
+            </form>
+            <h4>Проверка премии</h4>
+            <form id="form-premium">
+                <label>
+                    <select name="premium-select">
+                        <!--Supplement an id here instead of using 'name'-->
+                        <option value="nck1">нцк1</option>
+                        <option value="nck2">нцк2</option>
+                    </select>
+                </label>
+                <button id="submit-premium" class="submit-premium-button">
+                    Проверить
+                </button>
+                <div id="result-container"></div>
+            </form>
         </div>
-</body>
-
-
+    </body>
 </html>
