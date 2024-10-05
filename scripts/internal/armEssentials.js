@@ -724,7 +724,6 @@ function copyMAC() {
 
                 if (companyName) {
                   $.notify(companyName, "success");
-                  document.getElementById("input-mac").value = "";
                 }
               });
           } catch (error) {
