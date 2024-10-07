@@ -1,195 +1,197 @@
 ﻿/* global browser */
 
 document.addEventListener("DOMContentLoaded", function () {
-    browser.storage.sync.get("OTHER_DarkTheme").then(function (settings) {
-        if (settings.OTHER_DarkTheme) {
-            document.body.classList.add("dark-theme");
-        }
-    });
+  browser.storage.sync.get("OTHER_DarkTheme").then(function (settings) {
+    if (settings.OTHER_DarkTheme) {
+      document.body.classList.add("dark-theme");
+    }
+  });
 
-    const form_mac = document.getElementById("form-mac");
-    const form_link = document.getElementById("form-link");
-    const form_ip = document.getElementById("form-ip");
-    const form_premium = document.getElementById("form-premium");
-    form_mac.addEventListener("submit", handleFormSubmitMac);
-    form_link.addEventListener("submit", handleFormSubmitLink);
-    form_ip.addEventListener("submit", handleFormSubmitIP);
-    form_premium.addEventListener("submit", handleFormPremium);
-    document
-        .getElementById("searchProvider")
-        .addEventListener("input", () =>
-            searchTable("searchProvider", "providersTable"),
-        );
-    document
-        .getElementById("searchRouter")
-        .addEventListener("input", () =>
-            searchTable("searchRouter", "routersTable"),
-        );
-    document
-        .getElementById("openSettings")
-        .addEventListener("click", function () {
-            browser.runtime.openOptionsPage();
-        });
-    // document
-    //   .getElementById("openTelegram")
-    //   .addEventListener("click", function () {
-    //     window.open("https://t.me/+jH1mblw0ytcwOWUy", "_blank");
-    //   });
+  const form_mac = document.getElementById("form-mac");
+  const form_link = document.getElementById("form-link");
+  const form_ip = document.getElementById("form-ip");
+  const form_premium = document.getElementById("form-premium");
+  form_mac.addEventListener("submit", handleFormSubmitMac);
+  form_link.addEventListener("submit", handleFormSubmitLink);
+  form_ip.addEventListener("submit", handleFormSubmitIP);
+  form_premium.addEventListener("submit", handleFormPremium);
+  document
+    .getElementById("searchProvider")
+    .addEventListener("input", () =>
+      searchTable("searchProvider", "providersTable")
+    );
+  document
+    .getElementById("searchRouter")
+    .addEventListener("input", () =>
+      searchTable("searchRouter", "routersTable")
+    );
+  document
+    .getElementById("openSettings")
+    .addEventListener("click", function () {
+      browser.runtime.openOptionsPage();
+    });
+  // document
+  //   .getElementById("openTelegram")
+  //   .addEventListener("click", function () {
+  //     window.open("https://t.me/+jH1mblw0ytcwOWUy", "_blank");
+  //   });
 });
 
 async function handleFormSubmitMac(event) {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const inputField = formData.get("input-mac").trim();
-    const mac_regex = new RegExp("^([0-9A-Fa-f]{2}[:-]?){5}([0-9A-Fa-f]{2})$");
+  event.preventDefault();
+  const formData = new FormData(event.target);
+  const inputField = formData.get("input-mac").trim();
+  const mac_regex = new RegExp("^([0-9A-Fa-f]{2}[:-]?){5}([0-9A-Fa-f]{2})$");
 
-    if (mac_regex.test(inputField) === false) {
-        $.notify("Это не MAC", "error");
-        return;
+  if (mac_regex.test(inputField) === false) {
+    $.notify("Это не MAC", "error");
+    return;
+  }
+
+  $.notify("Проверяю", "info");
+  try {
+    const response = await fetch(
+      `https://api.maclookup.app/v2/macs/${inputField}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (response.status !== 200) {
+      $.notify("Не удалось найти", "error");
+      return;
     }
 
-    $.notify("Проверяю", "info");
-    try {
-        const response = await fetch(
-            `https://api.maclookup.app/v2/macs/${inputField}`,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            },
-        );
-        if (response.status !== 200) {
-            $.notify("Не удалось найти", "error");
-            return;
-        }
+    const result = await response.json();
 
-        const result = await response.json();
+    const companyName = result.company;
 
-        const companyName = result.company;
-
-        if (companyName) {
-            $.notify(companyName, "success");
-            document.getElementById("input-mac").value = "";
-        }
-    } catch (error) {
-        console.error("Fetch error:", error);
+    if (companyName) {
+      $.notify(companyName, "success");
+      document.getElementById("input-mac").value = "";
     }
+  } catch (error) {
+    console.error("Fetch error:", error);
+  }
 }
 
 async function handleFormSubmitIP(event) {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const inputField = formData.get("input-ip").trim();
-    const ip_regex = new RegExp(
-        "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",
+  event.preventDefault();
+  const formData = new FormData(event.target);
+  const inputField = formData.get("input-ip").trim();
+  const ip_regex = new RegExp(
+    "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+  );
+
+  if (ip_regex.test(inputField) === false) {
+    $.notify("IP некорректный", "error");
+    return;
+  }
+
+  $.notify("Проверяю", "info");
+  try {
+    const response = await fetch(
+      `http://ip-api.com/json/${inputField}?fields=country,regionName,city,org&lang=ru`,
+      {
+        method: "GET",
+      }
     );
 
-    if (ip_regex.test(inputField) === false) {
-        $.notify("IP некорректный", "error");
-        return;
+    if (response.status !== 200) {
+      $.notify("Ошибка", "error");
+      return;
     }
 
-    $.notify("Проверяю", "info");
-    try {
-        const response = await fetch(
-            `http://ip-api.com/json/${inputField}?fields=country,regionName,city,org&lang=ru`,
-            {
-                method: "GET",
-            },
-        );
+    const result = await response.json();
 
-        if (response.status !== 200) {
-            $.notify("Ошибка", "error");
-            return;
-        }
-
-        const result = await response.json();
-
-        if (result) {
-            $.notify(
-                `Страна: ${result["country"]}\nГород: ${result["city"]}\nОрганизация: ${result["org"]}`,
-                "success",
-            );
-            document.getElementById("input-ip").value = "";
-        }
-    } catch (error) {
-        console.error("Fetch error:", error);
+    if (result) {
+      $.notify(
+        `Страна: ${result["country"]}\nГород: ${result["city"]}\nОрганизация: ${result["org"]}`,
+        "success"
+      );
+      document.getElementById("input-ip").value = "";
     }
+  } catch (error) {
+    console.error("Fetch error:", error);
+  }
 }
 
 async function handleFormSubmitLink(event) {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const inputField = formData.get("input-link");
+  event.preventDefault();
+  const formData = new FormData(event.target);
+  const inputField = formData.get("input-link");
 
-    $.notify("Сокращаю", "info");
-    try {
-        const response = await fetch(`https://clck.ru/--?url=${inputField}`, {
-            method: "GET",
-        });
-        if (response.status !== 200) {
-            $.notify("Ошибка", "error");
-            return;
-        }
-
-        const result = await response.text();
-
-        if (result) {
-            await navigator.clipboard.writeText(result);
-            $.notify("Скопировано", "success");
-            document.getElementById("input-link").value = result;
-        }
-    } catch (error) {
-        console.error("Fetch error:", error);
+  $.notify("Сокращаю", "info");
+  try {
+    const response = await fetch(`https://clck.ru/--?url=${inputField}`, {
+      method: "GET",
+    });
+    if (response.status !== 200) {
+      $.notify("Ошибка", "error");
+      return;
     }
+
+    const result = await response.text();
+
+    if (result) {
+      await navigator.clipboard.writeText(result);
+      $.notify("Скопировано", "success");
+      document.getElementById("input-link").value = result;
+    }
+  } catch (error) {
+    console.error("Fetch error:", error);
+  }
 }
 
 async function handleFormPremium(event) {
-    event.preventDefault(); // предотвращаем стандартное поведение формы
-    const formData = new FormData(event.target);
-    const inputField = formData.get("premium-select");
+  event.preventDefault(); // предотвращаем стандартное поведение формы
+  const formData = new FormData(event.target);
+  const inputField = formData.get("premium-select");
 
-    let url;
-    inputField === "nck2"
-        ? (url =
-            "https://okc.ertelecom.ru/stats/premium/ntp-nck2/get-premium-spec-month")
-        : (url =
-            "https://okc.ertelecom.ru/stats/premium/ntp-nck1/get-premium-spec-month");
+  let url;
+  inputField === "nck2"
+    ? (url =
+        "https://okc.ertelecom.ru/stats/premium/ntp-nck2/get-premium-spec-month")
+    : (url =
+        "https://okc.ertelecom.ru/stats/premium/ntp-nck1/get-premium-spec-month");
 
-    const requestBody = new URLSearchParams();
-    const now = new Date();
-    const firstDayCurrentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  const requestBody = new URLSearchParams();
+  const now = new Date();
+  const firstDayCurrentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
-    const formattedDate =
-        String(firstDayCurrentMonth.getDate()).padStart(2, '0') + '.' +
-        String(firstDayCurrentMonth.getMonth() + 1).padStart(2, '0') + '.' +
-        firstDayCurrentMonth.getFullYear();
+  const formattedDate =
+    String(firstDayCurrentMonth.getDate()).padStart(2, "0") +
+    "." +
+    String(firstDayCurrentMonth.getMonth() + 1).padStart(2, "0") +
+    "." +
+    firstDayCurrentMonth.getFullYear();
 
-    requestBody.append("period", formattedDate);
-    requestBody.append("subdivisionId[]", "16231");
+  requestBody.append("period", formattedDate);
+  requestBody.append("subdivisionId[]", "16231");
 
-    try {
-        const response = await fetch(url, {
-            credentials: "include",
-            headers: {
-                "User-Agent":
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0",
-                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-            },
-            body: requestBody.toString(),
-            method: "POST",
-        });
+  try {
+    const response = await fetch(url, {
+      credentials: "include",
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0",
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+      },
+      body: requestBody.toString(),
+      method: "POST",
+    });
 
-        if (!response.ok) {
-            const errorText = await response.text(); // или response.json() если ожидается JSON
-            throw new Error(`Network response was not ok: ${errorText}`);
-        }
+    if (!response.ok) {
+      const errorText = await response.text(); // или response.json() если ожидается JSON
+      throw new Error(`Network response was not ok: ${errorText}`);
+    }
 
-        const data = await response.json();
-        const result = data["result"][0];
+    const data = await response.json();
+    const result = data["result"][0];
 
-        const tableHTML = `
+    const tableHTML = `
             <table>
                 <thead>
                     <tr>
@@ -254,41 +256,39 @@ async function handleFormPremium(event) {
             </table>
         `;
 
-        document.getElementById("result-container").innerHTML =
-            DOMPurify.sanitize(tableHTML);
-    } catch (error) {
-        document.getElementById("result-container").innerText =
-            "Не удалось получить премию";
-        console.error("Ошибка:", error);
-    }
+    document.getElementById("result-container").innerHTML =
+      DOMPurify.sanitize(tableHTML);
+  } catch (error) {
+    document.getElementById("result-container").innerText =
+      "Не удалось получить премию";
+    console.error("Ошибка:", error);
+  }
 }
 
 function searchTable(inputId, tableId) {
-    const input = document.getElementById(inputId);
-    const filter = input.value.toUpperCase();
-    const table = document.getElementById(tableId);
-    const rows = table.getElementsByTagName("tr");
+  const input = document.getElementById(inputId);
+  const filter = input.value.toUpperCase();
+  const table = document.getElementById(tableId);
+  const rows = table.getElementsByTagName("tr");
 
-    for (let row of rows) {
-        const cell = row.getElementsByTagName("td")[0];
-        if (cell) {
-            const txtValue = cell.textContent || cell.innerText;
-            row.style.display = txtValue.toUpperCase().includes(filter) ? "" : "none";
-        }
+  for (let row of rows) {
+    const cell = row.getElementsByTagName("td")[0];
+    if (cell) {
+      const txtValue = cell.textContent || cell.innerText;
+      row.style.display = txtValue.toUpperCase().includes(filter) ? "" : "none";
     }
+  }
 }
 
 async function fetchRouters() {
-    try {
-        const response = await fetch(
-            "https://authfailed.github.io/domru-helper/api/routers.json",
-        );
-        const data = await response.json();
+  try {
+    const response = await fetch("https://helper.chrsnv.ru/api/routers.json");
+    const data = await response.json();
 
-        if (data.routers && Array.isArray(data.routers)) {
-            const rows = data.routers
-                .map(
-                    (router) => `
+    if (data.routers && Array.isArray(data.routers)) {
+      const rows = data.routers
+        .map(
+          (router) => `
         <tr>
           <td>${router.Name}</td>
           <td>${createLinkOrText(router.PPPoE, "PPPoE")}</td>
@@ -299,11 +299,11 @@ async function fetchRouters() {
           <td>${createLinkOrText(router.BZ, "БЗ")}</td>
           <td>${createLinkOrText(router.Emulator, "Эмулятор", true)}</td>
         </tr>
-      `,
-                )
-                .join("");
+      `
+        )
+        .join("");
 
-            const tableHTML = `
+      const tableHTML = `
         <table>
             <thead>
                 <tr>
@@ -323,52 +323,50 @@ async function fetchRouters() {
         </table>
       `;
 
-            document.getElementById("routersTable").innerHTML =
-                DOMPurify.sanitize(tableHTML);
-        } else {
-            console.error('Ключ "routers" не найден или не является массивом:', data);
-        }
-    } catch (error) {
-        console.error("Ошибка при получении данных:", error);
+      document.getElementById("routersTable").innerHTML =
+        DOMPurify.sanitize(tableHTML);
+    } else {
+      console.error('Ключ "routers" не найден или не является массивом:', data);
     }
+  } catch (error) {
+    console.error("Ошибка при получении данных:", error);
+  }
 }
 
 function createLinkOrText(value, text, isEmulator = false) {
-    if (value === "Нет") {
-        return "Нет";
-    }
-    if (isEmulator && Array.isArray(value)) {
-        return value
-            .map((link) => `<a href="${link}" target="_blank">${text}</a>`)
-            .join(", ");
-    }
-    return `<a href="${value}" target="_blank">${text}</a>`;
+  if (value === "Нет") {
+    return "Нет";
+  }
+  if (isEmulator && Array.isArray(value)) {
+    return value
+      .map((link) => `<a href="${link}" target="_blank">${text}</a>`)
+      .join(", ");
+  }
+  return `<a href="${value}" target="_blank">${text}</a>`;
 }
 
 async function fetchMNA() {
-    try {
-        const response = await fetch(
-            "https://authfailed.github.io/domru-helper/api/mna.json",
-        );
-        const data = await response.json();
+  try {
+    const response = await fetch("https://helper.chrsnv.ru/api/mna.json");
+    const data = await response.json();
 
-        // Проверяем, содержит ли объект ключ 'mna'
-        if (data.mna && Array.isArray(data.mna)) {
-            // Создаём содержимое таблицы
-            const rows = data.mna
-                .map(
-                    (provider) => `
+    // Проверяем, содержит ли объект ключ 'mna'
+    if (data.mna && Array.isArray(data.mna)) {
+      // Создаём содержимое таблицы
+      const rows = data.mna
+        .map(
+          (provider) => `
           <tr>
             <td><a href="${provider.link}" target="_blank">${provider.name}</a></td>
             <td>${provider.authorization}</td>
             <td>${provider.connection}</td>
           </tr>
-        `,
-                )
-                .join("");
+        `
+        )
+        .join("");
 
-            // Формируем полную таблицу
-            const tableHTML = `
+      // Формируем полную таблицу
+      const tableHTML = `
         <table id="providersTable">
           <thead>
             <tr>
@@ -383,23 +381,23 @@ async function fetchMNA() {
         </table>
       `;
 
-            document.getElementById("providersTable").innerHTML =
-                DOMPurify.sanitize(tableHTML);
-        } else {
-            console.error('Ключ "mna" не найден или не является массивом:', data);
-        }
-    } catch (error) {
-        console.error("Ошибка при получении данных:", error);
+      document.getElementById("providersTable").innerHTML =
+        DOMPurify.sanitize(tableHTML);
+    } else {
+      console.error('Ключ "mna" не найден или не является массивом:', data);
     }
+  } catch (error) {
+    console.error("Ошибка при получении данных:", error);
+  }
 }
 
 fetchMNA().then(() =>
-    console.log(
-        `[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] Загружен список провайдеров`,
-    ),
+  console.log(
+    `[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] Загружен список провайдеров`
+  )
 );
 fetchRouters().then(() =>
-    console.log(
-        `[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] Загружен список провайдеров`,
-    ),
+  console.log(
+    `[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] Загружен список провайдеров`
+  )
 );
