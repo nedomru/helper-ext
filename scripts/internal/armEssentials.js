@@ -1137,7 +1137,7 @@ async function fastButtonsChangeRequest() {
 
   function handleNTPIshodClick() {
     let step = document.querySelector("#change_step_id");
-    let objReason = document.querySelector(".uni_load_obj_reason");
+    document.querySelector(".uni_load_obj_reason");
     let exists = false;
 
     for (let option of step.options) {
