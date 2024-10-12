@@ -95,7 +95,7 @@ if (
 
     deleteTabs(tabsToDelete).then(() => {
       console.log(
-        `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Удаление вкладок] Вкладки удалены`,
+        `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Удаление вкладок] Вкладки удалены`,
       );
     });
   });
@@ -115,7 +115,7 @@ if (
 
   setHelperAnticipation().then(() => {
     console.log(
-      `[${new Date().toLocaleTimeString()}] [Помощник] - [Предвосхищение] Предвосхищение загружено`,
+      `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Предвосхищение] Предвосхищение загружено`,
     );
   });
 }
@@ -175,7 +175,7 @@ async function checkForSpecialClient() {
     if (element.textContent.trim() === "Особый Клиент") {
       alert("Внимание! Особый клиент!");
       console.log(
-        `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Особый клиент] Найден особый клиент`,
+        `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Особый клиент] Найден особый клиент`,
       );
       observerSpecial.disconnect();
     }
@@ -251,7 +251,7 @@ async function setHelperAnticipation() {
     problems++;
 
     console.log(
-      `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден СПАС`,
+      `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Предвосхищение] Найден СПАС`,
     );
   } else {
     function checkForSPAS(node) {
@@ -266,7 +266,7 @@ async function setHelperAnticipation() {
         clearTimeout(timeout);
 
         console.log(
-          `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден СПАС`,
+          `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Предвосхищение] Найден СПАС`,
         );
       }
     }
@@ -287,7 +287,7 @@ async function setHelperAnticipation() {
         problems++;
 
         console.log(
-          `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден закрытый доступ`,
+          `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Предвосхищение] Найден закрытый доступ`,
         );
       }
     });
@@ -305,7 +305,7 @@ async function setHelperAnticipation() {
           clearTimeout(timeout);
 
           console.log(
-            `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден закрытый доступ`,
+            `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Предвосхищение] Найден закрытый доступ`,
           );
         }
       }
@@ -327,7 +327,7 @@ async function setHelperAnticipation() {
         problems++;
 
         console.log(
-          `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найдена авария`,
+          `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Предвосхищение] Найдена авария`,
         );
       }
     });
@@ -345,7 +345,7 @@ async function setHelperAnticipation() {
           clearTimeout(timeout);
 
           console.log(
-            `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найдена авария`,
+            `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Предвосхищение] Найдена авария`,
           );
         }
       }
@@ -367,7 +367,7 @@ async function setHelperAnticipation() {
         problems++;
 
         console.log(
-          `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден ППР`,
+          `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Предвосхищение] Найден ППР`,
         );
       }
     });
@@ -385,7 +385,7 @@ async function setHelperAnticipation() {
           clearTimeout(timeout);
 
           console.log(
-            `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден ППР`,
+            `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Предвосхищение] Найден ППР`,
           );
         }
       }
@@ -407,7 +407,7 @@ async function setHelperAnticipation() {
         problems++;
 
         console.log(
-          `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден особый клиент`,
+          `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Предвосхищение] Найден особый клиент`,
         );
       }
     });
@@ -426,7 +426,7 @@ async function setHelperAnticipation() {
           clearTimeout(timeout);
 
           console.log(
-            `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Найден особый клиент`,
+            `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Предвосхищение] Найден особый клиент`,
           );
         }
       }
@@ -442,7 +442,7 @@ async function setHelperAnticipation() {
     button.style.backgroundColor = "#008000";
   }
   console.log(
-    `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Предвосхищение] Предвосхищение загружено`,
+    `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Предвосхищение] Предвосхищение загружено`,
   );
 }
 
@@ -465,7 +465,7 @@ async function copyClientAddress() {
     address_text = document.getElementById("dr").innerText;
   } catch (e) {
     console.log(
-      `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Копирование адреса] Не найдено поле адреса для копирования`,
+      `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Копирование адреса] Не найдено поле адреса для копирования`,
     );
     return;
   }
@@ -513,7 +513,7 @@ async function copyClientAddress() {
   address.appendChild(copyButton);
 
   console.log(
-    `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Копирование адреса] Добавлена кнопка копирования адреса`,
+    `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Копирование адреса] Добавлена кнопка копирования адреса`,
   );
 }
 
@@ -528,7 +528,7 @@ function copyClientCard() {
     clientCardShowButton.click();
   } catch (e) {
     console.log(
-      `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Копирование карточки] Не найдена карточка клиента`,
+      `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Копирование карточки] Не найдена карточка клиента`,
     );
     return;
   }
@@ -551,14 +551,16 @@ function copyClientCard() {
     event.preventDefault();
     event.stopPropagation();
 
-    window.navigator.clipboard.writeText(clientCardText);
+    window.navigator.clipboard.writeText(clientCardText).then(() => console.log(
+        `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Копирование] Карточка успешно скопирована`
+    ))
     $.notify("Карточка скопирована", "success");
   });
   clientCard.appendChild(lineBreak);
   clientCard.appendChild(copyButton);
 
   console.log(
-    `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Копирование карточки] Добавлена кнопка копирования карточки`,
+    `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Копирование] Добавлена кнопка копирования карточки`,
   );
 }
 
@@ -581,7 +583,9 @@ function copyClientAgreement() {
     event.preventDefault();
     event.stopPropagation();
 
-    window.navigator.clipboard.writeText(agreement_number.textContent);
+    window.navigator.clipboard.writeText(agreement_number.textContent).then(() => console.log(
+        `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Копирование] Договор успешно скопирован`
+    ))
     $.notify("Номер договора скопирован", "success");
   });
 
@@ -589,7 +593,7 @@ function copyClientAgreement() {
   agreementBeforeTab.appendChild(copyButton);
 
   console.log(
-    `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Копирование договора] Добавлена кнопка копирования договора`,
+    `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Копирование] Добавлена кнопка копирования договора`,
   );
 }
 
@@ -638,7 +642,9 @@ function copyTimeSlots() {
           );
           navigator.clipboard.writeText(formattedOptions).then(() => {
             $.notify("Слоты скопированы", "success");
-            console.log("Скопировано в буфер обмена");
+            console.log(
+                `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Копирование] Слоты успешно скопированы`
+            )
           });
         });
 
@@ -675,7 +681,9 @@ function copyMAC() {
         copyButton.onclick = function (event) {
           event.preventDefault();
           event.stopPropagation();
-          window.navigator.clipboard.writeText(macAddress);
+          window.navigator.clipboard.writeText(macAddress).then(() => console.log(
+              `[${new Date().toLocaleTimeString()}] [Хелпер] - [Копирование] - [Карточка] Карточка успешно скопирована`
+          ))
           $.notify("MAC-адрес скопирован", "success");
         };
 
@@ -843,7 +851,7 @@ function wrongTransferFalse() {
     radioButton.click();
 
     console.log(
-      `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Отмечено как не ошибочное`,
+      `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Отмечено как не ошибочное`,
     );
   }
 }
@@ -854,7 +862,7 @@ function removeSetForMe() {
   checkbox.checked = false;
 
   console.log(
-    `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Убрано назначение обращения на себя`,
+    `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Убрано назначение обращения на себя`,
   );
 }
 
@@ -991,7 +999,7 @@ async function fastButtonsChangeRequest() {
     }
 
     console.log(
-      `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на Онлайн вход - КС`,
+      `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Обращение изменено на Онлайн вход - КС`,
     );
 
     $.notify("Обращение изменено: Онлайн вход - КС", "success");
@@ -1038,7 +1046,7 @@ async function fastButtonsChangeRequest() {
     }
 
     console.log(
-      `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на ОЦТП Исход - КС`,
+      `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Обращение изменено на ОЦТП Исход - КС`,
     );
     $.notify("Обращение изменено на ОЦТП Исход - КС", "success");
   }
@@ -1083,7 +1091,7 @@ async function fastButtonsChangeRequest() {
     }
 
     console.log(
-      `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на ТС/ААО`,
+      `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Обращение изменено на ТС/ААО`,
     );
     $.notify("Обращение изменено на ТС/ААО", "success");
   }
@@ -1130,7 +1138,7 @@ async function fastButtonsChangeRequest() {
     }
 
     console.log(
-      `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на НРД - Исход`,
+      `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Обращение изменено на НРД - Исход`,
     );
     $.notify("Обращение изменено на НРД - Исход", "success");
   }
@@ -1176,7 +1184,7 @@ async function fastButtonsChangeRequest() {
     }
 
     console.log(
-      `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на НТП - Исход`,
+      `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Обращение изменено на НТП - Исход`,
     );
     $.notify("Обращение изменено на НТП - Исход", "success");
   }
@@ -1208,7 +1216,7 @@ async function fastButtonsChangeRequest() {
     }
 
     console.log(
-      `[${new Date().toLocaleTimeString()}] [Помощник] - [АРМ] - [Обращения] Обращение изменено на Абон - Исход`,
+      `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Обращение изменено на Абон - Исход`,
     );
     $.notify("Обращение изменено на Абон - Исход", "success");
   }

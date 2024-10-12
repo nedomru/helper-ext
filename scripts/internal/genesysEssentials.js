@@ -44,7 +44,7 @@ if (
                     // const showLineMessages = result.GENESYS_showLineMessages;
 
                     if (showLineStatusNck1 || showLineStatusNck2) {
-                        socketConnect(phpSessionId).then(() => console.log("[Хелпер] - [Генезис] - [Статус линии] - Активирован модуль статуса линии"));
+                        socketConnect(phpSessionId).then(() => console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Статус линии] - Активирован модуль статуса линии`));
                     }
                 }
             );
@@ -154,7 +154,7 @@ async function socketConnect(sessionID) {
         if (reconnectAttempts < maxReconnectAttempts) {
             const delay = baseReconnectDelay * Math.pow(2, reconnectAttempts);
             $.notify(`Пытаемся переподключиться к линии... (Попытка ${reconnectAttempts + 1}/${maxReconnectAttempts})`, "warning");
-            console.log(`Хелпер - Пробуем переподключиться через ${delay / 1000} секунд...`);
+            console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Линия] - Пробуем переподключиться через ${delay / 1000} секунд...`)
 
             setTimeout(() => {
                 browser.storage.sync.get(["phpSessionId"], function (result) {
@@ -168,7 +168,7 @@ async function socketConnect(sessionID) {
             reconnectAttempts++;
         } else {
             $.notify("Не удалось переподключиться, достигнут максимум попыток", "error");
-            console.log("Хелпер - Достигнуто максимальное количество попыток подключения к сокету. Попробуйте позже.");
+            console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Линия] - Достигнуто максимальное количество попыток подключения к сокету`)
         }
     };
 
@@ -379,7 +379,7 @@ Web: ${data.availQueues[3][1].currentWaitingCalls} / ${data.availQueues[3][1].to
 
 function hideHeader() {
     console.log(
-        `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Скрытие заголовка чата] Загружен модуль скрытия заголовков`
+        `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Скрытие заголовка чата] Загружен модуль скрытия заголовков`
     );
     const observer = new MutationObserver(() => {
         const chatHeader = document.querySelector(".wwe-case-information-header");
@@ -390,7 +390,7 @@ function hideHeader() {
                     chatHeader.click();
                     chatHeader.classList.add("was-hidden-by-helper");
                     console.log(
-                        `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Скрытие заголовка чата] Хедер чата: скрыт`
+                        `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Скрытие заголовка чата] Хедер чата: скрыт`
                     );
                 }
             }
@@ -457,9 +457,6 @@ function hideUselessButtons() {
                 const btn = document.querySelector(`a[aria-label="${button}"]`);
                 if (btn) {
                     btn.remove();
-                    console.log(
-                        `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - ${button} удалена`
-                    );
                 }
             });
             document.querySelector(".dropdown.account-help").remove();
@@ -467,7 +464,7 @@ function hideUselessButtons() {
 
             observerOther.disconnect();
             console.log(
-                `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Бесполезные кнопки] Все бесполезные кнопки удалены`
+                `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Бесполезные кнопки] Все бесполезные кнопки удалены`
             );
         }
     });
@@ -483,7 +480,7 @@ async function genesysButtons() {
 
     // Удаляем !important у border-radius для кнопок
     Array.from(document.styleSheets).forEach((styleSheet) => {
-        const rules = styleSheet.cssRules || styleSheet.rules;
+        const rules = styleSheet.cssRules || styleSheet.cssRules;
         if (!rules) return;
 
         Array.from(rules).forEach((rule) => {
@@ -563,7 +560,7 @@ async function genesysButtons() {
             observer.disconnect(); // Отключаем наблюдателя после добавления кнопок
 
             console.log(
-                `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Быстрые кнопки] Добавлены быстрые кнопки`
+                `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Быстрые кнопки] Добавлены быстрые кнопки`
             );
         }
     });
@@ -645,13 +642,13 @@ function otpcLineStatus() {
                 } else {
                     genesysTitle.textContent = "НЦК2: нет апдейтов";
                     console.log(
-                        `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Аварийность] Изменений аварийности не найдено`
+                        `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Аварийность] Изменений аварийности не найдено`
                     );
                 }
             })
             .catch((error) => {
                 console.error(
-                    `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Аварийность] Ошибка:`,
+                    `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Аварийность] Ошибка:`,
                     error
                 );
             });
@@ -669,7 +666,7 @@ function otpcLineStatus() {
     setInterval(getLineUpdate, 5000);
 
     console.log(
-        `[${new Date().toLocaleTimeString()}] [Помощник] - [Генезис] - [Аварийность] Загружена аварийность НЦК2`
+        `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Аварийность] Загружена аварийность НЦК2`
     );
 }
 
@@ -699,7 +696,7 @@ window.genesys.wwe.configuration.set("chat.client.text-color", "${clientTextColo
             document.body.appendChild(colorScript)
 
             $.notify("Загружены кастомные цвета чата", "success")
-            console.log("Хелпер - кастомные цвета чата применены");
+            console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Цвета чата] - Применены кастомные цвета чата`)
         });
     }
 
@@ -750,7 +747,7 @@ window.genesys.wwe.configuration.set("chat.new-message-bell", "${newMessageSound
             document.body.appendChild(soundScript)
 
             $.notify("Загружены кастомные звуки чата", "success")
-            console.log("Хелпер - кастомные звуки чата применены");
+            console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Цвета чата] - Применены кастомные звуки чата`)
         });
     }
 

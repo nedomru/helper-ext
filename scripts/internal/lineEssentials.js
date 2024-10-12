@@ -13,7 +13,7 @@ if (document.URL.indexOf("genesys-ntp") !== -1) {
   browser.storage.sync.set(
     { phpSessionId: getCookie("PHPSESSID") },
     function () {
-      console.log("PHPSESSID сохранён.");
+      console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Линия] - Сохранен текущий PHPSESSID`)
     }
   );
 
@@ -95,7 +95,7 @@ function dutyButtons() {
         observer.disconnect(); // Отключаем наблюдатель после добавления кнопок
 
         console.log(
-          `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Кнопки дежурных] Добавлены кнопки дежурного`
+          `[${new Date().toLocaleTimeString()}] [Хелпер] - [Линия] - [Кнопки дежурных] Добавлены кнопки дежурного`
         );
       }
     }
@@ -225,14 +225,14 @@ async function fastButtons() {
   });
 
   console.log(
-    `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Быстрые кнопки] Добавлены быстрые кнопки на линию`
+    `[${new Date().toLocaleTimeString()}] [Хелпер] - [Линия] - [Быстрые кнопки] Добавлены быстрые кнопки на линию`
   );
 }
 
 // Подсветка операторов с определенными классами на линии
 function highlightOperators() {
   console.log(
-    `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Подсветка операторов] Активирован модуль подсветки`
+    `[${new Date().toLocaleTimeString()}] [Хелпер] - [Линия] - [Подсветка операторов] Активирован модуль подсветки`
   );
 
   const projects = "Проектная деятельность";
@@ -292,7 +292,7 @@ function highlightOperators() {
       }
     });
     console.log(
-      `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Подсветка операторов] Подсветка обновлена`
+      `[${new Date().toLocaleTimeString()}] [Хелпер] - [Линия] - [Подсветка операторов] Подсветка обновлена`
     );
   };
 
@@ -363,7 +363,7 @@ function updateNeededSL() {
     getSL();
   }, 10000);
   console.log(
-    `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Прогноз SL] Загружен модуль прогнозирования SL`
+    `[${new Date().toLocaleTimeString()}] [Хелпер] - [Линия] - [Прогноз SL] Загружен модуль прогнозирования SL`
   );
   const url = `https://okc.ertelecom.ru/stats/genesys-reports/ntp/get-sl-forecast-report`;
   const now = new Date();
@@ -401,7 +401,6 @@ function updateNeededSL() {
     ".v-icon.header-stat-icon.mr-1.mdi.mdi-chart-line.grey--text.text--lighten-3"
   );
 
-  console.log(formattedDate);
   function getSL() {
     fetch(url, {
       credentials: "include",
@@ -433,12 +432,12 @@ function updateNeededSL() {
 Нужно держать ${data.daySl.NeededSl} SL
 Прогноз SL: ${half_time_data["FORECAST_SL"]}`;
         console.log(
-          `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Прогноз SL] Обновлен прогноз SL`
+          `[${new Date().toLocaleTimeString()}] [Хелпер] - [Линия] - [Прогноз SL] Обновлен прогноз SL`
         );
       })
       .catch((error) => {
         console.log(
-          `[${new Date().toLocaleTimeString()}] [Помощник] - [Линия] - [Прогноз SL] Ошибка: ${error}. Прогноз отключен.`
+          `[${new Date().toLocaleTimeString()}] [Хелпер] - [Линия] - [Прогноз SL] Ошибка: ${error}. Прогноз отключен.`
         );
         $.notify("Не удалось получить прогноз SL. Прогноз отключен.");
         clearInterval(interval);

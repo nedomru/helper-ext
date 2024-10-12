@@ -16,14 +16,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       const audioPlayer = document.getElementById("audioPlayer");
       audioPlayer.src = selectedSound;
 
-      audioPlayer
-        .play()
-        .then(function () {
-          console.log("Звук воспроизводится.");
-        })
-        .catch(function (error) {
-          console.error("Ошибка воспроизведения:", error);
-        });
+      audioPlayer.play()
     });
   document
     .getElementById("messagePlaySound")
@@ -32,14 +25,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       const audioPlayer = document.getElementById("audioPlayer");
       audioPlayer.src = selectedSound;
 
-      audioPlayer
-        .play()
-        .then(function () {
-          console.log("Звук воспроизводится.");
-        })
-        .catch(function (error) {
-          console.error("Ошибка воспроизведения:", error);
-        });
+      audioPlayer.play()
     });
 
   const chatSoundSelect = document.getElementById("chatSoundSelect");
@@ -52,11 +38,13 @@ document.addEventListener("DOMContentLoaded", async function () {
       .set({ GENESYS_chatSound_newChatSound: selectedSound })
       .then(() => {
         console.log(
-          `[${new Date().toLocaleTimeString()}] [Помощник] - Настройка выбранного звука изменена на ${selectedSound}`,
+          `[${new Date().toLocaleTimeString()}] [Хелпер] - [Настройки] Настройка выбранного звука изменена на ${selectedSound}`,
         );
       })
       .catch((error) => {
-        console.error("Ошибка при сохранении выбранного звука:", error);
+        console.log(
+            `[${new Date().toLocaleTimeString()}] [Хелпер] - [Настройки] Ошибка при сохранении выбранного звука: ${error}`,
+        );
       });
   }
 
@@ -67,7 +55,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       .set({ GENESYS_chatSound_newMessageSound: selectedSound })
       .then(() => {
         console.log(
-          `[${new Date().toLocaleTimeString()}] [Помощник] - Настройка выбранного звука изменена на ${selectedSound}`,
+          `[${new Date().toLocaleTimeString()}] [Хелпер] - Настройка выбранного звука изменена на ${selectedSound}`,
         );
       })
       .catch((error) => {
@@ -256,7 +244,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       .set({ [setting]: isChecked })
       .then(() => {
         console.log(
-          `[${new Date().toLocaleTimeString()}] [Помощник] - [Настройки] Настройка ${setting} изменена на ${isChecked}`,
+          `[${new Date().toLocaleTimeString()}] [Хелпер] - [Настройки] Настройка ${setting} изменена на ${isChecked}`,
         );
       })
       .catch(onError);
@@ -269,7 +257,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       .set({ [colorSetting]: colorValue })
       .then(() => {
         console.log(
-          `[${new Date().toLocaleTimeString()}] [Помощник] - [Настройки] Цвет ${colorSetting} изменён на ${colorValue}`,
+          `[${new Date().toLocaleTimeString()}] [Хелпер] - [Настройки] Цвет ${colorSetting} изменён на ${colorValue}`,
         );
       })
       .catch(onError);
@@ -314,7 +302,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     ];
     toggleCheckboxes(moneyCheckboxIds);
     console.log(
-      `[${new Date().toLocaleTimeString()}] [Помощник] - [Настройки] Скрыты вкладки начислений`,
+      `[${new Date().toLocaleTimeString()}] [Хелпер] - [Настройки] Скрыты вкладки начислений`,
     );
   });
 
@@ -332,7 +320,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     ];
     toggleCheckboxes(otherCheckboxIds);
     console.log(
-      `[${new Date().toLocaleTimeString()}] [Помощник] - [Настройки] Скрыты побочные вкладки`,
+      `[${new Date().toLocaleTimeString()}] [Хелпер] - [Настройки] Скрыты побочные вкладки`,
     );
   });
 
@@ -362,7 +350,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     reader.onload = function (event) {
       const settings = JSON.parse(event.target.result);
       browser.storage.sync.set(settings, function () {
-        console.log("Хелпер - Настройки успешно экспортированы!");
+        console.log(
+            `[${new Date().toLocaleTimeString()}] [Хелпер] - [Настройки] - Настройки успешно экспортированы`,
+        );
         $.notify("Настройки успешно импортированы", "success");
       });
     };
@@ -371,7 +361,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 });
 
 function onError(error) {
-  console.log(`Ошибка: ${error}`);
+  console.log(
+      `[${new Date().toLocaleTimeString()}] [Хелпер] - [Настройки] Произошла ошибка: ${error}`,
+  );
 }
 
 $(document).ready(function () {

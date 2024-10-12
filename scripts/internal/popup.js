@@ -184,7 +184,7 @@ async function handlePremiumSubmit() {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.log("[Хелпер] - [Проверка премии] - Произошла ошибка" + errorText)
+      console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Проверка премии] - Произошла ошибка: ${errorText}`)
     }
 
     const data = await response.json();

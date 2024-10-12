@@ -117,10 +117,13 @@ async function setDefaults() {
       return browser.storage.sync.set(settingsToSet);
     })
     .then(() => {
-      console.log("Настройки установлены:", defaultSettings);
+      console.log(
+          `[${new Date().toLocaleTimeString()}] [Хелпер] - [Настройки] - Базовые настройки установлены: ` + defaultSettings
+      )
     })
     .catch((error) => {
-      console.error("Ошибка установки настроек:", error);
+      console.log(
+          `[${new Date().toLocaleTimeString()}] [Хелпер] - [Настройки] - Ошибка установки настроек: ` + error)
     });
 }
 

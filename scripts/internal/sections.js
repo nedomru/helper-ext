@@ -55,9 +55,9 @@ function showTab(tabId) {
     // Save the last opened tab
     if (tabId === "Настройки") return;
     browser.storage.sync.set({lastTab: tabId}).then(() => {
-        console.log(`[Хелпер] - [Общее] - Сохранена последняя вкладка: ${tabId}`);
+        console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] - Сохранена последняя вкладка: ${tabId}`)
     }).catch(error => {
-        console.error('[Хелпер] - [Общее] - Ошибка сохранения последней вкладки:', error);
+        console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] - Ошибка сохранения последней вкладки: ${error}`)
     });
 }
 
@@ -442,16 +442,4 @@ function createMiniWindow() {
 document.addEventListener('DOMContentLoaded', () => {
     initTabs();
     addButtonListeners();
-
-    // Debug: Log all .tabcontent elements
-    console.log('Available .tabcontent elements:');
-    document.querySelectorAll('.tabcontent').forEach(tab => {
-        console.log(tab.id);
-    });
-
-    // Debug: Log all buttons
-    console.log('Available buttons:');
-    document.querySelectorAll('.btn-group button').forEach(button => {
-        console.log(button.textContent);
-    });
 });
