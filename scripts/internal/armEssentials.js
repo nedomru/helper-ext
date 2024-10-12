@@ -452,19 +452,6 @@ function hideSPAS() {
   if (header) header.className = "collapse";
 }
 
-function copyTextToClipboard(text) {
-  const textarea = document.createElement("textarea");
-  textarea.value = text;
-  document.body.appendChild(textarea);
-  textarea.select();
-  try {
-    document.execCommand("copy");
-  } catch (err) {
-    console.error("Oops, unable to copy", err);
-  }
-  document.body.removeChild(textarea);
-}
-
 async function copyClientAddress() {
   let address_text;
   const settings = await browser.storage.sync.get(
@@ -518,7 +505,7 @@ async function copyClientAddress() {
     event.preventDefault();
     event.stopPropagation();
 
-    copyTextToClipboard(address_text);
+    window.navigator.clipboard.writeText(address_text)
     $.notify("Адрес скопирован", "success");
   });
 
@@ -564,7 +551,7 @@ function copyClientCard() {
     event.preventDefault();
     event.stopPropagation();
 
-    copyTextToClipboard(clientCardText);
+    window.navigator.clipboard.writeText(clientCardText);
     $.notify("Карточка скопирована", "success");
   });
   clientCard.appendChild(lineBreak);
@@ -594,7 +581,7 @@ function copyClientAgreement() {
     event.preventDefault();
     event.stopPropagation();
 
-    copyTextToClipboard(agreement_number.textContent);
+    window.navigator.clipboard.writeText(agreement_number.textContent);
     $.notify("Номер договора скопирован", "success");
   });
 
@@ -688,7 +675,7 @@ function copyMAC() {
         copyButton.onclick = function (event) {
           event.preventDefault();
           event.stopPropagation();
-          copyTextToClipboard(macAddress);
+          window.navigator.clipboard.writeText(macAddress);
           $.notify("MAC-адрес скопирован", "success");
         };
 
