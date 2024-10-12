@@ -82,7 +82,7 @@ async function handleMacSubmit() {
   }
 }
 
-async function handleIPSubmit(event) {
+async function handleIPSubmit() {
   const inputField = document.getElementById("input-ip").value.trim();
   const ip_regex = new RegExp(
     "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
@@ -121,7 +121,7 @@ async function handleIPSubmit(event) {
   }
 }
 
-async function handleLinkSubmit(event) {
+async function handleLinkSubmit() {
   const inputField = document.getElementById("input-link").value.trim();
 
   $.notify("Сокращаю", "info");
@@ -146,7 +146,7 @@ async function handleLinkSubmit(event) {
   }
 }
 
-async function handlePremiumSubmit(event) {
+async function handlePremiumSubmit() {
   const inputField = document.getElementById("premium-select").value;
 
   let url;
@@ -183,8 +183,8 @@ async function handlePremiumSubmit(event) {
     });
 
     if (!response.ok) {
-      const errorText = await response.text(); // или response.json() если ожидается JSON
-      throw new Error(`Network response was not ok: ${errorText}`);
+      const errorText = await response.text();
+      console.log("[Хелпер] - [Проверка премии] - Произошла ошибка" + errorText)
     }
 
     const data = await response.json();
