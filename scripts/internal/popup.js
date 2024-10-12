@@ -7,14 +7,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  const form_mac = document.getElementById("form-mac");
-  const form_link = document.getElementById("form-link");
-  const form_ip = document.getElementById("form-ip");
-  const form_premium = document.getElementById("form-premium");
-  form_mac.addEventListener("submit", handleFormSubmitMac);
-  form_link.addEventListener("submit", handleFormSubmitLink);
-  form_ip.addEventListener("submit", handleFormSubmitIP);
-  form_premium.addEventListener("submit", handleFormPremium);
+  const submitMac = document.getElementById("submit-mac");
+  const submitIP = document.getElementById("submit-ip");
+  const submitLink = document.getElementById("submit-link");
+  const submitPremium = document.getElementById("submit-premium");
+  submitMac.addEventListener("click", handleMacSubmit);
+  submitIP.addEventListener("click", handleIPSubmit);
+  submitLink.addEventListener("click", handleLinkSubmit);
+  submitPremium.addEventListener("click", handlePremiumSubmit);
   document
     .getElementById("searchProvider")
     .addEventListener("input", () =>
@@ -25,6 +25,11 @@ document.addEventListener("DOMContentLoaded", function () {
     .addEventListener("input", () =>
       searchTable("searchRouter", "routersTable")
     );
+  document
+      .getElementById("searchPhrase")
+      .addEventListener("input", () =>
+          searchTable("searchPhrase", "phrasesTable")
+      );
   document
     .getElementById("openSettings")
     .addEventListener("click", function () {
@@ -37,13 +42,12 @@ document.addEventListener("DOMContentLoaded", function () {
   //   });
 });
 
-async function handleFormSubmitMac(event) {
-  event.preventDefault();
-  const formData = new FormData(event.target);
-  const inputField = formData.get("input-mac").trim();
+async function handleMacSubmit() {
+  const inputField = document.getElementById("input-mac");
+  const macAddress = inputField.value.trim();
   const mac_regex = new RegExp("^([0-9A-Fa-f]{2}[:-]?){5}([0-9A-Fa-f]{2})$");
 
-  if (mac_regex.test(inputField) === false) {
+  if (mac_regex.test(macAddress) === false) {
     $.notify("Это не MAC", "error");
     return;
   }
@@ -51,13 +55,13 @@ async function handleFormSubmitMac(event) {
   $.notify("Проверяю", "info");
   try {
     const response = await fetch(
-      `https://api.maclookup.app/v2/macs/${inputField}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
+        `https://api.maclookup.app/v2/macs/${macAddress}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
     );
     if (response.status !== 200) {
       $.notify("Не удалось найти", "error");
@@ -70,17 +74,16 @@ async function handleFormSubmitMac(event) {
 
     if (companyName) {
       $.notify(companyName, "success");
-      document.getElementById("input-mac").value = "";
+      inputField.value = "";
     }
   } catch (error) {
     console.error("Fetch error:", error);
+    $.notify("Произошла ошибка при проверке", "error");
   }
 }
 
-async function handleFormSubmitIP(event) {
-  event.preventDefault();
-  const formData = new FormData(event.target);
-  const inputField = formData.get("input-ip").trim();
+async function handleIPSubmit(event) {
+  const inputField = document.getElementById("input-ip").value.trim();
   const ip_regex = new RegExp(
     "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
   );
@@ -118,10 +121,8 @@ async function handleFormSubmitIP(event) {
   }
 }
 
-async function handleFormSubmitLink(event) {
-  event.preventDefault();
-  const formData = new FormData(event.target);
-  const inputField = formData.get("input-link");
+async function handleLinkSubmit(event) {
+  const inputField = document.getElementById("input-link").value.trim();
 
   $.notify("Сокращаю", "info");
   try {
@@ -145,28 +146,26 @@ async function handleFormSubmitLink(event) {
   }
 }
 
-async function handleFormPremium(event) {
-  event.preventDefault(); // предотвращаем стандартное поведение формы
-  const formData = new FormData(event.target);
-  const inputField = formData.get("premium-select");
+async function handlePremiumSubmit(event) {
+  const inputField = document.getElementById("premium-select").value;
 
   let url;
   inputField === "nck2"
-    ? (url =
-        "https://okc.ertelecom.ru/stats/premium/ntp-nck2/get-premium-spec-month")
-    : (url =
-        "https://okc.ertelecom.ru/stats/premium/ntp-nck1/get-premium-spec-month");
+      ? (url =
+          "https://okc.ertelecom.ru/stats/premium/ntp-nck2/get-premium-spec-month")
+      : (url =
+          "https://okc.ertelecom.ru/stats/premium/ntp-nck1/get-premium-spec-month");
 
   const requestBody = new URLSearchParams();
   const now = new Date();
   const firstDayCurrentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
   const formattedDate =
-    String(firstDayCurrentMonth.getDate()).padStart(2, "0") +
-    "." +
-    String(firstDayCurrentMonth.getMonth() + 1).padStart(2, "0") +
-    "." +
-    firstDayCurrentMonth.getFullYear();
+      String(firstDayCurrentMonth.getDate()).padStart(2, "0") +
+      "." +
+      String(firstDayCurrentMonth.getMonth() + 1).padStart(2, "0") +
+      "." +
+      firstDayCurrentMonth.getFullYear();
 
   requestBody.append("period", formattedDate);
   requestBody.append("subdivisionId[]", "16231");
@@ -176,7 +175,7 @@ async function handleFormPremium(event) {
       credentials: "include",
       headers: {
         "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0",
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0",
         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
       },
       body: requestBody.toString(),
@@ -192,212 +191,75 @@ async function handleFormPremium(event) {
     const result = data["result"][0];
 
     const tableHTML = `
-            <table>
+            <table class="table table-hover table-bordered table-responsive table-sm">
                 <thead>
                     <tr>
-                        <th>Параметр</th>
-                        <th>Факт</th>
-                        <th>Норматив</th>
-                        <th>Процент</th>
+                        <th scope="col">Параметр</th>
+                        <th scope="col">Факт</th>
+                        <th scope="col">Норматив</th>
+                        <th scope="col">Процент</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="table-group-divider">
                     <tr>
-                        <td>Специалист</td>
-                        <td colspan="3">${result["USER_FIO"]}</td>
+                        <th scope="row">Специалист</th>
+                        <td colspan="3" class="align-middle">${result["USER_FIO"]}</td>
                     </tr>
                     <tr>
-                        <td>Общая премия</td>
-                        <td colspan="3">${result["TOTAL_PREMIUM"]}%</td>
+                        <th scope="row">Общая премия</th>
+                        <td colspan="3" class="align-middle">${result["TOTAL_PREMIUM"]}%</td>
                     </tr>
                     <tr>
-                        <td>Кол-во чатов</td>
-                        <td colspan="3">${result["TOTAL_CHATS"]}</td>
+                        <th scope="row">Кол-во чатов</th>
+                        <td colspan="3" class="align-middle">${result["TOTAL_CHATS"]}</td>
                     </tr>
                     <tr>
-                        <td>Тесты</td>
-                        <td colspan="3">${result["PERC_TESTING"]}%</td>
+                        <th scope="row">Тесты</th>
+                        <td colspan="3" class="align-middle">${result["PERC_TESTING"]}%</td>
                     </tr>
                     <tr>
-                        <td>Благодарности</td>
-                        <td colspan="3">${result["PERC_THANKS"]}%</td>
+                        <th scope="row">Благодарности</th>
+                        <td colspan="3" class="align-middle">${result["PERC_THANKS"]}%</td>
                     </tr>
                     <tr>
-                        <td>Оценка</td>
-                        <td>${result["CSI"]}</td>
-                        <td>${result["CSI_NORMATIVE"]}</td>
-                        <td>${result["PERC_CSI"]}%</td>
+                        <th scope="row">Оценка</th>
+                        <td class="align-middle">${result["CSI"]}</td>
+                        <td class="align-middle">${result["CSI_NORMATIVE"]}</td>
+                        <td class="align-middle">${result["PERC_CSI"]}%</td>
                     </tr>
                     <tr>
-                        <td>Отклик</td>
-                        <td>${result["CSI_RESPONSE"]}</td>
-                        <td>-</td>
-                        <td>-</td>
+                        <th scope="row">Отклик</th>
+                        <td class="align-middle">${result["CSI_RESPONSE"]}</td>
+                        <td class="align-middle">-</td>
+                        <td class="align-middle">-</td>
                     </tr>
                     <tr>
-                        <td>FLR</td>
-                        <td>${result["FLR"]}</td>
-                        <td>${result["FLR_NORMATIVE"]}</td>
-                        <td>${result["PERC_FLR"]}%</td>
+                        <th scope="row">FLR</th>
+                        <td class="align-middle">${result["FLR"]}</td>
+                        <td class="align-middle">${result["FLR_NORMATIVE"]}</td>
+                        <td class="align-middle">${result["PERC_FLR"]}%</td>
                     </tr>
                     <tr>
-                        <td>ГОК</td>
-                        <td>${result["GOK"]}</td>
-                        <td>${result["GOK_NORMATIVE"]}</td>
-                        <td>${result["PERC_GOK"]}%</td>
+                        <th scope="row">ГОК</th>
+                        <td class="align-middle">${result["GOK"]}</td>
+                        <td class="align-middle">${result["GOK_NORMATIVE"]}</td>
+                        <td class="align-middle">${result["PERC_GOK"]}%</td>
                     </tr>
                     <tr>
-                        <td>АХТ</td>
-                        <td>${result["PERS_FACT"]}</td>
-                        <td>${result["PERS_PLAN_1"]} / ${result["PERS_PLAN_2"]}</td>
-                        <td>${result["PERS_PERCENT"]}%</td>
+                        <th scope="row">АХТ</th>
+                        <td class="align-middle">${result["PERS_FACT"]}</td>
+                        <td class="align-middle">${result["PERS_PLAN_1"]} / ${result["PERS_PLAN_2"]}</td>
+                        <td class="align-middle">${result["PERS_PERCENT"]}%</td>
                     </tr>
                 </tbody>
             </table>
         `;
 
     document.getElementById("result-container").innerHTML =
-      DOMPurify.sanitize(tableHTML);
+        DOMPurify.sanitize(tableHTML);
   } catch (error) {
     document.getElementById("result-container").innerText =
-      "Не удалось получить премию";
+        "Не удалось получить премию";
     console.error("Ошибка:", error);
   }
 }
-
-function searchTable(inputId, tableId) {
-  const input = document.getElementById(inputId);
-  const filter = input.value.toUpperCase();
-  const table = document.getElementById(tableId);
-  const rows = table.getElementsByTagName("tr");
-
-  for (let row of rows) {
-    const cell = row.getElementsByTagName("td")[0];
-    if (cell) {
-      const txtValue = cell.textContent || cell.innerText;
-      row.style.display = txtValue.toUpperCase().includes(filter) ? "" : "none";
-    }
-  }
-}
-
-async function fetchRouters() {
-  try {
-    const response = await fetch("https://helper.chrsnv.ru/api/routers.json");
-    const data = await response.json();
-
-    if (data.routers && Array.isArray(data.routers)) {
-      const rows = data.routers
-        .map(
-          (router) => `
-        <tr>
-          <td>${router.Name}</td>
-          <td>${createLinkOrText(router.PPPoE, "PPPoE")}</td>
-          <td>${createLinkOrText(router.DHCP, "DHCP")}</td>
-          <td>${createLinkOrText(router.IPoE, "IPoE")}</td>
-          <td>${createLinkOrText(router.Channels, "Каналы")}</td>
-          <td>${router.Settings}</td>
-          <td>${createLinkOrText(router.BZ, "БЗ")}</td>
-          <td>${createLinkOrText(router.Emulator, "Эмулятор", true)}</td>
-        </tr>
-      `
-        )
-        .join("");
-
-      const tableHTML = `
-        <table>
-            <thead>
-                <tr>
-                    <th>Название</th>
-                    <th>PPPoE</th>
-                    <th>DHCP</th>
-                    <th>IPoE</th>
-                    <th>Каналы</th>
-                    <th>Интерфейс</th>
-                    <th>БЗ</th>
-                    <th>Эмулятор</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${rows}
-            </tbody>
-        </table>
-      `;
-
-      document.getElementById("routersTable").innerHTML =
-        DOMPurify.sanitize(tableHTML);
-    } else {
-      console.error('Ключ "routers" не найден или не является массивом:', data);
-    }
-  } catch (error) {
-    console.error("Ошибка при получении данных:", error);
-  }
-}
-
-function createLinkOrText(value, text, isEmulator = false) {
-  if (value === "Нет") {
-    return "Нет";
-  }
-  if (isEmulator && Array.isArray(value)) {
-    return value
-      .map((link) => `<a href="${link}" target="_blank">${text}</a>`)
-      .join(", ");
-  }
-  return `<a href="${value}" target="_blank">${text}</a>`;
-}
-
-async function fetchMNA() {
-  try {
-    const response = await fetch("https://helper.chrsnv.ru/api/mna.json");
-    const data = await response.json();
-
-    // Проверяем, содержит ли объект ключ 'mna'
-    if (data.mna && Array.isArray(data.mna)) {
-      // Создаём содержимое таблицы
-      const rows = data.mna
-        .map(
-          (provider) => `
-          <tr>
-            <td><a href="${provider.link}" target="_blank">${provider.name}</a></td>
-            <td>${provider.authorization}</td>
-            <td>${provider.connection}</td>
-          </tr>
-        `
-        )
-        .join("");
-
-      // Формируем полную таблицу
-      const tableHTML = `
-        <table id="providersTable">
-          <thead>
-            <tr>
-              <th>Провайдер</th>
-              <th>Авторизация</th>
-              <th>Подключение</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${rows}
-          </tbody>
-        </table>
-      `;
-
-      document.getElementById("providersTable").innerHTML =
-        DOMPurify.sanitize(tableHTML);
-    } else {
-      console.error('Ключ "mna" не найден или не является массивом:', data);
-    }
-  } catch (error) {
-    console.error("Ошибка при получении данных:", error);
-  }
-}
-
-fetchMNA().then(() =>
-  console.log(
-    `[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] Загружен список провайдеров`
-  )
-);
-fetchRouters().then(() =>
-  console.log(
-    `[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] Загружен список провайдеров`
-  )
-);

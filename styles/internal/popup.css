@@ -1,143 +1,59 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  width: 500px;
-  background-color: #ffffff; /* Обычный фон для светлой темы */
-  color: #000000; /* Обычный текст для светлой темы */
-}
-
-body.dark-theme {
-  background-color: #181818; /* Темный фон */
-  color: #e0e0e0; /* Светлый текст */
-}
-
-.row {
-  display: flex; /* Используем Flexbox для размещения колонок */
+  width: 620px;
+  background-color: #fff;
+  color: #000;
+  overflow-x: hidden;
 }
 
 div {
-  margin: 10px 5px 5px 5px;
+  margin: 5px;
 }
 
-span {
-  color: #0000cf; /* Цвет для светлой темы */
-}
-
-body.dark-theme span {
-  color: #0099ff; /* Светлый цвет для темной темы */
-}
-
-div a {
-  text-align: justify;
-  border-collapse: collapse;
-}
-
-.column {
-  flex: 50%; /* Указывает ширину колонки */
-}
-
-table,
-th,
-td {
-  border: 1px solid black;
-  border-collapse: collapse;
-}
-
-body.dark-theme table,
-body.dark-theme th,
-body.dark-theme td {
-  border: 1px solid white; /* Установка белого цвета для границ в темной теме */
-  border-collapse: collapse;
-}
-
-#result-container table {
-  width: 90%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-#result-container th,
-#result-container td {
-  border: 1px solid #ddd;
-  padding: 10px;
-  text-align: center; /* По горизонтали по центру */
-  vertical-align: middle; /* По вертикали по центру */
-}
-
-#result-container th {
-  background-color: #f2f2f2;
-}
-
-th,
-td {
-  padding: 5px;
-  text-align: left;
-}
-
+#searchPhrase,
 #searchProvider,
 #searchRouter {
-  background-position: 10px 12px; /* Расположите значок поиска */
-  background-repeat: no-repeat; /* Не повторяйте изображение значка */
-  width: auto; /* Полная ширина */
-  font-size: 14px; /* Увеличить размер шрифта */
-  padding: 6px 20px; /* Добавить отступы */
-  border: 1px solid #ddd; /* Добавить серую границу */
-  margin-bottom: 6px; /* Добавить пространство под входом */
+  background-position: 10px 12px;
+  background-repeat: no-repeat;
+  width: 100%;
+  max-width: 590px;
+  font-size: 14px;
+  padding: 6px 20px;
+  border: 1px solid #ddd;
+  margin-bottom: 6px;
+  border-radius: 5px;
 }
 
-/* Style the tab */
-.tab {
-  overflow: hidden;
-  border: 1px solid #ccc;
-  background-color: #f1f1f1; /* Цвет для светлой темы */
+body a {
+  color: #435282;
 }
 
-body.dark-theme .tab {
-  background-color: #282828; /* Темный фон для табов */
+.table {
+  width: 100%;
+  max-width: 590px;
+  border-collapse: collapse;
 }
 
-.tab button {
-  background-color: inherit;
-  float: left;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 14px 16px;
-  transition: 0.3s;
-  color: inherit; /* Цвет текста по умолчанию */
+.table-container {
+  transition: opacity 0.5s ease-in-out;
 }
 
-body.dark-theme .tab button {
-  color: #e0e0e0; /* Светлый текст для кнопок в темной теме */
-}
-
-.tab button:hover {
-  background-color: #ddd; /* Подсветка для светлой темы */
-}
-
-body.dark-theme .tab button:hover {
-  background-color: #444; /* Подсветка для темной темы */
-}
-
-.tab button.active {
-  background-color: #ccc; /* Цвет активной кнопки для светлой темы */
-}
-
-body.dark-theme .tab button.active {
-  background-color: #555; /* Цвет активной кнопки в темной теме */
+.table td, .table th {
+  text-align: center;
+  vertical-align: middle;
+  padding: 8px;
+  border: 1px solid #ddd;
 }
 
 .tabcontent {
   display: none;
 }
 
-body.dark-theme a {
-  color: #76abae;
-}
-
-body a {
-  color: #7695ff;
+ul {
+  list-style-type: none;
 }
