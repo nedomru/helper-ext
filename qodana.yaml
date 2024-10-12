@@ -32,5 +32,6 @@ exclude:
     paths:
       - scripts\external
   - name: JSNonASCIINames
+  - name: CommaExpressionJS
     paths:
-      - scripts\internal\highlights.js
+      - scripts\external
