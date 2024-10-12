@@ -787,60 +787,39 @@ function smsButtons() {
     cancelable: true,
   });
 
-  const buttonContainer = $(
-    '<div class="button-container" style="display: flex; flex-wrap: wrap; margin-top: 6px; gap: 6px;"></div>',
-  );
+  const buttonContainer = $('<div class="button-container" style="display: flex; flex-wrap: wrap; margin-top: 6px; gap: 6px;"></div>');
 
-  const static_btn = $(
-    '<input type="button" value="🔑 Static" class="btn btn-primary btn-sm helper"/>',
-  );
-  const pppoe_btn = $(
-    '<input type="button" value="🔑 PPPoE" class="btn btn-primary btn-sm helper"/>',
-  );
-  const lk_btn = $(
-    '<input type="button" value="🔐 ЛК" class="btn btn-primary btn-sm helper"/>',
-  );
-  const pay_btn = $(
-    '<input type="button" value="💸 Оплата" class="btn btn-primary btn-sm helper"/>',
-  );
+  const buttonData = [
+    { value: "🔑 Static", smsValue: 27 },
+    { value: "🔑 PPPoE", smsValue: 25 },
+    { value: "🔐 ЛК", smsValue: 26 },
+    { value: "💸 Оплата", smsValue: 24 },
+  ];
 
-  static_btn.on("click", function () {
-    $(".type_sms_a").val(27);
-    $(".type_sms_a")[0].dispatchEvent(changeEvent);
-  });
+  function createButton(buttonValue, smsValue) {
+    const button = $(`<input type="button" value="${buttonValue}" class="btn btn-primary btn-sm helper"/>`);
+    button.on("click", function () {
+      let smsSelector = $(".type_sms_a")
+      smsSelector.val(smsValue);
+      smsSelector[0].dispatchEvent(changeEvent);
+    });
+    return button;
+  }
 
-  pppoe_btn.on("click", function () {
-    $(".type_sms_a").val(25);
-    $(".type_sms_a")[0].dispatchEvent(changeEvent);
-  });
-
-  lk_btn.on("click", function () {
-    $(".type_sms_a").val(26);
-    $(".type_sms_a")[0].dispatchEvent(changeEvent);
-  });
-
-  pay_btn.on("click", function () {
-    $(".type_sms_a").val(24);
-    $(".type_sms_a")[0].dispatchEvent(changeEvent);
+  buttonData.forEach(data => {
+    const button = createButton(data.value, data.smsValue);
+    addButtonIfExists(button, data.smsValue);
   });
 
   function addButtonIfExists(button, value) {
-    if (
-      $(".type_sms_a option[value='" + value + "']").length &&
-      $(".helper[value='" + button.val() + "']").length === 0
-    ) {
+    if ($(".type_sms_a option[value='" + value + "']").length && $(".helper[value='" + button.val() + "']").length === 0) {
       buttonContainer.append(button);
     }
   }
 
-  addButtonIfExists(pay_btn, 24);
-  addButtonIfExists(lk_btn, 26);
-  addButtonIfExists(pppoe_btn, 25);
-  addButtonIfExists(static_btn, 27);
-
-  // Перемещение кнопок под элемент select
   $(".type_sms_a").after(buttonContainer);
 }
+
 
 function wrongTransferFalse() {
   const radioButton = document.querySelector(
