@@ -44,7 +44,7 @@ if (
                     // const showLineMessages = result.GENESYS_showLineMessages;
 
                     if (showLineStatusNck1 || showLineStatusNck2) {
-                        socketConnect(phpSessionId);
+                        socketConnect(phpSessionId).then(() => console.log("[Хелпер] - [Генезис] - [Статус линии] - Активирован модуль статуса линии"));
                     }
                 }
             );
