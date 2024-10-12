@@ -124,8 +124,8 @@ async function setDefaults() {
     });
 }
 
-browser.runtime.onInstalled.addListener(() => {
+browser.runtime.onInstalled.addEventListener(() => {
   checkForUpdates().then(() => {console.log("Хелпер - Проверка обновлений")});
   setDefaults().then(() => {console.log("Хелпер - Установка стандартных настроек")});
 });
-browser.runtime.onStartup.addListener(checkForUpdates);
+browser.runtime.onStartup.addEventListener(checkForUpdates);
