@@ -17,30 +17,6 @@ if (document.URL.indexOf("genesys-ntp") !== -1) {
     }
   );
 
-  const duty = [
-    { name: "Хохлов Сергей Евгеньевич", link: "https://t.me/viijko" },
-    { name: "Захарова Дарья Игоревна", link: "https://t.me/zakharovadi2" },
-    { name: "Шуваева Мария Сергеевна", link: "https://t.me/mariahajime" },
-    { name: "Мерионкова Екатерина Сергеевна", link: "https://t.me/ktmrnkv" },
-    { name: "Чурсанова Дарья Алексеевна", link: "https://t.me/UtyugBB" },
-    {
-      name: "Беседнова Виктория Валерьевна",
-      link: "https://t.me/vikabesednova",
-    },
-    {
-      name: "Омельченко Артур Андреевич",
-      link: "https://t.me/ArthurOmelchenko",
-    },
-    {
-      name: "Мелехина Валерия Анатольевна",
-      link: "https://t.me/leramegera",
-    },
-    {
-      name: "Белявский Артем Игоревич",
-      link: "https://t.me/artem_allo",
-    },
-  ];
-
   const LINE_config = {
     LINE_showFB: fastButtons,
     LINE_highlightOperators: highlightOperators,
