@@ -118,17 +118,17 @@ async function setDefaults() {
     })
     .then(() => {
       console.log(
-          `[${new Date().toLocaleTimeString()}] [Хелпер] - [Настройки] - Базовые настройки установлены: ` + defaultSettings
+          `[${new Date().toLocaleTimeString()}] [Хелпер] - [Настройки] Базовые настройки установлены`
       )
     })
     .catch((error) => {
       console.log(
-          `[${new Date().toLocaleTimeString()}] [Хелпер] - [Настройки] - Ошибка установки настроек: ` + error)
+          `[${new Date().toLocaleTimeString()}] [Хелпер] - [Настройки] Ошибка установки настроек: ` + error)
     });
 }
 
-browser.runtime.onInstalled.addEventListener(() => {
+browser.runtime.onInstalled.addListener(() => {
   checkForUpdates().then(() => {console.log("Хелпер - Проверка обновлений")});
   setDefaults().then(() => {console.log("Хелпер - Установка стандартных настроек")});
 });
-browser.runtime.onStartup.addEventListener(checkForUpdates);
+browser.runtime.onStartup.addListener(checkForUpdates);
