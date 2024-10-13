@@ -452,6 +452,19 @@ function hideSPAS() {
   if (header) header.className = "collapse";
 }
 
+function copyText(text) {
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand("copy");
+  } catch (err) {
+    console.error("Oops, unable to copy", err);
+  }
+  document.body.removeChild(textarea);
+}
+
 async function copyClientAddress() {
   let address_text;
   const settings = await browser.storage.sync.get(
@@ -505,7 +518,7 @@ async function copyClientAddress() {
     event.preventDefault();
     event.stopPropagation();
 
-    window.navigator.clipboard.writeText(address_text)
+    copyText(address_text)
     $.notify("Адрес скопирован", "success");
   });
 
@@ -551,9 +564,7 @@ function copyClientCard() {
     event.preventDefault();
     event.stopPropagation();
 
-    window.navigator.clipboard.writeText(clientCardText).then(() => console.log(
-        `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Копирование] Карточка успешно скопирована`
-    ))
+    copyText(clientCardText)
     $.notify("Карточка скопирована", "success");
   });
   clientCard.appendChild(lineBreak);
@@ -583,9 +594,7 @@ function copyClientAgreement() {
     event.preventDefault();
     event.stopPropagation();
 
-    window.navigator.clipboard.writeText(agreement_number.textContent).then(() => console.log(
-        `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Копирование] Договор успешно скопирован`
-    ))
+    copyText(agreement_number.textContent)
     $.notify("Номер договора скопирован", "success");
   });
 
@@ -640,12 +649,8 @@ function copyTimeSlots() {
               (option) => option.value && option.classList.contains("time_one"),
             ),
           );
-          navigator.clipboard.writeText(formattedOptions).then(() => {
-            $.notify("Слоты скопированы", "success");
-            console.log(
-                `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Копирование] Слоты успешно скопированы`
-            )
-          });
+          copyText(formattedOptions)
+          $.notify("Слоты скопированы", "success");
         });
 
         // Вставляем кнопку справа от целевого элемента
@@ -681,7 +686,7 @@ function copyMAC() {
         copyButton.onclick = function (event) {
           event.preventDefault();
           event.stopPropagation();
-          window.navigator.clipboard.writeText(macAddress).then(() => console.log(
+          copyText(macAddress).then(() => console.log(
               `[${new Date().toLocaleTimeString()}] [Хелпер] - [Копирование] - [Карточка] Карточка успешно скопирована`
           ))
           $.notify("MAC-адрес скопирован", "success");
