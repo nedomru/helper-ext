@@ -380,6 +380,7 @@ function displayPhrasesData(data) {
 
     addEventListeners();
     addStyles();
+    setupSearch()
 }
 
 function createDirectoryHTML(data) {
@@ -433,6 +434,38 @@ function createDirectoryHTML(data) {
             </li>
         `).join('')
     }</ul>`;
+}
+
+function setupSearch() {
+    const searchInput = document.getElementById('searchPhrase');
+    searchInput.addEventListener('input', performSearch);
+}
+
+function performSearch() {
+    const searchQuery = document.getElementById('searchPhrase').value.toLowerCase();
+    const directoryItems = document.querySelectorAll('.directory-item');
+
+    directoryItems.forEach(item => {
+        const folderName = item.querySelector('.directory-folder')?.textContent.toLowerCase() || '';
+        const phraseNames = Array.from(item.querySelectorAll('.directory-file')).map(el => el.textContent.toLowerCase());
+        const phraseContents = Array.from(item.querySelectorAll('.directory-file')).map(el => {
+            const phraseData = JSON.parse(el.dataset.phrase);
+            return Object.values(phraseData).join(' ').toLowerCase();
+        });
+
+        const isMatch = folderName.includes(searchQuery) ||
+            phraseNames.some(name => name.includes(searchQuery)) ||
+            phraseContents.some(content => content.includes(searchQuery));
+
+        item.style.display = isMatch ? '' : 'none';
+
+        // If it's a top-level category and it matches, show all its children
+        if (isMatch && item.classList.contains('open')) {
+            item.querySelectorAll('.directory-item').forEach(child => {
+                child.style.display = '';
+            });
+        }
+    });
 }
 
 function addEventListeners() {

@@ -26,11 +26,6 @@ document.addEventListener("DOMContentLoaded", function () {
       searchTable("searchRouter", "routersTable")
     );
   document
-      .getElementById("searchPhrase")
-      .addEventListener("input", () =>
-          searchTable("searchPhrase", "phrasesTable")
-      );
-  document
     .getElementById("openSettings")
     .addEventListener("click", function () {
       browser.runtime.openOptionsPage();
