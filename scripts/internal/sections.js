@@ -386,7 +386,7 @@ function displayPhrasesData(data) {
 function createDirectoryHTML(data) {
     const phraseMap = {
         android: "Android", ios: "iOS", smartdom: "SmartDom", lk: "ЛК", web: "Веб",
-        android_web: "Андроид/Веб", pppoe: "PPPoE", dhcp: "DHCP", handling: "Отработка"
+        android_web: "Андроид/Веб", pppoe: "PPPoE", dhcp: "DHCP", ts: "ТС", aao: "ААО", handling: "Отработка"
     };
 
     return `<ul class="directory" id="phrasesDirectoryContent">${
@@ -470,17 +470,17 @@ function performSearch() {
 
 function addEventListeners() {
     document.querySelectorAll('.directory-folder').forEach(folder => {
-        folder.addEventListener('click', function() {
+        folder.addEventListener('click', function () {
             this.parentElement.classList.toggle('open');
             updateFolderIcon(this);
         });
     });
 
     document.querySelectorAll('.phrase').forEach(phraseElement => {
-        phraseElement.addEventListener('click', function(event) {
+        phraseElement.addEventListener('click', function (event) {
             event.preventDefault();
             const phraseData = JSON.parse(this.getAttribute('data-phrase'));
-            const defaultPhrase = phraseData.default?.value || phraseData.android?.value || phraseData.ios?.value || phraseData.smartdom?.value || phraseData.lk?.value || phraseData.handling?.value || phraseData.android_web?.value || phraseData.pppoe?.value || phraseData.dhcp?.value || phraseData.value || 'Стандартная фраза недоступна';
+            const defaultPhrase = phraseData.default?.value || phraseData.android?.value || phraseData.ios?.value || phraseData.smartdom?.value || phraseData.lk?.value || phraseData.handling?.value || phraseData.android_web?.value || phraseData.pppoe?.value || phraseData.dhcp?.value || phraseData.ts?.value || phraseData.aao?.value || phraseData.value || 'Стандартная фраза недоступна';
             navigator.clipboard.writeText(defaultPhrase)
                 .then(() => $.notify("Скопировано", "success"))
                 .catch(err => console.error('Не удалось скопировать: ', err));
