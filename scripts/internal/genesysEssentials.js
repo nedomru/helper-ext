@@ -154,7 +154,7 @@ async function socketConnect(sessionID) {
         if (reconnectAttempts < maxReconnectAttempts) {
             const delay = baseReconnectDelay * Math.pow(2, reconnectAttempts);
             $.notify(`Пытаемся переподключиться к линии... (Попытка ${reconnectAttempts + 1}/${maxReconnectAttempts})`, "warning");
-            console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Линия] - Пробуем переподключиться через ${delay / 1000} секунд...`)
+            console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Линия] Пробуем переподключиться через ${delay / 1000} секунд...`)
 
             setTimeout(() => {
                 browser.storage.sync.get(["phpSessionId"], function (result) {
@@ -168,7 +168,7 @@ async function socketConnect(sessionID) {
             reconnectAttempts++;
         } else {
             $.notify("Не удалось переподключиться, достигнут максимум попыток", "error");
-            console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Линия] - Достигнуто максимальное количество попыток подключения к сокету`)
+            console.error(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Линия] Достигнуто максимальное количество попыток подключения к сокету`)
         }
     };
 
