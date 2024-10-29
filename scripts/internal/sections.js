@@ -331,28 +331,20 @@ async function fetchPhrases() {
         let isDataUpdated = false;
 
         if (data) {
-            // If data exists in storage, display it immediately
             displayPhrasesData(data);
-            console.log(
-                `[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] - [РМы] Список РМов загружен из кеша`
-            )
+            console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] - [РМы] Список РМов загружен из кеша`);
         }
 
         // Fetch fresh data from API in the background
-        const phrasesApiData = await fetchFromAPI(api_url = "https://flomaster.chrsnv.ru/api/phrases/");
+        const phrasesApiData = await fetchFromAPI("https://flomaster.chrsnv.ru/api/phrases/");
 
-        // Compare API data with storage data
         if (JSON.stringify(phrasesApiData) !== JSON.stringify(data)) {
-            // If data is different, update storage and display
             await saveToStorage("phrasesData", phrasesApiData);
-            console.log(
-                `[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] - [РМы] Загружены новые РМы из API`
-            )
+            console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] - [РМы] Загружены новые РМы из API`);
             data = phrasesApiData;
             isDataUpdated = true;
         }
 
-        // If data wasn't in storage initially or has been updated, display it
         if (!data || isDataUpdated) {
             displayPhrasesData(data);
         }
@@ -362,7 +354,6 @@ async function fetchPhrases() {
     }
 }
 
-// Функция для отображения данных РМов
 function displayPhrasesData(data) {
     const phrasesContainer = document.getElementById('phrasesContainer');
     const loadingSpinner = document.getElementById('loadingSpinner');
@@ -380,60 +371,79 @@ function displayPhrasesData(data) {
 
     addEventListeners();
     addStyles();
-    setupSearch()
+    setupSearch();
 }
 
 function createDirectoryHTML(data) {
-    const phraseMap = {
-        android: "Android", ios: "iOS", smartdom: "SmartDom", lk: "ЛК", web: "Веб",
-        android_web: "Андроид/Веб", pppoe: "PPPoE", dhcp: "DHCP", ts: "ТС", aao: "ААО", handling: "Отработка"
-    };
+    const categoriesMap = new Map();
 
-    return `<ul class="directory" id="phrasesDirectoryContent">${
-        Object.entries(data).map(([category, categoryData]) => `
-            <li class="directory-item open">
-                <span class="directory-folder category-folder" data-folder-type="category">
-                    <span class="folder-icon">📂</span>${category}<span class="arrow-icon">⬎</span>
-                </span>
-                <ul class="directory-content">${
-            Object.entries(categoryData.subcategories).map(([subcategory, subcategoryData]) => `
-                        <li class="directory-item">
-                            <span class="directory-folder subcategory-folder" data-folder-type="subcategory">
-                                <span class="folder-icon">📁</span>${subcategory}
-                            </span>
-                            <ul class="directory-content">${
-                Object.entries(subcategoryData.phrases).map(([phrase, phraseData]) => {
-                    const phraseKeys = Object.keys(phraseData).filter(key => key !== 'default' && phraseData[key]);
-                    return phraseKeys.length > 0 ? `
-                                        <li class="directory-item">
-                                            <span class="directory-folder phrase-folder" data-folder-type="phrase" data-phrase='${JSON.stringify(phraseData)}'>
-                                                <span class="folder-icon">📁</span>${phrase}
-                                            </span>
-                                            <ul class="directory-content">${
-                        phraseKeys.map(key => `
-                                                    <li class="directory-item">
-                                                        <span class="directory-file phrase" data-phrase='${JSON.stringify(phraseData[key])}'>
-                                                            <span class="file-icon">📄</span>${phraseMap[key] || key}
-                                                        </span>
-                                                    </li>
-                                                `).join('')
-                    }</ul>
-                                        </li>
-                                    ` : `
-                                        <li class="directory-item">
-                                            <span class="directory-file phrase" data-phrase='${JSON.stringify(phraseData)}'>
-                                                <span class="file-icon">📄</span>${phrase}
-                                            </span>
-                                        </li>
-                                    `;
-                }).join('')
-            }</ul>
-                        </li>
-                    `).join('')
-        }</ul>
+    // First, group phrases by category, subcategory, and phrase_key
+    data.forEach(phrase => {
+        if (!categoriesMap.has(phrase.category)) {
+            categoriesMap.set(phrase.category, new Map());
+        }
+        const category = categoriesMap.get(phrase.category);
+
+        if (!category.has(phrase.subcategory)) {
+            category.set(phrase.subcategory, new Map());
+        }
+        const subcategory = category.get(phrase.subcategory);
+
+        if (!subcategory.has(phrase.phrase_key)) {
+            subcategory.set(phrase.phrase_key, []);
+        }
+        subcategory.get(phrase.phrase_key).push(phrase);
+    });
+
+    return `<ul class="directory" id="phrasesDirectoryContent">
+    ${Array.from(categoriesMap.entries()).map(([category, subcategories]) => `
+      <li class="directory-item open">
+        <span class="directory-folder category-folder" data-folder-type="category">
+          <span class="folder-icon">📂</span>${category}<span class="arrow-icon">⬎</span>
+        </span>
+        <ul class="directory-content">
+          ${Array.from(subcategories.entries()).map(([subcategory, phrases]) => `
+            <li class="directory-item">
+              <span class="directory-folder subcategory-folder" data-folder-type="subcategory">
+                <span class="folder-icon">📁</span>${subcategory}<span class="arrow-icon">⬎</span>
+              </span>
+              <ul class="directory-content">
+                ${Array.from(phrases.entries()).map(([phrase_key, phraseVariants]) => {
+        const defaultPhrase = phraseVariants.find(p => p.tag === 'default');
+        if (defaultPhrase) {
+            return `
+                      <li class="directory-item">
+                        <span class="directory-file phrase" data-phrase='${JSON.stringify(defaultPhrase)}'>
+                          <span class="file-icon">📄</span>${phrase_key}
+                        </span>
+                      </li>
+                    `;
+        } else {
+            return `
+                      <li class="directory-item">
+                        <span class="directory-folder phrase-folder" data-folder-type="phrase">
+                          <span class="folder-icon">📁</span>${phrase_key}<span class="arrow-icon">⬎</span>
+                        </span>
+                        <ul class="directory-content">
+                          ${phraseVariants.map(phrase => `
+                            <li class="directory-item">
+                              <span class="directory-file phrase" data-phrase='${JSON.stringify(phrase)}'>
+                                <span class="file-icon">📄</span>${phrase.tag}
+                              </span>
+                            </li>
+                          `).join('')}
+                        </ul>
+                      </li>
+                    `;
+        }
+    }).join('')}
+              </ul>
             </li>
-        `).join('')
-    }</ul>`;
+          `).join('')}
+        </ul>
+      </li>
+    `).join('')}
+  </ul>`;
 }
 
 function setupSearch() {
@@ -480,15 +490,15 @@ function addEventListeners() {
         phraseElement.addEventListener('click', function (event) {
             event.preventDefault();
             const phraseData = JSON.parse(this.getAttribute('data-phrase'));
-            const defaultPhrase = phraseData.default?.value || phraseData.android?.value || phraseData.ios?.value || phraseData.smartdom?.value || phraseData.lk?.value || phraseData.handling?.value || phraseData.android_web?.value || phraseData.pppoe?.value || phraseData.dhcp?.value || phraseData.ts?.value || phraseData.aao?.value || phraseData.value || 'Стандартная фраза недоступна';
-            navigator.clipboard.writeText(defaultPhrase)
+            const phraseValue = phraseData.phrase_value || 'Фраза недоступна';
+            navigator.clipboard.writeText(phraseValue)
                 .then(() => $.notify("Скопировано", "success"))
                 .catch(err => console.error('Не удалось скопировать: ', err));
         });
 
         phraseElement.addEventListener('mouseover', event => {
             const phraseData = JSON.parse(event.currentTarget.getAttribute('data-phrase'));
-            showMiniWindow(event, phraseData);
+            showMiniWindow(event, phraseData.phrase_value);
         });
 
         phraseElement.addEventListener('mouseout', hideMiniWindow);
@@ -534,34 +544,9 @@ function addStyles() {
     document.head.appendChild(style);
 }
 
-function showMiniWindow(event, phraseData) {
+function showMiniWindow(event, phraseValue) {
     const miniWindow = document.getElementById('miniWindow') || createMiniWindow();
-    let content = '';
-    if (typeof phraseData === 'string') {
-        content = `<div>${phraseData}</div>`;
-    } else {
-        for (const [key, value] of Object.entries(phraseData)) {
-            const phraseMap = {
-                android: "Android",
-                ios: "iOS",
-                smartDom: "SmartDom",
-                lk: "ЛК",
-                web: "Веб",
-                android_web: "Андроид/Веб",
-                pppoe: "PPPoE",
-                dhcp: "DHCP",
-                handling: "Отработка"
-            };
-
-            const phraseType = phraseMap[key] || "РМ";
-            if (value && typeof value === 'object' && content === '') {
-                content += `<div><strong>${phraseType}:</strong> ${value.value}</div>`;
-            } else if (value && typeof value === 'string' && content === '') {
-                content += `<div><strong>${phraseType}:</strong> ${value}</div>`;
-            }
-        }
-    }
-    miniWindow.innerHTML = content || '<strong>РМ:</strong> Предпросмотр недоступен';
+    miniWindow.innerHTML = `<div>${phraseValue}</div>`;
     miniWindow.style.display = 'block';
     miniWindow.style.left = `${event.pageX + 10}px`;
     miniWindow.style.top = `${event.pageY + 10}px`;
