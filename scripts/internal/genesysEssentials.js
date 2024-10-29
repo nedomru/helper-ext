@@ -500,6 +500,11 @@ async function genesysButtons() {
 
     const linksData = [
         {
+            url: "https://flomaster.chrsnv.ru",
+            text: "Фломастер",
+            key: "GENESYS_showFB_flomaster",
+        },
+        {
             url: "http://cm.roool.ru",
             text: "ЧМ",
             key: "GENESYS_showFB_chatMaster",
@@ -513,6 +518,16 @@ async function genesysButtons() {
             url: "https://dom.ru/faq/televidenie/kak-nastroit-cifrovye-kanaly-na-televizore",
             text: "ТВ",
             key: "GENESYS_showFB_setupTV",
+        },
+        {
+            url: "https://clever.ertelecom.ru/content/space/4/article/12409",
+            text: "ЧТП КТВ",
+            key: "GENESYS_showFB_channelsktv",
+        },
+        {
+            url: "https://clever.ertelecom.ru/content/space/4/article/8887",
+            text: "ЧТП ЦКТВ",
+            key: "GENESYS_showFB_channelscktv",
         },
         {
             url: "https://dom.ru/service/knowledgebase/domru-tv/nastrojka-tv-pristavok",
