@@ -120,6 +120,7 @@ if (
   });
   hideClosedItems();
   hideServiceRequests();
+  hideInformationRows();
 }
 
 if (
@@ -2490,7 +2491,7 @@ function processAppsTable(appsTab) {
 
     // Only add button if we have rows to hide
     if (hiddenRowsCount > 0) {
-      addToggleButton(appsTab);
+      addToggleAppsButton(appsTab);
     }
 
     // Mark table as processed
@@ -2531,7 +2532,7 @@ function hideInactiveRows(table) {
   return hiddenCount;
 }
 
-function addToggleButton(container) {
+function addToggleAppsButton(container) {
   if (container.querySelector('#helper-toggle-rows')) return;
 
   const buttonContainer = document.createElement("div");
@@ -2722,3 +2723,92 @@ function processServiceRequestTable(table, counter) {
     }
   }
 }
+
+function hideInformationRows() {
+  // Get main container and verify content existence
+  const informationTab = document.getElementById('tabs-2444');
+  if (!informationTab?.textContent) return;
+
+  // Find table container and table
+  const tableContainer = informationTab.querySelector('.col-sm-8');
+  const table = tableContainer?.querySelector('.table-condensed');
+  if (!table || table.getAttribute('script-processed') === "true") return;
+
+  const rowsToHide = [
+    "Статус:",
+    "Схема оплаты:",
+    "",
+    "Категория:",
+    "Контактные e-mail:",
+    "Место рождения",
+    "Активные приложения",
+    "Промо-пакет",
+    "Идентификационные данные",
+    "Автоплатеж"
+  ];
+
+  try {
+    // Process table rows starting from index 2
+    Array.from(table.rows).slice(2).forEach(row => {
+      const firstCell = row.cells[0]?.textContent;
+      if (rowsToHide.includes(firstCell)) {
+        row.style.display = "none";
+        row.setAttribute("helper-hidden-row", "true");
+      }
+    });
+
+    if (informationTab.getAttribute('buttons-added') !== "true") {
+      addToggleInfoButton(tableContainer);
+      informationTab.setAttribute('buttons-added', "true");
+    }
+
+    table.setAttribute('script-processed', "true");
+  } catch (error) {
+    console.error(`[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Клиентская информация] Ошибка обработки таблицы:`, error);
+  }
+}
+
+function addToggleInfoButton(container) {
+  const buttonContainer = document.createElement("div");
+  buttonContainer.style.display = "flex";
+  buttonContainer.style.marginBottom = "10px";
+  buttonContainer.style.alignItems = "center";
+
+  const toggleButton = document.createElement("button");
+  toggleButton.id = "helper-toggle-rows";
+  toggleButton.className = "btn btn-sm btn-primary helper";
+  toggleButton.textContent = "👀 Показать поля";
+  toggleButton.setAttribute("data-state", "hidden");
+  toggleButton.setAttribute("type", "button");
+  toggleButton.style.marginRight = "10px";
+
+  toggleButton.setAttribute("title", "Скрыты следующие поля в таблице: Статус, Схема оплаты, Категория, Контактные e-mail, Место рождения, Активные приложения, Промо-пакет, Идентификационные данные, Автоплатеж");
+
+  toggleButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const currentState = toggleButton.getAttribute('data-state');
+    const newState = currentState === 'hidden' ? 'visible' : 'hidden';
+    const display = newState === 'hidden' ? 'none' : 'table-row';
+
+    document.querySelectorAll('[helper-hidden-row="true"]')
+        .forEach(row => row.style.display = display);
+
+    toggleButton.textContent = newState === 'hidden' ? '👀 Показать поля' : '🙈 Скрыть поля';
+    toggleButton.setAttribute('data-state', newState);
+  });
+
+  const link = document.querySelector('a.not_mobil_tech#lk'); // Get the existing link
+  if (link) {
+    link.textContent = "🚪 ЛК клиента";
+    link.classList.add('btn', 'btn-primary', 'btn-sm'); // Add classes
+    link.style.marginRight = '10px';
+    link.style.textDecoration = 'none'; // Add margin to separate from toggle button
+    buttonContainer.appendChild(link); // Append the link first
+    buttonContainer.appendChild(toggleButton); // Append the toggle button next
+  }
+
+  container.insertBefore(buttonContainer, container.firstChild);
+}
+
