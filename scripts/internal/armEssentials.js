@@ -119,6 +119,7 @@ if (
     );
   });
   hideClosedItems();
+  hideServiceRequests();
 }
 
 if (
@@ -2534,22 +2535,21 @@ function addToggleButton(container) {
   if (container.querySelector('#helper-toggle-rows')) return;
 
   const buttonContainer = document.createElement("div");
-  buttonContainer.style.marginBottom = "10px";
   buttonContainer.style.display = "flex";
   buttonContainer.style.alignItems = "center";
-  buttonContainer.style.gap = "10px";
 
   const toggleButton = document.createElement("button");
   toggleButton.id = "helper-toggle-rows";
-  toggleButton.className = "btn btn-sm btn-info helper";
-  toggleButton.textContent = "Показать скрытое";
+  toggleButton.className = "btn btn-sm btn-primary helper";
+  toggleButton.textContent = "👀 Развернуть скрытое";
+  toggleButton.style.marginRight = "10px";
   toggleButton.setAttribute("data-state", "hidden");
   toggleButton.setAttribute("type", "button");
 
   // Create status text element
   const statusText = document.createElement("span");
-  statusText.textContent = "Скрыты неактивные и закрытые приложения";
-  statusText.style.color = "#dc3545"; // Bootstrap's danger red color
+  statusText.textContent = "Неактивные и закрытые приложения скрыты";
+  statusText.style.color = "#dc3545"; // Start with red
   statusText.style.display = "inline";
 
   toggleButton.addEventListener('click', (event) => {
@@ -2563,11 +2563,18 @@ function addToggleButton(container) {
     document.querySelectorAll('[helper-hidden-row="true"]')
         .forEach(row => row.style.display = display);
 
-    toggleButton.textContent = newState === 'hidden' ? 'Показать скрытое' : 'Скрыть';
+    toggleButton.textContent = newState === 'hidden' ? '👀 Развернуть скрытое' : '🙈 Свернуть';
     toggleButton.setAttribute('data-state', newState);
 
-    // Toggle status text visibility
-    statusText.style.display = newState === 'hidden' ? 'inline' : 'none';
+    // Update status text based on state
+    if (newState === 'hidden') {
+      statusText.textContent = "Неактивные и закрытые приложения скрыты";
+      statusText.style.color = "#dc3545"; // Red
+    } else {
+      statusText.textContent = "Отображены все приложения";
+      statusText.style.color = "#198754"; // Bootstrap's success green color
+    }
+    statusText.style.display = 'inline';
   });
 
   toggleButton.onclick = null;
@@ -2582,4 +2589,136 @@ function addToggleButton(container) {
 
   // Add container to main container
   container.insertBefore(buttonContainer, lineBreak);
+}
+
+function hideServiceRequests() {
+  const observer = new MutationObserver((mutations) => {
+    const serviceRequestsTab = document.getElementById('lazy_content_2445');
+    if (!serviceRequestsTab || !serviceRequestsTab.textContent) return;
+
+    processServiceRequests(serviceRequestsTab);
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+}
+
+function processServiceRequests(serviceRequestsTab) {
+  const container = serviceRequestsTab.querySelector('#tc_ppd_tp_cz');
+  if (!container || container.getAttribute('processed-by-helper') === "true") return;
+
+  try {
+    let requestCounter = 0;
+    let buttonAdded = false;
+
+    for (let i = 0; i < container.childNodes.length; i++) {
+      const element = container.childNodes[i];
+
+      if (!element.tagName) continue;
+
+      if (!buttonAdded) {
+        addServiceRequestButton(element, requestCounter);
+        buttonAdded = true;
+      } else if (element.tagName === 'TABLE') {
+        processServiceRequestTable(element, requestCounter);
+      }
+
+      if (element.tagName === 'BR') {
+        requestCounter++;
+        buttonAdded = false;
+      }
+    }
+
+    container.setAttribute('processed-by-helper', "true");
+    console.log(
+        `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [СЗ] Обработано заявок: ${requestCounter + 1}`
+    );
+  } catch (error) {
+    console.error(
+        `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [СЗ] Ошибка:`,
+        error
+    );
+  }
+}
+
+function addServiceRequestButton(element, counter) {
+  const buttonContainer = document.createElement("div");
+  buttonContainer.style.display = "flex";
+  buttonContainer.style.alignItems = "center";
+
+  const toggleButton = document.createElement("button");
+  toggleButton.id = `helper-toggle-request-${counter}`;
+  toggleButton.className = "btn btn-sm btn-primary helper";
+  toggleButton.textContent = "👀 Развернуть заявку";
+  toggleButton.setAttribute("data-state", "hidden");
+  toggleButton.setAttribute("data-counter", counter);
+  toggleButton.setAttribute("type", "button");
+  toggleButton.style.marginRight = "10px";
+
+  const statusText = document.createElement("span");
+  statusText.textContent = "Промежуточные этапы заявки скрыты";
+  statusText.style.color = "#dc3545"; // Red color for hidden state
+  statusText.style.display = "inline";
+
+  toggleButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const currentState = toggleButton.getAttribute('data-state');
+    const newState = currentState === 'hidden' ? 'visible' : 'hidden';
+    const display = newState === 'hidden' ? 'none' : 'table-row';
+    const requestCounter = toggleButton.getAttribute('data-counter');
+
+    document.querySelectorAll(`[helper-request="true"][data-counter="${requestCounter}"]`)
+        .forEach(row => row.style.display = display);
+
+    toggleButton.textContent = newState === 'hidden' ? '👀 Развернуть заявку' : '🙈 Свернуть заявку';
+    toggleButton.setAttribute('data-state', newState);
+
+    // Update status text content and color based on state
+    statusText.textContent = newState === 'hidden'
+        ? "Промежуточные этапы заявки скрыты"
+        : "Промежуточные этапы заявки отображены";
+    statusText.style.color = newState === 'hidden' ? '#dc3545' : '#198754'; // Red for hidden, green for visible
+    statusText.style.display = 'inline';
+  });
+
+  buttonContainer.appendChild(toggleButton);
+  buttonContainer.appendChild(statusText);
+
+  element.insertBefore(buttonContainer, element.firstChild);
+}
+
+function processServiceRequestTable(table, counter) {
+  const completedStatuses = [
+    "Выполнено (Отправить в Call-центр)",
+    "Заявка выполнена",
+    "Выполнено"
+  ];
+
+  for (let i = 1; i < table.rows.length; i++) {
+    try {
+      const currentRow = table.rows[i];
+      const nextRow = table.rows[i + 1];
+
+      if (!nextRow) continue;
+
+      const status = currentRow.cells[2]?.textContent;
+      const isNextRowWide = nextRow.cells[0]?.getAttribute('colspan') > 10;
+
+      // Show completed statuses and their details, hide others
+      if (!(completedStatuses.includes(status) && isNextRowWide)) {
+        currentRow.style.display = "none";
+        currentRow.setAttribute("helper-request", "true");
+        currentRow.setAttribute("data-counter", counter);
+      }
+    } catch (error) {
+      console.error(
+          `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [СЗ] Ошибка обработки строки:`,
+          error
+      );
+    }
+  }
 }
