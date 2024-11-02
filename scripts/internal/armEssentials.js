@@ -118,6 +118,7 @@ if (
       `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Предвосхищение] Предвосхищение загружено`,
     );
   });
+  hideClosedItems();
 }
 
 if (
@@ -824,7 +825,6 @@ function smsButtons() {
 
   $(".type_sms_a").after(buttonContainer);
 }
-
 
 function wrongTransferFalse() {
   const radioButton = document.querySelector(
@@ -2461,4 +2461,125 @@ function loadLastDayClientSessions() {
     };
     loadDataButton.parentNode.insertBefore(button, loadDataButton.nextSibling); // Добавляем кнопку после кнопки "Загрузить"
   }
+}
+
+function hideClosedItems() {
+  // Create observer to watch for table changes
+  const observer = new MutationObserver((mutations) => {
+    const appsTab = document.getElementById('tabs-2120');
+    if (!appsTab || !appsTab.textContent) return;
+
+    processAppsTable(appsTab);
+  });
+
+  // Start observing document changes
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+}
+
+function processAppsTable(appsTab) {
+  const table = appsTab.querySelector('.table-condensed');
+  if (!table || table.getAttribute('processed-by-helper') === "true") return;
+
+  try {
+    // Hide inactive/closed rows
+    let hiddenRowsCount = hideInactiveRows(table);
+
+    // Only add button if we have rows to hide
+    if (hiddenRowsCount > 0) {
+      addToggleButton(appsTab);
+    }
+
+    // Mark table as processed
+    table.setAttribute('processed-by-helper', "true");
+
+    console.log(
+        `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Скрытие элементов] Скрыто неактивных строк: ${hiddenRowsCount}`
+    );
+  } catch (error) {
+    console.error(
+        `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Скрытие элементов] Ошибка:`,
+        error
+    );
+  }
+}
+
+function hideInactiveRows(table) {
+  let hiddenCount = 0;
+
+  // Process each row starting from index 1 (skip header)
+  for (let i = 1; i < table.rows.length; i++) {
+    const row = table.rows[i];
+    try {
+      const status = row.cells[4]?.textContent;
+      if (status === "Закрыт" || status === "Не активен") {
+        row.style.display = "none";
+        row.setAttribute("helper-hidden-row", "true");
+        hiddenCount++;
+      }
+    } catch (error) {
+      console.error(
+          `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Скрытие элементов] Ошибка обработки строки:`,
+          error
+      );
+    }
+  }
+
+  return hiddenCount;
+}
+
+function addToggleButton(container) {
+  if (container.querySelector('#helper-toggle-rows')) return;
+
+  const buttonContainer = document.createElement("div");
+  buttonContainer.style.marginBottom = "10px";
+  buttonContainer.style.display = "flex";
+  buttonContainer.style.alignItems = "center";
+  buttonContainer.style.gap = "10px";
+
+  const toggleButton = document.createElement("button");
+  toggleButton.id = "helper-toggle-rows";
+  toggleButton.className = "btn btn-sm btn-info helper";
+  toggleButton.textContent = "Показать скрытое";
+  toggleButton.setAttribute("data-state", "hidden");
+  toggleButton.setAttribute("type", "button");
+
+  // Create status text element
+  const statusText = document.createElement("span");
+  statusText.textContent = "Скрыты неактивные и закрытые приложения";
+  statusText.style.color = "#dc3545"; // Bootstrap's danger red color
+  statusText.style.display = "inline";
+
+  toggleButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const currentState = toggleButton.getAttribute('data-state');
+    const newState = currentState === 'hidden' ? 'visible' : 'hidden';
+    const display = newState === 'hidden' ? 'none' : 'table-row';
+
+    document.querySelectorAll('[helper-hidden-row="true"]')
+        .forEach(row => row.style.display = display);
+
+    toggleButton.textContent = newState === 'hidden' ? 'Показать скрытое' : 'Скрыть';
+    toggleButton.setAttribute('data-state', newState);
+
+    // Toggle status text visibility
+    statusText.style.display = newState === 'hidden' ? 'inline' : 'none';
+  });
+
+  toggleButton.onclick = null;
+
+  // Add button and status text to container div
+  buttonContainer.appendChild(toggleButton);
+  buttonContainer.appendChild(statusText);
+
+  // Add a line break after container
+  const lineBreak = document.createElement("br");
+  container.insertBefore(lineBreak, container.firstChild);
+
+  // Add container to main container
+  container.insertBefore(buttonContainer, lineBreak);
 }
