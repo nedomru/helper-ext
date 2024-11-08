@@ -33,11 +33,11 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("openDonate").addEventListener("click", function () {
     window.open("https://pay.cloudtips.ru/p/787b494c", "_blank");
   });
-  // document
-  //   .getElementById("openTelegram")
-  //   .addEventListener("click", function () {
-  //     window.open("https://t.me/+jH1mblw0ytcwOWUy", "_blank");
-  //   });
+    document
+        .getElementById("openTelegram")
+        .addEventListener("click", function () {
+            window.open("https://t.me/+jH1mblw0ytcwOWUy", "_blank");
+        });
 });
 
 async function handleMacSubmit() {
