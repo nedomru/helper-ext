@@ -28,21 +28,17 @@ function showTab(tabId) {
         } else if (tabId === "РМы") {
             fetchPhrases()
         }
+        browser.storage.sync.set({lastTab: tabId});
     } else {
         console.warn(`Tab content for "${tabId}" not found.`);
     }
 
-    // Update button states
     document.querySelectorAll('.btn-group button').forEach(button => {
         button.classList.remove('active');
         if (getTabId(button.textContent) === tabId) {
             button.classList.add('active');
         }
     });
-
-    // Save the last opened tab
-    if (tabId === "Настройки") return;
-    browser.storage.sync.set({lastTab: tabId})
 }
 
 // Function to add click event listeners to buttons
