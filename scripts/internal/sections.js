@@ -61,6 +61,8 @@ function initTabs() {
         console.error('Error retrieving last tab:', error);
         showTab('Главная');
     });
+    fetchMNA(true)
+    fetchRouters(true)
 }
 
 function searchTable(inputId, tableId) {
@@ -125,7 +127,7 @@ async function saveToStorage(key, data) {
     });
 }
 
-async function fetchMNA() {
+async function fetchMNA(cachedOnly = false) {
     if (document.getElementById("providersTableContent")) return;
 
     const providersTableElement = document.getElementById("providersTable");
@@ -134,6 +136,10 @@ async function fetchMNA() {
     try {
         // Try to get data from cache first
         let data = await getFromStorage("mnaData");
+        if (cachedOnly) {
+            displayMNAData(data);
+            return
+        }
         let isDataUpdated = false;
 
         if (data) {
@@ -213,15 +219,18 @@ function displayMNAData(data) {
     }
 }
 
-async function fetchRouters() {
+async function fetchRouters(cachedOnly = false) {
     if (document.getElementById("routersTableContent")) return;
 
     const routersTableElement = document.getElementById("routersTable");
     routersTableElement.style.display = 'none';
 
     try {
-        // Try to get data from cache first
         let data = await getFromStorage("routersData");
+        if (cachedOnly) {
+            displayRoutersData(data);
+            return
+        }
         let isDataUpdated = false;
 
         if (data) {
