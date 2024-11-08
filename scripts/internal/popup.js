@@ -30,6 +30,9 @@ document.addEventListener("DOMContentLoaded", function () {
     .addEventListener("click", function () {
       browser.runtime.openOptionsPage();
     });
+  document.getElementById("openDonate").addEventListener("click", function () {
+    window.open("https://pay.cloudtips.ru/p/787b494c", "_blank");
+  });
   // document
   //   .getElementById("openTelegram")
   //   .addEventListener("click", function () {
