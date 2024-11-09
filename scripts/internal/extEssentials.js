@@ -26,7 +26,7 @@ async function checkForUpdates() {
 
     if (compareVersions(latestVersion, currentVersion) > 0) {
       await browser.tabs.create({
-        url: browser.runtime.getURL("update.html"),
+          url: browser.runtime.getURL("pages/update.html"),
       });
     }
   }

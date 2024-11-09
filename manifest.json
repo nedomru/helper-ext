@@ -6,7 +6,7 @@
     "name": "Roman Chursanov",
     "url": "https://chrsnv.ru"
   },
-  "homepage_url": "http://helper.chrsnv.ru",
+  "homepage_url": "https://helper.chrsnv.ru",
   "description": "Твой швейцарский нож для работы 😎",
   "version": "2.8.3",
   "browser_specific_settings": {
@@ -55,10 +55,10 @@
   "browser_action": {
     "default_title": "Хелпер",
     "default_icon": "icons/icon128.png",
-    "default_popup": "popup.html"
+    "default_popup": "pages/popup.html"
   },
   "options_ui": {
-    "page": "settings.html",
+    "page": "pages/settings.html",
     "open_in_tab": true
   }
 }

@@ -1,188 +1,194 @@
 ﻿/* global browser */
 
 document.addEventListener("DOMContentLoaded", function () {
-  const submitMac = document.getElementById("submit-mac");
-  const submitIP = document.getElementById("submit-ip");
-  const submitLink = document.getElementById("submit-link");
-  const submitPremium = document.getElementById("submit-premium");
-  submitMac.addEventListener("click", handleMacSubmit);
-  submitIP.addEventListener("click", handleIPSubmit);
-  submitLink.addEventListener("click", handleLinkSubmit);
-  submitPremium.addEventListener("click", handlePremiumSubmit);
-  document
-    .getElementById("searchProvider")
-    .addEventListener("input", () =>
-      searchTable("searchProvider", "providersTable")
-    );
-  document
-    .getElementById("searchRouter")
-    .addEventListener("input", () =>
-      searchTable("searchRouter", "routersTable")
-    );
-  document
-    .getElementById("openSettings")
-    .addEventListener("click", function () {
-      browser.runtime.openOptionsPage();
+    const submitMac = document.getElementById("submit-mac");
+    const submitIP = document.getElementById("submit-ip");
+    const submitLink = document.getElementById("submit-link");
+    const submitPremium = document.getElementById("submit-premium");
+    submitMac.addEventListener("click", handleMacSubmit);
+    submitIP.addEventListener("click", handleIPSubmit);
+    submitLink.addEventListener("click", handleLinkSubmit);
+    submitPremium.addEventListener("click", handlePremiumSubmit);
+    document
+        .getElementById("searchProvider")
+        .addEventListener("input", () =>
+            searchTable("searchProvider", "providersTable")
+        );
+    document
+        .getElementById("searchRouter")
+        .addEventListener("input", () =>
+            searchTable("searchRouter", "routersTable")
+        );
+    document
+        .getElementById("openSettings")
+        .addEventListener("click", function () {
+            browser.runtime.openOptionsPage();
+        });
+    document.getElementById("openDonate").addEventListener("click", function () {
+        window.open("https://pay.cloudtips.ru/p/787b494c", "_blank");
     });
-  document.getElementById("openDonate").addEventListener("click", function () {
-    window.open("https://pay.cloudtips.ru/p/787b494c", "_blank");
-  });
     document
         .getElementById("openTelegram")
         .addEventListener("click", function () {
             window.open("https://t.me/+jH1mblw0ytcwOWUy", "_blank");
         });
+    document
+        .getElementById("openGames")
+        .addEventListener("click", function () {
+            const gamesURL = chrome.runtime.getURL("pages/games.html");
+            window.open(gamesURL, "_blank");
+        });
 });
 
 async function handleMacSubmit() {
-  const inputField = document.getElementById("input-mac");
-  const macAddress = inputField.value.trim();
-  const mac_regex = new RegExp("^([0-9A-Fa-f]{2}[:-]?){5}([0-9A-Fa-f]{2})$");
+    const inputField = document.getElementById("input-mac");
+    const macAddress = inputField.value.trim();
+    const mac_regex = new RegExp("^([0-9A-Fa-f]{2}[:-]?){5}([0-9A-Fa-f]{2})$");
 
-  if (mac_regex.test(macAddress) === false) {
-    $.notify("Это не MAC", "error");
-    return;
-  }
+    if (mac_regex.test(macAddress) === false) {
+        $.notify("Это не MAC", "error");
+        return;
+    }
 
-  $.notify("Проверяю", "info");
-  try {
-    const response = await fetch(
-        `https://api.maclookup.app/v2/macs/${macAddress}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
+    $.notify("Проверяю", "info");
+    try {
+        const response = await fetch(
+            `https://api.maclookup.app/v2/macs/${macAddress}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+        if (response.status !== 200) {
+            $.notify("Не удалось найти", "error");
+            return;
         }
-    );
-    if (response.status !== 200) {
-      $.notify("Не удалось найти", "error");
-      return;
+
+        const result = await response.json();
+
+        const companyName = result.company;
+
+        if (companyName) {
+            $.notify(companyName, "success");
+            inputField.value = "";
+        }
+    } catch (error) {
+        console.error("Fetch error:", error);
+        $.notify("Произошла ошибка при проверке", "error");
     }
-
-    const result = await response.json();
-
-    const companyName = result.company;
-
-    if (companyName) {
-      $.notify(companyName, "success");
-      inputField.value = "";
-    }
-  } catch (error) {
-    console.error("Fetch error:", error);
-    $.notify("Произошла ошибка при проверке", "error");
-  }
 }
 
 async function handleIPSubmit() {
-  const inputField = document.getElementById("input-ip").value.trim();
-  const ip_regex = new RegExp(
-    "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
-  );
-
-  if (ip_regex.test(inputField) === false) {
-    $.notify("IP некорректный", "error");
-    return;
-  }
-
-  $.notify("Проверяю", "info");
-  try {
-    const response = await fetch(
-      `http://ip-api.com/json/${inputField}?fields=country,regionName,city,org&lang=ru`,
-      {
-        method: "GET",
-      }
+    const inputField = document.getElementById("input-ip").value.trim();
+    const ip_regex = new RegExp(
+        "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
     );
 
-    if (response.status !== 200) {
-      $.notify("Ошибка", "error");
-      return;
+    if (ip_regex.test(inputField) === false) {
+        $.notify("IP некорректный", "error");
+        return;
     }
 
-    const result = await response.json();
+    $.notify("Проверяю", "info");
+    try {
+        const response = await fetch(
+            `http://ip-api.com/json/${inputField}?fields=country,regionName,city,org&lang=ru`,
+            {
+                method: "GET",
+            }
+        );
 
-    if (result) {
-      $.notify(
-        `Страна: ${result["country"]}\nГород: ${result["city"]}\nОрганизация: ${result["org"]}`,
-        "success"
-      );
-      document.getElementById("input-ip").value = "";
+        if (response.status !== 200) {
+            $.notify("Ошибка", "error");
+            return;
+        }
+
+        const result = await response.json();
+
+        if (result) {
+            $.notify(
+                `Страна: ${result["country"]}\nГород: ${result["city"]}\nОрганизация: ${result["org"]}`,
+                "success"
+            );
+            document.getElementById("input-ip").value = "";
+        }
+    } catch (error) {
+        console.error("Fetch error:", error);
     }
-  } catch (error) {
-    console.error("Fetch error:", error);
-  }
 }
 
 async function handleLinkSubmit() {
-  const inputField = document.getElementById("input-link").value.trim();
+    const inputField = document.getElementById("input-link").value.trim();
 
-  $.notify("Сокращаю", "info");
-  try {
-    const response = await fetch(`https://clck.ru/--?url=${inputField}`, {
-      method: "GET",
-    });
-    if (response.status !== 200) {
-      $.notify("Ошибка", "error");
-      return;
+    $.notify("Сокращаю", "info");
+    try {
+        const response = await fetch(`https://clck.ru/--?url=${inputField}`, {
+            method: "GET",
+        });
+        if (response.status !== 200) {
+            $.notify("Ошибка", "error");
+            return;
+        }
+
+        const result = await response.text();
+
+        if (result) {
+            await navigator.clipboard.writeText(result);
+            $.notify("Скопировано", "success");
+            document.getElementById("input-link").value = result;
+        }
+    } catch (error) {
+        console.error("Fetch error:", error);
     }
-
-    const result = await response.text();
-
-    if (result) {
-      await navigator.clipboard.writeText(result);
-      $.notify("Скопировано", "success");
-      document.getElementById("input-link").value = result;
-    }
-  } catch (error) {
-    console.error("Fetch error:", error);
-  }
 }
 
 async function handlePremiumSubmit() {
-  const inputField = document.getElementById("premium-select").value;
+    const inputField = document.getElementById("premium-select").value;
 
-  let url;
-  inputField === "nck2"
-      ? (url =
-          "https://okc.ertelecom.ru/stats/premium/ntp-nck2/get-premium-spec-month")
-      : (url =
-          "https://okc.ertelecom.ru/stats/premium/ntp-nck1/get-premium-spec-month");
+    let url;
+    inputField === "nck2"
+        ? (url =
+            "https://okc.ertelecom.ru/stats/premium/ntp-nck2/get-premium-spec-month")
+        : (url =
+            "https://okc.ertelecom.ru/stats/premium/ntp-nck1/get-premium-spec-month");
 
-  const requestBody = new URLSearchParams();
-  const now = new Date();
-  const firstDayCurrentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const requestBody = new URLSearchParams();
+    const now = new Date();
+    const firstDayCurrentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
-  const formattedDate =
-      String(firstDayCurrentMonth.getDate()).padStart(2, "0") +
-      "." +
-      String(firstDayCurrentMonth.getMonth() + 1).padStart(2, "0") +
-      "." +
-      firstDayCurrentMonth.getFullYear();
+    const formattedDate =
+        String(firstDayCurrentMonth.getDate()).padStart(2, "0") +
+        "." +
+        String(firstDayCurrentMonth.getMonth() + 1).padStart(2, "0") +
+        "." +
+        firstDayCurrentMonth.getFullYear();
 
-  requestBody.append("period", formattedDate);
-  requestBody.append("subdivisionId[]", "16231");
+    requestBody.append("period", formattedDate);
+    requestBody.append("subdivisionId[]", "16231");
 
-  try {
-    const response = await fetch(url, {
-      credentials: "include",
-      headers: {
-        "User-Agent":
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0",
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-      },
-      body: requestBody.toString(),
-      method: "POST",
-    });
+    try {
+        const response = await fetch(url, {
+            credentials: "include",
+            headers: {
+                "User-Agent":
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0",
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            },
+            body: requestBody.toString(),
+            method: "POST",
+        });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Проверка премии] - Произошла ошибка: ${errorText}`)
-    }
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Проверка премии] - Произошла ошибка: ${errorText}`)
+        }
 
-    const data = await response.json();
-    const result = data["result"][0];
+        const data = await response.json();
+        const result = data["result"][0];
 
-    const tableHTML = `
+        const tableHTML = `
             <table class="table table-hover table-bordered table-responsive table-sm">
                 <thead>
                     <tr>
@@ -247,11 +253,11 @@ async function handlePremiumSubmit() {
             </table>
         `;
 
-    document.getElementById("result-container").innerHTML =
-        DOMPurify.sanitize(tableHTML);
-  } catch (error) {
-    document.getElementById("result-container").innerText =
-        "Не удалось получить премию";
-    console.error("Ошибка:", error);
-  }
+        document.getElementById("result-container").innerHTML =
+            DOMPurify.sanitize(tableHTML);
+    } catch (error) {
+        document.getElementById("result-container").innerText =
+            "Не удалось получить премию";
+        console.error("Ошибка:", error);
+    }
 }
