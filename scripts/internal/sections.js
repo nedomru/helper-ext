@@ -63,6 +63,7 @@ function initTabs() {
     });
     fetchMNA(true)
     fetchRouters(true)
+    fetchPhrases(true)
 }
 
 function searchTable(inputId, tableId) {
@@ -321,7 +322,7 @@ function displayRoutersData(data) {
     }
 }
 
-async function fetchPhrases() {
+async function fetchPhrases(cachedOnly = false) {
     if (document.getElementById("phrasesDirectoryContent")) return;
 
     const loadingSpinner = document.getElementById('loadingSpinner');
@@ -333,6 +334,10 @@ async function fetchPhrases() {
     try {
         // Try to get data from storage first
         let data = await getFromStorage("phrasesData");
+        if (cachedOnly) {
+            displayPhrasesData(data);
+            return
+        }
         let isDataUpdated = false;
 
         if (data) {
