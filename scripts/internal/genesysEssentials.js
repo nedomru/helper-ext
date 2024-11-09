@@ -545,7 +545,7 @@ async function genesysButtons() {
             key: "GENESYS_showFB_ftpAndroid",
         },
         {
-            url: "https://mh-dashboard-erth.proptech.ru/web",
+            url: "https://mh-dashboard-erth.proptech.ru/web/",
             text: "Dashboard",
             key: "GENESYS_showFB_dashboard",
         },
