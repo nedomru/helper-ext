@@ -30,7 +30,6 @@
         "scripts/external/dompurify.min.js",
         "scripts/internal/background.js",
         "scripts/internal/highlights.js",
-        "scripts/internal/darkTheme.js",
         "scripts/internal/armEssentials.js",
         "scripts/internal/lineEssentials.js",
         "scripts/internal/genesysEssentials.js",

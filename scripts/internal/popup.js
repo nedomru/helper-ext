@@ -1,12 +1,6 @@
 ﻿/* global browser */
 
 document.addEventListener("DOMContentLoaded", function () {
-  browser.storage.sync.get("OTHER_DarkTheme").then(function (settings) {
-    if (settings.OTHER_DarkTheme) {
-      document.body.classList.add("dark-theme");
-    }
-  });
-
   const submitMac = document.getElementById("submit-mac");
   const submitIP = document.getElementById("submit-ip");
   const submitLink = document.getElementById("submit-link");

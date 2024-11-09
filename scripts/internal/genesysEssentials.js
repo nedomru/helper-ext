@@ -36,12 +36,10 @@ if (
                 [
                     "GENESYS_showLineStatus_nck1",
                     "GENESYS_showLineStatus_nck2",
-                    // "GENESYS_showLineMessages",
                 ],
                 function (result) {
                     const showLineStatusNck1 = result.GENESYS_showLineStatus_nck1;
                     const showLineStatusNck2 = result.GENESYS_showLineStatus_nck2;
-                    // const showLineMessages = result.GENESYS_showLineMessages;
 
                     if (showLineStatusNck1 || showLineStatusNck2) {
                         socketConnect(phpSessionId).then(() => console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Статус линии] - Активирован модуль статуса линии`));
@@ -197,7 +195,6 @@ async function manualReconnect() {
     })
 }
 
-// Функция для добавления нового div
 async function addMessageDiv(id) {
     if (document.querySelector(`#${id}`)) return;
     const observer = new MutationObserver(() => {
@@ -242,15 +239,6 @@ async function addMessageDiv(id) {
     });
 }
 
-function blinkGreenIcon(containerDiv) {
-    const greenIcon = containerDiv.querySelector('svg');
-    greenIcon.style.opacity = '1';
-    setTimeout(() => {
-        greenIcon.style.opacity = '0';
-    }, 300);
-}
-
-// var lastDutyMessage;
 async function handleSocketMessages(data, time) {
     if (!data || !data.availQueues) return;
     let settings = {
@@ -369,74 +357,6 @@ Web: ${data.availQueues[3][1].currentWaitingCalls} / ${data.availQueues[3][1].to
 //     }
 //   );
 // }
-}
-
-// async function stripHtml(html) {
-//     let tmp = document.createElement("DIV");
-//     tmp.innerHTML = html;
-//     return tmp.textContent || tmp.innerText || "";
-// }
-
-function hideHeader() {
-    console.log(
-        `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Скрытие заголовка чата] Загружен модуль скрытия заголовков`
-    );
-    const observer = new MutationObserver(() => {
-        const chatHeader = document.querySelector(".wwe-case-information-header");
-
-        if (chatHeader) {
-            if (!chatHeader.classList.contains("was-hidden-by-helper")) {
-                if (chatHeader.getAttribute("aria-expanded") === "true") {
-                    chatHeader.click();
-                    chatHeader.classList.add("was-hidden-by-helper");
-                    console.log(
-                        `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Скрытие заголовка чата] Хедер чата: скрыт`
-                    );
-                }
-            }
-        }
-    });
-
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true,
-    });
-}
-
-function showClientChannelOnCard() {
-    const observer = new MutationObserver(() => {
-        const chatHeader = document.querySelector(".wwe-case-information-header");
-
-        if (chatHeader) {
-            if (!chatHeader.classList.contains("was-checked-by-helper")) {
-                chatHeader.classList.add("was-checked-by-helper");
-
-                const clientCardOSVersion = document.querySelector(
-                    "#wweCaseData1PhoneModelValue .wwe-data-text-value"
-                );
-
-                if (clientCardOSVersion) {
-                    chatHeader.innerText = `Информация о чате | Канал ${clientChannel.textContent}`;
-                } else {
-                    const clientCardChannel = document.querySelector(
-                        "#wweCaseData1mediachannelValue .wwe-data-text-value"
-                    );
-                    if (clientCardChannel) {
-                        chatHeader.innerText = `Информация о чате | Канал ${clientCardChannel.textContent}`;
-                    } else chatHeader.innerText = `Информация о чате | Канал неизвестен`;
-                }
-
-                document.querySelector(
-                    ".wwe .wwe-case-information .wwe-case-information-header"
-                ).style.color = "white";
-            }
-        }
-    });
-
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true,
-    });
 }
 
 function hideUselessButtons() {

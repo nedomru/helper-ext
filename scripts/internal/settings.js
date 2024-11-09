@@ -69,10 +69,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     const checkboxIds = [
         "OTHER_CheckUpdates",
         "OTHER_DarkTheme",
-        // "OTHER_DarkTheme_ARM",
         "GENESYS_showLineStatus_nck1",
         "GENESYS_showLineStatus_nck2",
-        /*"GENESYS_showLineMessages",*/
         "GENESYS_showFastButtons",
         "GENESYS_showFB_flomaster",
         "GENESYS_showFB_channelsktv",
@@ -86,11 +84,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         "GENESYS_showFB_dashboard",
         "GENESYS_showFB_provisioning",
         "GENESYS_hideUselessButtons",
-        // "GENESYS_hideChatHeader",
         "GENESYS_showOCTPLineStatus",
         "GENESYS_chatColors",
         "GENESYS_chatSound",
-        // "GENESYS_showClientChannelOnCard",
         "ARM_allowCopy",
         "ARM_hideSPAS",
         "ARM_copyClientAddress",
@@ -222,25 +218,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     } catch (error) {
         console.error(`Ошибка при загрузке звуков: ${error}`);
     }
-
-    function toggleDarkTheme(isDark) {
-        if (isDark) {
-            document.body.classList.add("dark-theme");
-        } else {
-            document.body.classList.remove("dark-theme");
-        }
-    }
-
-    // Загрузка состояния темной темы
-    let darkThemeActive = result.OTHER_DarkTheme;
-    toggleDarkTheme(darkThemeActive);
-
-    // Обработчик изменения состояния переключателя темной темы
-    const darkThemeCheckbox = document.getElementById("OTHER_DarkTheme");
-    darkThemeCheckbox.addEventListener("change", function () {
-        const isChecked = darkThemeCheckbox.checked;
-        toggleDarkTheme(isChecked);
-    });
 
     function handleCheckboxChange(event) {
         const setting = event.target.id;

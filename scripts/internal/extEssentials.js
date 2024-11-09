@@ -1,5 +1,4 @@
 async function checkForUpdates() {
-  // Получаем настройки из sync
   const settings = await browser.storage.sync.get("OTHER_CheckUpdates");
 
   // Проверяем, включена ли проверка обновлений
@@ -36,16 +35,12 @@ async function checkForUpdates() {
 async function setDefaults() {
   const defaultSettings = {
     OTHER_CheckUpdates: true,
-    OTHER_DarkTheme: false,
-    /*GENESYS_showLineMessages: true,*/
     GENESYS_showFastButtons: true,
     GENESYS_showFB_chatMaster: true,
     GENESYS_showFB_setupRouter: true,
     GENESYS_showFB_setupTV: true,
     GENESYS_hideUselessButtons: false,
-    // GENESYS_hideChatHeader: false,
     GENESYS_showOCTPLineStatus: false,
-    // GENESYS_showClientChannelOnCard: false,
     ARM_allowCopy: true,
     ARM_hideSPAS: false,
     ARM_copyClientAddress: true,

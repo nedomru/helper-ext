@@ -60,39 +60,6 @@ body {
     border-color: #1b68ff;
 }
 
-/* Стили для темной темы */
-body.dark-theme {
-    color: #e0e0e0;
-    background-color: #181818;
-}
-body.dark-theme .list-group-item {
-    background-color: #3d3d3d;
-    border: 1px solid #444;
-}
-body.dark-theme .list-group-item-action {
-    color: #c0c0c0;
-}
-body.dark-theme .list-group-item-action:hover,
-body.dark-theme .list-group-item-action:focus {
-    background-color: #2a2a2a;
-    color: #ffffff;
-}
-body.dark-theme .card-title {
-    color: white;
-}
-body.dark-theme .card-text {
-    color: white;
-}
-body.dark-theme .card-body {
-    background-color: #525252;
-}
-body.dark-theme .list-group-item {
-    color: white;
-}
-body.dark-theme .list-group-item.active {
-    background-color: #007bff;
-}
-
 .img-thumbnail {
     transition: opacity 0.2s ease-in-out; /* плавный переход для прозрачности */
     max-width: none; /* Убираем максимальную ширину */
