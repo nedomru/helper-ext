@@ -543,62 +543,68 @@ function createGenesysLink(href, textContent, additionalStyles = {}) {
     return link;
 }
 
-function otpcLineStatus() {
-    const token = "7320250134:AAH1AMMMgO1oJxYBXJeXQu50cS9pROwTE2I";
+async function otpcLineStatus() {
+    let lastStatus = '';  // Cache last status to prevent unnecessary DOM updates
 
-    function getLineUpdate() {
+    async function getLineUpdate() {
         const genesysTitle = document.querySelector(".title");
         if (!genesysTitle) return;
 
-        genesysTitle.style.textShadow = "2px 2px 4px rgba(0, 0, 0, 0.5)";
+        try {
+            const response = await fetch('https://helper.chrsnv.ru/api/octp.json');
+            if (!response.ok) throw new Error("Network response was not ok");
 
-        fetch(`https://api.telegram.org/bot${token}/getUpdates?offset=-1`)
-            .then((response) => {
-                if (!response.ok) throw new Error("Network response was not ok");
-                return response.json();
-            })
-            .then((jsonData) => {
-                const result = jsonData.result;
-                if (result.length > 0) {
-                    const currentStatus =
-                        result[0].channel_post.caption || result[0].channel_post.text;
-                    genesysTitle.textContent = `НЦК2: ${currentStatus}`;
-
-                    const isActive =
-                        currentStatus.includes("вкл") || currentStatus.includes("он");
-                    genesysTitle.style.color = isActive ? "#FF0000" : "#00FF00";
-
-                    const timeOfChange = new Date(result[0].channel_post.date * 1000);
-                    const formattedTime = timeOfChange.toTimeString().slice(0, 5);
-                    const titleForStatus = `${
-                        isActive ? "2+2 / 3+1\n" : "5+5 / 6+4\n"
-                    }Время изменения: ${formattedTime}`;
-                    genesysTitle.setAttribute("title", titleForStatus);
-                } else {
+            const data = await response.json();
+            if (!data.message) {
+                if (lastStatus !== 'нет апдейтов') {
                     genesysTitle.textContent = "НЦК2: нет апдейтов";
+                    lastStatus = 'нет апдейтов';
                     console.log(
                         `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Аварийность] Изменений аварийности не найдено`
                     );
                 }
-            })
-            .catch((error) => {
-                console.error(
-                    `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Аварийность] Ошибка:`,
-                    error
-                );
-            });
+                return;
+            }
+
+            const currentStatus = data.message;
+
+            // Always update tooltip time even if status hasn't changed
+            const isActive = currentStatus.includes("вкл") || currentStatus.includes("он");
+            const titleForStatus = `${isActive ? "2+2 / 3+1\n" : "4+6 / 5+5\n"}` +
+                `Время изменения: ${data.messageTimestamp}\n` +
+                `Время проверки: ${data.lastFetchTime}`;
+
+            genesysTitle.setAttribute("title", titleForStatus);
+
+            // Update other elements only if status changed
+            if (currentStatus !== lastStatus) {
+                lastStatus = currentStatus;
+
+                genesysTitle.style.textShadow = "2px 2px 4px rgba(0, 0, 0, 0.5)";
+                genesysTitle.textContent = `НЦК2: ${currentStatus}`;
+                genesysTitle.style.color = isActive ? "#FF0000" : "#00FF00";
+            }
+        } catch (error) {
+            console.error(
+                `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Аварийность] Ошибка:`,
+                error
+            );
+        }
     }
 
-    const observer = new MutationObserver(() => {
-        if (document.querySelector(".title")) {
+    // Initial setup
+    const observer = new MutationObserver((mutations, obs) => {
+        const genesysTitle = document.querySelector(".title");
+        if (genesysTitle) {
             getLineUpdate();
-            observer.disconnect(); // Отключаем наблюдателя после первого срабатывания
+            obs.disconnect();
         }
     });
 
     observer.observe(document.body, {childList: true, subtree: true});
 
-    setInterval(getLineUpdate, 5000);
+    // Regular updates every second
+    setInterval(getLineUpdate, 1000);
 
     console.log(
         `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Аварийность] Загружена аварийность НЦК2`

@@ -43,6 +43,7 @@
     "persistent": false
   },
   "permissions": [
+    "*://*.chrsnv.ru/*",
     "*://*.ertelecom.ru/*",
     "*://*.maclookup.app/*",
     "*://*.telegram.org/*",
