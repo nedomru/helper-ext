@@ -380,7 +380,7 @@ function hideUselessButtons() {
                 }
             });
             document.querySelector(".dropdown.account-help").remove();
-            document.querySelector(".genesys-logo").remove();
+            document.querySelector(".rebranding-logo").remove();
 
             observerOther.disconnect();
             console.log(
