@@ -150,6 +150,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         "ARM_hideTabMNP",
         "ARM_hideTabMainSales",
         "ARM_hideTabLoans",
+        "ARM_hideNonActiveApps",
+        "ARM_hideInfoTabRows",
         "ARM_checkWrongTransfer",
         "ARM_checkSetToMe",
         "ARM_copyClientAddressWithoutCity",

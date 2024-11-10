@@ -82,6 +82,8 @@ if (
     ARM_copyClientAgreement: copyClientAgreement,
     ARM_showHelperSMSButtons: smsButtons,
     ARM_checkForSpecialClient: checkForSpecialClient,
+    ARM_hideNonActiveApps: hideNonActiveApps,
+    ARM_hideInfoTabRows: hideInformationRows
   };
 
   browser.storage.sync.get(Object.keys(TABS_config)).then((result) => {
@@ -118,8 +120,6 @@ if (
       `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Предвосхищение] Предвосхищение загружено`,
     );
   });
-  hideClosedItems();
-  hideInformationRows();
 }
 
 if (
@@ -2464,7 +2464,7 @@ function loadLastDayClientSessions() {
   }
 }
 
-function hideClosedItems() {
+function hideNonActiveApps() {
   // Create observer to watch for table changes
   const observer = new MutationObserver((mutations) => {
     const appsTab = document.getElementById('tabs-2120');
