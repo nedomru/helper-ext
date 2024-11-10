@@ -76,17 +76,49 @@
                             </div>
                         </div>
                         <br>
-                        <!-- Импорт/экспорт настроек -->
+                        <!-- Импорт/экспорт настроек расширения-->
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Импорт/экспорт настроек</h5>
+                                <h5 class="card-title">Импорт/экспорт настроек расширения</h5>
                                 <label for="exportSettings">Экспортировать настройки (JSON файл):</label>
                                 <br>
                                 <button id="exportSettings" class="btn btn-primary">Экспортировать</button>
                                 <br><br>
                                 <label for="importSettings">Импортировать настройки (JSON файл):</label>
                                 <br>
-                                <input type="file" id="importSettings" class="form-control-file" accept=".json">
+                                <div class="input-group">
+                                    <input accept=".json" class="form-control" id="importSettings" type="file">
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <!-- Импорт/экспорт вкладок браузера -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Импорт/экспорт вкладок браузера</h5>
+
+                                <!-- Export section -->
+                                <div class="mb-4">
+                                    <label class="form-label">Экспортировать открытые вкладки (JSON файл):</label>
+                                    <div>
+                                        <button class="btn btn-primary" id="exportTabs">
+                                            <i class="fas fa-download me-2"></i>Экспортировать вкладки
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Import section -->
+                                <div>
+                                    <label class="form-label">Импортировать вкладки (JSON файл):</label>
+                                    <div class="input-group">
+                                        <input accept=".json" class="form-control" id="importTabs" type="file">
+                                    </div>
+                                    <br>
+                                    <small class="form-text text-muted mt-2">
+                                        Импортированные вкладки будут открыты в новых вкладках, сохраняя состояние
+                                        закрепления.
+                                    </small>
+                                </div>
                             </div>
                         </div>
                     </div>

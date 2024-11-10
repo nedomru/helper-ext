@@ -1,26 +1,19 @@
 document.addEventListener("DOMContentLoaded", async function () {
     $('[data-bs-toggle="tooltip"]').tooltip();
-    document
-        .getElementById("exportSettings")
-        .addEventListener("click", exportSettings);
-    document
-        .getElementById("importSettings")
-        .addEventListener("change", importSettings);
+    document.getElementById("extension-version").textContent = browser.runtime.getManifest().version;
 
-    document.getElementById("extension-version").textContent =
-        browser.runtime.getManifest().version;
-    document
-        .getElementById("chatPlaySound")
-        .addEventListener("click", function () {
+    document.getElementById("exportSettings").addEventListener("click", exportSettings);
+    document.getElementById("importSettings").addEventListener("change", importSettings);
+    document.getElementById("exportTabs").addEventListener("click", exportTabs);
+    document.getElementById("importTabs").addEventListener("change", importTabs);
+    document.getElementById("chatPlaySound").addEventListener("click", function () {
             const selectedSound = document.getElementById("chatSoundSelect").value;
             const audioPlayer = document.getElementById("audioPlayer");
             audioPlayer.src = selectedSound;
 
             audioPlayer.play()
         });
-    document
-        .getElementById("messagePlaySound")
-        .addEventListener("click", function () {
+    document.getElementById("messagePlaySound").addEventListener("click", function () {
             const selectedSound = document.getElementById("messageSoundSelect").value;
             const audioPlayer = document.getElementById("audioPlayer");
             audioPlayer.src = selectedSound;
@@ -342,6 +335,75 @@ document.addEventListener("DOMContentLoaded", async function () {
         };
         reader.readAsText(file);
     }
+
+    // Экспорт вкладок
+    function exportTabs() {
+        browser.tabs.query({}).then((tabs) => {
+            const tabsData = tabs.map(tab => ({
+                url: tab.url,
+                title: tab.title,
+                pinned: tab.pinned,
+                active: tab.active
+            }));
+
+            const blob = new Blob([JSON.stringify(tabsData, null, 2)], {
+                type: "application/json"
+            });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+            a.download = `browser_tabs_${timestamp}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }).catch((error) => {
+            console.error(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Настройки] Ошибка при экспорте вкладок:`, error);
+            $.notify("Ошибка при экспорте вкладок", "error");
+        });
+    }
+
+    // Импорт вкладок
+    function importTabs(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (event) {
+            try {
+                const tabsData = JSON.parse(event.target.result);
+
+                // Create all tabs
+                Promise.all(tabsData.map(tabData => {
+                    return browser.tabs.create({
+                        url: tabData.url,
+                        pinned: tabData.pinned,
+                        active: false // We'll activate the appropriate tab later
+                    });
+                })).then(createdTabs => {
+                    // Find and activate the tab that was active in the exported data
+                    const activeTabData = tabsData.find(tab => tab.active);
+                    if (activeTabData) {
+                        const activeTab = createdTabs.find(tab => tab.url === activeTabData.url);
+                        if (activeTab) {
+                            browser.tabs.update(activeTab.id, {active: true});
+                        }
+                    }
+
+                    $.notify("Вкладки успешно импортированы", "success");
+                }).catch(error => {
+                    console.error(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Настройки] Ошибка при импорте вкладок:`, error);
+                    $.notify("Ошибка при импорте вкладок", "error");
+                });
+            } catch (error) {
+                console.error(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Настройки] Ошибка при парсинге файла вкладок:`, error);
+                $.notify("Ошибка при чтении файла вкладок", "error");
+            }
+        };
+        reader.readAsText(file);
+    }
+
 });
 
 function onError(error) {
