@@ -571,8 +571,8 @@ async function otpcLineStatus() {
             // Always update tooltip time even if status hasn't changed
             const isActive = currentStatus.includes("вкл") || currentStatus.includes("он");
             const titleForStatus = `${isActive ? "2+2 / 3+1\n" : "4+6 / 5+5\n"}` +
-                `Время изменения: ${data.messageTimestamp}\n` +
-                `Время проверки: ${data.lastFetchTime}`;
+                `Время изменения: ${data.messageTimestamp} ПРМ\n` +
+                `Время проверки: ${data.lastFetchTime} ПРМ`;
 
             genesysTitle.setAttribute("title", titleForStatus);
 
