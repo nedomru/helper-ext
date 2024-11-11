@@ -70,6 +70,12 @@ function dutyButtons() {
     },
     {
       id: "list-item-742",
+      url: "http://genesys-stat.cc1.ertelecom.ru:9090/gax/?#/!/view:com.cm.home/101",
+      icon: "mdi mdi-server-outline",
+      text: "GAX",
+    },
+    {
+      id: "list-item-742",
       url: "http://10.121.15.99/lenta",
       icon: "mdi mdi-chat-processing-outline",
       text: "Генератор ленты",
