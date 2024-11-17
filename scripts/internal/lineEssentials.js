@@ -22,6 +22,7 @@ if (document.URL.indexOf("genesys-ntp") !== -1) {
     LINE_highlightOperators: highlightOperators,
     LINE_dutyButtons: dutyButtons,
     LINE_updateNeededSL: updateNeededSL,
+    LINE_countAppointments: countAppointments,
   };
 
   browser.storage.sync.get(Object.keys(LINE_config)).then((result) => {
@@ -238,92 +239,96 @@ async function fastButtons() {
 // Подсветка операторов с определенными классами на линии
 function highlightOperators() {
   console.log(
-    `[${new Date().toLocaleTimeString()}] [Хелпер] - [Линия] - [Подсветка операторов] Активирован модуль подсветки`
+      `[${new Date().toLocaleTimeString()}] [Хелпер] - [Линия] - [Подсветка операторов] Активирован модуль подсветки`
   );
 
-  const projects = "Проектная деятельность";
-  const rsg = "Задачи от руководителя группы";
-  const learning = "Обучение";
-  const help = "Помощь смежному отделу";
+  const STATUSES = {
+    PROJECT: "Проектная деятельность",
+    RSG: "Задачи от руководителя группы",
+    LEARNING: "Обучение",
+    HELP: "Помощь смежному отделу"
+  };
 
-  // Цвета для выделения
-  const colorMap = {
+  const COLOR_MAP = {
     light: {
-      [projects]: "#F7DCB9",
-      [rsg]: "#B3C8CF",
-      [learning]: "#DFCCFB",
-      [help]: "#F3D0D7",
+      [STATUSES.PROJECT]: "#F7DCB9",
+      [STATUSES.RSG]: "#B3C8CF",
+      [STATUSES.LEARNING]: "#DFCCFB",
+      [STATUSES.HELP]: "#F3D0D7",
     },
     dark: {
-      [projects]: "#5D6D7E",
-      [rsg]: "#4C688B",
-      [learning]: "#75608E",
-      [help]: "#82494A",
+      [STATUSES.PROJECT]: "#5D6D7E",
+      [STATUSES.RSG]: "#4C688B",
+      [STATUSES.LEARNING]: "#75608E",
+      [STATUSES.HELP]: "#82494A",
     },
   };
 
   const appointmentsTable = document.getElementsByClassName("bottom-row")[0];
-
   if (!appointmentsTable) {
-    console.error("Таблица не найдена.");
+    console.error("[Хелпер] - [Линия] Таблица не найдена");
     return;
   }
 
-  // Функция подсветки строк
+  let highlightTimeout = null;
+
   const highlightRows = (tbody) => {
-    const theme = document
-      .querySelector(".v-application.v-application--is-ltr")
-      .classList.contains("theme--dark")
-      ? "dark"
-      : "light";
-    const rows = tbody.querySelectorAll("tr");
+    if (highlightTimeout) {
+      clearTimeout(highlightTimeout);
+    }
 
-    rows.forEach((row) => {
-      const cells = row.querySelectorAll("td, th");
-      let isValueFound = false;
+    highlightTimeout = setTimeout(() => {
+      const theme = document
+          .querySelector(".v-application.v-application--is-ltr")
+          .classList.contains("theme--dark")
+          ? "dark"
+          : "light";
 
-      for (const key in colorMap[theme]) {
-        for (let i = 0; i < cells.length; i++) {
-          if (cells[i].textContent.includes(key)) {
-            row.style.backgroundColor = colorMap[theme][key];
-            isValueFound = true;
-            break;
+      const rows = tbody.querySelectorAll("tr");
+      rows.forEach((row) => {
+        const cells = row.querySelectorAll("td, th");
+        let statusFound = false;
+
+        for (const [status, color] of Object.entries(COLOR_MAP[theme])) {
+          for (const cell of cells) {
+            if (cell.textContent.includes(status)) {
+              row.style.backgroundColor = color;
+              statusFound = true;
+              break;
+            }
           }
+          if (statusFound) break;
         }
-        if (isValueFound) break;
-      }
 
-      if (!isValueFound) {
-        row.style.backgroundColor = theme === "dark" ? "#1e1e1e" : "#FFFFFF";
-      }
-    });
-    console.log(
-      `[${new Date().toLocaleTimeString()}] [Хелпер] - [Линия] - [Подсветка операторов] Подсветка обновлена`
-    );
-  };
-
-  // Создаем наблюдатель для отслеживания появления tbody
-  const observer = new MutationObserver(() => {
-    const tbody = appointmentsTable.querySelector("tbody");
-    if (tbody) {
-      // Останавливаем наблюдение, когда tbody найден
-      observer.disconnect();
-
-      // Начальная подсветка
-      highlightRows(tbody);
-
-      // Создаем новый наблюдатель для отслеживания изменений только в tbody
-      const tbodyObserver = new MutationObserver(() => {
-        highlightRows(tbody);
+        if (!statusFound) {
+          row.style.backgroundColor = theme === "dark" ? "#1e1e1e" : "#FFFFFF";
+        }
       });
 
-      // Настраиваем наблюдение за дочерними элементами в tbody
-      tbodyObserver.observe(tbody, { childList: true, subtree: true });
+    }, 100); // Debounce time
+  };
+
+  const observer = new MutationObserver((mutations) => {
+    const tbody = appointmentsTable.querySelector("tbody");
+    if (tbody) {
+      highlightRows(tbody);
     }
   });
 
-  // Настраиваем наблюдение за элементами внутри таблицы
-  observer.observe(appointmentsTable, { childList: true, subtree: true });
+  // Start observing
+  observer.observe(appointmentsTable, {
+    childList: true,
+    subtree: true,
+    characterData: true
+  });
+
+  // Initial highlight
+  const tbody = appointmentsTable.querySelector("tbody");
+  if (tbody) {
+    highlightRows(tbody);
+  }
+
+  return observer;
 }
 
 function createLinkTab(id, href, iconClass, textContent) {
@@ -451,4 +456,101 @@ function updateNeededSL() {
       });
   }
   getSL();
+}
+
+function countAppointments() {
+  console.log(
+      `[${new Date().toLocaleTimeString()}] [Хелпер] - [Линия] - [Подсчет назначений] Активирован модуль подсчета`
+  );
+
+  const APPOINTMENT_TYPES = {
+    RSG: "Отсутствие на линии: Задачи от руководителя группы",
+    PROJECT: "Отсутствие на линии: Проектная деятельность",
+    LEARNING: "Отсутствие на линии: Обучение",
+    MENTORING: "Отсутствие на линии: Наставничество",
+    OTHER: "Отсутствие на линии: Прочее"
+  };
+
+  const appointmentsTable = document.getElementsByClassName("bottom-row")[0];
+  if (!appointmentsTable) {
+    console.error("[Хелпер] - [Линия] Таблица не найдена");
+    return;
+  }
+
+  let updateTimeout = null;
+
+  const updateCounts = (tbody) => {
+    if (updateTimeout) {
+      clearTimeout(updateTimeout);
+    }
+
+    updateTimeout = setTimeout(() => {
+      const counts = {
+        total: tbody.querySelectorAll("tr").length - 1, // Subtract header row
+        rsg: 0,
+        project: 0,
+        learning: 0,
+        mentoring: 0,
+        other: 0
+      };
+
+      const cells = tbody.querySelectorAll("td");
+      cells.forEach((cell) => {
+        const text = cell.innerText;
+        if (text === APPOINTMENT_TYPES.RSG) counts.rsg++;
+        if (text === APPOINTMENT_TYPES.PROJECT) counts.project++;
+        if (text === APPOINTMENT_TYPES.LEARNING) counts.learning++;
+        if (text === APPOINTMENT_TYPES.MENTORING) counts.mentoring++;
+        if (text === APPOINTMENT_TYPES.OTHER) counts.other++;
+      });
+
+      const button = document.evaluate(
+          "/html/body/div/div/main/div/div[2]/div[13]/div[4]/div/div[1]/div/div/button",
+          document,
+          null,
+          XPathResult.FIRST_ORDERED_NODE_TYPE,
+          null
+      ).singleNodeValue;
+
+      if (!button) {
+        console.error("[Хелпер] - [Линия] Кнопка для отображения счетчиков не найдена");
+        return;
+      }
+
+      const chipElement = button.querySelector("span.v-chip__content");
+      if (chipElement) {
+        chipElement.textContent = [
+          `Всего: ${counts.total}`,
+          counts.rsg > 0 ? `| РСГ: ${counts.rsg}` : "",
+          counts.project > 0 ? `| Проекты: ${counts.project}` : "",
+          counts.learning > 0 ? `| Обучения: ${counts.learning}` : "",
+          counts.mentoring > 0 ? `| Наставники: ${counts.mentoring}` : "",
+          counts.other > 0 ? `| Прочее: ${counts.other}` : ""
+        ].filter(Boolean).join(" ");
+      }
+
+    }, 100); // Debounce time
+  };
+
+  const observer = new MutationObserver((mutations) => {
+    const tbody = appointmentsTable.querySelector("tbody");
+    if (tbody) {
+      updateCounts(tbody);
+    }
+  });
+
+  // Start observing
+  observer.observe(appointmentsTable, {
+    childList: true,
+    subtree: true,
+    characterData: true
+  });
+
+  // Initial count
+  const tbody = appointmentsTable.querySelector("tbody");
+  if (tbody) {
+    updateCounts(tbody);
+  }
+
+  return observer;
 }

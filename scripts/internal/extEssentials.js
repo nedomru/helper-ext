@@ -58,6 +58,7 @@ async function setDefaults() {
     LINE_showFB: true,
     LINE_showFB_Mail: true,
     LINE_showFB_Lunch: true,
+    LINE_countAppointments: true,
 
     // Стандартные цвета
     HIGHLIGHTER_CS: "#ff0000",
