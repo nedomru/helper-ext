@@ -28,7 +28,6 @@
         "scripts/external/jquery.min.js",
         "scripts/external/notify.js",
         "scripts/external/dompurify.min.js",
-        "scripts/internal/background.js",
         "scripts/internal/highlights.js",
         "scripts/internal/armEssentials.js",
         "scripts/internal/lineEssentials.js",
@@ -39,7 +38,7 @@
     }
   ],
   "background": {
-    "scripts": ["scripts/internal/extEssentials.js"],
+    "scripts": ["scripts/internal/background.js","scripts/internal/extEssentials.js"],
     "persistent": false
   },
   "permissions": [
