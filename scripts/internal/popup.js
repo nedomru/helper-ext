@@ -257,7 +257,7 @@ async function handlePremiumSubmit() {
             DOMPurify.sanitize(tableHTML);
     } catch (error) {
         document.getElementById("result-container").innerText =
-            "Не удалось получить премию";
+            "Не удалось получить премию\nУбедись, что ты авторизован(а) на okc.ertelecom.ru";
         console.error("Ошибка:", error);
     }
 }
