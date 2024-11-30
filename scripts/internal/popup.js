@@ -9,6 +9,35 @@ document.addEventListener("DOMContentLoaded", function () {
     submitIP.addEventListener("click", handleIPSubmit);
     submitLink.addEventListener("click", handleLinkSubmit);
     submitPremium.addEventListener("click", handlePremiumSubmit);
+
+    document
+        .getElementById("openSettings")
+        .addEventListener("click", function () {
+            browser.runtime.openOptionsPage();
+            window.close();
+        });
+    document
+        .getElementById("openTelegram")
+        .addEventListener("click", function () {
+            window.open("https://t.me/+jH1mblw0ytcwOWUy", "_blank");
+            window.close();
+        });
+    document.getElementById("openPlaner").addEventListener("click", function () {
+        window.open("https://planer.chrsnv.ru/spaces/issues/cbf00707a032422ba298ed826021855f", "_blank");
+        window.close();
+    });
+    document.getElementById("openDonate").addEventListener("click", function () {
+        window.open("https://pay.cloudtips.ru/p/787b494c", "_blank");
+        window.close();
+    });
+    document
+        .getElementById("openGames")
+        .addEventListener("click", function () {
+            const gamesURL = chrome.runtime.getURL("pages/games.html");
+            window.open(gamesURL, "_blank");
+            window.close();
+        });
+
     document
         .getElementById("searchProvider")
         .addEventListener("input", () =>
@@ -19,25 +48,8 @@ document.addEventListener("DOMContentLoaded", function () {
         .addEventListener("input", () =>
             searchTable("searchRouter", "routersTable")
         );
-    document
-        .getElementById("openSettings")
-        .addEventListener("click", function () {
-            browser.runtime.openOptionsPage();
-        });
-    document.getElementById("openDonate").addEventListener("click", function () {
-        window.open("https://pay.cloudtips.ru/p/787b494c", "_blank");
-    });
-    document
-        .getElementById("openTelegram")
-        .addEventListener("click", function () {
-            window.open("https://t.me/+jH1mblw0ytcwOWUy", "_blank");
-        });
-    document
-        .getElementById("openGames")
-        .addEventListener("click", function () {
-            const gamesURL = chrome.runtime.getURL("pages/games.html");
-            window.open(gamesURL, "_blank");
-        });
+
+
 });
 
 async function handleMacSubmit() {

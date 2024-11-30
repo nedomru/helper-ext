@@ -5,7 +5,7 @@
 }
 
 body {
-  width: 630px;
+  width: max-content;
   background-color: #fff;
   color: #000;
   overflow-x: hidden;
