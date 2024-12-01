@@ -57,14 +57,19 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 async function handleMacSubmit() {
+    document.getElementById("result-container").innerHTML = "";
+    const loadingSpinner = document.getElementById('loadingResultsSpinner');
+
     const inputField = document.getElementById("input-mac")
     let mac_address = inputField.value.trim();
     const mac_regex = new RegExp("^([0-9A-Fa-f]{2}[:-]?){5}([0-9A-Fa-f]{2})$");
 
     if (mac_regex.test(mac_address) === false) {
-        $.notify("Это не MAC", "error");
+        $.notify("MAC некорректный", "error");
         return;
     }
+
+    loadingSpinner.style.display = 'block';
 
     try {
         const response = await fetch(
@@ -108,10 +113,12 @@ async function handleMacSubmit() {
             </table>
         `;
 
+        loadingSpinner.style.display = 'none';
         document.getElementById("result-container").innerHTML =
             DOMPurify.sanitize(tableHTML);
         inputField.value = "";
     } catch (error) {
+        loadingSpinner.style.display = 'none';
         document.getElementById("result-container").innerText =
             "Не удалось проверить MAC-адрес";
         console.error("Ошибка:", error);
@@ -119,6 +126,9 @@ async function handleMacSubmit() {
 }
 
 async function handleIPSubmit() {
+    document.getElementById("result-container").innerHTML = "";
+    const loadingSpinner = document.getElementById('loadingResultsSpinner');
+
     const inputField = document.getElementById("input-ip")
     let ip_address = inputField.value.trim();
     const ip_regex = new RegExp(
@@ -130,7 +140,8 @@ async function handleIPSubmit() {
         return;
     }
 
-    $.notify("Проверяю", "info");
+    loadingSpinner.style.display = 'block';
+
     try {
         const response = await fetch(
             `https://api.ipquery.io/${ip_address}?format=yaml`,
@@ -203,10 +214,12 @@ async function handleIPSubmit() {
 </div>
         `;
 
+        loadingSpinner.style.display = 'none';
         document.getElementById("result-container").innerHTML =
             DOMPurify.sanitize(tableHTML);
         inputField.value = "";
     } catch (error) {
+        loadingSpinner.style.display = 'none';
         document.getElementById("result-container").innerText =
             "Не удалось проверить Whois домена";
         console.error("Ошибка:", error);
@@ -214,6 +227,9 @@ async function handleIPSubmit() {
 }
 
 async function handleWhoisSubmit() {
+    document.getElementById("result-container").innerHTML = "";
+    const loadingSpinner = document.getElementById('loadingResultsSpinner');
+
     const inputField = document.getElementById("input-whois")
     let whois_domain = inputField.value.trim();
     const domain_regex = new RegExp(
@@ -224,6 +240,8 @@ async function handleWhoisSubmit() {
         $.notify("Домен некорректный", "error");
         return;
     }
+
+    loadingSpinner.style.display = 'block';
 
     try {
         const response = await fetch(
@@ -275,10 +293,12 @@ async function handleWhoisSubmit() {
             </table>
         `;
 
+        loadingSpinner.style.display = 'none';
         document.getElementById("result-container").innerHTML =
             DOMPurify.sanitize(tableHTML);
         inputField.value = "";
     } catch (error) {
+        loadingSpinner.style.display = 'none';
         document.getElementById("result-container").innerText =
             "Не удалось проверить Whois домена";
         console.error("Ошибка:", error);
@@ -286,6 +306,9 @@ async function handleWhoisSubmit() {
 }
 
 async function handleSubnetIPSubmit() {
+    document.getElementById("result-container").innerHTML = "";
+    const loadingSpinner = document.getElementById('loadingResultsSpinner');
+
     const inputField = document.getElementById("input-subnet-ip")
     let subnet_ip = inputField.value.trim();
     const domain_regex = new RegExp(
@@ -296,6 +319,8 @@ async function handleSubnetIPSubmit() {
         $.notify("IP некорректный", "error");
         return;
     }
+
+    loadingSpinner.style.display = 'block';
 
     try {
         const response = await fetch(
@@ -359,10 +384,12 @@ async function handleSubnetIPSubmit() {
             </table>
         `;
 
+        loadingSpinner.style.display = 'none';
         document.getElementById("result-container").innerHTML =
             DOMPurify.sanitize(tableHTML);
         inputField.value = "";
     } catch (error) {
+        loadingSpinner.style.display = 'none';
         document.getElementById("result-container").innerText =
             "Не удалось посчитать подсеть";
         console.error("Ошибка:", error);
@@ -395,6 +422,11 @@ async function handleLinkSubmit() {
 }
 
 async function handlePremiumSubmit() {
+    document.getElementById("result-container").innerHTML = "";
+    const loadingSpinner = document.getElementById('loadingResultsSpinner');
+
+    loadingSpinner.style.display = 'block';
+
     const inputField = document.getElementById("premium-select").value;
 
     let url;
@@ -503,9 +535,11 @@ async function handlePremiumSubmit() {
             </table>
         `;
 
+        loadingSpinner.style.display = 'none';
         document.getElementById("result-container").innerHTML =
             DOMPurify.sanitize(tableHTML);
     } catch (error) {
+        loadingSpinner.style.display = 'none';
         document.getElementById("result-container").innerText =
             "Не удалось получить премию\nУбедись, что ты авторизован(а) на okc.ertelecom.ru";
         console.error("Ошибка:", error);
