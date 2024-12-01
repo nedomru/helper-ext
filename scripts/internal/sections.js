@@ -53,17 +53,17 @@ function addButtonListeners() {
 }
 
 // Function to initialize tabs
-function initTabs() {
-    browser.storage.sync.get('lastTab').then(result => {
+async function initTabs() {
+    await browser.storage.sync.get('lastTab').then(result => {
         const lastTab = result.lastTab || 'Главная';
         showTab(lastTab);
     }).catch(error => {
         console.error('Error retrieving last tab:', error);
         showTab('Главная');
     });
-    fetchMNA(true)
-    fetchRouters(true)
-    //fetchPhrases(true)
+    await fetchMNA(true)
+    await fetchRouters(true)
+    await fetchPhrases(true)
 }
 
 function searchTable(inputId, tableId) {
