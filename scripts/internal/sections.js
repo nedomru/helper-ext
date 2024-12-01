@@ -63,7 +63,7 @@ function initTabs() {
     });
     fetchMNA(true)
     fetchRouters(true)
-    fetchPhrases(true)
+    //fetchPhrases(true)
 }
 
 function searchTable(inputId, tableId) {

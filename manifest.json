@@ -38,13 +38,16 @@
     }
   ],
   "background": {
-    "scripts": ["scripts/internal/background.js","scripts/internal/extEssentials.js"],
+    "scripts": ["scripts/internal/extEssentials.js"],
     "persistent": false
   },
   "permissions": [
     "*://*.chrsnv.ru/*",
     "*://*.ertelecom.ru/*",
     "*://*.maclookup.app/*",
+    "*://*.who-dat.as93.net/*",
+    "*://*.ipquery.io/*",
+    "*://*.networkcalc.com/*",
     "*://*.telegram.org/*",
     "*://*.github.com/*",
     "tabs",

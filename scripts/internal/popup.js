@@ -3,10 +3,14 @@
 document.addEventListener("DOMContentLoaded", function () {
     const submitMac = document.getElementById("submit-mac");
     const submitIP = document.getElementById("submit-ip");
+    const submitWhois = document.getElementById("submit-whois");
+    const submitSubnetIP = document.getElementById("submit-subnet-ip");
     const submitLink = document.getElementById("submit-link");
     const submitPremium = document.getElementById("submit-premium");
     submitMac.addEventListener("click", handleMacSubmit);
     submitIP.addEventListener("click", handleIPSubmit);
+    submitWhois.addEventListener("click", handleWhoisSubmit);
+    submitSubnetIP.addEventListener("click", handleSubnetIPSubmit);
     submitLink.addEventListener("click", handleLinkSubmit);
     submitPremium.addEventListener("click", handlePremiumSubmit);
 
@@ -53,19 +57,18 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 async function handleMacSubmit() {
-    const inputField = document.getElementById("input-mac");
-    const macAddress = inputField.value.trim();
+    const inputField = document.getElementById("input-mac")
+    let mac_address = inputField.value.trim();
     const mac_regex = new RegExp("^([0-9A-Fa-f]{2}[:-]?){5}([0-9A-Fa-f]{2})$");
 
-    if (mac_regex.test(macAddress) === false) {
+    if (mac_regex.test(mac_address) === false) {
         $.notify("Это не MAC", "error");
         return;
     }
 
-    $.notify("Проверяю", "info");
     try {
         const response = await fetch(
-            `https://api.maclookup.app/v2/macs/${macAddress}`,
+            `https://api.maclookup.app/v2/macs/${mac_address}`,
             {
                 method: "GET",
                 headers: {
@@ -80,25 +83,49 @@ async function handleMacSubmit() {
 
         const result = await response.json();
 
-        const companyName = result.company;
+        const tableHTML = `
+            <hr class="hr" />
+            <h5>Результаты проверки MAC-адреса</h5>
+            <table class="table table-hover table-bordered table-responsive table-sm">
+                <tbody class="table-group-divider">
+                    <tr>
+                        <th>MAC-адрес</th>
+                        <td class="align-middle">${mac_address}</td>
+                    </tr>
+                    <tr>
+                        <th>Компания</th>
+                        <td class="align-middle">${result["company"]}</td>
+                    </tr>
+                    <tr>
+                        <th>Страна</th>
+                        <td class="align-middle">${result["country"]}</td>
+                    </tr>
+                    <tr>
+                        <th>Дата обновления пула</th>
+                        <td class="align-middle">${result["updated"]}</td>
+                    </tr>
+                </tbody>
+            </table>
+        `;
 
-        if (companyName) {
-            $.notify(companyName, "success");
-            inputField.value = "";
-        }
+        document.getElementById("result-container").innerHTML =
+            DOMPurify.sanitize(tableHTML);
+        inputField.value = "";
     } catch (error) {
-        console.error("Fetch error:", error);
-        $.notify("Произошла ошибка при проверке", "error");
+        document.getElementById("result-container").innerText =
+            "Не удалось проверить MAC-адрес";
+        console.error("Ошибка:", error);
     }
 }
 
 async function handleIPSubmit() {
-    const inputField = document.getElementById("input-ip").value.trim();
+    const inputField = document.getElementById("input-ip")
+    let ip_address = inputField.value.trim();
     const ip_regex = new RegExp(
         "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
     );
 
-    if (ip_regex.test(inputField) === false) {
+    if (ip_regex.test(ip_address) === false) {
         $.notify("IP некорректный", "error");
         return;
     }
@@ -106,28 +133,239 @@ async function handleIPSubmit() {
     $.notify("Проверяю", "info");
     try {
         const response = await fetch(
-            `http://ip-api.com/json/${inputField}?fields=country,regionName,city,org&lang=ru`,
+            `https://api.ipquery.io/${ip_address}?format=yaml`,
             {
                 method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
             }
         );
-
         if (response.status !== 200) {
-            $.notify("Ошибка", "error");
+            $.notify("Не удалось найти", "error");
             return;
         }
 
         const result = await response.json();
 
-        if (result) {
-            $.notify(
-                `Страна: ${result["country"]}\nГород: ${result["city"]}\nОрганизация: ${result["org"]}`,
-                "success"
-            );
-            document.getElementById("input-ip").value = "";
-        }
+        const tableHTML = `
+            <hr class="hr" />
+            <h5>Результаты проверки IP</h5>
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered">
+                    <tbody>
+                        <tr>
+                            <th>IP</th>
+                            <td>${ip_address}</td>
+                        </tr>
+                        <tr>
+                            <th>Провайдер</th>
+                            <td>${result["isp"]["org"]}</td>
+                        </tr>
+                        <tr>
+                            <th>Страна</th>
+                            <td>${result["location"]["country"]}</td>
+                        </tr>
+                        <tr>
+                            <th>Город</th>
+                            <td>${result["location"]["city"]}</td>
+                        </tr>
+                        <tr>
+                            <th>Область/Штат</th>
+                            <td>${result["location"]["state"]}</td>
+                        </tr>
+                        <tr>
+                            <th>Часовой пояс</th>
+                            <td>${result["location"]["timezone"]}</td>
+                        </tr>
+                        <tr>
+                            <th>Мобильная сеть</th>
+                            <td>${result["risk"]["is_mobile"] === true ? "Да" : "Нет"}</td>
+                        </tr>
+                        <tr>
+                            <th>ВПН</th>
+                            <td>${result["risk"]["is_vpn"] === true ? "Да" : "Нет"}</td>
+                        </tr>
+                        <tr>
+                            <th>Тор</th>
+                            <td>${result["risk"]["is_tor"] === true ? "Да" : "Нет"}</td>
+                        </tr>
+                        <tr>
+                            <th>Прокси</th>
+                            <td>${result["risk"]["is_proxy"] === true ? "Да" : "Нет"}</td>
+                        </tr>
+                        <tr>
+                            <th>Датацентр</th>
+                            <td>${result["risk"]["is_datacenter"] === true ? "Да" : "Нет"}</td>
+                        </tr>
+                    </tbody>
+                </table>
+</div>
+        `;
+
+        document.getElementById("result-container").innerHTML =
+            DOMPurify.sanitize(tableHTML);
+        inputField.value = "";
     } catch (error) {
-        console.error("Fetch error:", error);
+        document.getElementById("result-container").innerText =
+            "Не удалось проверить Whois домена";
+        console.error("Ошибка:", error);
+    }
+}
+
+async function handleWhoisSubmit() {
+    const inputField = document.getElementById("input-whois")
+    let whois_domain = inputField.value.trim();
+    const domain_regex = new RegExp(
+        "^(https?:\\/\\/)?([a-z0-9-]+\\.)*[a-z0-9-]+\\.[a-z]{2,}(:[0-9]+)?(\\/.*)?$"
+    );
+
+    if (domain_regex.test(whois_domain) === false) {
+        $.notify("Домен некорректный", "error");
+        return;
+    }
+
+    try {
+        const response = await fetch(
+            `https://who-dat.as93.net/${whois_domain}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+        if (response.status !== 200) {
+            $.notify("Не удалось найти", "error");
+            return;
+        }
+
+        const result = await response.json();
+
+        const tableHTML = `
+            <hr class="hr" />
+            <h5>Результаты проверки Whois</h5>
+            <table class="table table-hover table-bordered table-responsive table-sm">
+                <tbody class="table-group-divider">
+                    <tr>
+                        <th>Домен</th>
+                        <td class="align-middle">${whois_domain}</td>
+                    </tr>
+                    <tr>
+                        <th>Статус</th>
+                        <td class="align-middle">${result["domain"]["status"]}</td>
+                    </tr>
+                    <tr>
+                        <th>DNS записи</th>
+                        <td class="align-middle">${result["domain"]["name_servers"]}</td>
+                    </tr>
+                    <tr>
+                        <th>Регистратор</th>
+                        <td class="align-middle">${result["registrar"]["name"]}</td>
+                    </tr>
+                    <tr>
+                        <th>Регистрант</th>
+                        <td class="align-middle">${result["registrant"]["name"]}</td>
+                    </tr>
+                    <tr>
+                        <th>Ответственный</th>
+                        <td class="align-middle">${result["administrative"]["name"]}</td>
+                    </tr>
+                </tbody>
+            </table>
+        `;
+
+        document.getElementById("result-container").innerHTML =
+            DOMPurify.sanitize(tableHTML);
+        inputField.value = "";
+    } catch (error) {
+        document.getElementById("result-container").innerText =
+            "Не удалось проверить Whois домена";
+        console.error("Ошибка:", error);
+    }
+}
+
+async function handleSubnetIPSubmit() {
+    const inputField = document.getElementById("input-subnet-ip")
+    let subnet_ip = inputField.value.trim();
+    const domain_regex = new RegExp(
+        "^(?:(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\/(?:3[0-2]|[12]?\\d)$"
+    );
+
+    if (domain_regex.test(subnet_ip) === false) {
+        $.notify("IP некорректный", "error");
+        return;
+    }
+
+    try {
+        const response = await fetch(
+            `https://networkcalc.com/api/ip/${subnet_ip}?binary=false`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+        if (response.status !== 200) {
+            $.notify("Не удалось найти", "error");
+            return;
+        }
+
+        const result = await response.json();
+
+        const tableHTML = `
+            <hr class="hr" />
+            <h5>Результаты калькулятора подсети</h5>
+            <table class="table table-hover table-bordered table-responsive table-sm">
+                <tbody class="table-group-divider">
+                    <tr>
+                        <th>IP</th>
+                        <td class="align-middle">${subnet_ip}</td>
+                    </tr>
+                    <tr>
+                        <th>CIDR нотация</th>
+                        <td class="align-middle">${result["address"]["cidr_notation"]}</td>
+                    </tr>
+                    <tr>
+                        <th>Биты подсети</th>
+                        <td class="align-middle">${result["address"]["subnet_bits"]}</td>
+                    </tr>
+                    <tr>
+                        <th>Маска подсети</th>
+                        <td class="align-middle">${result["address"]["subnet_mask"]}</td>
+                    </tr>
+                    <tr>
+                        <th>Обратная маска (Wildcard mask)</th>
+                        <td class="align-middle">${result["address"]["wildcard_mask"]}</td>
+                    </tr>
+                    <tr>
+                        <th>Адрес сети</th>
+                        <td class="align-middle">${result["address"]["network_address"]}</td>
+                    </tr>
+                    <tr>
+                        <th>Количество назначаемых узлов</th>
+                        <td class="align-middle">${result["address"]["assignable_hosts"]}</td>
+                    </tr>
+                    <tr>
+                        <th>Первый назначаемый узел</th>
+                        <td class="align-middle">${result["address"]["first_assignable_host"]}</td>
+                    </tr>
+                    <tr>
+                        <th>Последний назначаемый узел</th>
+                        <td class="align-middle">${result["address"]["last_assignable_host"]}</td>
+                    </tr>
+                </tbody>
+            </table>
+        `;
+
+        document.getElementById("result-container").innerHTML =
+            DOMPurify.sanitize(tableHTML);
+        inputField.value = "";
+    } catch (error) {
+        document.getElementById("result-container").innerText =
+            "Не удалось посчитать подсеть";
+        console.error("Ошибка:", error);
     }
 }
 
