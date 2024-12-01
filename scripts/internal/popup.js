@@ -53,7 +53,8 @@ document.addEventListener("DOMContentLoaded", function () {
             searchTable("searchRouter", "routersTable")
         );
 
-
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 });
 
 async function handleMacSubmit() {
@@ -403,7 +404,6 @@ async function handleSubnetIPSubmit() {
 async function handleLinkSubmit() {
     const inputField = document.getElementById("input-link").value.trim();
 
-    $.notify("Сокращаю", "info");
     try {
         const response = await fetch(`https://clck.ru/--?url=${inputField}`, {
             method: "GET",
