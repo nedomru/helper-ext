@@ -91,6 +91,7 @@ async function handleMacSubmit() {
         const tableHTML = `
             <hr class="hr" />
             <h5>Результаты проверки MAC-адреса</h5>
+            <a href="https://api.maclookup.app/v2/macs/${mac_address}"><i>Полные результаты</i></a>
             <table class="table table-hover table-bordered table-responsive table-sm">
                 <tbody class="table-group-divider">
                     <tr>
@@ -162,6 +163,7 @@ async function handleIPSubmit() {
         const tableHTML = `
             <hr class="hr" />
             <h5>Результаты проверки IP</h5>
+            <a href="https://api.ipquery.io/${ip_address}?format=yaml"><i>Полные результаты</i></a>
             <div class="table-responsive">
                 <table class="table table-hover table-bordered">
                     <tbody>
@@ -263,6 +265,7 @@ async function handleWhoisSubmit() {
         const tableHTML = `
             <hr class="hr" />
             <h5>Результаты проверки Whois</h5>
+            <a href="https://who-dat.as93.net/${whois_domain}"><i>Полные результаты</i></a>
             <table class="table table-hover table-bordered table-responsive table-sm">
                 <tbody class="table-group-divider">
                     <tr>
@@ -342,6 +345,7 @@ async function handleSubnetIPSubmit() {
         const tableHTML = `
             <hr class="hr" />
             <h5>Результаты калькулятора подсети</h5>
+            <a href="https://networkcalc.com/api/ip/${subnet_ip}?binary=false"><i>Полные результаты</i></a>
             <table class="table table-hover table-bordered table-responsive table-sm">
                 <tbody class="table-group-divider">
                     <tr>
