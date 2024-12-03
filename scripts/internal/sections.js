@@ -62,7 +62,7 @@ async function initTabs() {
         showTab('Главная');
     });
     await fetchMNA(true)
-    await fetchRouters(true)
+    // await fetchRouters(true)
     await fetchPhrases(true)
 }
 
