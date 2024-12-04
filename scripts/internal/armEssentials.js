@@ -622,7 +622,7 @@ async function sendClientCardExample() {
     const sendExampleButton = document.createElement("button");
     sendExampleButton.textContent = "📨 Отправить пример";
     sendExampleButton.classList.add("btn", "btn-primary", "btn-sm", "helper-example-card");
-    sendExampleButton.style.marginTop= "5px"
+    sendExampleButton.style.marginTop = "5px"
 
 
     sendExampleButton.addEventListener("click", async (event) => {
@@ -649,8 +649,7 @@ async function sendClientCardExample() {
             const errorText = await response.text();
             $.notify("Не удалось отправить пример")
             console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Пример договора] Произошла ошибка: ${errorText}`)
-        }
-        else {
+        } else {
             $.notify("Пример успешно отправлен", "success")
             console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Пример договора] Пример успешно отправлен`)
         }
@@ -1067,23 +1066,20 @@ async function fastButtonsChangeRequest() {
             document.getElementById("change_class").click();
         }
 
-        if (step.value !== "2296") {
-            step.value = "2296";
-            step.dispatchEvent(changeEvent);
+        step.value = "2296";
+        step.dispatchEvent(changeEvent);
 
-            const observer = new MutationObserver(() => {
-                const objReason = document.querySelector(".uni_load_obj_reason");
-                if (objReason) {
-                    observer.disconnect();
-                    setTimeout(function () {
-                        objReason.value = "2123";
-                        objReason.dispatchEvent(changeEvent);
-                    }, 400);
-                }
-            });
-
-            observer.observe(document.body, {childList: true, subtree: true});
-        }
+        const observer = new MutationObserver(() => {
+            const objReason = document.querySelector(".uni_load_obj_reason");
+            if (objReason) {
+                observer.disconnect();
+                setTimeout(function () {
+                    objReason.value = "2123";
+                    objReason.dispatchEvent(changeEvent);
+                }, 400);
+            }
+        });
+        observer.observe(document.body, {childList: true, subtree: true});
 
         console.log(
             `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Обращение изменено на Онлайн вход - КС`,
@@ -1113,24 +1109,22 @@ async function fastButtonsChangeRequest() {
             $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
         }
 
-        if (step.value !== "1520") {
-            step.value = "1520";
-            step.dispatchEvent(changeEvent);
+        step.value = "1520";
+        step.dispatchEvent(changeEvent);
 
-            const observer = new MutationObserver(() => {
-                $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
-                const objReason = document.querySelector(".uni_load_obj_reason");
-                if (objReason) {
-                    observer.disconnect();
-                    setTimeout(function () {
-                        objReason.value = "2123";
-                        objReason.dispatchEvent(changeEvent);
-                    }, 400);
-                }
-            });
+        const observer = new MutationObserver(() => {
+            $("tr.classifier_line").removeAttr("hidden").removeAttr("style");
+            const objReason = document.querySelector(".uni_load_obj_reason");
+            if (objReason) {
+                observer.disconnect();
+                setTimeout(function () {
+                    objReason.value = "2123";
+                    objReason.dispatchEvent(changeEvent);
+                }, 400);
+            }
+        });
 
-            observer.observe(document.body, {childList: true, subtree: true});
-        }
+        observer.observe(document.body, {childList: true, subtree: true});
 
         console.log(
             `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Обращение изменено на ОЦТП Исход - КС`,
@@ -1159,23 +1153,21 @@ async function fastButtonsChangeRequest() {
             document.getElementById("change_class").click();
         }
 
-        if (step.value !== "1056") {
-            step.value = "1056";
-            step.dispatchEvent(changeEvent);
+        step.value = "1056";
+        step.dispatchEvent(changeEvent);
 
-            const observer = new MutationObserver(() => {
-                const objReason = document.querySelector(".uni_load_obj_reason");
-                if (objReason) {
-                    observer.disconnect();
-                    setTimeout(function () {
-                        objReason.value = "1046";
-                        objReason.dispatchEvent(changeEvent);
-                    }, 400);
-                }
-            });
+        const observer = new MutationObserver(() => {
+            const objReason = document.querySelector(".uni_load_obj_reason");
+            if (objReason) {
+                observer.disconnect();
+                setTimeout(function () {
+                    objReason.value = "1046";
+                    objReason.dispatchEvent(changeEvent);
+                }, 400);
+            }
+        });
 
-            observer.observe(document.body, {childList: true, subtree: true});
-        }
+        observer.observe(document.body, {childList: true, subtree: true});
 
         console.log(
             `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Обращение изменено на ТС/ААО`,
@@ -1206,23 +1198,21 @@ async function fastButtonsChangeRequest() {
             document.getElementById("change_class").click();
         }
 
-        if (step.value !== "1521") {
-            step.value = "1521";
-            step.dispatchEvent(changeEvent);
+        step.value = "1521";
+        step.dispatchEvent(changeEvent);
 
-            const observer = new MutationObserver(() => {
-                const objReason = document.querySelector(".uni_load_obj_reason");
-                if (objReason) {
-                    observer.disconnect();
-                    setTimeout(function () {
-                        objReason.value = "2286";
-                        objReason.dispatchEvent(changeEvent);
-                    }, 400);
-                }
-            });
+        const observer = new MutationObserver(() => {
+            const objReason = document.querySelector(".uni_load_obj_reason");
+            if (objReason) {
+                observer.disconnect();
+                setTimeout(function () {
+                    objReason.value = "2286";
+                    objReason.dispatchEvent(changeEvent);
+                }, 400);
+            }
+        });
 
-            observer.observe(document.body, {childList: true, subtree: true});
-        }
+        observer.observe(document.body, {childList: true, subtree: true});
 
         console.log(
             `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Обращение изменено на НРД - Исход`,
@@ -1252,23 +1242,21 @@ async function fastButtonsChangeRequest() {
             document.getElementById("change_class").click();
         }
 
-        if (step.value !== "2277") {
-            step.value = "2277";
-            step.dispatchEvent(changeEvent);
+        step.value = "2277";
+        step.dispatchEvent(changeEvent);
 
-            const observer = new MutationObserver(() => {
-                const objReason = document.querySelector(".uni_load_obj_reason");
-                if (objReason) {
-                    observer.disconnect();
-                    setTimeout(function () {
-                        objReason.value = "1046";
-                        objReason.dispatchEvent(changeEvent);
-                    }, 400);
-                }
-            });
+        const observer = new MutationObserver(() => {
+            const objReason = document.querySelector(".uni_load_obj_reason");
+            if (objReason) {
+                observer.disconnect();
+                setTimeout(function () {
+                    objReason.value = "1046";
+                    objReason.dispatchEvent(changeEvent);
+                }, 400);
+            }
+        });
 
-            observer.observe(document.body, {childList: true, subtree: true});
-        }
+        observer.observe(document.body, {childList: true, subtree: true});
 
         console.log(
             `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Обращение изменено на НТП - Исход`,
@@ -1297,10 +1285,8 @@ async function fastButtonsChangeRequest() {
             document.getElementById("change_class").click();
         }
 
-        if (step.value !== "616") {
-            step.value = "616";
-            step.dispatchEvent(changeEvent);
-        }
+        step.value = "616";
+        step.dispatchEvent(changeEvent);
 
         console.log(
             `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Обращение изменено на Абон - Исход`,
@@ -2756,6 +2742,7 @@ function addToggleInfoButton(container) {
 
     container.insertBefore(buttonContainer, container.firstChild);
 }
+
 async function allowCopy() {
     setTimeout(async () => {
         const waiter = document.getElementById("waiter");
