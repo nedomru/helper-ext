@@ -60,7 +60,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Загрузка сохраненных настроек
     const checkboxIds = [
-        "OTHER_CheckUpdates",
         "GENESYS_showLineStatus_nck1",
         "GENESYS_showLineStatus_nck2",
         "GENESYS_showFastButtons",
