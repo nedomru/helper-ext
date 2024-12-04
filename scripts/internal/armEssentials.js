@@ -1917,8 +1917,8 @@ async function fastButtonsLeftFrame() {
 
   function handleSS_KTV() {
     const product = document.querySelector(".uni_reas_prod");
-    if (product.value !== "101") {
-      product.value = "101";
+    if (product.value !== "71") {
+      product.value = "71";
       product.dispatchEvent(changeEvent);
     }
 
