@@ -64,7 +64,6 @@ async function setDefaults() {
     HIGHLIGHTER_CS: "#ff0000",
     HIGHLIGHTER_EMAIL: "#006400",
     HIGHLIGHTER_OCTP: "#008080",
-    HIGHLIGHTER_SZVG: "#FF00FF",
     HIGHLIGHTER_COMPENSATION: "#66CDAA",
     GENESYS_chatColors_agentPromptColor: "#3893E8",
     GENESYS_chatColors_agentTextColor: "#3893E8",
