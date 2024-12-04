@@ -94,6 +94,7 @@ if (
         ARM_hideSPAS: hideSPAS,
         ARM_copyClientAddress: copyClientAddress,
         ARM_copyClientCard: copyClientCard,
+        ARM_sendClientCardExample: sendClientCardExample,
         ARM_copyClientAgreement: copyClientAgreement,
         ARM_showHelperSMSButtons: smsButtons,
         ARM_checkForSpecialClient: checkForSpecialClient,
@@ -215,8 +216,8 @@ async function checkForSpecialClient() {
 async function setHelperAnticipation() {
     const button = document.querySelector(".top_3_butt");
     if (!button) return;
-    if (button.textContent.includes("Помощник")) return;
-    button.textContent = "Помощник";
+    if (button.textContent.includes("Хелпер")) return;
+    button.textContent = "Хелпер";
 
     const observerSPAS = new MutationObserver((mutationsList) => {
         for (const mutation of mutationsList) {
@@ -589,6 +590,78 @@ function copyClientCard() {
 
     console.log(
         `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Копирование] Добавлена кнопка копирования карточки`,
+    );
+}
+
+async function sendClientCardExample() {
+    const clientCardShowButton = document.getElementById("write_let");
+    const clientCardRow = document.getElementById("namcl");
+    if (document.querySelector(".helper-example-card") != null) {
+        return;
+    }
+    try {
+        // Раскрываем карточку
+        clientCardShowButton.click();
+    } catch (e) {
+        console.log(
+            `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Копирование карточки] Не найдена карточка клиента`,
+        );
+        return;
+    }
+
+    const clientCardText = $("#to_copy").val();
+    let formattedClientCardText = clientCardText.split("\n").join("<br>");
+
+    // Скрываем карточки
+    clientCardShowButton.click();
+
+    const clientCard = clientCardRow.previousElementSibling;
+    const lineBreak = document.createElement("br");
+
+    // Обманка АРМа, чтобы не думал, что это кнопка
+    const sendExampleButton = document.createElement("button");
+    sendExampleButton.textContent = "📨 Отправить пример";
+    sendExampleButton.classList.add("btn", "btn-primary", "btn-sm", "helper-example-card");
+    sendExampleButton.style.marginTop= "5px"
+
+
+    sendExampleButton.addEventListener("click", async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        let userMessage = prompt("Введи сообщение к примеру для отправки дежурному")
+        if (userMessage.length < 1) {
+            $.notify("Сообщение не может быть пустым")
+            return
+        }
+        const response = await fetch("https://okc.ertelecom.ru/stats/api/line-mail-example/send-example-mail", {
+            credentials: "include",
+            headers: {
+                "User-Agent":
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0",
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            },
+            body: `message=${formattedClientCardText}<br><br>${userMessage}&lineAppId=3`,
+            method: "POST",
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            $.notify("Не удалось отправить пример")
+            console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Пример договора] Произошла ошибка: ${errorText}`)
+        }
+        else {
+            $.notify("Пример успешно отправлен", "success")
+            console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Пример договора] Пример успешно отправлен`)
+        }
+
+
+    });
+    clientCard.appendChild(lineBreak);
+    clientCard.appendChild(sendExampleButton);
+
+    console.log(
+        `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Пример договора] Добавлена кнопка отправки примера`,
     );
 }
 
@@ -2683,7 +2756,6 @@ function addToggleInfoButton(container) {
 
     container.insertBefore(buttonContainer, container.firstChild);
 }
-
 async function allowCopy() {
     setTimeout(async () => {
         const waiter = document.getElementById("waiter");

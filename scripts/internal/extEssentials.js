@@ -40,6 +40,7 @@ async function setDefaults() {
     GENESYS_showFB_setupRouter: true,
     GENESYS_showFB_setupTV: true,
     ARM_allowCopy: true,
+    ARM_sendClientCardExample: true,
     ARM_copyClientAddress: true,
     ARM_copyClientCard: true,
     ARM_copyClientAgreement: true,

@@ -80,6 +80,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         "GENESYS_chatColors",
         "GENESYS_chatSound",
         "ARM_allowCopy",
+        "ARM_sendClientCardExample",
         "ARM_hideSPAS",
         "ARM_copyClientAddress",
         "ARM_copyClientCard",
