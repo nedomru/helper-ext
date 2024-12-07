@@ -99,7 +99,8 @@ if (
         ARM_showHelperSMSButtons: smsButtons,
         ARM_checkForSpecialClient: checkForSpecialClient,
         ARM_hideNonActiveApps: hideNonActiveApps,
-        ARM_hideInfoTabRows: hideInformationRows
+        ARM_hideInfoTabRows: hideInformationRows,
+        ARM_hideRequests: handleServiceRequests
     };
 
     browser.storage.sync.get(Object.keys(TABS_config)).then((result) => {
@@ -2797,6 +2798,118 @@ function addToggleInfoButton(container) {
     }
 
     container.insertBefore(buttonContainer, container.firstChild);
+}
+
+function handleServiceRequests() {
+    const observer = new MutationObserver((mutations) => {
+        const serviceContainer = document.getElementById('lazy_content_2445');
+        if (!serviceContainer?.textContent) return;
+
+        const requestsContainer = serviceContainer.querySelector('#tc_ppd_tp_cz');
+        if (!requestsContainer || requestsContainer.getAttribute('processed-by-helper') === "true") return;
+
+        processServiceRequests(requestsContainer);
+    });
+
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+        characterData: false,
+        attributes: false
+    });
+}
+
+const COMPLETION_STATUSES = [
+    'Выполнено (Отправить в Call-центр)',
+    'Заявка выполнена',
+    'Выполнено',
+    'Помощь оказана',
+    'Помощь оказана (отправить техникам ОЭС)'
+];
+
+function processServiceRequests(container) {
+    try {
+        const tables = container.querySelectorAll('table.border');
+        tables.forEach(table => {
+            const rows = Array.from(table.querySelectorAll('tr')).slice(1); // Skip header row
+            if (rows.length < 2) return;
+
+            // Check last non-detail row for completion status
+            const lastContentRow = rows[rows.length - 2]; // -2 to skip the details row
+            const lastRowStatus = lastContentRow?.cells[2]?.textContent.trim();
+
+            if (COMPLETION_STATUSES.includes(lastRowStatus)) {
+                const requestId = Math.random().toString(36).substr(2, 9);
+                const firstRow = rows[0];
+                const detailRow = rows[rows.length - 1];
+                const middleRows = rows.slice(1, -2);
+
+                // Show only first and last content rows
+                firstRow.style.display = 'table-row';
+                lastContentRow.style.display = 'table-row';
+                detailRow.style.display = 'table-row';
+
+                // Hide all middle rows
+                middleRows.forEach(row => {
+                    row.style.display = 'none';
+                    row.setAttribute('data-request-id', requestId);
+                });
+
+                // Add toggle button if there are middle rows
+                if (middleRows.length > 0) {
+                    addToggleButton(table, requestId, middleRows.length, firstRow, lastContentRow);
+                }
+            }
+        });
+
+        container.setAttribute('processed-by-helper', "true");
+        console.log(
+            `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Сервисные заявки] Обработка завершена`
+        );
+    } catch (error) {
+        console.error(
+            `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Сервисные заявки] Ошибка:`,
+            error
+        );
+    }
+}
+
+function addToggleButton(table, requestId, hiddenCount, firstRow, lastRow) {
+    const button = document.createElement('a');
+    button.style.cssText = 'cursor:pointer; color:#0d6efd; text-decoration:none; padding:5px; display:block; text-align:center;';
+    updateButtonState(button, false);
+
+    button.addEventListener('click', function(e) {
+        e.preventDefault();
+        const isVisible = this.getAttribute('data-state') === 'visible';
+        const newState = isVisible ? 'hidden' : 'visible';
+
+        const rows = document.querySelectorAll(`[data-request-id="${requestId}"]`);
+        rows.forEach(row => {
+            row.style.display = newState === 'visible' ? 'table-row' : 'none';
+        });
+
+        updateButtonState(this, !isVisible);
+    });
+
+    // Create a new row for the button
+    const buttonRow = document.createElement('tr');
+    buttonRow.style.backgroundColor = "#dcdcdc"
+    const buttonCell = document.createElement('td');
+    buttonCell.colSpan = firstRow.cells.length; // Span all columns
+    buttonCell.appendChild(button);
+    buttonRow.appendChild(buttonCell);
+
+    // Insert after the first row
+    firstRow.parentNode.insertBefore(buttonRow, firstRow.nextSibling);
+
+    return button;
+}
+
+function updateButtonState(button, isVisible) {
+    button.setAttribute('data-state', isVisible ? 'visible' : 'hidden');
+    button.textContent = isVisible ? '🔽 Скрыть промежуточные шаги' : '▶️ Показать промежуточные шаги';
+    button.style.fontSize = "12px"
 }
 
 async function allowCopy() {
