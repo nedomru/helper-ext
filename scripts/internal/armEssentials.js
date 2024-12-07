@@ -100,7 +100,8 @@ if (
         ARM_checkForSpecialClient: checkForSpecialClient,
         ARM_hideNonActiveApps: hideNonActiveApps,
         ARM_hideInfoTabRows: hideInformationRows,
-        ARM_hideRequests: handleServiceRequests
+        ARM_hideRequests: handleServiceRequests,
+        ARM_hideAppeals: initializeAppealsTable
     };
 
     browser.storage.sync.get(Object.keys(TABS_config)).then((result) => {
@@ -2824,7 +2825,6 @@ const COMPLETION_STATUSES = [
     'Заявка выполнена',
     'Выполнено',
     'Помощь оказана',
-    'Помощь оказана (отправить техникам ОЭС)'
 ];
 
 function processServiceRequests(container) {
@@ -2910,6 +2910,203 @@ function updateButtonState(button, isVisible) {
     button.setAttribute('data-state', isVisible ? 'visible' : 'hidden');
     button.textContent = isVisible ? '🔽 Скрыть промежуточные шаги' : '▶️ Показать промежуточные шаги';
     button.style.fontSize = "12px"
+}
+
+// Helper function for pluralization
+function pluralize(number, one, two, five) {
+    let n = Math.abs(number);
+    n %= 100;
+    if (n >= 5 && n <= 20) {
+        return five;
+    }
+    n %= 10;
+    if (n === 1) {
+        return one;
+    }
+    if (n >= 2 && n <= 4) {
+        return two;
+    }
+    return five;
+}
+
+function initializeAppealsTable() {
+    // Create observer to watch for table changes
+    const observer = new MutationObserver((mutations) => {
+        const container = document.getElementById('lazy_content_2448');
+        if (!container || !container.textContent) return;
+
+        processAppealsTable(container);
+    });
+
+    // Start observing document changes
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+}
+
+function processAppealsTable(container) {
+    const table = container.querySelector('table.border');
+    if (!table || table.getAttribute('processed-by-helper') === 'true') return;
+
+    try {
+        const appealCounter = processTableRows(table);
+
+        // Only add button if we have appeals to process
+        if (appealCounter > 0) {
+            addToggleAppealsButton(container);
+        }
+
+        // Mark table as processed
+        table.setAttribute('processed-by-helper', 'true');
+
+        console.log(
+            `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Обработано обращений: ${appealCounter}`
+        );
+    } catch (error) {
+        console.error(
+            `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Ошибка:`,
+            error
+        );
+    }
+}
+
+function processTableRows(table) {
+    let appealCounter = 0;
+    let currentHiddenCount = 0;
+    let lastFirstRow = null;
+    const rows = Array.from(table.rows).slice(2); // Skip header rows
+
+    rows.forEach((row, index) => {
+        const currentRowIndex = index + 2;
+        const firstCell = row.cells[0];
+
+        if (firstCell.textContent === '1') {
+            // If we have previous hidden rows, insert summary row
+            if (currentHiddenCount > 0 && lastFirstRow) {
+                insertSummaryRow(table, lastFirstRow.rowIndex + 1, currentHiddenCount);
+                currentHiddenCount = 0;
+            }
+
+            appealCounter++;
+            lastFirstRow = row;
+            setupRowClick(row, appealCounter, 'hide');
+        }
+
+        row.setAttribute('appeal-number', appealCounter);
+        const isHidden = processAppealStep(table, row, currentRowIndex, appealCounter);
+        if (isHidden) currentHiddenCount++;
+    });
+
+    // Handle last group of hidden rows
+    if (currentHiddenCount > 0 && lastFirstRow) {
+        insertSummaryRow(table, lastFirstRow.rowIndex + 1, currentHiddenCount);
+    }
+
+    return appealCounter;
+}
+
+function processAppealStep(table, row, currentRowIndex, appealCounter) {
+    try {
+        const firstCell = row.cells[0];
+        const nextRow = table.rows[currentRowIndex + 1];
+        if (!nextRow) return false;
+
+        const nextCell = nextRow.cells[0];
+        const isNextAppealStart = nextCell.textContent === '1';
+        const isNextRowSpanned = Number(nextCell.getAttribute('colspan')) >= 13;
+
+        if (firstCell.textContent !== '1' && !isNextAppealStart && !isNextRowSpanned) {
+            row.setAttribute('appeal-step', 'intermediate');
+            row.style.display = 'none';
+            return true; // Row is hidden
+        } else if (isNextAppealStart || isNextRowSpanned) {
+            row.setAttribute('appeal-step', 'last');
+            setupRowClick(row, appealCounter, 'show');
+        }
+        return false; // Row is visible
+    } catch (error) {
+        console.error(
+            `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Ошибка обработки шага:`,
+            error
+        );
+        return false;
+    }
+}
+
+function insertSummaryRow(table, position, hiddenCount) {
+    const row = table.insertRow(position);
+    const cell = row.insertCell(0);
+
+    row.classList.add('helper-summary-row');
+    row.setAttribute('appeal-step', 'summary');
+
+    cell.colSpan = table.rows[0].cells.length;
+    cell.style.cssText = 'text-align: center; background-color: #f8f9fa; color: #6c757d; padding: 4px; font-style: italic; border-bottom: 1px dashed #dee2e6;';
+    cell.textContent = `Скрыто ${hiddenCount} ${pluralize(hiddenCount, 'шаг', 'шага', 'шагов')}`;
+}
+
+function setupRowClick(row, appealCounter, action) {
+    row.style.cursor = 'pointer';
+    row.addEventListener('click', () => {
+        const selector = `[appeal-number="${appealCounter}"][appeal-step="intermediate"]`;
+        const display = action === 'show' ? 'table-row' : 'none';
+
+        document.querySelectorAll(selector).forEach(elem => {
+            elem.style.display = display;
+        });
+    });
+}
+
+function addToggleAppealsButton(container) {
+    if (container.querySelector('#helper-toggle-appeals')) return;
+
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.cssText = 'display: flex; align-items: center; margin: 10px 0;';
+
+    const toggleButton = document.createElement('button');
+    toggleButton.id = 'helper-toggle-appeals';
+    toggleButton.className = 'btn btn-xs btn-primary helper';
+
+    const totalHidden = document.querySelectorAll('[appeal-step="intermediate"]').length;
+    toggleButton.textContent = `👀 Показать промежуточные шаги (${totalHidden})`;
+    toggleButton.style.marginRight = '10px';
+    toggleButton.setAttribute('data-state', 'hidden');
+    toggleButton.setAttribute('type', 'button');
+
+    const statusText = document.createElement('span');
+    statusText.textContent = 'Промежуточные шаги скрыты';
+    statusText.style.color = '#dc3545';
+
+    toggleButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const currentState = toggleButton.getAttribute('data-state');
+        const newState = currentState === 'hidden' ? 'visible' : 'hidden';
+        const display = newState === 'hidden' ? 'none' : 'table-row';
+
+        const intermediateSteps = document.querySelectorAll('[appeal-step="intermediate"]');
+        const summaryRows = document.querySelectorAll('[appeal-step="summary"]');
+
+        intermediateSteps.forEach(row => row.style.display = display);
+        summaryRows.forEach(row => row.style.display = newState === 'hidden' ? 'table-row' : 'none');
+
+        const totalHidden = intermediateSteps.length;
+        toggleButton.textContent = newState === 'hidden' ?
+            `👀 Показать промежуточные шаги (${totalHidden})` :
+            '🙈 Скрыть промежуточные шаги';
+        toggleButton.setAttribute('data-state', newState);
+
+        statusText.textContent = newState === 'hidden' ?
+            'Промежуточные шаги скрыты' :
+            'Отображены все шаги обращений';
+        statusText.style.color = newState === 'hidden' ? '#dc3545' : '#198754';
+    });
+
+    buttonContainer.appendChild(toggleButton);
+    buttonContainer.appendChild(statusText);
+    container.insertBefore(buttonContainer, container.firstChild);
 }
 
 async function allowCopy() {
