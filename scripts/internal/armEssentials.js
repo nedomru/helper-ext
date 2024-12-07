@@ -529,7 +529,7 @@ async function copyClientAddress() {
     // Обманка АРМа, чтобы не думал, что это кнопка
     const copyButton = document.createElement("button");
     copyButton.textContent = "📋 Адрес";
-    copyButton.classList.add("btn", "btn-primary", "btn-sm", "helper-address"); // Добавляем классы для стилизации
+    copyButton.classList.add("btn", "btn-primary", "btn-xs", "helper-address"); // Добавляем классы для стилизации
 
     // Отслеживание кликов на кнопку для копирования текста
     copyButton.addEventListener("click", (event) => {
@@ -575,7 +575,7 @@ function copyClientCard() {
     // Обманка АРМа, чтобы не думал, что это кнопка
     const copyButton = document.createElement("button");
     copyButton.textContent = "📋 Карточка";
-    copyButton.classList.add("btn", "btn-primary", "btn-sm", "helper-card"); // Добавляем классы для стилизации
+    copyButton.classList.add("btn", "btn-primary", "btn-xs", "helper-card"); // Добавляем классы для стилизации
 
     // Отслеживание кликов на кнопку для копирования текста
     copyButton.addEventListener("click", (event) => {
@@ -621,7 +621,7 @@ async function sendClientCardExample() {
     // Обманка АРМа, чтобы не думал, что это кнопка
     const sendExampleButton = document.createElement("button");
     sendExampleButton.textContent = "📨 Отправить пример";
-    sendExampleButton.classList.add("btn", "btn-primary", "btn-sm", "helper-example-card");
+    sendExampleButton.classList.add("btn", "btn-warning", "btn-xs", "helper-example-card");
     sendExampleButton.style.marginTop = "5px"
 
 
@@ -676,7 +676,7 @@ function copyClientAgreement() {
     const lineBreak = document.createElement("br");
     const copyButton = document.createElement("button");
     copyButton.textContent = "📋 Договор";
-    copyButton.classList.add("btn", "btn-primary", "btn-sm", "helper-agreement"); // Добавляем классы для стилизации
+    copyButton.classList.add("btn", "btn-primary", "btn-xs", "helper-agreement"); // Добавляем классы для стилизации
 
     // Отслеживание кликов на кнопку для копирования текста
     copyButton.addEventListener("click", (event) => {
@@ -905,7 +905,7 @@ function smsButtons() {
     ];
 
     function createButton(buttonValue, smsValue) {
-        const button = $(`<input type="button" value="${buttonValue}" class="btn btn-primary btn-sm helper"/>`);
+        const button = $(`<input type="button" value="${buttonValue}" class="btn btn-primary btn-xs helper"/>`);
         button.on("click", function () {
             let smsSelector = $(".type_sms_a")
             smsSelector.val(smsValue);
@@ -1352,7 +1352,7 @@ async function fastButtonsLeftFrame() {
     if (settings[0][settingsKeys[0]]) {
         buttons.push({
             value: "Авария",
-            class: "btn btn-sm btn-info helper",
+            class: "helper helper-button",
             action: fastChat_Accident,
             category: "Быстрый чат",
         });
@@ -1361,7 +1361,7 @@ async function fastButtonsLeftFrame() {
     if (settings[1][settingsKeys[1]]) {
         buttons.push({
             value: "ВХОД НРД",
-            class: "btn btn-sm btn-info helper",
+            class: "helper helper-button",
             action: handleNRD,
             category: "Открытое",
         });
@@ -1370,7 +1370,7 @@ async function fastButtonsLeftFrame() {
     if (settings[2][settingsKeys[2]]) {
         buttons.push({
             value: "КС НЦК2",
-            class: "btn btn-sm btn-info helper",
+            class: "helper helper-button",
             action: handleKCNCK2Click,
             category: "Открытое",
         });
@@ -1379,7 +1379,7 @@ async function fastButtonsLeftFrame() {
     if (settings[3][settingsKeys[3]]) {
         buttons.push({
             value: "КС НЦК1",
-            class: "btn btn-sm btn-info helper",
+            class: "helper helper-button",
             action: handleKCNCK1Click,
             category: "Открытое",
         });
@@ -1388,7 +1388,7 @@ async function fastButtonsLeftFrame() {
     if (settings[4][settingsKeys[4]]) {
         buttons.push({
             value: "Приостановление",
-            class: "btn btn-sm btn-info helper",
+            class: "helper helper-button",
             action: handleSS_Priost,
             category: "Самообслуживание",
         });
@@ -1397,7 +1397,7 @@ async function fastButtonsLeftFrame() {
     if (settings[5][settingsKeys[5]]) {
         buttons.push({
             value: "Активация ТП",
-            class: "btn btn-sm btn-info helper",
+            class: "helper helper-button",
             action: handleSS_Activation,
             category: "Самообслуживание",
         });
@@ -1406,7 +1406,7 @@ async function fastButtonsLeftFrame() {
     if (settings[6][settingsKeys[6]]) {
         buttons.push({
             value: "Скорост. бонус",
-            class: "btn btn-sm btn-info helper",
+            class: "helper helper-button",
             action: handleSS_SpeedBonus,
             category: "Самообслуживание",
         });
@@ -1415,7 +1415,7 @@ async function fastButtonsLeftFrame() {
     if (settings[7][settingsKeys[7]]) {
         buttons.push({
             value: "Ключ сети",
-            class: "btn btn-sm btn-info helper",
+            class: "helper helper-button",
             action: handleSS_WiFiKey,
             category: "Самообслуживание",
         });
@@ -1424,7 +1424,7 @@ async function fastButtonsLeftFrame() {
     if (settings[8][settingsKeys[8]]) {
         buttons.push({
             value: "Настройка роутера",
-            class: "btn btn-sm btn-info helper",
+            class: "helper helper-button",
             action: handleSS_RouterSetup,
             category: "Самообслуживание",
         });
@@ -1433,7 +1433,7 @@ async function fastButtonsLeftFrame() {
     if (settings[9][settingsKeys[9]]) {
         buttons.push({
             value: "Рост АП",
-            class: "btn btn-sm btn-info helper",
+            class: "helper helper-button",
             action: handleSS_RiseAP,
             category: "Самообслуживание",
         });
@@ -1442,7 +1442,7 @@ async function fastButtonsLeftFrame() {
     if (settings[10][settingsKeys[10]]) {
         buttons.push({
             value: "КТВ",
-            class: "btn btn-sm btn-info helper",
+            class: "helper helper-button",
             action: handleSS_KTV,
             category: "Самообслуживание",
         });
@@ -1451,7 +1451,7 @@ async function fastButtonsLeftFrame() {
     if (settings[11][settingsKeys[11]]) {
         buttons.push({
             value: "Актив. ключа",
-            class: "btn btn-sm btn-info helper",
+            class: "helper helper-button",
             action: handleSS_ActivateKey,
             category: "Самообслуживание",
         });
@@ -1460,7 +1460,7 @@ async function fastButtonsLeftFrame() {
     if (settings[12][settingsKeys[12]]) {
         buttons.push({
             value: "Восст. пина",
-            class: "btn btn-sm btn-info helper",
+            class: "helper helper-button",
             action: handleSS_PIN,
             category: "Самообслуживание",
         });
@@ -1469,7 +1469,7 @@ async function fastButtonsLeftFrame() {
     if (settings[13][settingsKeys[13]]) {
         buttons.push({
             value: "МП Звонок",
-            class: "btn btn-sm btn-info helper",
+            class: "helper helper-button",
             action: handleSS_Zvonok,
             category: "Самообслуживание",
         });
@@ -1478,7 +1478,7 @@ async function fastButtonsLeftFrame() {
     if (settings[14][settingsKeys[14]]) {
         buttons.push({
             value: "Камера ВН",
-            class: "btn btn-sm btn-info helper",
+            class: "helper helper-button",
             action: handleSS_CameraVN,
             category: "Самообслуживание",
         });
@@ -1487,7 +1487,7 @@ async function fastButtonsLeftFrame() {
     if (settings[15][settingsKeys[15]]) {
         buttons.push({
             value: "Привяз. пульта",
-            class: "btn btn-sm btn-info helper",
+            class: "helper helper-button",
             action: handleSS_Pult,
             category: "Самообслуживание",
         });
@@ -1496,7 +1496,7 @@ async function fastButtonsLeftFrame() {
     if (settings[16][settingsKeys[16]]) {
         buttons.push({
             value: "Не раб пульт",
-            class: "btn btn-sm btn-info helper",
+            class: "helper helper-button",
             action: handleSS_BadPult,
             category: "Самообслуживание",
         });
@@ -1505,7 +1505,7 @@ async function fastButtonsLeftFrame() {
     if (settings[17][settingsKeys[17]]) {
         buttons.push({
             value: "Неоткрывашки",
-            class: "btn btn-sm btn-info helper",
+            class: "helper helper-button",
             action: handleClosed_NoPages,
             category: "Закрытое",
         });
@@ -1514,7 +1514,7 @@ async function fastButtonsLeftFrame() {
     if (settings[18][settingsKeys[18]]) {
         buttons.push({
             value: "Нет сессии",
-            class: "btn btn-sm btn-info helper",
+            class: "helper helper-button",
             action: handleClosed_NoSession,
             category: "Закрытое",
         });
@@ -1523,7 +1523,7 @@ async function fastButtonsLeftFrame() {
     if (settings[19][settingsKeys[19]]) {
         buttons.push({
             value: "Низкая",
-            class: "btn btn-sm btn-info helper",
+            class: "helper helper-button",
             action: handleClosed_LowSpeed,
             category: "Закрытое",
         });
@@ -1532,7 +1532,7 @@ async function fastButtonsLeftFrame() {
     if (settings[20][settingsKeys[20]]) {
         buttons.push({
             value: "Разрывы",
-            class: "btn btn-sm btn-info helper",
+            class: "helper helper-button",
             action: handleClosed_Disconnections,
             category: "Закрытое",
         });
@@ -1541,7 +1541,7 @@ async function fastButtonsLeftFrame() {
     if (settings[21][settingsKeys[21]]) {
         buttons.push({
             value: "Нет вещания",
-            class: "btn btn-sm btn-info helper",
+            class: "helper helper-button",
             action: handleClosed_NoTV,
             category: "Закрытое",
         });
@@ -1550,7 +1550,7 @@ async function fastButtonsLeftFrame() {
     if (settings[22][settingsKeys[22]]) {
         buttons.push({
             value: "Тикет",
-            class: "btn btn-sm btn-info helper",
+            class: "helper helper-button",
             action: handleOpen_Ticket,
             category: "Открытое",
         });
@@ -1559,7 +1559,7 @@ async function fastButtonsLeftFrame() {
     if (settings[23][settingsKeys[23]]) {
         buttons.push({
             value: "Youtube",
-            class: "btn btn-sm btn-info helper",
+            class: "helper helper-button",
             action: handleClosed_Youtube,
             category: "Закрытое",
         });
@@ -1568,7 +1568,7 @@ async function fastButtonsLeftFrame() {
     if (settings[24][settingsKeys[24]]) {
         buttons.push({
             value: "Отмена СЗ",
-            class: "btn btn-sm btn-info helper",
+            class: "helper helper-button",
             action: handleClosed_CancelSZ,
             category: "Закрытое",
         });
@@ -1577,7 +1577,7 @@ async function fastButtonsLeftFrame() {
     if (settings[25][settingsKeys[25]]) {
         buttons.push({
             value: "Без диагностики",
-            class: "btn btn-sm btn-info helper",
+            class: "helper helper-button",
             action: fastChat_NoDiagnostic,
             category: "Быстрый чат",
         });
@@ -1586,7 +1586,7 @@ async function fastButtonsLeftFrame() {
     if (settings[26][settingsKeys[26]]) {
         buttons.push({
             value: "Отключ ДЗ",
-            class: "btn btn-sm btn-info helper",
+            class: "helper helper-button",
             action: fastChat_DZ,
             category: "Быстрый чат",
         });
@@ -1595,7 +1595,7 @@ async function fastButtonsLeftFrame() {
     if (settings[27][settingsKeys[27]]) {
         buttons.push({
             value: "Восстановление ЛК",
-            class: "btn btn-sm btn-info helper",
+            class: "helper helper-button",
             action: handleSS_recoverLK,
             category: "Самообслуживание",
         });
@@ -1672,12 +1672,68 @@ async function fastButtonsLeftFrame() {
           }
           .button-container {
               margin-top: 4px;
+              margin-bottom: 6px;
           }
           .category-toggle.active {
               background-color: #d0d0d0;
               font-weight: bold;
               box-shadow: 0 0 5px rgba(0,0,0,0.2);
           }
+        .helper-button {
+          appearance: none;
+          background-color: #FAFBFC !important;
+          border: 1px solid rgba(27, 31, 35, 0.15);
+          border-radius: 6px;
+          box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
+          box-sizing: border-box;
+          color: #24292E !important;
+          cursor: pointer;
+          display: inline-block;
+          font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+          font-weight: 500;
+          line-height: 20px;
+          list-style: none;
+          padding: 5px 5px;
+          position: relative;
+          transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+          user-select: none;
+          -webkit-user-select: none;
+          touch-action: manipulation;
+          vertical-align: middle;
+          white-space: nowrap;
+          word-wrap: break-word;
+        }
+        
+        .helper-button:hover {
+          background-color: #d6d6d6 !important;
+          text-decoration: none;
+          transition-duration: 0.1s;
+        }
+        
+        .helper-button:disabled {
+          background-color: #FAFBFC;
+          border-color: rgba(27, 31, 35, 0.15);
+          color: #959DA5;
+          cursor: default;
+        }
+        
+        .helper-button:active {
+          background-color: #EDEFF2;
+          box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
+          transition: none 0s;
+        }
+        
+        .helper-button:focus {
+          outline: 1px transparent;
+        }
+        
+        .helper-button:before {
+          display: none;
+        }
+        
+        .helper-button:-webkit-details-marker {
+          display: none;
+        }
       `;
     document.head.appendChild(style);
 
@@ -2604,7 +2660,7 @@ function addToggleAppsButton(container) {
 
     const toggleButton = document.createElement("button");
     toggleButton.id = "helper-toggle-rows";
-    toggleButton.className = "btn btn-sm btn-primary helper";
+    toggleButton.className = "btn btn-xs btn-primary helper";
     toggleButton.textContent = "👀 Развернуть скрытое";
     toggleButton.style.marginRight = "10px";
     toggleButton.setAttribute("data-state", "hidden");
@@ -2707,7 +2763,7 @@ function addToggleInfoButton(container) {
 
     const toggleButton = document.createElement("button");
     toggleButton.id = "helper-toggle-rows";
-    toggleButton.className = "btn btn-sm btn-primary helper";
+    toggleButton.className = "btn btn-xs btn-primary helper";
     toggleButton.textContent = "👀 Показать поля";
     toggleButton.setAttribute("data-state", "hidden");
     toggleButton.setAttribute("type", "button");
@@ -2733,7 +2789,7 @@ function addToggleInfoButton(container) {
     const link = document.querySelector('a.not_mobil_tech#lk'); // Get the existing link
     if (link) {
         link.textContent = "🚪 ЛК клиента";
-        link.classList.add('btn', 'btn-primary', 'btn-sm'); // Add classes
+        link.classList.add('btn', 'btn-primary', 'btn-xs'); // Add classes
         link.style.marginRight = '10px';
         link.style.textDecoration = 'none'; // Add margin to separate from toggle button
         buttonContainer.appendChild(link); // Append the link first
