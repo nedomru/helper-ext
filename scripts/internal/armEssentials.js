@@ -146,14 +146,13 @@ if (
         "db.ertelecom.ru/cgi-bin/ppo/excells/wcc_request_appl_support.change_request_appl",
     )
 ) {
-    showClientAgreementOnChangeRequest();
-
     const ARM_config = {
         ARM_checkWrongTransfer: wrongTransferFalse,
         ARM_checkSetToMe: removeSetForMe,
         ARM_copyTimeSlots: copyTimeSlots,
         ARM_changeRequestFBCR: fastButtonsChangeRequest,
-        ARM_checkPaidHelp: paidHelpTrue
+        ARM_checkPaidHelp: paidHelpTrue,
+        ARM_showAgreementOnChange: showClientAgreementOnChangeRequest
     };
 
     browser.storage.sync.get(Object.keys(ARM_config)).then((result) => {

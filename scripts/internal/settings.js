@@ -125,6 +125,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         "ARM_changeRequestFBLF_FastChat_DZ",
         "ARM_checkForSpecialClient",
         "ARM_checkPaidHelp",
+        "ARM_showAgreementOnChange",
         "ARM_hideTabIPTV",
         "ARM_hideTabMVNO",
         "ARM_hideTabAVTOSP",
