@@ -1633,6 +1633,7 @@ async function fastButtonsLeftFrame() {
                 btnElement.addEventListener("click", button.action);
                 btnElement.style.backgroundColor = "#337ab7";
                 btnElement.style.color = "white";
+                btnElement.style.marginBottom = "3px"
                 buttonContainer.appendChild(btnElement);
                 buttonContainer.appendChild(document.createTextNode(" "));
             });
@@ -1672,7 +1673,6 @@ async function fastButtonsLeftFrame() {
               background-color: #e0e0e0;
           }
           .button-container {
-              margin-top: 4px;
               margin-bottom: 6px;
           }
           .category-toggle.active {
