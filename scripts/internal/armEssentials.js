@@ -763,30 +763,96 @@ function copyTimeSlots() {
 }
 
 function copyMAC() {
-    // Function to create buttons for a MAC address element
+    // Add styles for the button group if not already present
+    if (!document.getElementById('helper-button-styles')) {
+        const style = document.createElement('style');
+        style.id = 'helper-button-styles';
+        style.textContent = `
+            .helper-button-group {
+                display: inline-flex;
+                border-radius: 4px;
+                overflow: hidden;
+                box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0;
+                margin-left: 5px;
+            }
+            
+            .helper-button {
+                appearance: none;
+                background-color: #FAFBFC !important;
+                border: 1px solid rgba(27, 31, 35, 0.15);
+                box-sizing: border-box;
+                color: #24292E !important;
+                cursor: pointer;
+                display: inline-block;
+                font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+                font-size: 12px !important;
+                font-weight: 500;
+                line-height: 16px;
+                list-style: none;
+                padding: 3px 6px;
+                position: relative;
+                transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+                user-select: none;
+                -webkit-user-select: none;
+                touch-action: manipulation;
+                vertical-align: middle;
+                white-space: nowrap;
+                margin: 0;
+            }
+            
+            .helper-button-left {
+                border-top-left-radius: 4px;
+                border-bottom-left-radius: 4px;
+                border-right: none;
+            }
+            
+            .helper-button-right {
+                border-top-right-radius: 4px;
+                border-bottom-right-radius: 4px;
+            }
+            
+            .helper-button:hover {
+                background-color: #d6d6d6 !important;
+                text-decoration: none;
+                transition-duration: 0.1s;
+            }
+            
+            .helper-button:active {
+                background-color: #EDEFF2;
+                box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
+                transition: none 0s;
+            }
+            
+            .helper-button:focus {
+                outline: none;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
     const createMACButtons = (macAddressElement) => {
         // Skip if buttons already exist
-        if (macAddressElement.nextElementSibling?.classList.contains('helper-button-container')) {
+        if (macAddressElement.nextElementSibling?.classList.contains('helper-button-group')) {
             return;
         }
 
         const macAddress = macAddressElement.innerText;
 
-        // Create button container
-        const buttonContainer = document.createElement('span');
-        buttonContainer.classList.add('helper-button-container');
-        buttonContainer.style.position = 'relative';
-        buttonContainer.style.marginLeft = '5px';
+        // Create button group container
+        const buttonGroup = document.createElement('div');
+        buttonGroup.classList.add('helper-button-group');
+        buttonGroup.style.position = 'relative';
 
         // Create copy button
         const copyButton = document.createElement('button');
-        copyButton.classList.add('helper-copy-mac');
+        copyButton.classList.add('helper-button', 'helper-button-left');
         copyButton.innerText = '📋';
+        copyButton.title = 'Копировать MAC';
         copyButton.onclick = async (event) => {
             event.preventDefault();
             event.stopPropagation();
             try {
-                await copyText(macAddress);
+                await navigator.clipboard.writeText(macAddress);
                 console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Копирование] - MAC адрес успешно скопирован`);
                 $.notify('MAC-адрес скопирован', 'success');
             } catch (error) {
@@ -797,9 +863,9 @@ function copyMAC() {
 
         // Create search button
         const searchButton = document.createElement('button');
-        searchButton.classList.add('helper-copy-mac');
+        searchButton.classList.add('helper-button', 'helper-button-right');
         searchButton.innerText = '🔎';
-        searchButton.style.marginLeft = '5px';
+        searchButton.title = 'Проверить MAC';
         searchButton.onclick = async (event) => {
             event.preventDefault();
             event.stopPropagation();
@@ -837,12 +903,12 @@ function copyMAC() {
             }
         };
 
-        // Add buttons to container
-        buttonContainer.appendChild(copyButton);
-        buttonContainer.appendChild(searchButton);
+        // Add buttons to group
+        buttonGroup.appendChild(copyButton);
+        buttonGroup.appendChild(searchButton);
 
-        // Add container after MAC address element
-        macAddressElement.parentElement.appendChild(buttonContainer);
+        // Add group after MAC address element
+        macAddressElement.parentElement.appendChild(buttonGroup);
     };
 
     // Function to add buttons to all MAC addresses on the page
@@ -893,6 +959,11 @@ function copyMAC() {
 }
 
 function copyIP() {
+    // Remove ping check elements
+    document.querySelectorAll('a[title="Проверка ping"]').forEach(element => {
+        element.remove();
+    });
+
     document.querySelectorAll('.ip').forEach(ipContainer => {
         const ipElement = ipContainer.querySelector('acronym');
         if (!ipElement) return;
@@ -954,7 +1025,7 @@ function copyIP() {
         style.textContent = `
         .helper-button-group {
             display: inline-flex;
-            border-radius: 6px;
+            border-radius: 4px;
             overflow: hidden;
             box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0;
         }
@@ -968,10 +1039,11 @@ function copyIP() {
             cursor: pointer;
             display: inline-block;
             font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+            font-size: 12px !important;
             font-weight: 500;
-            line-height: 20px;
+            line-height: 16px;
             list-style: none;
-            padding: 5px 10px;
+            padding: 3px 6px;
             position: relative;
             transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
             user-select: none;
@@ -983,14 +1055,14 @@ function copyIP() {
         }
         
         .helper-button-left {
-            border-top-left-radius: 6px;
-            border-bottom-left-radius: 6px;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
             border-right: none;
         }
         
         .helper-button-right {
-            border-top-right-radius: 6px;
-            border-bottom-right-radius: 6px;
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
         }
         
         .helper-button:hover {
