@@ -1667,7 +1667,6 @@ async function fastButtonsLeftFrame() {
               border: 1px solid #ccc;
               border-radius: 2px;
               cursor: pointer;
-              transition: all 0.3s ease;
           }
           .category-toggle:hover {
               background-color: #e0e0e0;
