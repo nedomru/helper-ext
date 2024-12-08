@@ -721,8 +721,15 @@
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <!-- Основные настройки -->
                             <li class="nav-item" role="presentation">
-                                <a aria-controls="main" aria-selected="true" class="nav-link active" data-bs-toggle="tab"
+                                <a aria-controls="main" aria-selected="true" class="nav-link active"
+                                   data-bs-toggle="tab"
                                    href="#main" id="main-tab" role="tab">Основные настройки</a>
+                            </li>
+                            <!-- Заявки -->
+                            <li class="nav-item" role="presentation">
+                                <a aria-controls="servicerequests" aria-selected="true" class="nav-link"
+                                   data-bs-toggle="tab"
+                                   href="#servicerequests" id="servicerequests-tab" role="tab">Заявки</a>
                             </li>
                             <!-- Быстрые кнопки -->
                             <li class="nav-item dropdown" role="presentation">
@@ -741,7 +748,8 @@
                             </li>
                             <!-- Копирование элементов -->
                             <li class="nav-item" role="presentation">
-                                <a aria-controls="copyelements" aria-selected="false" class="nav-link" data-bs-toggle="tab"
+                                <a aria-controls="copyelements" aria-selected="false" class="nav-link"
+                                   data-bs-toggle="tab"
                                    href="#copyelements" id="copyelements-tab" role="tab">Копирование
                                     элементов</a>
                             </li>
@@ -752,7 +760,8 @@
                             </li>
                             <!-- Подсветка обращений -->
                             <li class="nav-item" role="presentation">
-                                <a aria-controls="highlights" aria-selected="false" class="nav-link" data-bs-toggle="tab"
+                                <a aria-controls="highlights" aria-selected="false" class="nav-link"
+                                   data-bs-toggle="tab"
                                    href="#highlights" id="highlights-tab" role="tab">Подсветка
                                     обращений</a>
                             </li>
@@ -795,13 +804,15 @@
                                             <div class="row align-items-center">
                                                 <div class="col">
                                                     <strong class="mb-0">Добавить отправку примера</strong>
-                                                    <p class="mb-0">Добавляет на договор клиента кнопку отправки примера дежурному
+                                                    <p class="mb-0">Добавляет на договор клиента кнопку отправки примера
+                                                        дежурному
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_sendClientCardExample">
-                                                            <input class="custom-control-input" id="ARM_sendClientCardExample"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_sendClientCardExample"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -814,7 +825,8 @@
                                             <div class="row align-items-center">
                                                 <div class="col">
                                                     <strong class="mb-0" data-bs-html="true"
-                                                            data-bs-placement="right" data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/z5RzAEB.png'/>"
+                                                            data-bs-placement="right"
+                                                            data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/z5RzAEB.png'/>"
                                                             data-bs-toggle="tooltip">
                                                         Скрывать СПАС</strong>
                                                     <p class="mb-0">Автоматическое скрытие СПАСа на договоре
@@ -838,7 +850,8 @@
                                             <div class="row align-items-center">
                                                 <div class="col">
                                                     <strong class="mb-0" data-bs-html="true"
-                                                            data-bs-placement="right" data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/MzK1i74.png'/>"
+                                                            data-bs-placement="right"
+                                                            data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/MzK1i74.png'/>"
                                                             data-bs-toggle="tooltip">
                                                         Отображать быстрые СМС</strong>
                                                     <p class="mb-0">Добавляет кнопки на договор клиента для
@@ -849,33 +862,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_showHelperSMSButtons">
-                                                            <input class="custom-control-input" id="ARM_showHelperSMSButtons"
-                                                                   type="checkbox"/>
-                                                        </label>
-                                                        <span class="custom-control-label"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Помечать обращений как не ошибочные -->
-                                        <div class="list-group-item">
-                                            <div class="row align-items-center">
-                                                <div class="col">
-                                                    <strong class="mb-0" data-bs-html="true"
-                                                            data-bs-placement="right" data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/VmtHygG.png'/>"
-                                                            data-bs-toggle="tooltip">
-                                                        Помечать обращений как <b>не
-                                                        ошибочные</b></strong>
-                                                    <p class="mb-0">Помечает обращения как <b>не ошибочные</b>
-                                                        для
-                                                        НЦК2
-                                                    </p>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <div class="custom-control custom-switch">
-                                                        <label for="ARM_checkWrongTransfer">
-                                                            <input class="custom-control-input" id="ARM_checkWrongTransfer"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_showHelperSMSButtons"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -889,7 +877,8 @@
                                             <div class="row align-items-center">
                                                 <div class="col">
                                                     <strong class="mb-0" data-bs-html="true"
-                                                            data-bs-placement="right" data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/4GDXa58.png'/>"
+                                                            data-bs-placement="right"
+                                                            data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/4GDXa58.png'/>"
                                                             data-bs-toggle="tooltip">
                                                         Убирать галочку <b>Назначить на
                                                         меня</b></strong>
@@ -915,7 +904,8 @@
                                             <div class="row align-items-center">
                                                 <div class="col">
                                                     <strong class="mb-0" data-bs-html="true"
-                                                            data-bs-placement="right" data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/ckW0iO6.png'/>"
+                                                            data-bs-placement="right"
+                                                            data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/ckW0iO6.png'/>"
                                                             data-bs-toggle="tooltip">
                                                         Уведомлять об особом клиенте</strong>
                                                     <p class="mb-0">Если клиент является
@@ -926,7 +916,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_checkForSpecialClient">
-                                                            <input class="custom-control-input" id="ARM_checkForSpecialClient"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_checkForSpecialClient"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -940,7 +931,8 @@
                                             <div class="row align-items-center">
                                                 <div class="col">
                                                     <strong class="mb-0" data-bs-html="true"
-                                                            data-bs-placement="right" data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/k1UbGDo.png'/>"
+                                                            data-bs-placement="right"
+                                                            data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/k1UbGDo.png'/>"
                                                             data-bs-toggle="tooltip">
                                                         Отображать фильтр по разрывам</strong>
                                                     <p class="mb-0">Фильтр подгружает список всех разрывов со
@@ -949,22 +941,62 @@
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
-                                                        <label for="ARM_filterClientSessions"><input class="custom-control-input"
-                                                                                                     id="ARM_filterClientSessions"
-                                                                                                     type="checkbox"/></label>
+                                                        <label for="ARM_filterClientSessions"><input
+                                                                class="custom-control-input"
+                                                                id="ARM_filterClientSessions"
+                                                                type="checkbox"/></label>
                                                         <span class="custom-control-label"></span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
 
+                            <!--Заявки-->
+                            <div aria-labelledby="servicerequests-tab" class="tab-pane fade" id="servicerequests"
+                                 role="tabpanel">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Заявки</h5>
+                                        <p class="card-text">Общий функционал, применяемый к сервисным заявкам
+                                        </p>
+                                    </div>
+                                    <div class="list-group">
+                                        <!-- Помечать обращений как не ошибочные -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0" data-bs-html="true"
+                                                            data-bs-placement="right"
+                                                            data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/VmtHygG.png'/>"
+                                                            data-bs-toggle="tooltip">
+                                                        Помечать обращений как не
+                                                        ошибочные</strong>
+                                                    <p class="mb-0">Помечает обращения как не ошибочные для НЦК2
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <label for="ARM_checkWrongTransfer">
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_checkWrongTransfer"
+                                                                   type="checkbox"/>
+                                                        </label>
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <!-- Помечать заявки платным сервисом -->
                                         <div class="list-group-item">
                                             <div class="row align-items-center">
                                                 <div class="col">
                                                     <strong class="mb-0">
                                                         Помечать заявки платным сервисом</strong>
-                                                    <p class="mb-0">Помечает все заявки (в левом фрейме и при изменении обращения) платным сервисом (ставит галочку платности)
+                                                    <p class="mb-0">Помечает все заявки (в левом фрейме и при изменении
+                                                        обращения) платным сервисом (ставит галочку платности)
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
@@ -981,6 +1013,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <!-- Быстрые кнопки - Левый фрейм-->
                             <div aria-labelledby="leftframe" class="tab-pane fade" id="leftframe" role="tabpanel">
                                 <div class="list-group">
@@ -1030,7 +1063,8 @@
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBLF_Open_KCNCK1">
                                                             <input
-                                                                    class="custom-control-input" id="ARM_changeRequestFBLF_Open_KCNCK1"
+                                                                    class="custom-control-input"
+                                                                    id="ARM_changeRequestFBLF_Open_KCNCK1"
                                                                     type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1055,7 +1089,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBLF_Open_KCNCK2">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBLF_Open_KCNCK2"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBLF_Open_KCNCK2"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1079,7 +1114,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBLF_Open_Ticket">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBLF_Open_Ticket"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBLF_Open_Ticket"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1104,7 +1140,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBLF_Open_VhodNRD">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBLF_Open_VhodNRD"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBLF_Open_VhodNRD"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1137,7 +1174,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBLF_Closed_Youtube">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBLF_Closed_Youtube"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBLF_Closed_Youtube"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1162,7 +1200,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBLF_Closed_CancelSZ">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBLF_Closed_CancelSZ"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBLF_Closed_CancelSZ"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1187,7 +1226,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBLF_Closed_NoPages">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBLF_Closed_NoPages"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBLF_Closed_NoPages"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1213,7 +1253,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBLF_Closed_NoSession">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBLF_Closed_NoSession"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBLF_Closed_NoSession"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1239,7 +1280,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBLF_Closed_LowSpeed">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBLF_Closed_LowSpeed"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBLF_Closed_LowSpeed"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1264,7 +1306,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBLF_Closed_Disconnections">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBLF_Closed_Disconnections"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBLF_Closed_Disconnections"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1290,7 +1333,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBLF_Closed_NoTV">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBLF_Closed_NoTV"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBLF_Closed_NoTV"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1320,14 +1364,17 @@
                                                     <p class="mb-0">Продукт - <i>не изменяется</i>
                                                         <br>Обработка -
                                                         <i>Онлайн - Входящая связь</i><br>Причина
-                                                        обращения - <i>Консультация по сервисам услугам — Консультация по условиям приостановления</i>
-                                                        <br>Текст обращения - <i>БП Самообслуживание. Консультация по условиям приостановления</i>
+                                                        обращения - <i>Консультация по сервисам услугам — Консультация
+                                                            по условиям приостановления</i>
+                                                        <br>Текст обращения - <i>БП Самообслуживание. Консультация по
+                                                            условиям приостановления</i>
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBLF_Self_Priost">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBLF_Self_Priost"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBLF_Self_Priost"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1353,7 +1400,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBLF_Self_Activation">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBLF_Self_Activation"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBLF_Self_Activation"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1374,13 +1422,15 @@
                                                         обращения -
                                                         <i>Консультация по сервисам услугам — Консультация по
                                                             платному контенту</i>
-                                                        <br>Текст обращения - <i>БП Самообслуживание. Консультация по скоростному бонусу</i>
+                                                        <br>Текст обращения - <i>БП Самообслуживание. Консультация по
+                                                            скоростному бонусу</i>
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBLF_Self_SpeedBonus">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBLF_Self_SpeedBonus"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBLF_Self_SpeedBonus"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1401,13 +1451,15 @@
                                                         обращения -
                                                         <i>Настройка и диагностика — Настройка роутера — Изменение
                                                             настроек Wi-Fi</i>
-                                                        <br>Текст обращения - <i>БП Самообслуживание. Ключ сети (пароль от Wi-Fi)</i>
+                                                        <br>Текст обращения - <i>БП Самообслуживание. Ключ сети (пароль
+                                                            от Wi-Fi)</i>
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBLF_Self_WiFiKey">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBLF_Self_WiFiKey"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBLF_Self_WiFiKey"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1421,18 +1473,22 @@
                                                 <div class="col">
                                                     <strong data-bs-html="true" data-bs-placement="right"
                                                             data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/TRIMVo2.png'/>"
-                                                            data-bs-toggle="tooltip">Восстановление данных (вход в ЛК)</strong>
+                                                            data-bs-toggle="tooltip">Восстановление данных (вход в
+                                                        ЛК)</strong>
                                                     <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка -
                                                         <i>Онлайн - Входящая связь</i><br>Причина
                                                         обращения -
-                                                        <i>Операции с договором — Восстановление\смена учётных данных</i>
-                                                        <br>Текст обращения - <i>БП Самообслуживание. Восстановление данных (вход в ЛК)</i>
+                                                        <i>Операции с договором — Восстановление\смена учётных
+                                                            данных</i>
+                                                        <br>Текст обращения - <i>БП Самообслуживание. Восстановление
+                                                            данных (вход в ЛК)</i>
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBLF_Self_recoverLK">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBLF_Self_recoverLK"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBLF_Self_recoverLK"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1453,13 +1509,15 @@
                                                         обращения -
                                                         <i>Настройка и диагностика — Настройка роутера — Настройка
                                                             роутера</i>
-                                                        <br>Текст обращения - <i>БП Самообслуживание. Настройка роутера</i>
+                                                        <br>Текст обращения - <i>БП Самообслуживание. Настройка
+                                                            роутера</i>
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBLF_Self_RouterSetup">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBLF_Self_RouterSetup"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBLF_Self_RouterSetup"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1486,7 +1544,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBLF_Self_RiseAP">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBLF_Self_RiseAP"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBLF_Self_RiseAP"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1507,13 +1566,15 @@
                                                         обращения -
                                                         <i>Настройка и диагностика — Отсутствие вещания на каналах —
                                                             Нет вещания на всех каналах</i>
-                                                        <br>Текст обращения - <i>БП Самообслуживание. КТВ, нет вещания на всех каналах</i>
+                                                        <br>Текст обращения - <i>БП Самообслуживание. КТВ, нет вещания
+                                                            на всех каналах</i>
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBLF_Self_KTV">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBLF_Self_KTV"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBLF_Self_KTV"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1534,13 +1595,15 @@
                                                         обращения -
                                                         <i>Настройка и диагностика — Вопросы по ключам — Проблема с
                                                             добавлением/верификацией ключа в МП</i>
-                                                        <br>Текст обращения - <i>БП Самообслуживание. Активация ключа в МП</i>
+                                                        <br>Текст обращения - <i>БП Самообслуживание. Активация ключа в
+                                                            МП</i>
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBLF_Self_ActivateKey">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBLF_Self_ActivateKey"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBLF_Self_ActivateKey"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1562,13 +1625,15 @@
                                                         <i>Настройка и диагностика — Настройка
                                                             ТВ/приставки/САМ-модуля — PIN код и родительский
                                                             контроль</i>
-                                                        <br>Текст обращения - <i>БП Самообслуживание. Восстановление пин-кода РК Movix</i>
+                                                        <br>Текст обращения - <i>БП Самообслуживание. Восстановление
+                                                            пин-кода РК Movix</i>
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBLF_Self_PIN">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBLF_Self_PIN"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBLF_Self_PIN"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1590,13 +1655,15 @@
                                                         обращения -
                                                         <i>Настройка и диагностика — Сложность со звонком в МП Умный
                                                             Дом.ru — Не проходит звонок в приложение</i>
-                                                        <br>Текст обращения - <i>БП Самообслуживание. Не проходит звонок в МП «Умный Дом.ru»</i>
+                                                        <br>Текст обращения - <i>БП Самообслуживание. Не проходит звонок
+                                                            в МП «Умный Дом.ru»</i>
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBLF_Self_Zvonok">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBLF_Self_Zvonok"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBLF_Self_Zvonok"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1617,13 +1684,15 @@
                                                         обращения -
                                                         <i>Настройка и диагностика — МП Умный Дом.ru — Камера в
                                                             статусе "недоступна"</i>
-                                                        <br>Текст обращения - <i>БП Самообслуживание. ВН. Камера в статусе «недоступна»</i>
+                                                        <br>Текст обращения - <i>БП Самообслуживание. ВН. Камера в
+                                                            статусе «недоступна»</i>
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBLF_Self_CameraVN">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBLF_Self_CameraVN"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBLF_Self_CameraVN"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1645,13 +1714,15 @@
                                                         обращения -
                                                         <i>Настройка и диагностика — Сложности с переключением
                                                             каналов — Нет сигнала при переключении каналов</i>
-                                                        <br>Текст обращения - <i>БП Самообслуживание. Привязка пульта к ТВ</i>
+                                                        <br>Текст обращения - <i>БП Самообслуживание. Привязка пульта к
+                                                            ТВ</i>
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBLF_Self_Pult">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBLF_Self_Pult"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBLF_Self_Pult"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1673,13 +1744,15 @@
                                                         обращения -
                                                         <i>Настройка и диагностика — Сложности с переключением
                                                             каналов — Нет сигнала при переключении каналов</i>
-                                                        <br>Текст обращения - <i>БП Самообслуживание. Приставка не реагирует на пульт</i>
+                                                        <br>Текст обращения - <i>БП Самообслуживание. Приставка не
+                                                            реагирует на пульт</i>
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBLF_Self_BadPult">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBLF_Self_BadPult"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBLF_Self_BadPult"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1712,7 +1785,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBLF_FastChat_Accident">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBLF_FastChat_Accident"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBLF_FastChat_Accident"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1733,13 +1807,17 @@
                                                         обращения -
                                                         <i>Настройка и диагностика - Не открываются страницы - Не
                                                             открываются все страницы</i>
-                                                        <br>Текст обращения - <i>Вопрос клиента был решен до диагностики. Проинформирован о необходимости повторного обращения в случае возникновения сложностей #НЦКБЫСТРЫЙЧАТ</i>
+                                                        <br>Текст обращения - <i>Вопрос клиента был решен до
+                                                            диагностики. Проинформирован о необходимости повторного
+                                                            обращения в случае возникновения сложностей
+                                                            #НЦКБЫСТРЫЙЧАТ</i>
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBLF_FastChat_NoDiagnostic">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBLF_FastChat_NoDiagnostic"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBLF_FastChat_NoDiagnostic"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1760,13 +1838,16 @@
                                                         обращения -
                                                         <i>Начисления и платежи - Начисления или баланс - Закрыт
                                                             доступ по причине ДЗ</i>
-                                                        <br>Текст обращения - <i>Отключение услуг по ДЗ. Клиент проинформирован о сумме платежа и способах оплаты #НЦКБЫСТРЫЙЧАТ</i>
+                                                        <br>Текст обращения - <i>Отключение услуг по ДЗ. Клиент
+                                                            проинформирован о сумме платежа и способах оплаты
+                                                            #НЦКБЫСТРЫЙЧАТ</i>
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBLF_FastChat_DZ">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBLF_FastChat_DZ"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBLF_FastChat_DZ"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1815,7 +1896,8 @@
                                             <div class="row align-items-center">
                                                 <div class="col">
                                                     <strong class="mb-0" data-bs-html="true"
-                                                            data-bs-placement="right" data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/0ZDZxKp.png'/>"
+                                                            data-bs-placement="right"
+                                                            data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/0ZDZxKp.png'/>"
                                                             data-bs-toggle="tooltip">КС
                                                         НЦК1</strong>
                                                     <p class="mb-0">Продукт - <i>не
@@ -1827,7 +1909,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBCR_Open_KCNCK1">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBCR_Open_KCNCK1"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBCR_Open_KCNCK1"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1840,7 +1923,8 @@
                                             <div class="row align-items-center">
                                                 <div class="col">
                                                     <strong class="mb-0" data-bs-html="true"
-                                                            data-bs-placement="right" data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/LlRpi9L.png'/>"
+                                                            data-bs-placement="right"
+                                                            data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/LlRpi9L.png'/>"
                                                             data-bs-toggle="tooltip">КС
                                                         НЦК2</strong>
                                                     <p class="mb-0">Продукт - <i>не
@@ -1852,7 +1936,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBCR_Open_KCNCK2">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBCR_Open_KCNCK2"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBCR_Open_KCNCK2"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1865,7 +1950,8 @@
                                             <div class="row align-items-center">
                                                 <div class="col">
                                                     <strong class="mb-0" data-bs-html="true"
-                                                            data-bs-placement="right" data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/8VaAs0I.png'/>"
+                                                            data-bs-placement="right"
+                                                            data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/8VaAs0I.png'/>"
                                                             data-bs-toggle="tooltip">НТП
                                                         - Исход</strong>
                                                     <p class="mb-0">Продукт - <i>не
@@ -1877,7 +1963,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBCR_Open_NTPISH">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBCR_Open_NTPISH"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBCR_Open_NTPISH"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1890,7 +1977,8 @@
                                             <div class="row align-items-center">
                                                 <div class="col">
                                                     <strong class="mb-0" data-bs-html="true"
-                                                            data-bs-placement="right" data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/OGsmMHO.png'/>"
+                                                            data-bs-placement="right"
+                                                            data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/OGsmMHO.png'/>"
                                                             data-bs-toggle="tooltip">Абон
                                                         - Исход</strong>
                                                     <p class="mb-0">Продукт - <i>не
@@ -1902,7 +1990,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBCR_Open_ABONISH">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBCR_Open_ABONISH"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBCR_Open_ABONISH"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1915,7 +2004,8 @@
                                             <div class="row align-items-center">
                                                 <div class="col">
                                                     <strong class="mb-0" data-bs-html="true"
-                                                            data-bs-placement="right" data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/3osLJUD.png'/>"
+                                                            data-bs-placement="right"
+                                                            data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/3osLJUD.png'/>"
                                                             data-bs-toggle="tooltip">ТС
                                                         - ААО</strong>
                                                     <p class="mb-0">Продукт - <i>не
@@ -1927,7 +2017,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBCR_Open_TS">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBCR_Open_TS"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBCR_Open_TS"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1940,7 +2031,8 @@
                                             <div class="row align-items-center">
                                                 <div class="col">
                                                     <strong class="mb-0" data-bs-html="true"
-                                                            data-bs-placement="right" data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/WGQ13V6.png'/>"
+                                                            data-bs-placement="right"
+                                                            data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/WGQ13V6.png'/>"
                                                             data-bs-toggle="tooltip">НРД
                                                         - Исход</strong>
                                                     <p class="mb-0">Продукт - <i>не
@@ -1952,7 +2044,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_changeRequestFBCR_Open_NRD">
-                                                            <input class="custom-control-input" id="ARM_changeRequestFBCR_Open_NRD"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_changeRequestFBCR_Open_NRD"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1979,7 +2072,8 @@
                                             <div class="row align-items-center">
                                                 <div class="col">
                                                     <strong class="mb-0" data-bs-html="true"
-                                                            data-bs-placement="right" data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/54cNcaz.png'/>"
+                                                            data-bs-placement="right"
+                                                            data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/54cNcaz.png'/>"
                                                             data-bs-toggle="tooltip">
                                                         Отображать копирование адреса</strong>
                                                     <p class="mb-0">Добавляет кнопку на договор для
@@ -1991,7 +2085,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_copyClientAddress">
-                                                            <input class="custom-control-input" id="ARM_copyClientAddress"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_copyClientAddress"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2011,7 +2106,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_copyClientAddressWithoutCity">
-                                                            <input class="custom-control-input" id="ARM_copyClientAddressWithoutCity"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_copyClientAddressWithoutCity"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2025,7 +2121,8 @@
                                             <div class="row align-items-center">
                                                 <div class="col">
                                                     <strong class="mb-0" data-bs-html="true"
-                                                            data-bs-placement="right" data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/T5v3jYi.png'/>"
+                                                            data-bs-placement="right"
+                                                            data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/T5v3jYi.png'/>"
                                                             data-bs-toggle="tooltip">
                                                         Отображать копирование карточки</strong>
                                                     <p class="mb-0">Добавляет кнопку на договор для
@@ -2051,7 +2148,8 @@
                                             <div class="row align-items-center">
                                                 <div class="col">
                                                     <strong class="mb-0" data-bs-html="true"
-                                                            data-bs-placement="right" data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/ZdlkaL0.png'/>"
+                                                            data-bs-placement="right"
+                                                            data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/ZdlkaL0.png'/>"
                                                             data-bs-toggle="tooltip">
                                                         Отображать копирование договора</strong>
                                                     <p class="mb-0">Добавляет кнопку на договор для
@@ -2063,7 +2161,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_copyClientAgreement">
-                                                            <input class="custom-control-input" id="ARM_copyClientAgreement"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_copyClientAgreement"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2077,7 +2176,8 @@
                                             <div class="row align-items-center">
                                                 <div class="col">
                                                     <strong class="mb-0" data-bs-html="true"
-                                                            data-bs-placement="right" data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/HRUwsYb.png'/>"
+                                                            data-bs-placement="right"
+                                                            data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/HRUwsYb.png'/>"
                                                             data-bs-toggle="tooltip">
                                                         Отображать копирование слотов СЗ</strong>
                                                     <p class="mb-0">Добавляет кнопку на обращение для
@@ -2101,7 +2201,8 @@
                                             <div class="row align-items-center">
                                                 <div class="col">
                                                     <strong class="mb-0" data-bs-html="true"
-                                                            data-bs-placement="right" data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/hlRguh6.png'/>"
+                                                            data-bs-placement="right"
+                                                            data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/hlRguh6.png'/>"
                                                             data-bs-toggle="tooltip">
                                                         Отображать копирование и проверку
                                                         MAC-адреса</strong>
@@ -2149,7 +2250,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_hideNonActiveApps">
-                                                            <input class="custom-control-input" id="ARM_hideNonActiveApps"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_hideNonActiveApps"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2165,9 +2267,10 @@
                                                             data-bs-placement="right"
                                                             data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/psRsPpl.png'/>"
                                                             data-bs-toggle="tooltip">Сворачивать строки в Инфо</strong>
-                                                    <p class="card-text">Сворачивает редко нужные строки на вкладке Инфо:
+                                                    <p class="card-text">Сворачивает редко нужные строки на вкладке
+                                                        Инфо:
                                                         <br>
-                                                         Статус, Схема оплаты, Категория, Контактные e-mail, Место
+                                                        Статус, Схема оплаты, Категория, Контактные e-mail, Место
                                                         рождения, Активные приложения, Промо-пакет, Идентификационные
                                                         данные, Автоплатеж
                                                     </p>
@@ -2189,7 +2292,8 @@
                                                 <div class="col">
                                                     <strong class="mb-0">Сворачивать строки в Приложениях</strong>
                                                     <p class="card-text">Сворачивает промежуточные шаги обращений
-                                                        <br>Оставляет только первый и последний шаг обращения<p>
+                                                        <br>Оставляет только первый и последний шаг обращения
+                                                    <p>
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
@@ -2211,7 +2315,8 @@
                                                             data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/LAr30TZ.png'/>"
                                                             data-bs-toggle="tooltip">Сворачивать заявки</strong>
                                                     <p class="card-text">Сворачивает промежуточные шаги заявок
-                                                        <br>На скрытых заявках отображает пункты "Выполнено (Отправить в Call-центр)", "Заявка выполнена", "Выполнено"
+                                                        <br>На скрытых заявках отображает пункты "Выполнено (Отправить в
+                                                        Call-центр)", "Заявка выполнена", "Выполнено"
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
@@ -2244,7 +2349,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_hideTabABONEMENT">
-                                                            <input class="custom-control-input" id="ARM_hideTabABONEMENT"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_hideTabABONEMENT"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2315,7 +2421,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_hideTabAutopayment">
-                                                            <input class="custom-control-input" id="ARM_hideTabAutopayment"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_hideTabAutopayment"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2333,7 +2440,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_hideTabSpecialOffers">
-                                                            <input class="custom-control-input" id="ARM_hideTabSpecialOffers"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_hideTabSpecialOffers"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2352,7 +2460,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_hideTabBalanceLimit">
-                                                            <input class="custom-control-input" id="ARM_hideTabBalanceLimit"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_hideTabBalanceLimit"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2370,7 +2479,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_hideTabMainSales">
-                                                            <input class="custom-control-input" id="ARM_hideTabMainSales"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_hideTabMainSales"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2508,7 +2618,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_hideTabDiagnostic">
-                                                            <input class="custom-control-input" id="ARM_hideTabDiagnostic"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_hideTabDiagnostic"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2526,7 +2637,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_hideTabDiagnosticNew">
-                                                            <input class="custom-control-input" id="ARM_hideTabDiagnosticNew"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_hideTabDiagnosticNew"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2565,7 +2677,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_highlightRequestsClasses">
-                                                            <input class="custom-control-input" id="ARM_highlightRequestsClasses"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_highlightRequestsClasses"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2604,7 +2717,8 @@
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
-                                                    <input class="form-control form-control-color" id="HIGHLIGHTER_EMAIL"
+                                                    <input class="form-control form-control-color"
+                                                           id="HIGHLIGHTER_EMAIL"
                                                            title="Выберите цвет"
                                                            type="color"/>
                                                 </div>
@@ -2640,7 +2754,8 @@
                                                         аварию"</p>
                                                 </div>
                                                 <div class="col-auto">
-                                                    <input class="form-control form-control-color" id="HIGHLIGHTER_COMPENSATION"
+                                                    <input class="form-control form-control-color"
+                                                           id="HIGHLIGHTER_COMPENSATION"
                                                            title="Выберите цвет"
                                                            type="color"/>
                                                 </div>
@@ -2695,12 +2810,14 @@
                                                     data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/oUKiYZn.png'/>"
                                                     data-bs-toggle="tooltip">
                                                 Подсветка близких к концу назначений</strong>
-                                            <p class="mb-0">Подсвечивает время конца назначений, которым осталось меньше 30 минут до закрытия</p>
+                                            <p class="mb-0">Подсвечивает время конца назначений, которым осталось меньше
+                                                30 минут до закрытия</p>
                                         </div>
                                         <div class="col-auto">
                                             <div class="custom-control custom-switch">
                                                 <label for="LINE_highlightEndingAppointments">
-                                                    <input class="custom-control-input" id="LINE_highlightEndingAppointments"
+                                                    <input class="custom-control-input"
+                                                           id="LINE_highlightEndingAppointments"
                                                            type="checkbox"/>
                                                 </label>
                                                 <span class="custom-control-label"></span>
