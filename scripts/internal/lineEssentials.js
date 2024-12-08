@@ -113,21 +113,29 @@ function dutyButtons() {
 }
 
 async function fastButtons() {
-  if (document.querySelector(".helper-specialist-button") != null) {
-    return;
-  }
-  if (document.querySelector(".helper") != null) {
+  if (document.querySelector(".helper-specialist-button") !== null ||
+      document.querySelector(".helper") !== null) {
     return;
   }
 
-  let buttonsDiv = document.createElement("div");
-  buttonsDiv.style.display = "flex";
-  buttonsDiv.style.marginLeft = "20px";
+  const buttonToggleContainer = document.createElement("div");
+  buttonToggleContainer.innerHTML = `
+        <div class="v-card v-sheet">
+            <div class="v-card__text">
+                <div class="v-btn-toggle v-item-group v-btn-toggle--rounded">
+                </div>
+            </div>
+        </div>
+    `;
+  buttonToggleContainer.style.marginLeft = "20px";
+  buttonToggleContainer.style.display = "inline-block";
+
+  const buttonGroup = buttonToggleContainer.querySelector(".v-btn-toggle");
 
   const interval = setInterval(() => {
-    let lineHeader = document.querySelector(".duty-app-block");
+    const lineHeader = document.querySelector(".duty-app-block");
     if (lineHeader !== null) {
-      lineHeader.parentNode.insertBefore(buttonsDiv, lineHeader.nextSibling);
+      lineHeader.parentNode.insertBefore(buttonToggleContainer, lineHeader.nextSibling);
       clearInterval(interval);
     }
   }, 1000);
@@ -142,99 +150,95 @@ async function fastButtons() {
     "LINE_showFB_BreakNCK2",
     "LINE_showFB_JIRA",
     "LINE_showFB_NTP1",
-    "LINE_showFB_NTP2",
+    "LINE_showFB_NTP2"
   ];
 
-  // Получение значений всех настроек
   const settings = await Promise.all(
-    settingsKeys.map((key) => browser.storage.sync.get(key))
+      settingsKeys.map(key => browser.storage.sync.get(key))
   );
 
   const buttonData = [
-    {
-      text: "Почта",
-      link: "https://mail.domru.ru",
-      show: settings[0].LINE_showFB_Mail,
-    },
-    {
-      text: "Обеды",
-      link: "https://okc2.ertelecom.ru/wfm/vueapp/day",
-      show: settings[1].LINE_showFB_Lunch,
-    },
-    {
-      text: "ОКЦ",
-      link: "https://okc.ertelecom.ru/stats/#octpNck",
-      show: settings[2].LINE_showFB_OKC,
-    },
-    {
-      text: "БЗ",
-      link: "https://clever.ertelecom.ru",
-      show: settings[3].LINE_showFB_BZ,
-    },
-    {
-      text: "АРМ",
-      link: "https://perm.db.ertelecom.ru/cgi-bin/ppo/excells/wcc_main.entry_continue",
-      show: settings[4].LINE_showFB_ARM,
-    },
-    {
-      text: "Перики",
-      link: "https://okc.ertelecom.ru/stats/breaks/ntp-nck-one",
-      show: settings[5].LINE_showFB_BreakNCK1,
-    },
-    {
-      text: "Перики",
-      link: "https://okc.ertelecom.ru/stats/breaks/ntp-nck-two",
-      show: settings[6].LINE_showFB_BreakNCK2,
-    },
-    {
-      text: "JIRA",
-      link: "https://ticket.ertelecom.ru",
-      show: settings[7].LINE_showFB_JIRA,
-    },
-    {
-      text: "NTP1",
-      link: "https://okc.ertelecom.ru/stats/line_ts/ntp1/index",
-      show: settings[7].LINE_showFB_NTP1,
-    },
-    {
-      text: "NTP2",
-      link: "https://okc.ertelecom.ru/stats/line_ts/ntp2/index",
-      show: settings[7].LINE_showFB_NTP2,
-    },
+    { text: "Почта", link: "https://mail.domru.ru", show: settings[0].LINE_showFB_Mail },
+    { text: "Обеды", link: "https://okc2.ertelecom.ru/wfm/vueapp/day", show: settings[1].LINE_showFB_Lunch },
+    { text: "ОКЦ", link: "https://okc.ertelecom.ru/stats/#octpNck", show: settings[2].LINE_showFB_OKC },
+    { text: "БЗ", link: "https://clever.ertelecom.ru", show: settings[3].LINE_showFB_BZ },
+    { text: "АРМ", link: "https://perm.db.ertelecom.ru/cgi-bin/ppo/excells/wcc_main.entry_continue", show: settings[4].LINE_showFB_ARM },
+    { text: "Перики НЦК1", link: "https://okc.ertelecom.ru/stats/breaks/ntp-nck-one", show: settings[5].LINE_showFB_BreakNCK1 },
+    { text: "Перики НЦК2", link: "https://okc.ertelecom.ru/stats/breaks/ntp-nck-two", show: settings[6].LINE_showFB_BreakNCK2 },
+    { text: "JIRA", link: "https://ticket.ertelecom.ru", show: settings[7].LINE_showFB_JIRA },
+    { text: "NTP1", link: "https://okc.ertelecom.ru/stats/line_ts/ntp1/index", show: settings[8].LINE_showFB_NTP1 },
+    { text: "NTP2", link: "https://okc.ertelecom.ru/stats/line_ts/ntp2/index", show: settings[9].LINE_showFB_NTP2 }
   ];
 
-  buttonData.forEach((item) => {
+  buttonData.forEach(item => {
     if (item.show) {
+      const buttonWrapper = document.createElement("div");
+      buttonWrapper.className = "v-item-group-item";
+
       const button = document.createElement("a");
-      button.textContent = item.text;
-      button.setAttribute("href", item.link);
-      button.setAttribute("target", "_blank");
-      button.setAttribute("class", "v-btn helper-specialist-button");
-      button.style.display = "flex";
-      button.style.justifyContent = "center";
-      button.style.alignItems = "center";
-      button.style.width = "70px";
-      button.style.height = "28px";
-      button.style.backgroundColor = "#403e3e";
-      button.style.borderRadius = "16px";
-      button.style.marginRight = "8px";
-      button.style.textDecoration = "none";
-      button.style.color = "inherit";
+      button.href = item.link;
+      button.target = "_blank";
+      button.className = "v-btn v-btn--contained v-size--default helper-specialist-button";
+
+      const buttonContent = document.createElement("span");
+      buttonContent.className = "v-btn__content";
+      buttonContent.textContent = item.text;
+
+      const ripple = document.createElement("div");
+      ripple.className = "v-ripple__container";
+
+      button.appendChild(buttonContent);
+      button.appendChild(ripple);
+      buttonWrapper.appendChild(button);
+      buttonGroup.appendChild(buttonWrapper);
 
       button.addEventListener("mouseenter", () => {
-        button.style.backgroundColor = "#595757";
+        button.classList.add("v-btn--hover");
       });
       button.addEventListener("mouseleave", () => {
-        button.style.backgroundColor = "#403e3e";
+        button.classList.remove("v-btn--hover");
       });
-
-      buttonsDiv.appendChild(button);
     }
   });
 
-  console.log(
-    `[${new Date().toLocaleTimeString()}] [Хелпер] - [Линия] - [Быстрые кнопки] Добавлены быстрые кнопки на линию`
-  );
+  const styleSheet = document.createElement("style");
+  styleSheet.textContent = `
+        .v-btn-toggle {
+            background: #403e3e;
+            border-radius: 28px !important;
+            display: inline-flex;
+            max-width: 100%;
+            padding: 0 2px;
+        }
+        .v-btn-toggle--rounded .v-btn {
+            height: 28px !important;
+            min-width: 70px;
+            margin: 2px;
+            padding: 0 12px;
+            border: none;
+            background: transparent !important;
+            color: white !important;
+            border-radius: 14px !important;
+        }
+        .v-btn-toggle .v-btn:hover {
+            background-color: rgba(255, 255, 255, 0.08) !important;
+        }
+        .v-btn-toggle .v-btn--hover {
+            background-color: rgba(255, 255, 255, 0.08) !important;
+        }
+        .v-btn__content {
+            font-size: 0.875rem;
+            letter-spacing: 0.0178571429em;
+            line-height: normal;
+            text-transform: none;
+        }
+        .v-btn-toggle .v-btn:not(:last-child) {
+            margin-right: 2px;
+        }
+    `;
+  document.head.appendChild(styleSheet);
+
+  console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Линия] - [Быстрые кнопки] Добавлены быстрые кнопки на линию`);
 }
 
 // Подсветка операторов с определенными классами на линии
