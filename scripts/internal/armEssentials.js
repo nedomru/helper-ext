@@ -101,7 +101,8 @@ if (
         ARM_hideNonActiveApps: hideNonActiveApps,
         ARM_hideInfoTabRows: hideInformationRows,
         ARM_hideRequests: handleServiceRequests,
-        ARM_hideAppeals: initializeAppealsTable
+        ARM_hideAppeals: initializeAppealsTable,
+        ARM_checkPaidHelp: paidHelpTrue
     };
 
     browser.storage.sync.get(Object.keys(TABS_config)).then((result) => {
@@ -152,6 +153,7 @@ if (
         ARM_checkSetToMe: removeSetForMe,
         ARM_copyTimeSlots: copyTimeSlots,
         ARM_changeRequestFBCR: fastButtonsChangeRequest,
+        ARM_checkPaidHelp: paidHelpTrue
     };
 
     browser.storage.sync.get(Object.keys(ARM_config)).then((result) => {
@@ -942,6 +944,47 @@ function wrongTransferFalse() {
             `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Отмечено как не ошибочное`,
         );
     }
+}
+
+async function paidHelpTrue() {
+    const observer = new MutationObserver((mutationsList) => {
+        for (const mutation of mutationsList) {
+            if (mutation.type === "childList") {
+                const checkbox = document.getElementById("check_pay_service");
+                if (checkbox) {
+                    const payServiceSpan = checkbox.closest('.pay_service');
+
+                    if (payServiceSpan) {
+                        let element = payServiceSpan;
+                        let isVisible = true;
+
+                        while (element && element !== document.body) {
+                            const style = window.getComputedStyle(element);
+                            if (style.display === 'none' || style.visibility === 'hidden') {
+                                isVisible = false;
+                                break;
+                            }
+                            element = element.parentElement;
+                        }
+
+                        if (isVisible) {
+                            checkbox.click()
+                            checkbox.checked = true
+
+                            observer.disconnect();
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['style', 'class']
+    });
 }
 
 function removeSetForMe() {
@@ -2878,7 +2921,7 @@ function addToggleButton(table, requestId, hiddenCount, firstRow, lastRow) {
     button.style.cssText = 'cursor:pointer; color:#0d6efd; text-decoration:none; padding:5px; display:block; text-align:center;';
     updateButtonState(button, false);
 
-    button.addEventListener('click', function(e) {
+    button.addEventListener('click', function (e) {
         e.preventDefault();
         const isVisible = this.getAttribute('data-state') === 'visible';
         const newState = isVisible ? 'hidden' : 'visible';
