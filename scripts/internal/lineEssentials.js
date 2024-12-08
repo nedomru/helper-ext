@@ -521,7 +521,7 @@ function countAppointments() {
       const chipElement = button.querySelector("span.v-chip__content");
       if (chipElement) {
         chipElement.textContent = [
-          `Всего: ${counts.total}`,
+          `Всего: ${counts.total + 1} `,
           counts.rsg > 0 ? `| РСГ: ${counts.rsg}` : "",
           counts.project > 0 ? `| Проекты: ${counts.project}` : "",
           counts.learning > 0 ? `| Обучения: ${counts.learning}` : "",
