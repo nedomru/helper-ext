@@ -240,45 +240,41 @@ async function addMessageDiv(id) {
 }
 
 async function handleSocketMessages(data, time) {
-    if (!data || !data.availQueues) return;
-    let settings = {
-        showLineNCK1: (
-            await browser.storage.sync.get("GENESYS_showLineStatus_nck1")
-        ).GENESYS_showLineStatus_nck1,
-        showLineNCK2: (
-            await browser.storage.sync.get("GENESYS_showLineStatus_nck2")
-        ).GENESYS_showLineStatus_nck2,
-        showLineMessages: (
-            await browser.storage.sync.get("GENESYS_showLineMessages")
-        ).GENESYS_showLineMessages,
+    if (!data?.availQueues) return;
+
+    // Get all settings in parallel
+    const [nck1Setting, nck2Setting, messagesSetting] = await Promise.all([
+        browser.storage.sync.get("GENESYS_showLineStatus_nck1"),
+        browser.storage.sync.get("GENESYS_showLineStatus_nck2"),
+        browser.storage.sync.get("GENESYS_showLineMessages")
+    ]);
+
+    const settings = {
+        showLineNCK1: nck1Setting.GENESYS_showLineStatus_nck1,
+        showLineNCK2: nck2Setting.GENESYS_showLineStatus_nck2,
+        showLineMessages: messagesSetting.GENESYS_showLineMessages
     };
 
-    let lineStats;
-    let contentToShow;
-    let tooltipMessage;
     if (settings.showLineNCK1) {
-        lineStats = document.querySelector("#line-status-nck1");
-        if (lineStats == null) return;
-        data.waitingChats.nck1 > 0
-            ? (lineStats.style.color = "red")
-            : (lineStats.style.color = "white");
-        contentToShow = `Слоты: ${data.chatCapacity.nck1.available}/${data.chatCapacity.nck1.max} | SL: ${data.daySl.nck1}`;
-        data.waitingChats.nck1 > 0
-            ? (contentToShow += ` | ОЧЕРЕДЬ: ${data.waitingChats.nck1}`)
-            : "";
+        const lineStats = document.querySelector("#line-status-nck1");
+        if (!lineStats) return;
 
-        if (lineStats.innerHTML !== `<p>${contentToShow}</p>`) {
-            lineStats.innerHTML = `<p>${contentToShow}</p>`;
+        lineStats.style.color = data.waitingChats.nck1 > 0 ? "red" : "white";
 
-            lineStats.style.transition = "background-color 0.3s";
-            lineStats.style.backgroundColor = "#909ea6";
-
-            setTimeout(() => {
-                lineStats.style.backgroundColor = "#4c5961";
-            }, 300);
+        let contentToShow = `<span style="display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; background-color: #666666; border-radius: 50%; margin-right: 5px; font-size: 12px;">1</span>Слоты: ${data.chatCapacity.nck1.available}/${data.chatCapacity.nck1.max} | SL: ${data.daySl.nck1}`;
+        if (data.waitingChats.nck1 > 0) {
+            contentToShow += ` | ОЧЕРЕДЬ: ${data.waitingChats.nck1}`;
         }
 
-        tooltipMessage = `Статистика НЦК1 за день
+        const newContent = `<p>${contentToShow}</p>`;
+        if (lineStats.innerHTML !== newContent) {
+            lineStats.innerHTML = newContent;
+            lineStats.style.transition = "background-color 0.3s";
+            lineStats.style.backgroundColor = "#909ea6";
+            setTimeout(() => lineStats.style.backgroundColor = "#4c5961", 300);
+        }
+
+        const tooltipMessage = `Статистика НЦК1 за день
 
 Чаты:
 Mobile: ${data.availQueues[0][0].currentWaitingCalls} / ${data.availQueues[0][0].totalEnteredCalls}
@@ -294,34 +290,30 @@ LK: ${data.availQueues[0][7].currentWaitingCalls} / ${data.availQueues[0][7].tot
 Mobile: ${data.availQueues[1][0].currentWaitingCalls} / ${data.availQueues[1][0].totalEnteredCalls}
 Web: ${data.availQueues[1][1].currentWaitingCalls} / ${data.availQueues[1][1].totalEnteredCalls}
 
-Состояние на ${time}`;
+Состояние на ${time} ПРМ`;
         lineStats.setAttribute("title", tooltipMessage);
     }
 
     if (settings.showLineNCK2) {
-        lineStats = document.querySelector("#line-status-nck2");
+        const lineStats = document.querySelector("#line-status-nck2");
+        if (!lineStats) return;
 
-        if (lineStats == null) return;
+        lineStats.style.color = data.waitingChats.nck2 > 0 ? "red" : "white";
 
-        data.waitingChats.nck2 > 0
-            ? (lineStats.style.color = "red")
-            : (lineStats.style.color = "white");
-        contentToShow = `Слоты: ${data.chatCapacity.nck2.available}/${data.chatCapacity.nck2.max} | SL: ${data.daySl.nck2}`;
-        data.waitingChats.nck2 > 0
-            ? (contentToShow += ` | ОЧЕРЕДЬ: ${data.waitingChats.nck2}`)
-            : "";
-        if (lineStats.innerHTML !== `<p>${contentToShow}</p>`) {
-            lineStats.innerHTML = `<p>${contentToShow}</p>`;
-
-            lineStats.style.transition = "background-color 0.3s";
-            lineStats.style.backgroundColor = "#909ea6";
-
-            setTimeout(() => {
-                lineStats.style.backgroundColor = "#4c5961";
-            }, 300);
+        let contentToShow = `<span style="display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; background-color: #666666; border-radius: 50%; margin-right: 5px; font-size: 12px;">2</span>Слоты: ${data.chatCapacity.nck2.available}/${data.chatCapacity.nck2.max} | SL: ${data.daySl.nck2}`;
+        if (data.waitingChats.nck2 > 0) {
+            contentToShow += ` | ОЧЕРЕДЬ: ${data.waitingChats.nck2}`;
         }
 
-        tooltipMessage = `Статистика НЦК2 за день
+        const newContent = `<p>${contentToShow}</p>`;
+        if (lineStats.innerHTML !== newContent) {
+            lineStats.innerHTML = newContent;
+            lineStats.style.transition = "background-color 0.3s";
+            lineStats.style.backgroundColor = "#909ea6";
+            setTimeout(() => lineStats.style.backgroundColor = "#4c5961", 300);
+        }
+
+        const tooltipMessage = `Статистика НЦК2 за день
 
 Чаты:
 Mobile: ${data.availQueues[2][0].currentWaitingCalls} / ${data.availQueues[2][0].totalEnteredCalls}
@@ -336,11 +328,11 @@ LK: ${data.availQueues[2][7].currentWaitingCalls} / ${data.availQueues[2][7].tot
 Mobile: ${data.availQueues[3][0].currentWaitingCalls} / ${data.availQueues[3][0].totalEnteredCalls}
 Web: ${data.availQueues[3][1].currentWaitingCalls} / ${data.availQueues[3][1].totalEnteredCalls}
 
-Состояние на ${time}ПРМ`;
+Состояние на ${time} ПРМ`;
         lineStats.setAttribute("title", tooltipMessage);
     }
 
-// if (settings.showLineMessages) {
+    // if (settings.showLineMessages) {
 //   console.log(
 //     `Сохраненное сообщение: ${await stripHtml(
 //       lastDutyMessage
