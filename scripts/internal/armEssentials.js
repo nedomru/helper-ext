@@ -35,6 +35,13 @@ if (
 if (
     document.URL.indexOf(
         "db.ertelecom.ru/cgi-bin/ppo/excells/radius_accounting_info.login_detail?id_session",
+    ) !== -1) {
+    copyIP()
+}
+
+if (
+    document.URL.indexOf(
+        "db.ertelecom.ru/cgi-bin/ppo/excells/radius_accounting_info.login_detail?id_session",
     ) !== -1 ||
     document.URL.indexOf(
         "db.ertelecom.ru/static_pages/private/wcc/client_session/?user_id",
@@ -883,6 +890,139 @@ function copyMAC() {
 
     // Add buttons to existing elements
     addCopyButtons();
+}
+
+function copyIP() {
+    document.querySelectorAll('.ip').forEach(ipContainer => {
+        const ipElement = ipContainer.querySelector('acronym');
+        if (!ipElement) return;
+
+        let ip_status;
+        const ip = ipElement.textContent;
+        if (ip.startsWith("100.")) {
+            ip_status = "За NAT";
+        } else if (ip.startsWith("10.")) {
+            ip_status = "Серый";
+        } else if (ip.startsWith("172.")) {
+            ip_status = "Без доступа";
+        } else {
+            ip_status = "Белый";
+        }
+
+        const buttonGroup = document.createElement('div');
+        buttonGroup.className = 'helper-button-group';
+        buttonGroup.style.position = 'relative';
+        buttonGroup.style.marginLeft = '5px';
+        buttonGroup.style.display = 'inline-flex';
+
+        const copyButton = document.createElement('button');
+        copyButton.textContent = '📋';
+        copyButton.classList.add("helper-button", "helper-button-left");
+        copyButton.title = 'Копировать IP';
+        copyButton.onclick = () => {
+            navigator.clipboard.writeText(ip)
+                .then(() => $.notify('IP скопирован', 'success'))
+                .catch(err => {
+                    console.error('Ошибка копирования IP:', err);
+                    $.notify('Не удалось скопировать IP', 'error');
+                });
+        };
+
+        const checkButton = document.createElement('button');
+        checkButton.textContent = '🔎';
+        checkButton.classList.add("helper-button", "helper-button-right");
+        checkButton.title = 'Проверить IP';
+        checkButton.onclick = async () => {
+            try {
+                const response = await fetch(
+                    `https://api.ipquery.io/${ip}?format=yaml`
+                );
+                if (!response.ok) throw new Error('Network response was not ok');
+
+                const data = await response.json();
+                $.notify(
+                    `Город: ${data["location"]["city"] ? data["location"]["city"] : "Неизвестно"}\nТип IP: ${ip_status}`,
+                    'success'
+                );
+            } catch (error) {
+                console.error('Error checking IP:', error);
+                $.notify('Failed to check IP location', 'error');
+            }
+        };
+
+        const style = document.createElement("style");
+        style.textContent = `
+        .helper-button-group {
+            display: inline-flex;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0;
+        }
+        
+        .helper-button {
+            appearance: none;
+            background-color: #FAFBFC !important;
+            border: 1px solid rgba(27, 31, 35, 0.15);
+            box-sizing: border-box;
+            color: #24292E !important;
+            cursor: pointer;
+            display: inline-block;
+            font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+            font-weight: 500;
+            line-height: 20px;
+            list-style: none;
+            padding: 5px 10px;
+            position: relative;
+            transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            vertical-align: middle;
+            white-space: nowrap;
+            margin: 0;
+        }
+        
+        .helper-button-left {
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+            border-right: none;
+        }
+        
+        .helper-button-right {
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+        }
+        
+        .helper-button:hover {
+            background-color: #d6d6d6 !important;
+            text-decoration: none;
+            transition-duration: 0.1s;
+        }
+        
+        .helper-button:active {
+            background-color: #EDEFF2;
+            box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
+            transition: none 0s;
+        }
+        
+        .helper-button:focus {
+            outline: none;
+        }
+        
+        .helper-button:before {
+            display: none;
+        }
+        
+        .helper-button:-webkit-details-marker {
+            display: none;
+        }
+        `;
+        document.head.appendChild(style);
+
+        buttonGroup.appendChild(copyButton);
+        buttonGroup.appendChild(checkButton);
+        ipElement.insertAdjacentElement('afterend', buttonGroup);
+    });
 }
 
 function showClientAgreementOnChangeRequest() {
