@@ -21,7 +21,7 @@ if (document.URL.indexOf("genesys-ntp") !== -1) {
     LINE_showFB: fastButtons,
     LINE_highlightOperators: highlightOperators,
     LINE_dutyButtons: dutyButtons,
-    LINE_updateNeededSL: updateNeededSL,
+    // LINE_updateNeededSL: updateNeededSL,
     LINE_countAppointments: countAppointments,
     LINE_highlightEndingAppointments: highlightEndingAppointments
   };
@@ -370,7 +370,7 @@ function createLinkTab(id, href, iconClass, textContent) {
   return link;
 }
 
-function updateNeededSL() {
+/*function updateNeededSL() {
   const interval = setInterval(() => {
     getSL();
   }, 10000);
@@ -457,7 +457,7 @@ function updateNeededSL() {
       });
   }
   getSL();
-}
+}*/
 
 function countAppointments() {
   console.log(
