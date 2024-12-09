@@ -62,7 +62,7 @@ async function initTabs() {
         showTab('Главная');
     });
     await fetchMNA(true)
-    // await fetchRouters(true)
+    await fetchRouters(true)
     await fetchPhrases(true)
 }
 
@@ -103,9 +103,32 @@ function createLinkOrText(value, text, isEmulator = false) {
     return `<a href="${value}" target="_blank">${text}</a>`;
 }
 
+async function clearFromStorage(key) {
+    return new Promise((resolve) => {
+        browser.storage.local.remove(key, resolve);
+    });
+}
+
 async function fetchFromAPI(api_url) {
-    const response = await fetch(api_url);
-    return await response.json();
+    try {
+        const response = await fetch(api_url, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error(`Error fetching from ${api_url}:`, error);
+        throw error;
+    }
 }
 
 async function getFromStorage(key) {
@@ -332,12 +355,19 @@ async function fetchPhrases(cachedOnly = false) {
     phrasesContainer.style.display = 'none';
 
     try {
-        // Try to get data from storage first
         let data = await getFromStorage("phrasesData");
-        if (cachedOnly) {
-            displayPhrasesData(data);
-            return
+
+        if (data && !Array.isArray(data)) {
+            console.warn("Invalid cached data format, clearing cache");
+            data = null;
+            await browser.storage.local.remove("phrasesData");
         }
+
+        if (cachedOnly && data) {
+            displayPhrasesData(data);
+            return;
+        }
+
         let isDataUpdated = false;
 
         if (data) {
@@ -345,43 +375,83 @@ async function fetchPhrases(cachedOnly = false) {
             console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] - [РМы] Список РМов загружен из кеша`);
         }
 
-        // Fetch fresh data from API in the background
-        const phrasesApiData = await fetchFromAPI("https://flomaster.chrsnv.ru/api/phrases/");
+        if (!cachedOnly) {
+            try {
+                console.log("Fetching from API...");
+                const phrasesApiData = await fetchFromAPI("https://flomaster.chrsnv.ru/api/phrases");
+                console.log("API Response received:", phrasesApiData);
 
-        if (JSON.stringify(phrasesApiData) !== JSON.stringify(data)) {
-            await saveToStorage("phrasesData", phrasesApiData);
-            console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] - [РМы] Загружены новые РМы из API`);
-            data = phrasesApiData;
-            isDataUpdated = true;
-        }
+                if (!Array.isArray(phrasesApiData)) {
+                    console.warn("API response is not an array:", phrasesApiData);
+                    throw new Error("API response is not in the expected format");
+                }
 
-        if (!data || isDataUpdated) {
-            displayPhrasesData(data);
+                if (JSON.stringify(phrasesApiData) !== JSON.stringify(data)) {
+                    await saveToStorage("phrasesData", phrasesApiData);
+                    console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] - [РМы] Загружены новые РМы из API`);
+                    data = phrasesApiData;
+                    isDataUpdated = true;
+                }
+
+                if (!data || isDataUpdated) {
+                    displayPhrasesData(data);
+                }
+            } catch (apiError) {
+                console.error("API fetch error:", apiError);
+                if (!data) {
+                    throw apiError;
+                }
+            }
         }
 
     } catch (error) {
         console.error("Error fetching data:", error);
+        phrasesContainer.innerHTML = DOMPurify.sanitize(`
+            <div class="error-message">
+                <p>Произошла ошибка при загрузке данных. Пожалуйста, попробуйте позже.</p>
+                <p>Техническая информация: ${error.message}</p>
+            </div>
+        `);
+        loadingSpinner.style.display = 'none';
+        phrasesContainer.style.display = 'block';
     }
 }
 
 function displayPhrasesData(data) {
+    if (!Array.isArray(data)) {
+        console.error("Invalid data format provided to displayPhrasesData");
+        return;
+    }
+
     const phrasesContainer = document.getElementById('phrasesContainer');
     const loadingSpinner = document.getElementById('loadingSpinner');
 
-    const directoryHTML = createDirectoryHTML(data);
+    try {
+        const directoryHTML = createDirectoryHTML(data);
 
-    phrasesContainer.innerHTML = DOMPurify.sanitize(directoryHTML);
+        phrasesContainer.innerHTML = DOMPurify.sanitize(directoryHTML);
 
-    loadingSpinner.style.display = 'none';
-    phrasesContainer.style.display = 'block';
-    phrasesContainer.style.opacity = '0';
-    phrasesContainer.style.transition = 'opacity 0.5s ease-in-out';
-    phrasesContainer.offsetHeight;
-    phrasesContainer.style.opacity = '1';
+        loadingSpinner.style.display = 'none';
+        phrasesContainer.style.display = 'block';
+        phrasesContainer.style.opacity = '0';
+        phrasesContainer.style.transition = 'opacity 0.5s ease-in-out';
+        phrasesContainer.offsetHeight; // Force reflow
+        phrasesContainer.style.opacity = '1';
 
-    addEventListeners();
-    addStyles();
-    setupSearch();
+        addEventListeners();
+        addStyles();
+        setupSearch();
+    } catch (error) {
+        console.error("Error displaying phrases data:", error);
+        phrasesContainer.innerHTML = DOMPurify.sanitize(`
+            <div class="error-message">
+                <p>Произошла ошибка при отображении данных.</p>
+                <p>Техническая информация: ${error.message}</p>
+            </div>
+        `);
+        loadingSpinner.style.display = 'none';
+        phrasesContainer.style.display = 'block';
+    }
 }
 
 function createDirectoryHTML(data) {
@@ -479,7 +549,7 @@ function performSearch() {
 
         item.style.display = isMatch ? '' : 'none';
 
-        // If it's a top-level category and it matches, show all its children
+        // If it's a top-level category, and it matches, show all its children
         if (isMatch && item.classList.contains('open')) {
             item.querySelectorAll('.directory-item').forEach(child => {
                 child.style.display = '';

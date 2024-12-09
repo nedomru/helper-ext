@@ -5,7 +5,7 @@
 }
 
 body {
-  width: 630px;
+  width: 680px;
   background-color: #fff;
   color: #000;
   overflow-x: hidden;
@@ -39,7 +39,7 @@ body a {
 
 .table {
   width: 100%;
-  max-width: 590px;
+  max-width: 640px;
   border-collapse: collapse;
 }
 
