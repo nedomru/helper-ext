@@ -49,7 +49,7 @@ async function setDefaults() {
         ARM_hideNonActiveApps: true,
         ARM_hideInfoTabRows: true,
         ARM_hideRequests: true,
-        ARM_hideAppeals: true,
+        ARM_hideAppeals: false,
         ARM_showAgreementOnChange: true,
         ARM_highlightRequestsClasses: true,
         ARM_filterClientSessions: true,
