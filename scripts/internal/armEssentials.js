@@ -1104,19 +1104,13 @@ function showClientAgreementOnChangeRequest() {
 }
 
 function smsButtons() {
-    // Create change event for SMS selector updates
     const changeEvent = new Event("change", {
         bubbles: true,
         cancelable: true,
     });
 
-    // Create button group container using Bootstrap classes
-    const buttonContainer = $(`
-        <div class="btn-group btn-group-xs" role="group" aria-label="SMS Options" style="margin-top: 6px;">
-        </div>
-    `);
+    const buttonContainer = $('<div class="button-container" style="display: flex; flex-wrap: wrap; margin-top: 6px; gap: 6px;"></div>');
 
-    // Define button data with values and SMS codes
     const buttonData = [
         {value: "🔑 Static", smsValue: 27},
         {value: "🔑 PPPoE", smsValue: 25},
@@ -1124,39 +1118,28 @@ function smsButtons() {
         {value: "💸 Оплата", smsValue: 24},
     ];
 
-    // Function to create a button with Bootstrap styling
     function createButton(buttonValue, smsValue) {
-        const button = $(`<button type="button" class="btn btn-primary helper">${buttonValue}</button>`);
+        const button = $(`<input type="button" value="${buttonValue}" class="btn btn-primary btn-xs helper"/>`);
         button.on("click", function () {
-            let smsSelector = $(".type_sms_a");
+            let smsSelector = $(".type_sms_a")
             smsSelector.val(smsValue);
             smsSelector[0].dispatchEvent(changeEvent);
         });
         return button;
     }
 
-    // Add buttons to the group if they exist in SMS options
     buttonData.forEach(data => {
-        if ($(".type_sms_a option[value='" + data.smsValue + "']").length &&
-            $(".helper:contains('" + data.value + "')").length === 0) {
-            const button = createButton(data.value, data.smsValue);
-            buttonContainer.append(button);
-        }
+        const button = createButton(data.value, data.smsValue);
+        addButtonIfExists(button, data.smsValue);
     });
 
-    // Only append the button group if it contains buttons
-    if (buttonContainer.children().length > 0) {
-        $(".type_sms_a").after(buttonContainer);
-
-        // Add custom styles for better spacing and alignment
-        $("<style>")
-            .text(`
-                .btn-group { display: inline-flex; }
-                .btn-group .btn { margin-right: 1px; }
-                .btn-group .btn:last-child { margin-right: 0; }
-            `)
-            .appendTo("head");
+    function addButtonIfExists(button, value) {
+        if ($(".type_sms_a option[value='" + value + "']").length && $(".helper[value='" + button.val() + "']").length === 0) {
+            buttonContainer.append(button);
+        }
     }
+
+    $(".type_sms_a").after(buttonContainer);
 }
 
 function wrongTransferFalse() {
