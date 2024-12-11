@@ -959,10 +959,9 @@ function copyMAC() {
 }
 
 function copyIP() {
-    // Remove ping check elements
-    document.querySelectorAll('a[title="Проверка ping"]').forEach(element => {
+    /*document.querySelectorAll('a[title="Проверка ping"]').forEach(element => {
         element.remove();
-    });
+    })*/
 
     document.querySelectorAll('.ip').forEach(ipContainer => {
         const ipElement = ipContainer.querySelector('acronym');
