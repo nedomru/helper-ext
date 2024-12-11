@@ -2242,11 +2242,17 @@ async function fastButtonsLeftFrame() {
     }
 
     async function handleSS_KTV() {
-        const product = await document.querySelector(".uni_reas_prod");
-        if (product.value !== "71") {
+        const product = document.querySelector(".uni_reas_prod");
+        const values = Array.from(product.options).map(option => option.value);
+
+        if (values.includes("71")) {
             product.value = "71";
             product.dispatchEvent(changeEvent);
+        } else {
+            product.value = "101";
+            product.dispatchEvent(changeEvent);
         }
+
 
         const step = await document.querySelector(".uni_reas_step");
         step.value = "2296";
