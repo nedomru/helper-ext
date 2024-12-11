@@ -1119,7 +1119,7 @@ function smsButtons() {
     ];
 
     function createButton(buttonValue, smsValue) {
-        const button = $(`<input type="button" value="${buttonValue}" class="btn btn-primary btn-xs helper"/>`);
+        const button = $(`<input type="button" value="${buttonValue}" class="btn btn-primary btn-sm helper"/>`);
         button.on("click", function () {
             let smsSelector = $(".type_sms_a")
             smsSelector.val(smsValue);
