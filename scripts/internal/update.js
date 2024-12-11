@@ -7,7 +7,7 @@ document.getElementById("current-version").textContent = currentVersion;
 
 async function fetchReleaseInfo() {
   const response = await fetch(
-    "https://api.github.com/repos/AuthFailed/domhelper/releases/latest"
+    "https://api.github.com/repos/AuthFailed/domru-helper/releases/latest"
   );
   const data = await response.json();
 
