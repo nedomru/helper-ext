@@ -428,51 +428,49 @@ async function handleLinkSubmit() {
 async function handlePremiumSubmit() {
     document.getElementById("result-container").innerHTML = "";
     const loadingSpinner = document.getElementById('loadingResultsSpinner');
-
     loadingSpinner.style.display = 'block';
 
     const inputField = document.getElementById("premium-select").value;
 
-    let url;
-    inputField === "nck2"
-        ? (url =
-            "https://okc.ertelecom.ru/stats/premium/ntp-nck2/get-premium-spec-month")
-        : (url =
-            "https://okc.ertelecom.ru/stats/premium/ntp-nck1/get-premium-spec-month");
+    // Determine URL based on selection
+    const url = inputField === "nck2"
+        ? "https://okc.ertelecom.ru/stats/premium/ntp-nck2/get-premium-spec-month"
+        : "https://okc.ertelecom.ru/stats/premium/ntp-nck1/get-premium-spec-month";
 
-    const requestBody = new URLSearchParams();
+    // Format date for request
     const now = new Date();
-    const firstDayCurrentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const formattedDate = `01.${String(now.getMonth() + 1).padStart(2, "0")}.${now.getFullYear()}`;
 
-    const formattedDate =
-        String(firstDayCurrentMonth.getDate()).padStart(2, "0") +
-        "." +
-        String(firstDayCurrentMonth.getMonth() + 1).padStart(2, "0") +
-        "." +
-        firstDayCurrentMonth.getFullYear();
-
-    requestBody.append("period", formattedDate);
-    requestBody.append("subdivisionId[]", "16231");
+    // Create request body
+    const requestBody = {
+        period: formattedDate,
+        subdivisionId: [],
+        headsId: [],
+        employeesId: []
+    };
 
     try {
         const response = await fetch(url, {
+            method: "POST",
             credentials: "include",
             headers: {
-                "User-Agent":
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0",
-                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                "accept": "application/json, text/plain, */*",
+                "content-type": "application/json",
+                "sec-fetch-dest": "empty",
+                "sec-fetch-mode": "cors",
+                "sec-fetch-site": "same-origin"
             },
-            body: requestBody.toString(),
-            method: "POST",
+            referrerPolicy: "strict-origin-when-cross-origin",
+            body: JSON.stringify(requestBody),
+            mode: "cors"
         });
 
         if (!response.ok) {
-            const errorText = await response.text();
-            console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Проверка премии] - Произошла ошибка: ${errorText}`)
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const data = await response.json();
-        const result = data["result"][0];
+        const result = data[0]; // Changed from data["result"][0] to data[0]
 
         const tableHTML = `
             <table class="table table-hover table-bordered table-responsive table-sm">
@@ -487,61 +485,60 @@ async function handlePremiumSubmit() {
                 <tbody class="table-group-divider">
                     <tr>
                         <th scope="row">Специалист</th>
-                        <td colspan="3" class="align-middle">${result["USER_FIO"]}</td>
+                        <td colspan="3" class="align-middle">${result.USER_FIO}</td>
                     </tr>
                     <tr>
                         <th scope="row">Общая премия</th>
-                        <td colspan="3" class="align-middle">${result["TOTAL_PREMIUM"]}%</td>
+                        <td colspan="3" class="align-middle">${result.TOTAL_PREMIUM}%</td>
                     </tr>
                     <tr>
                         <th scope="row">Кол-во чатов</th>
-                        <td colspan="3" class="align-middle">${result["TOTAL_CHATS"]}</td>
+                        <td colspan="3" class="align-middle">${result.TOTAL_CHATS}</td>
                     </tr>
                     <tr>
                         <th scope="row">Тесты</th>
-                        <td colspan="3" class="align-middle">${result["PERC_TESTING"]}%</td>
+                        <td colspan="3" class="align-middle">${result.PERC_TESTING}%</td>
                     </tr>
                     <tr>
                         <th scope="row">Благодарности</th>
-                        <td colspan="3" class="align-middle">${result["PERC_THANKS"]}%</td>
+                        <td colspan="3" class="align-middle">${result.PERC_THANKS}%</td>
                     </tr>
                     <tr>
                         <th scope="row">Оценка</th>
-                        <td class="align-middle">${result["CSI"]}</td>
-                        <td class="align-middle">${result["CSI_NORMATIVE"]}</td>
-                        <td class="align-middle">${result["PERC_CSI"]}%</td>
+                        <td class="align-middle">${result.CSI}</td>
+                        <td class="align-middle">${result.CSI_NORMATIVE}</td>
+                        <td class="align-middle">${result.PERC_CSI}%</td>
                     </tr>
                     <tr>
                         <th scope="row">Отклик</th>
-                        <td class="align-middle">${result["CSI_RESPONSE"]}</td>
+                        <td class="align-middle">${result.CSI_RESPONSE}</td>
                         <td class="align-middle">-</td>
                         <td class="align-middle">-</td>
                     </tr>
                     <tr>
                         <th scope="row">FLR</th>
-                        <td class="align-middle">${result["FLR"]}</td>
-                        <td class="align-middle">${result["FLR_NORMATIVE"]}</td>
-                        <td class="align-middle">${result["PERC_FLR"]}%</td>
+                        <td class="align-middle">${result.FLR}</td>
+                        <td class="align-middle">${result.FLR_NORMATIVE}</td>
+                        <td class="align-middle">${result.PERC_FLR}%</td>
                     </tr>
                     <tr>
                         <th scope="row">ГОК</th>
-                        <td class="align-middle">${result["GOK"]}</td>
-                        <td class="align-middle">${result["GOK_NORMATIVE"]}</td>
-                        <td class="align-middle">${result["PERC_GOK"]}%</td>
+                        <td class="align-middle">${result.GOK}</td>
+                        <td class="align-middle">${result.GOK_NORMATIVE}</td>
+                        <td class="align-middle">${result.PERC_GOK}%</td>
                     </tr>
                     <tr>
-                        <th scope="row">АХТ</th>
-                        <td class="align-middle">${result["PERS_FACT"]}</td>
-                        <td class="align-middle">${result["PERS_PLAN_1"]} / ${result["PERS_PLAN_2"]}</td>
-                        <td class="align-middle">${result["PERS_PERCENT"]}%</td>
+                        <th scope="row">СЦ</th>
+                        <td class="align-middle">${result.PERS_FACT || '-'}</td>
+                        <td class="align-middle">${result.PERS_PLAN_1 ? `${result.PERS_PLAN_1} / ${result.PERS_PLAN_2}` : '-'}</td>
+                        <td class="align-middle">${result.PERS_PERCENT}%</td>
                     </tr>
                 </tbody>
             </table>
         `;
 
         loadingSpinner.style.display = 'none';
-        document.getElementById("result-container").innerHTML =
-            DOMPurify.sanitize(tableHTML);
+        document.getElementById("result-container").innerHTML = DOMPurify.sanitize(tableHTML);
     } catch (error) {
         loadingSpinner.style.display = 'none';
         document.getElementById("result-container").innerText =
