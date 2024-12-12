@@ -999,7 +999,7 @@ function copyIP() {
         copyButton.title = 'Копировать IP';
         copyButton.onclick = () => {
             navigator.clipboard.writeText(ip)
-                .then(() => $.notify('IP скопирован', 'success'))
+                .then(() => $.notify('IP-адрес скопирован', 'success'))
                 .catch(err => {
                     console.error('Ошибка копирования IP:', err);
                     $.notify('Не удалось скопировать IP', 'error');
