@@ -3016,6 +3016,12 @@ function hideInformationRows() {
 }
 
 function addToggleInfoButton(container) {
+    // Remove the standalone | symbol if it exists
+    const pipeNodes = Array.from(container.childNodes).filter(node =>
+        node.nodeType === Node.TEXT_NODE && node.textContent.trim() === '|'
+    );
+    pipeNodes.forEach(node => node.remove());
+
     const buttonContainer = document.createElement("div");
     buttonContainer.style.display = "flex";
     buttonContainer.style.marginBottom = "10px";
@@ -3046,14 +3052,24 @@ function addToggleInfoButton(container) {
         toggleButton.setAttribute('data-state', newState);
     });
 
-    const link = document.querySelector('a.not_mobil_tech#lk'); // Get the existing link
-    if (link) {
-        link.textContent = "🚪 ЛК клиента";
-        link.classList.add('btn', 'btn-primary', 'btn-xs'); // Add classes
-        link.style.marginRight = '10px';
-        link.style.textDecoration = 'none'; // Add margin to separate from toggle button
-        buttonContainer.appendChild(link); // Append the link first
-        buttonContainer.appendChild(toggleButton); // Append the toggle button next
+    const linkLK = document.querySelector('a.not_mobil_tech#lk');
+    if (linkLK) {
+        linkLK.textContent = "🚪 ЛК клиента";
+        linkLK.classList.add('btn', 'btn-primary', 'btn-xs');
+        linkLK.style.marginRight = '10px';
+        linkLK.style.textDecoration = 'none';
+        buttonContainer.appendChild(linkLK);
+        buttonContainer.appendChild(toggleButton);
+    }
+
+    const linkSSO = document.querySelector('a.not_mobil_tech#lk_sso');
+    if (linkSSO) {
+        linkSSO.textContent = "🚪 ЛК клиента (SSO)";
+        linkSSO.classList.add('btn', 'btn-primary', 'btn-xs');
+        linkSSO.style.marginRight = '10px';
+        linkSSO.style.textDecoration = 'none';
+        buttonContainer.appendChild(linkSSO);
+        buttonContainer.appendChild(toggleButton);
     }
 
     container.insertBefore(buttonContainer, container.firstChild);
