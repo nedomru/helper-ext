@@ -120,6 +120,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         "ARM_changeRequestFBLF_Self_CameraVN",
         "ARM_changeRequestFBLF_Self_Pult",
         "ARM_changeRequestFBLF_Self_BadPult",
+        "ARM_changeRequestFBLF_Self_Subscriptions",
+        "ARM_changeRequestFBLF_Self_ChangeWiFi",
         "ARM_changeRequestFBLF_FastChat_Accident",
         "ARM_changeRequestFBLF_FastChat_NoDiagnostic",
         "ARM_changeRequestFBLF_FastChat_DZ",

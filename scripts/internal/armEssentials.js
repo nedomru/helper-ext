@@ -1601,7 +1601,9 @@ async function fastButtonsLeftFrame() {
         "ARM_changeRequestFBLF_Closed_CancelSZ",
         "ARM_changeRequestFBLF_FastChat_NoDiagnostic",
         "ARM_changeRequestFBLF_FastChat_DZ",
-        "ARM_changeRequestFBLF_Self_recoverLK"
+        "ARM_changeRequestFBLF_Self_recoverLK",
+        "ARM_changeRequestFBLF_Self_Subscriptions",
+        "ARM_changeRequestFBLF_Self_ChangeWiFi"
     ];
 
     // Получение значений всех настроек
@@ -1860,6 +1862,24 @@ async function fastButtonsLeftFrame() {
             value: "Восстановление ЛК",
             class: "helper helper-button",
             action: handleSS_recoverLK,
+            category: "Самообслуживание",
+        });
+    }
+
+    if (settings[28][settingsKeys[28]]) {
+        buttons.push({
+            value: "Управление подпиской/пакетом",
+            class: "helper helper-button",
+            action: handleSS_Subscriptions,
+            category: "Самообслуживание",
+        });
+    }
+
+    if (settings[29][settingsKeys[29]]) {
+        buttons.push({
+            value: "Изменение Wi-Fi",
+            class: "helper helper-button",
+            action: handleSS_ChangeWiFi,
             category: "Самообслуживание",
         });
     }
@@ -2451,6 +2471,62 @@ async function fastButtonsLeftFrame() {
 
         waitForElement(".comment_text", (substep) => {
             substep.value = "БП Самообслуживание. Приставка не реагирует на пульт";
+            substep.dispatchEvent(changeEvent);
+        });
+    }
+
+    function handleSS_Subscriptions() {
+        const step = document.querySelector(".uni_reas_step");
+        step.value = "2296";
+        step.dispatchEvent(changeEvent);
+
+        waitForElement(".uni_load_obj_reason", (substep) => {
+            substep.value = "1047";
+            substep.dispatchEvent(changeEvent);
+        });
+
+        waitForElement(".uni_load_main_reason", (substep) => {
+            substep.value = "18196";
+            substep.dispatchEvent(changeEvent);
+        });
+
+        waitForElement(".uni_load_child_reason", (substep) => {
+            substep.value = "18199";
+        });
+
+        waitForElement(".comment_text", (substep) => {
+            substep.value = "БП Самообслуживание. Консультация по управлению подпиской/пакетом каналов";
+            substep.dispatchEvent(changeEvent);
+        });
+    }
+
+    function handleSS_ChangeWiFi() {
+        const product = document.querySelector(".uni_reas_prod");
+        if (product.value !== "70") {
+            product.value = "70";
+            product.dispatchEvent(changeEvent);
+        }
+
+        const step = document.querySelector(".uni_reas_step");
+        step.value = "2296";
+        step.dispatchEvent(changeEvent);
+
+        waitForElement(".uni_load_obj_reason", (substep) => {
+            substep.value = "1046";
+            substep.dispatchEvent(changeEvent);
+        });
+
+        waitForElement(".uni_load_main_reason", (substep) => {
+            substep.value = "18298";
+            substep.dispatchEvent(changeEvent);
+        });
+
+        waitForElement(".uni_load_child_reason", (substep) => {
+            substep.value = "18299";
+        });
+
+        waitForElement(".comment_text", (substep) => {
+            substep.value = "БП Самообслуживание. Консультация по смене имени/ключа сети Wi-Fi";
             substep.dispatchEvent(changeEvent);
         });
     }
