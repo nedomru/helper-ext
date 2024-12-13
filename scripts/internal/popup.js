@@ -4,13 +4,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const submitMac = document.getElementById("submit-mac");
     const submitIP = document.getElementById("submit-ip");
     const submitWhois = document.getElementById("submit-whois");
-    const submitSubnetIP = document.getElementById("submit-subnet-ip");
     const submitLink = document.getElementById("submit-link");
     const submitPremium = document.getElementById("submit-premium");
     submitMac.addEventListener("click", handleMacSubmit);
     submitIP.addEventListener("click", handleIPSubmit);
     submitWhois.addEventListener("click", handleWhoisSubmit);
-    submitSubnetIP.addEventListener("click", handleSubnetIPSubmit);
     submitLink.addEventListener("click", handleLinkSubmit);
     submitPremium.addEventListener("click", handlePremiumSubmit);
 
@@ -305,98 +303,6 @@ async function handleWhoisSubmit() {
         loadingSpinner.style.display = 'none';
         document.getElementById("result-container").innerText =
             "Не удалось проверить Whois домена";
-        console.error("Ошибка:", error);
-    }
-}
-
-async function handleSubnetIPSubmit() {
-    document.getElementById("result-container").innerHTML = "";
-    const loadingSpinner = document.getElementById('loadingResultsSpinner');
-
-    const inputField = document.getElementById("input-subnet-ip")
-    let subnet_ip = inputField.value.trim();
-    const domain_regex = new RegExp(
-        "^(?:(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\/(?:3[0-2]|[12]?\\d)$"
-    );
-
-    if (domain_regex.test(subnet_ip) === false) {
-        $.notify("IP некорректный", "error");
-        return;
-    }
-
-    loadingSpinner.style.display = 'block';
-
-    try {
-        const response = await fetch(
-            `https://networkcalc.com/api/ip/${subnet_ip}?binary=false`,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            }
-        );
-        if (response.status !== 200) {
-            $.notify("Не удалось найти", "error");
-            return;
-        }
-
-        const result = await response.json();
-
-        const tableHTML = `
-            <hr class="hr" />
-            <h5>Результаты калькулятора подсети</h5>
-            <a href="https://networkcalc.com/api/ip/${subnet_ip}?binary=false"><i>Полные результаты</i></a>
-            <table class="table table-hover table-bordered table-responsive table-sm">
-                <tbody class="table-group-divider">
-                    <tr>
-                        <th>IP</th>
-                        <td class="align-middle">${subnet_ip}</td>
-                    </tr>
-                    <tr>
-                        <th>CIDR нотация</th>
-                        <td class="align-middle">${result["address"]["cidr_notation"]}</td>
-                    </tr>
-                    <tr>
-                        <th>Биты подсети</th>
-                        <td class="align-middle">${result["address"]["subnet_bits"]}</td>
-                    </tr>
-                    <tr>
-                        <th>Маска подсети</th>
-                        <td class="align-middle">${result["address"]["subnet_mask"]}</td>
-                    </tr>
-                    <tr>
-                        <th>Обратная маска (Wildcard mask)</th>
-                        <td class="align-middle">${result["address"]["wildcard_mask"]}</td>
-                    </tr>
-                    <tr>
-                        <th>Адрес сети</th>
-                        <td class="align-middle">${result["address"]["network_address"]}</td>
-                    </tr>
-                    <tr>
-                        <th>Количество назначаемых узлов</th>
-                        <td class="align-middle">${result["address"]["assignable_hosts"]}</td>
-                    </tr>
-                    <tr>
-                        <th>Первый назначаемый узел</th>
-                        <td class="align-middle">${result["address"]["first_assignable_host"]}</td>
-                    </tr>
-                    <tr>
-                        <th>Последний назначаемый узел</th>
-                        <td class="align-middle">${result["address"]["last_assignable_host"]}</td>
-                    </tr>
-                </tbody>
-            </table>
-        `;
-
-        loadingSpinner.style.display = 'none';
-        document.getElementById("result-container").innerHTML =
-            DOMPurify.sanitize(tableHTML);
-        inputField.value = "";
-    } catch (error) {
-        loadingSpinner.style.display = 'none';
-        document.getElementById("result-container").innerText =
-            "Не удалось посчитать подсеть";
         console.error("Ошибка:", error);
     }
 }
