@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     $('[data-bs-toggle="tooltip"]').tooltip();
     document.getElementById("extension-version").textContent = browser.runtime.getManifest().version;
 
+    document.getElementById("checkUpdates").addEventListener("click", checkForUpdates);
+    document.getElementById("exportSettings").addEventListener("click", exportSettings);
     document.getElementById("exportSettings").addEventListener("click", exportSettings);
     document.getElementById("importSettings").addEventListener("change", importSettings);
     document.getElementById("exportTabs").addEventListener("click", exportTabs);
@@ -409,6 +411,37 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
 });
+
+async function checkForUpdates() {
+    function compareVersions(v1, v2) {
+        const v1Parts = v1.split(".").map(Number);
+        const v2Parts = v2.split(".").map(Number);
+        for (let i = 0; i < Math.max(v1Parts.length, v2Parts.length); i++) {
+            const v1Part = v1Parts[i] || 0;
+            const v2Part = v2Parts[i] || 0;
+            if (v1Part < v2Part) return -1; // v1 меньше v2
+            if (v1Part > v2Part) return 1; // v1 больше v2
+        }
+        return 0; // версии равны
+    }
+
+    const response = await fetch(
+        "https://api.github.com/repos/AuthFailed/domru-helper/releases/latest"
+    );
+
+    const data = await response.json();
+
+    const latestVersion = data.tag_name;
+    const currentVersion = browser.runtime.getManifest().version;
+
+    if (compareVersions(latestVersion, currentVersion) > 0) {
+        await browser.tabs.create({
+            url: browser.runtime.getURL("pages/update.html"),
+        });
+    } else {
+        $.notify("Обновлений нет")
+    }
+}
 
 function onError(error) {
     console.log(
