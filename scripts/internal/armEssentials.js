@@ -860,7 +860,7 @@ function copyMAC() {
             event.preventDefault();
             event.stopPropagation();
             try {
-                await navigator.clipboard.writeText(macAddress);
+                await copyText(macAddress);
                 console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Копирование] - MAC адрес успешно скопирован`);
                 $.notify('MAC-адрес скопирован', 'success');
             } catch (error) {
@@ -998,7 +998,7 @@ function copyIP() {
         copyButton.classList.add("helper-button", "helper-button-left");
         copyButton.title = 'Копировать IP';
         copyButton.onclick = () => {
-            navigator.clipboard.writeText(ip)
+            copyText(ip)
                 .then(() => $.notify('IP-адрес скопирован', 'success'))
                 .catch(err => {
                     console.error('Ошибка копирования IP:', err);
