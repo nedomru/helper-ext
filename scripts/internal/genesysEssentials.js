@@ -284,7 +284,6 @@ DHCP: ${data.availQueues[0][3].currentWaitingCalls} / ${data.availQueues[0][3].t
 ---
 Тикеты:
 Email: ${data.availQueues[0][6].currentWaitingCalls} / ${data.availQueues[0][6].totalEnteredCalls}
-LK: ${data.availQueues[0][7].currentWaitingCalls} / ${data.availQueues[0][7].totalEnteredCalls}
 ---
 Переливы:
 Mobile: ${data.availQueues[1][0].currentWaitingCalls} / ${data.availQueues[1][0].totalEnteredCalls}
@@ -312,7 +311,7 @@ Web: ${data.availQueues[1][1].currentWaitingCalls} / ${data.availQueues[1][1].to
             lineStats.style.backgroundColor = "#909ea6";
             setTimeout(() => lineStats.style.backgroundColor = "#4c5961", 300);
         }
-
+console.log(data.availQueues)
         const tooltipMessage = `Статистика НЦК2 за день
 
 Чаты:
@@ -322,7 +321,6 @@ SmartDom: ${data.availQueues[2][2].currentWaitingCalls} / ${data.availQueues[2][
 ---
 Тикеты:
 Email: ${data.availQueues[2][6].currentWaitingCalls} / ${data.availQueues[2][6].totalEnteredCalls}
-LK: ${data.availQueues[2][7].currentWaitingCalls} / ${data.availQueues[2][7].totalEnteredCalls}
 ---
 Переливы:
 Mobile: ${data.availQueues[3][0].currentWaitingCalls} / ${data.availQueues[3][0].totalEnteredCalls}
