@@ -1975,7 +1975,6 @@ async function fastButtonsLeftFrame() {
           font-weight: 500;
           line-height: 20px;
           list-style: none;
-          padding: 5px 5px;
           position: relative;
           transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
           user-select: none;
