@@ -1000,11 +1000,7 @@ function copyIP() {
         copyButton.title = 'Копировать IP';
         copyButton.onclick = () => {
             copyText(ip)
-                .then(() => $.notify('IP-адрес скопирован', 'success'))
-                .catch(err => {
-                    console.error('Ошибка копирования IP:', err);
-                    $.notify('Не удалось скопировать IP', 'error');
-                });
+            $.notify('IP-адрес скопирован', 'success')
         };
 
         const checkButton = document.createElement('button');
