@@ -2815,9 +2815,13 @@ function initFilterClientSessions() {
     const updateCountDisplay = (reasonCounts) => {
         if (!countDisplay) return;
 
+        // Sort the reasons by count in descending order
         const sortedReasons = Object.entries(reasonCounts).sort(
-            (a, b) => b[1] - a[1],
+            (a, b) => b[1] - a[1]
         );
+
+        // Calculate total count
+        const totalCount = Object.values(reasonCounts).reduce((sum, count) => sum + count, 0);
 
         countDisplay.innerHTML = `
         <table style="width:100%; border-collapse: collapse;">
@@ -2831,13 +2835,17 @@ function initFilterClientSessions() {
                 ${sortedReasons
             .map(
                 ([reason, count]) => `
-                    <tr>
-                        <td style="border: 1px solid black; padding: 5px;">${reason}</td>
-                        <td style="border: 1px solid black; padding: 5px;">${count}</td>
-                    </tr>
-                `,
+                            <tr>
+                                <td style="border: 1px solid black; padding: 5px;">${reason}</td>
+                                <td style="border: 1px solid black; padding: 5px;">${count}</td>
+                            </tr>
+                        `
             )
             .join("")}
+                <tr>
+                    <td style="border: 1px solid black; padding: 5px; font-weight: bold;">Всего разрывов:</td>
+                    <td style="border: 1px solid black; padding: 5px; font-weight: bold;">${totalCount}</td>
+                </tr>
             </tbody>
         </table>
     `;
