@@ -157,6 +157,7 @@ if (
         );
     });4
     searchByLog()
+    searchByFlag()
 }
 
 if (
@@ -3768,4 +3769,74 @@ function searchByLog() {
             console.error(`[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Ошибка:`, error);
         }
     }).observe(document.body, {childList: true, subtree: true});
+}
+
+function searchByFlag() {
+    // Create the observer and store its reference
+    const observer = new MutationObserver(mutations => {
+        const container = document.getElementById('lazy_content_2416');
+        const flagTable = container?.querySelector('.table-flag-agr');
+        if (!flagTable) return;
+
+        try {
+            // Check if search field already exists to avoid duplicates
+            if (!document.getElementById('flagSearchField')) {
+                // Create search wrapper with label
+                const searchWrapper = document.createElement('div');
+                searchWrapper.style.cssText = 'margin: 10px 0; display: flex; align-items: center; gap: 10px;';
+
+                const searchField = document.createElement('input');
+                searchField.id = 'flagSearchField';
+                searchField.type = 'text';
+                searchField.placeholder = 'Поиск по свойствам...';
+                searchField.className = 'form-control';
+                searchField.style.cssText = 'width: 15%; padding: 6px; border: 1px solid #ddd; border-radius: 4px;';
+
+                searchWrapper.appendChild(searchField);
+
+                // Insert search wrapper before the flag table
+                const buttonContainer = container.querySelector('.dialog_agr_flag').parentNode;
+                buttonContainer.appendChild(searchWrapper);
+
+                // Add search functionality
+                searchField.addEventListener('input', function(e) {
+                    const searchValue = e.target.value.toLowerCase();
+                    const table = flagTable.querySelector('table');
+                    if (!table) return;
+
+                    const rows = table.getElementsByTagName('tr');
+
+                    // Start from index 1 to skip header row
+                    for (let i = 1; i < rows.length; i++) {
+                        const row = rows[i];
+                        const cells = row.getElementsByTagName('td');
+                        let rowText = '';
+
+                        // Concatenate all cell text in the row
+                        for (let j = 0; j < cells.length; j++) {
+                            rowText += cells[j].textContent.toLowerCase() + ' ';
+                        }
+
+                        // Show/hide row based on search match
+                        if (rowText.includes(searchValue)) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    }
+                });
+
+                // Disconnect observer once search field is added
+                observer.disconnect();
+            }
+        } catch (error) {
+            console.error(`[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Признаки] Ошибка:`, error);
+        }
+    });
+
+    // Start observing the target node
+    observer.observe(document.getElementById('lazy_content_2416') || document.body, {
+        childList: true,
+        subtree: true
+    });
 }
