@@ -32,13 +32,6 @@ document.addEventListener("DOMContentLoaded", function () {
         window.open("https://pay.cloudtips.ru/p/787b494c", "_blank");
         window.close();
     });
-    document
-        .getElementById("openGames")
-        .addEventListener("click", function () {
-            const gamesURL = chrome.runtime.getURL("pages/games.html");
-            window.open(gamesURL, "_blank");
-            window.close();
-        });
 
     document
         .getElementById("searchProvider")
