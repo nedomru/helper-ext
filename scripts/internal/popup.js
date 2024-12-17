@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
             window.close();
         });
     document.getElementById("openPlaner").addEventListener("click", function () {
-        window.open("https://planer.chrsnv.ru/spaces/issues/cbf00707a032422ba298ed826021855f", "_blank");
+        window.open("https://planer.chrsnv.ru/spaces/issues/5aeb4b5fbfa349c5a4bd0d4897c807d3", "_blank");
         window.close();
     });
     document.getElementById("openDonate").addEventListener("click", function () {
