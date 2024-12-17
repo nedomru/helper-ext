@@ -2843,7 +2843,7 @@ function initFilterClientSessions() {
             )
             .join("")}
                 <tr>
-                    <td style="border: 1px solid black; padding: 5px; font-weight: bold;">Всего разрывов:</td>
+                    <td style="border: 1px solid black; padding: 5px; font-weight: bold;">Всего разрывов</td>
                     <td style="border: 1px solid black; padding: 5px; font-weight: bold;">${totalCount}</td>
                 </tr>
             </tbody>
