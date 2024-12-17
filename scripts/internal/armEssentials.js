@@ -155,10 +155,12 @@ if (
         console.log(
             `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Предвосхищение] Предвосхищение загружено`,
         );
-    });4
+    });
+    4
     searchByLog()
     searchByFlag()
     searchByAppeal()
+    autoFormatEQMMacs()
 }
 
 if (
@@ -3748,7 +3750,7 @@ function searchByAppeal() {
                 }
 
                 // Add search functionality
-                searchField.addEventListener('input', function(e) {
+                searchField.addEventListener('input', function (e) {
                     const searchValue = e.target.value.toLowerCase();
                     const tables = container.querySelectorAll('.tab-pane table');
 
@@ -3832,7 +3834,7 @@ function searchByLog() {
                 container.parentNode.insertBefore(searchField, container);
 
                 // Add search functionality
-                searchField.addEventListener('input', function(e) {
+                searchField.addEventListener('input', function (e) {
                     const searchValue = e.target.value.toLowerCase();
                     const table = container.querySelector('table');
                     const rows = table.getElementsByTagName('tr');
@@ -3892,7 +3894,7 @@ function searchByFlag() {
                 buttonContainer.appendChild(searchWrapper);
 
                 // Add search functionality
-                searchField.addEventListener('input', function(e) {
+                searchField.addEventListener('input', function (e) {
                     const searchValue = e.target.value.toLowerCase();
                     const table = flagTable.querySelector('table');
                     if (!table) return;
@@ -3931,5 +3933,65 @@ function searchByFlag() {
     observer.observe(document.getElementById('lazy_content_2416') || document.body, {
         childList: true,
         subtree: true
+    });
+}
+
+function autoFormatEQMMacs() {
+    new MutationObserver(mutations => {
+        const container = document.getElementById('lazy_content_2507');
+        if (!container?.textContent) return;
+
+        try {
+            // Process all text nodes in the container that contain MAC addresses
+            const walker = document.createTreeWalker(
+                container,
+                NodeFilter.SHOW_TEXT,
+                {
+                    acceptNode: node => {
+                        // Only process text nodes that contain MAC-like patterns
+                        return /[0-9A-F]{2}[-:][0-9A-F]{2}[-:][0-9A-F]{2}[-:][0-9A-F]{2}[-:][0-9A-F]{2}[-:][0-9A-F]{2}/i.test(node.textContent)
+                            ? NodeFilter.FILTER_ACCEPT
+                            : NodeFilter.FILTER_SKIP;
+                    }
+                },
+                false
+            );
+
+            let currentNode;
+            while (currentNode = walker.nextNode()) {
+                const originalText = currentNode.textContent;
+
+                // Replace MAC addresses using hyphens with colon format
+                const newText = originalText.replace(
+                    /([0-9A-F]{2})[-:]([0-9A-F]{2})[-:]([0-9A-F]{2})[-:]([0-9A-F]{2})[-:]([0-9A-F]{2})[-:]([0-9A-F]{2})/gi,
+                    (match, p1, p2, p3, p4, p5, p6) => {
+                        // Preserve original case while ensuring colons as separators
+                        return `${p1}:${p2}:${p3}:${p4}:${p5}:${p6}`;
+                    }
+                );
+
+                // Only update if changes were made
+                if (originalText !== newText) {
+                    currentNode.textContent = newText;
+                }
+            }
+
+            // Also process MAC addresses in input fields with specific attributes
+            const macInputs = container.querySelectorAll('input[readonly][value*="-"]');
+            macInputs.forEach(input => {
+                const macValue = input.value;
+                if (macValue.includes('-')) {
+                    input.value = macValue.replace(/-/g, ':');
+                }
+            });
+
+        } catch (error) {
+            console.error(`[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Ошибка:`, error);
+        }
+    }).observe(document.body, {
+        childList: true,
+        subtree: true,
+        characterData: true,
+        attributeFilter: ['value'] // Also watch for changes to input values
     });
 }
