@@ -155,6 +155,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         "ARM_copyClientAddressWithoutCity",
         "ARM_highlightRequestsClasses",
         "ARM_filterClientSessions",
+        "ARM_removeUselessDiagTabs",
         "LINE_highlightOperators",
         "LINE_dutyButtons",
         "LINE_showFB",

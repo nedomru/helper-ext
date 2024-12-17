@@ -53,6 +53,7 @@ async function setDefaults() {
         ARM_showAgreementOnChange: true,
         ARM_highlightRequestsClasses: true,
         ARM_filterClientSessions: true,
+        ARM_removeUselessDiagTabs: true,
         LINE_showFB: true,
         LINE_showFB_Mail: true,
         LINE_showFB_Lunch: true,

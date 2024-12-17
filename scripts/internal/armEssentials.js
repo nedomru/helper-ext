@@ -117,7 +117,8 @@ if (
         ARM_hideInfoTabRows: hideInformationRows,
         ARM_hideRequests: handleServiceRequests,
         ARM_hideAppeals: initAppealsTable,
-        ARM_checkPaidHelp: paidHelpTrue
+        ARM_checkPaidHelp: paidHelpTrue,
+        ARM_removeUselessDiagTabs: removeDiagnosticTabs
     };
 
     browser.storage.sync.get(Object.keys(TABS_config)).then((result) => {
@@ -3205,7 +3206,7 @@ function handleServiceRequests() {
                         button.setAttribute('data-state', 'hidden');
                         button.textContent = `▶️ Развернуть шаги (${middleRows.length})`;
 
-                        button.addEventListener('click', function(e) {
+                        button.addEventListener('click', function (e) {
                             e.preventDefault();
                             const isHidden = this.getAttribute('data-state') === 'hidden';
                             const newState = isHidden ? 'visible' : 'hidden';
@@ -3397,7 +3398,7 @@ function initAppealsTable() {
         } catch (error) {
             console.error(`[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Ошибка:`, error);
         }
-    }).observe(document.body, { childList: true, subtree: true });
+    }).observe(document.body, {childList: true, subtree: true});
 }
 
 async function allowCopy() {
@@ -3637,4 +3638,20 @@ function addMassCompensationButton() {
             cell.appendChild(button);
         }
     });
+}
+
+function removeDiagnosticTabs() {
+    new MutationObserver(mutations => {
+        const container = document.getElementById('lazy_content_2507');
+        if (!container?.textContent) return;
+
+        try {
+            $('a[href="#diagTelephony"]').remove();
+            $('a[href="#dataRecovery"]').remove();
+            $('a[href="#diagSpas"]').remove();
+            $('a[href*="novotelecom"][href*="aboncard"]').remove();
+        } catch (error) {
+            console.error(`[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Ошибка:`, error);
+        }
+    }).observe(document.body, {childList: true, subtree: true});
 }
