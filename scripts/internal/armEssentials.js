@@ -118,7 +118,8 @@ if (
         ARM_hideRequests: handleServiceRequests,
         ARM_hideAppeals: initAppealsTable,
         ARM_checkPaidHelp: paidHelpTrue,
-        ARM_removeUselessDiagTabs: removeDiagnosticTabs
+        ARM_removeUselessDiagTabs: removeDiagnosticTabs,
+        ARM_removeUselessAppealsColumns: removeAppealsColumns
     };
 
     browser.storage.sync.get(Object.keys(TABS_config)).then((result) => {
@@ -3654,6 +3655,62 @@ function removeDiagnosticTabs() {
             $('a[href="#dataRecovery"]').remove();
             $('a[href="#diagSpas"]').remove();
             $('a[href*="novotelecom"][href*="aboncard"]').remove();
+        } catch (error) {
+            console.error(`[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Ошибка:`, error);
+        }
+    }).observe(document.body, {childList: true, subtree: true});
+}
+
+function removeAppealsColumns() {
+    new MutationObserver(mutations => {
+        const container = document.getElementById('lazy_content_2448');
+        if (!container?.textContent) return;
+
+        try {
+            const table = document.querySelector('table');
+            if (!table) return;
+
+            const tables = document.querySelectorAll('table');
+
+            tables.forEach(table => {
+                // Get all rows
+                const rows = table.querySelectorAll('tr');
+                if (!rows.length) return;
+
+                // Get the header row (first row)
+                const headerRow = rows[0];
+                const headers = Array.from(headerRow.querySelectorAll('th'));
+
+                // Find indexes of columns to remove by matching header text
+                const columnsToRemove = ['Оборудование', 'Продукт', 'Платформа', 'Исполнитель'];
+                const indexesToRemove = [];
+
+                headers.forEach((header, index) => {
+                    const headerText = header.textContent.trim();
+                    if (columnsToRemove.includes(headerText)) {
+                        indexesToRemove.push(index);
+                    }
+                });
+
+                // Sort indexes in descending order to avoid shifting issues
+                indexesToRemove.sort((a, b) => b - a);
+
+                // Remove the columns from each row
+                rows.forEach(row => {
+                    const cells = Array.from(row.cells);
+                    indexesToRemove.forEach(index => {
+                        if (cells[index]) {
+                            cells[index].remove();
+                        }
+                    });
+                });
+
+                // Update colspan for any header rows that span the full table width
+                const fullWidthHeaders = table.querySelectorAll('td[colspan="14"]');
+                fullWidthHeaders.forEach(header => {
+                    header.setAttribute('colspan', '10'); // 14 - 4 removed columns = 10
+                });
+            });
         } catch (error) {
             console.error(`[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Ошибка:`, error);
         }
