@@ -155,7 +155,8 @@ if (
         console.log(
             `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Предвосхищение] Предвосхищение загружено`,
         );
-    });
+    });4
+    searchByLog()
 }
 
 if (
@@ -3711,6 +3712,58 @@ function removeAppealsColumns() {
                     header.setAttribute('colspan', '10'); // 14 - 4 removed columns = 10
                 });
             });
+        } catch (error) {
+            console.error(`[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Ошибка:`, error);
+        }
+    }).observe(document.body, {childList: true, subtree: true});
+}
+
+function searchByLog() {
+    new MutationObserver(mutations => {
+        const container = document.getElementById('clientlog');
+        if (!container?.textContent) return;
+
+        try {
+            // Check if search field already exists to avoid duplicates
+            if (!document.getElementById('logSearchField')) {
+                // Create search field
+                const searchField = document.createElement('input');
+                searchField.id = 'logSearchField';
+                searchField.type = 'text';
+                searchField.placeholder = 'Поиск по логам...';
+                searchField.className = 'form-control';
+                searchField.style.cssText = 'margin: 10px 0; width: 15%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;';
+
+                // Insert search field before the table
+                container.parentNode.insertBefore(searchField, container);
+
+                // Add search functionality
+                searchField.addEventListener('input', function(e) {
+                    const searchValue = e.target.value.toLowerCase();
+                    const table = container.querySelector('table');
+                    const rows = table.getElementsByTagName('tr');
+
+                    // Start from index 1 to skip header row
+                    for (let i = 1; i < rows.length; i++) {
+                        const row = rows[i];
+                        const cells = row.getElementsByTagName('td');
+                        let rowText = '';
+
+                        // Concatenate all cell text in the row
+                        for (let j = 0; j < cells.length; j++) {
+                            rowText += cells[j].textContent.toLowerCase() + ' ';
+                        }
+
+                        // Show/hide row based on search match
+                        if (rowText.includes(searchValue)) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    }
+                });
+            }
+
         } catch (error) {
             console.error(`[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Ошибка:`, error);
         }
