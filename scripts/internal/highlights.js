@@ -3,7 +3,7 @@ let intervalId;
 
 if (document.URL.indexOf("db.ertelecom.ru/cgi-bin") !== -1) {
     const config = {
-        ARM_highlightRequestsClasses: highlightClasses,
+        ARM_highlightRequestsClasses: initHighlighting,
     };
 
     browser.storage.sync.get(Object.keys(config)).then((result) => {
@@ -13,12 +13,6 @@ if (document.URL.indexOf("db.ertelecom.ru/cgi-bin") !== -1) {
             }
         });
     });
-
-    function highlightClasses() {
-        getHighlightColors(() => {
-            setInterval(highlightRequestsTab, 1000);
-        });
-    }
 }
 
 // Подсветка классификаторов на вкладке Изменения обращений
@@ -63,71 +57,103 @@ function getHighlightColors(callback) {
 }
 
 function highlightText(element) {
-    let text = element.innerText;
+    const text = element.innerText;
 
-    Object.entries(dataToHighlight).forEach(([textToFind, color]) => {
+    // First check for warranty date to avoid multiple innerHTML updates
+    const warrantyMatch = text.match(/гарантийный срок до (\d{2}\.\d{2}\.\d{4})/);
+    if (warrantyMatch) {
+        const date = new Date(warrantyMatch[1].split(".").reverse().join("-"));
+        const currentDate = new Date();
+        const color = date > currentDate ? "green" : "red";
+        element.innerHTML = text.replace(
+            warrantyMatch[1],
+            `<span style="color: ${color}; font-weight: bold;">${warrantyMatch[1]}</span>`
+        );
+        return;
+    }
+
+    // Then check for highlight texts
+    for (const [textToFind, color] of Object.entries(dataToHighlight)) {
         if (text.includes(textToFind)) {
-            const span = document.createElement("span");
-            span.style.color = color;
-            span.style.fontWeight = "bold";
-            span.textContent = textToFind;
-            element.innerHTML = text.replace(textToFind, span.outerHTML);
+            element.innerHTML = text.replace(
+                textToFind,
+                `<span style="color: ${color}; font-weight: bold;">${textToFind}</span>`
+            );
+            return;
         }
-    });
-
-    let dateRegex = /\d{2}\.\d{2}\.\d{4}/;
-    let match = text.match(dateRegex);
-    if (text.includes("гарантийный срок до") && match) {
-        let date = new Date(match[0].split(".").reverse().join("-"));
-        let currentDate = new Date();
-
-        let span = document.createElement("span");
-        span.style.color = date > currentDate ? "green" : "red";
-        span.style.fontWeight = "bold";
-        span.textContent = match[0];
-        element.innerHTML = text.replace(match[0], span.outerHTML);
     }
 }
 
-async function highlightRequestsTab() {
-    const settings = await browser.storage.sync.get("ARM_removeUselessAppealsColumns");
-    const removeColumns = settings.ARM_removeUselessAppealsColumns;
+async function initHighlighting() {
+    // Get initial colors
+    await getHighlightColors();
 
-    const rows = document.querySelectorAll("tr");
-    rows.forEach((row) => {
-        const cells = row.querySelectorAll("td");
+    // Create observer for both appeals containers
+    new MutationObserver(async (mutations) => {
+        try {
+            const settings = await browser.storage.sync.get("ARM_removeUselessAppealsColumns");
+            const removeColumns = settings.ARM_removeUselessAppealsColumns;
+            const minLength = removeColumns ? 9 : 10;
+            const problemColumnIndex = removeColumns ? 9 : 10;
 
-        // Set minimum required length based on column removal status
-        const minLength = removeColumns ? 9 : 10;
-        if (cells.length <= minLength) return; // Skip if not enough cells
+            // Check both containers
+            const appealsContainer = document.getElementById('lazy_content_2448');
+            const warrantyContainer = document.getElementById('lazy_content_801');
 
-        let classProblemColumnNumber = removeColumns ? 9 : 10;
+            // Process appeals container
+            if (appealsContainer?.textContent) {
+                appealsContainer.querySelectorAll('table tr').forEach(row => {
+                    const cells = row.querySelectorAll("td");
+                    if (cells.length <= minLength) return;
 
-        // Get cells with null checks
-        const problemCell = cells[classProblemColumnNumber];
-        const stageCell = cells[2];
-        const warrantyCell = cells[5];
+                    const problemCell = cells[problemColumnIndex];
+                    const stageCell = cells[2];
+                    const warrantyCell = cells[5];
 
-        // Only proceed if all required cells exist
-        if (!problemCell || !stageCell || !warrantyCell) return;
+                    if (!problemCell?.textContent ||
+                        !stageCell?.textContent ||
+                        !warrantyCell?.textContent) return;
 
-        // Check if already highlighted
-        if (
-            problemCell.classList.contains("helper-highlighted") ||
-            stageCell.classList.contains("helper-highlighted") ||
-            warrantyCell.classList.contains("helper-highlighted")
-        ) {
-            clearInterval(intervalId);
-            return;
+                    // Skip if already highlighted
+                    if (problemCell.classList.contains("helper-highlighted") ||
+                        stageCell.classList.contains("helper-highlighted") ||
+                        warrantyCell.classList.contains("helper-highlighted")) return;
+
+                    // Highlight cells
+                    highlightText(stageCell);
+                    highlightText(problemCell);
+                    problemCell.classList.add("helper-highlighted");
+
+                    highlightText(warrantyCell);
+                    warrantyCell.classList.add("helper-highlighted");
+                });
+            }
+
+            // Process warranty container
+            if (warrantyContainer?.textContent) {
+                warrantyContainer.querySelectorAll('table tr').forEach(row => {
+                    const cells = row.querySelectorAll("td");
+                    if (cells.length < 6) return;
+
+                    const warrantyCell = cells[5];
+                    if (!warrantyCell?.textContent) return;
+
+                    // Skip if already highlighted
+                    if (warrantyCell.classList.contains("helper-highlighted")) return;
+
+                    // Highlight warranty cell
+                    highlightText(warrantyCell);
+                    warrantyCell.classList.add("helper-highlighted");
+                });
+            }
+
+        } catch (error) {
+            console.error(`[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Подсветка] Ошибка:`, error);
         }
-
-        // Highlight cells
-        highlightText(stageCell);
-        highlightText(problemCell);
-        problemCell.classList += "helper-highlighted";
-
-        highlightText(warrantyCell);
-        warrantyCell.classList += "helper-highlighted";
+    }).observe(document.body, {
+        childList: true,
+        subtree: true,
+        characterData: true
     });
 }
 
