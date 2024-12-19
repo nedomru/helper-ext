@@ -117,6 +117,7 @@ if (
         ARM_hideInfoTabRows: hideInformationRows,
         ARM_hideRequests: handleServiceRequests,
         ARM_hideAppeals: initAppealsTable,
+        ARM_hideConnectionRequests: handleConnectionRequests,
         ARM_checkPaidHelp: paidHelpTrue,
         ARM_removeUselessDiagTabs: removeDiagnosticTabs,
         ARM_removeUselessAppealsColumns: removeAppealsColumns
@@ -3291,6 +3292,106 @@ function handleServiceRequests() {
         }
     });
 
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+        characterData: false,
+        attributes: false
+    });
+}
+
+function handleConnectionRequests() {
+    const observer = new MutationObserver((mutations) => {
+        const requestsContainer = document.getElementById('lazy_content_802');
+        if (!requestsContainer?.textContent) return;
+
+        // Check if container is already processed to avoid duplicate processing
+        if (requestsContainer.getAttribute('processed-by-helper') === "true") return;
+
+        try {
+            // Get all tables in the container
+            const tables = requestsContainer.querySelectorAll('table.border');
+
+            tables.forEach(table => {
+                // Get all rows except header
+                const rows = Array.from(table.querySelectorAll('tbody tr'));
+                if (rows.length < 2) return;
+
+                // Get first and last rows
+                const firstRow = rows[0];
+                const lastRow = rows[rows.length - 1];
+                const middleRows = rows.slice(1, -1);
+
+                // Keep first and last rows visible
+                firstRow.style.display = 'table-row';
+                lastRow.style.display = 'table-row';
+
+                // Generate unique ID for this request
+                const requestId = Math.random().toString(36).substr(2, 9);
+
+                // Hide middle rows and add data attribute
+                middleRows.forEach(row => {
+                    row.style.display = 'none';
+                    row.setAttribute('data-request-id', requestId);
+                });
+
+                // Only create toggle button if there are hidden rows
+                if (middleRows.length > 0) {
+                    const buttonRow = document.createElement('tr');
+                    buttonRow.style.backgroundColor = "#f8f9fa";
+
+                    const buttonCell = document.createElement('td');
+                    buttonCell.colSpan = table.rows[0].cells.length;
+                    buttonCell.style.padding = '0';
+
+                    const button = document.createElement('a');
+                    button.href = '#';
+                    button.style.cssText = 'cursor:pointer; color:#0d6efd; text-decoration:none; padding:5px; display:block; text-align:center;';
+                    button.setAttribute('data-state', 'hidden');
+                    button.textContent = `▶️ Развернуть шаги (${middleRows.length})`;
+
+                    // Add click handler
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const isHidden = this.getAttribute('data-state') === 'hidden';
+                        const newState = isHidden ? 'visible' : 'hidden';
+
+                        // Toggle visibility of associated rows
+                        const rows = document.querySelectorAll(`[data-request-id="${requestId}"]`);
+                        rows.forEach(row => {
+                            row.style.display = newState === 'visible' ? 'table-row' : 'none';
+                        });
+
+                        // Update button state and text
+                        this.setAttribute('data-state', newState);
+                        this.textContent = newState === 'visible'
+                            ? '🔽 Свернуть шаги'
+                            : `▶️ Развернуть шаги (${middleRows.length})`;
+                    });
+
+                    buttonCell.appendChild(button);
+                    buttonRow.appendChild(buttonCell);
+
+                    // Insert button row after first row
+                    firstRow.parentNode.insertBefore(buttonRow, firstRow.nextSibling);
+                }
+            });
+
+            // Mark container as processed
+            requestsContainer.setAttribute('processed-by-helper', "true");
+            console.log(
+                `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Заявки] Обработка заявок завершена`
+            );
+
+        } catch (error) {
+            console.error(
+                `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Заявки] Ошибка:`,
+                error
+            );
+        }
+    });
+
+    // Start observing document with configuration
     observer.observe(document.body, {
         childList: true,
         subtree: true,
