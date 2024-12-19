@@ -521,7 +521,7 @@ async function copyClientAddress() {
         address_text = document.getElementById("dr").innerText;
     } catch (e) {
         console.warn(
-            `[Хелпер] - [АРМ] - [Копирование адреса] Не найдено поле адреса для копирования`,
+            `[Хелпер] - [АРМ] - [Копирование адреса] Не найден адрес клиента`,
         );
         return;
     }
@@ -629,7 +629,7 @@ async function sendClientCardExample() {
         clientCardShowButton.click();
     } catch (e) {
         console.warn(
-            `[Хелпер] - [АРМ] - [Копирование карточки] Не найдена карточка клиента`,
+            `[Хелпер] - [АРМ] - [Отправка примеров] Не найдена карточка клиента`,
         );
         return;
     }
