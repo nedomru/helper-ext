@@ -13,7 +13,7 @@ if (document.URL.indexOf("genesys-ntp") !== -1) {
   browser.storage.sync.set(
     { phpSessionId: getCookie("PHPSESSID") },
     function () {
-      console.info(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Линия] - Сохранен текущий PHPSESSID`)
+      console.info(`[Хелпер] - [Генезис] - [Линия] - Сохранен текущий PHPSESSID`)
     }
   );
 
@@ -103,7 +103,7 @@ function dutyButtons() {
         observer.disconnect(); // Отключаем наблюдатель после добавления кнопок
 
         console.info(
-          `[${new Date().toLocaleTimeString()}] [Хелпер] - [Линия] - [Кнопки дежурных] Добавлены кнопки дежурного`
+          `[Хелпер] - [Линия] - [Кнопки дежурных] Добавлены кнопки дежурного`
         );
       }
     }
@@ -238,13 +238,13 @@ async function fastButtons() {
     `;
   document.head.appendChild(styleSheet);
 
-  console.info(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Линия] - [Быстрые кнопки] Добавлены быстрые кнопки на линию`);
+  console.info(`[Хелпер] - [Линия] - [Быстрые кнопки] Добавлены быстрые кнопки на линию`);
 }
 
 // Подсветка операторов с определенными классами на линии
 function highlightOperators() {
   console.info(
-      `[${new Date().toLocaleTimeString()}] [Хелпер] - [Линия] - [Подсветка операторов] Активирован модуль подсветки`
+      `[Хелпер] - [Линия] - [Подсветка операторов] Активирован модуль подсветки`
   );
 
   const STATUSES = {
@@ -379,7 +379,7 @@ function createLinkTab(id, href, iconClass, textContent) {
     getSL();
   }, 10000);
   console.info(
-    `[${new Date().toLocaleTimeString()}] [Хелпер] - [Линия] - [Прогноз SL] Загружен модуль прогнозирования SL`
+    `[Хелпер] - [Линия] - [Прогноз SL] Загружен модуль прогнозирования SL`
   );
   const url = `https://okc.ertelecom.ru/stats/genesys-reports/ntp/get-sl-forecast-report`;
   const now = new Date();
@@ -448,12 +448,12 @@ function createLinkTab(id, href, iconClass, textContent) {
 Нужно держать ${data.daySl.NeededSl} SL
 Прогноз SL: ${half_time_data["FORECAST_SL"]}`;
         console.info(
-          `[${new Date().toLocaleTimeString()}] [Хелпер] - [Линия] - [Прогноз SL] Обновлен прогноз SL`
+          `[Хелпер] - [Линия] - [Прогноз SL] Обновлен прогноз SL`
         );
       })
       .catch((error) => {
         console.error(
-          `[${new Date().toLocaleTimeString()}] [Хелпер] - [Линия] - [Прогноз SL] Ошибка: ${error}. Прогноз отключен.`
+          `[Хелпер] - [Линия] - [Прогноз SL] Ошибка: ${error}. Прогноз отключен.`
         );
         $.notify("Не удалось получить прогноз SL. Прогноз отключен.");
         clearInterval(interval);
@@ -465,7 +465,7 @@ function createLinkTab(id, href, iconClass, textContent) {
 
 function countAppointments() {
   console.info(
-      `[${new Date().toLocaleTimeString()}] [Хелпер] - [Линия] - [Подсчет назначений] Активирован модуль подсчета`
+      `[Хелпер] - [Линия] - [Подсчет назначений] Активирован модуль подсчета`
   );
 
   const APPOINTMENT_TYPES = {
@@ -561,7 +561,7 @@ function countAppointments() {
 }
 
 function highlightEndingAppointments() {
-  console.info(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Линия] - [Подсветка назначений] Активирован модуль подсветки`);
+  console.info(`[Хелпер] - [Линия] - [Подсветка назначений] Активирован модуль подсветки`);
 
   const THIRTY_MINUTES = 30 * 60 * 1000;
   let updateTimeout = null;

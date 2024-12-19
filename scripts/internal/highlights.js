@@ -148,7 +148,7 @@ async function initHighlighting() {
             }
 
         } catch (error) {
-            console.error(`[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Подсветка] Ошибка:`, error);
+            console.error(`[Хелпер] - [АРМ] - [Подсветка] Ошибка:`, error);
         }
     }).observe(document.body, {
         childList: true,

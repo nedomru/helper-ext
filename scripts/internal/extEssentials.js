@@ -91,12 +91,12 @@ async function setDefaults() {
         })
         .then(() => {
             console.info(
-                `[${new Date().toLocaleTimeString()}] [Хелпер] - [Настройки] Базовые настройки установлены`
+                `[Хелпер] - [Настройки] Базовые настройки установлены`
             )
         })
         .catch((error) => {
             console.error(
-                `[${new Date().toLocaleTimeString()}] [Хелпер] - [Настройки] Ошибка установки настроек: ` + error)
+                `[Хелпер] - [Настройки] Ошибка установки настроек: ` + error)
         });
 }
 

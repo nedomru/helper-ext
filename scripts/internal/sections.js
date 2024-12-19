@@ -169,7 +169,7 @@ async function fetchMNA(cachedOnly = false) {
         if (data) {
             displayMNAData(data);
             console.info(
-                `[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] - [Провайдеры] Список провайдеров загружен из кеша`
+                `[Хелпер] - [Общее] - [Провайдеры] Список провайдеров загружен из кеша`
             )
         }
 
@@ -181,7 +181,7 @@ async function fetchMNA(cachedOnly = false) {
             // If data is different, update cache and display
             await saveToStorage("mnaData", providersApiData);
             console.info(
-                `[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] - [Провайдеры] Загружены новые провайдеры из API`
+                `[Хелпер] - [Общее] - [Провайдеры] Загружены новые провайдеры из API`
             )
             data = providersApiData;
             isDataUpdated = true;
@@ -261,7 +261,7 @@ async function fetchRouters(cachedOnly = false) {
             // If data exists in cache, display it immediately
             displayRoutersData(data);
             console.info(
-                `[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] - [Роутеры] Список роутеров загружен из кеша`
+                `[Хелпер] - [Общее] - [Роутеры] Список роутеров загружен из кеша`
             )
         }
 
@@ -273,7 +273,7 @@ async function fetchRouters(cachedOnly = false) {
             // If data is different, update cache and display
             await saveToStorage("routersData", routersApiData);
             console.info(
-                `[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] - [Роутеры] Загружены новые роутеры из API`
+                `[Хелпер] - [Общее] - [Роутеры] Загружены новые роутеры из API`
             )
             data = routersApiData;
             isDataUpdated = true;
@@ -372,7 +372,7 @@ async function fetchPhrases(cachedOnly = false) {
 
         if (data) {
             displayPhrasesData(data);
-            console.info(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] - [РМы] Список РМов загружен из кеша`);
+            console.info(`[Хелпер] - [Общее] - [РМы] Список РМов загружен из кеша`);
         }
 
         if (!cachedOnly) {
@@ -386,7 +386,7 @@ async function fetchPhrases(cachedOnly = false) {
 
                 if (JSON.stringify(phrasesApiData) !== JSON.stringify(data)) {
                     await saveToStorage("phrasesData", phrasesApiData);
-                    console.info(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] - [РМы] Загружены новые РМы из API`);
+                    console.info(`[Хелпер] - [Общее] - [РМы] Загружены новые РМы из API`);
                     data = phrasesApiData;
                     isDataUpdated = true;
                 }
