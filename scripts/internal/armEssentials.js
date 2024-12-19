@@ -670,13 +670,19 @@ async function sendClientCardExample() {
             method: "POST",
         });
 
-        if (!response.ok) {
-            const errorText = await response.text();
-            $.notify("Не удалось отправить пример")
-            console.error(`[Хелпер] - [Пример договора] Произошла ошибка: ${errorText}`)
-        } else {
-            $.notify("Пример успешно отправлен", "success")
-            console.info(`[Хелпер] - [Пример договора] Пример успешно отправлен`)
+        try {
+            const responseData = await response.json();
+
+            if (responseData.success === true) {
+                $.notify("Пример успешно отправлен", "success");
+                console.info(`[Хелпер] - [Пример договора] Пример успешно отправлен`);
+            } else {
+                $.notify("Не удалось отправить пример");
+                console.error(`[Хелпер] - [Пример договора] Ошибка отправки: ${JSON.stringify(responseData)}`);
+            }
+        } catch (error) {
+            $.notify("Не удалось отправить пример");
+            console.error(`[Хелпер] - [Пример договора] Произошла ошибка: ${error}`);
         }
 
 
