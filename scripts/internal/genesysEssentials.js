@@ -311,7 +311,6 @@ Web: ${data.availQueues[1][1].currentWaitingCalls} / ${data.availQueues[1][1].to
             lineStats.style.backgroundColor = "#909ea6";
             setTimeout(() => lineStats.style.backgroundColor = "#4c5961", 300);
         }
-console.log(data.availQueues)
         const tooltipMessage = `Статистика НЦК2 за день
 
 Чаты:
