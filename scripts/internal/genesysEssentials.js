@@ -42,7 +42,7 @@ if (
                     const showLineStatusNck2 = result.GENESYS_showLineStatus_nck2;
 
                     if (showLineStatusNck1 || showLineStatusNck2) {
-                        socketConnect(phpSessionId).then(() => console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Статус линии] - Активирован модуль статуса линии`));
+                        socketConnect(phpSessionId).then(() => console.info(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Статус линии] - Активирован модуль статуса линии`));
                     }
                 }
             );
@@ -68,7 +68,7 @@ async function socketConnect(sessionID) {
     const socket = new WebSocket(url);
 
     socket.onopen = function () {
-        console.log(
+        console.info(
             `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Линия] Соединение установлено`
         );
         reconnectAttempts = 0;
@@ -88,7 +88,7 @@ async function socketConnect(sessionID) {
         if (event.data === "2") {
             socket.send("3");
         } else if (event.data === '42/ts-line-genesys-okcdb-ws,["connected"]') {
-            console.log(
+            console.info(
                 `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Линия] Получен PHPSESSID: ${sessionID}`
             );
             $.notify("Установлено соединение с линией", "success");
@@ -127,7 +127,7 @@ async function socketConnect(sessionID) {
 
     socket.onclose = function (event) {
         if (event.wasClean) {
-            console.log(
+            console.warning(
                 `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Линия] Соединение закрыто чисто, код: ${
                     event.code
                 }, причина: ${event.reason}`
@@ -152,7 +152,7 @@ async function socketConnect(sessionID) {
         if (reconnectAttempts < maxReconnectAttempts) {
             const delay = baseReconnectDelay * Math.pow(2, reconnectAttempts);
             $.notify(`Пытаемся переподключиться к линии... (Попытка ${reconnectAttempts + 1}/${maxReconnectAttempts})`, "warning");
-            console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Линия] Пробуем переподключиться через ${delay / 1000} секунд...`)
+            console.warning(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Линия] Пробуем переподключиться через ${delay / 1000} секунд...`)
 
             setTimeout(() => {
                 browser.storage.sync.get(["phpSessionId"], function (result) {
@@ -330,7 +330,7 @@ Web: ${data.availQueues[3][1].currentWaitingCalls} / ${data.availQueues[3][1].to
     }
 
     // if (settings.showLineMessages) {
-//   console.log(
+//   console.info(
 //     `Сохраненное сообщение: ${await stripHtml(
 //       lastDutyMessage
 //     )}. Сообщение от сокета: ${await stripHtml(data.lastMessage.message)}`
@@ -372,7 +372,7 @@ function hideUselessButtons() {
             document.querySelector(".rebranding-logo").remove();
 
             observerOther.disconnect();
-            console.log(
+            console.info(
                 `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Бесполезные кнопки] Все бесполезные кнопки удалены`
             );
         }
@@ -483,7 +483,7 @@ async function genesysButtons() {
             lineHeader.parentNode.insertBefore(buttonsDiv, lineHeader.nextSibling);
             observer.disconnect(); // Отключаем наблюдателя после добавления кнопок
 
-            console.log(
+            console.info(
                 `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Быстрые кнопки] Добавлены быстрые кнопки`
             );
         }
@@ -548,7 +548,7 @@ async function otpcLineStatus() {
                 if (lastStatus !== 'нет апдейтов') {
                     genesysTitle.textContent = "НЦК2: нет апдейтов";
                     lastStatus = 'нет апдейтов';
-                    console.log(
+                    console.warning(
                         `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Аварийность] Изменений аварийности не найдено`
                     );
                 }
@@ -595,7 +595,7 @@ async function otpcLineStatus() {
     // Regular updates every second
     setInterval(getLineUpdate, 1000);
 
-    console.log(
+    console.info(
         `[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Аварийность] Загружена аварийность НЦК2`
     );
 }
@@ -626,7 +626,7 @@ window.genesys.wwe.configuration.set("chat.client.text-color", "${clientTextColo
             document.body.appendChild(colorScript)
 
             $.notify("Загружены кастомные цвета чата", "success")
-            console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Цвета чата] - Применены кастомные цвета чата`)
+            console.info(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Цвета чата] - Применены кастомные цвета чата`)
         });
     }
 
@@ -677,7 +677,7 @@ window.genesys.wwe.configuration.set("chat.new-message-bell", "${newMessageSound
             document.body.appendChild(soundScript)
 
             $.notify("Загружены кастомные звуки чата", "success")
-            console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Цвета чата] - Применены кастомные звуки чата`)
+            console.info(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Генезис] - [Цвета чата] - Применены кастомные звуки чата`)
         });
     }
 

@@ -133,7 +133,7 @@ if (
         });
 
         deleteTabs(tabsToDelete).then(() => {
-            console.log(
+            console.info(
                 `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Удаление вкладок] Вкладки удалены`,
             );
         });
@@ -153,7 +153,7 @@ if (
         });
 
     setHelperAnticipation().then(() => {
-        console.log(
+        console.info(
             `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Предвосхищение] Предвосхищение загружено`,
         );
     });
@@ -217,7 +217,7 @@ async function checkForSpecialClient() {
     const checkSpecialClient = (element) => {
         if (element.textContent.trim() === "Особый Клиент") {
             alert("Внимание! Особый клиент!");
-            console.log(
+            console.info(
                 `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Особый клиент] Найден особый клиент`,
             );
             observerSpecial.disconnect();
@@ -293,7 +293,7 @@ async function setHelperAnticipation() {
         button.style.backgroundColor = "#cc3300";
         problems++;
 
-        console.log(
+        console.info(
             `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Предвосхищение] Найден СПАС`,
         );
     } else {
@@ -308,7 +308,7 @@ async function setHelperAnticipation() {
                 observerSPAS.disconnect();
                 clearTimeout(timeout);
 
-                console.log(
+                console.info(
                     `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Предвосхищение] Найден СПАС`,
                 );
             }
@@ -329,7 +329,7 @@ async function setHelperAnticipation() {
                 button.style.backgroundColor = "#cc3300";
                 problems++;
 
-                console.log(
+                console.info(
                     `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Предвосхищение] Найден закрытый доступ`,
                 );
             }
@@ -347,7 +347,7 @@ async function setHelperAnticipation() {
                     observerAccess.disconnect();
                     clearTimeout(timeout);
 
-                    console.log(
+                    console.info(
                         `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Предвосхищение] Найден закрытый доступ`,
                     );
                 }
@@ -369,7 +369,7 @@ async function setHelperAnticipation() {
                 button.style.backgroundColor = "#cc3300";
                 problems++;
 
-                console.log(
+                console.info(
                     `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Предвосхищение] Найдена авария`,
                 );
             }
@@ -387,7 +387,7 @@ async function setHelperAnticipation() {
                     observerAccess.disconnect();
                     clearTimeout(timeout);
 
-                    console.log(
+                    console.info(
                         `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Предвосхищение] Найдена авария`,
                     );
                 }
@@ -409,7 +409,7 @@ async function setHelperAnticipation() {
                 button.style.backgroundColor = "#cc3300";
                 problems++;
 
-                console.log(
+                console.info(
                     `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Предвосхищение] Найден ППР`,
                 );
             }
@@ -427,7 +427,7 @@ async function setHelperAnticipation() {
                     observerPPR.disconnect();
                     clearTimeout(timeout);
 
-                    console.log(
+                    console.info(
                         `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Предвосхищение] Найден ППР`,
                     );
                 }
@@ -449,7 +449,7 @@ async function setHelperAnticipation() {
                 button.style.backgroundColor = "#cc3300";
                 problems++;
 
-                console.log(
+                console.info(
                     `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Предвосхищение] Найден особый клиент`,
                 );
             }
@@ -468,7 +468,7 @@ async function setHelperAnticipation() {
                     observerSpecial.disconnect();
                     clearTimeout(timeout);
 
-                    console.log(
+                    console.info(
                         `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Предвосхищение] Найден особый клиент`,
                     );
                 }
@@ -484,7 +484,7 @@ async function setHelperAnticipation() {
     if (problems === 0) {
         button.style.backgroundColor = "#008000";
     }
-    console.log(
+    console.info(
         `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Предвосхищение] Предвосхищение загружено`,
     );
 }
@@ -520,7 +520,7 @@ async function copyClientAddress() {
     try {
         address_text = document.getElementById("dr").innerText;
     } catch (e) {
-        console.log(
+        console.warning(
             `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Копирование адреса] Не найдено поле адреса для копирования`,
         );
         return;
@@ -568,7 +568,7 @@ async function copyClientAddress() {
     address.appendChild(lineBreak);
     address.appendChild(copyButton);
 
-    console.log(
+    console.info(
         `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Копирование адреса] Добавлена кнопка копирования адреса`,
     );
 }
@@ -583,7 +583,7 @@ function copyClientCard() {
         // Раскрываем карточку
         clientCardShowButton.click();
     } catch (e) {
-        console.log(
+        console.warning(
             `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Копирование карточки] Не найдена карточка клиента`,
         );
         return;
@@ -613,7 +613,7 @@ function copyClientCard() {
     clientCard.appendChild(lineBreak);
     clientCard.appendChild(copyButton);
 
-    console.log(
+    console.info(
         `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Копирование] Добавлена кнопка копирования карточки`,
     );
 }
@@ -628,7 +628,7 @@ async function sendClientCardExample() {
         // Раскрываем карточку
         clientCardShowButton.click();
     } catch (e) {
-        console.log(
+        console.warning(
             `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Копирование карточки] Не найдена карточка клиента`,
         );
         return;
@@ -673,10 +673,10 @@ async function sendClientCardExample() {
         if (!response.ok) {
             const errorText = await response.text();
             $.notify("Не удалось отправить пример")
-            console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Пример договора] Произошла ошибка: ${errorText}`)
+            console.error(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Пример договора] Произошла ошибка: ${errorText}`)
         } else {
             $.notify("Пример успешно отправлен", "success")
-            console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Пример договора] Пример успешно отправлен`)
+            console.info(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Пример договора] Пример успешно отправлен`)
         }
 
 
@@ -684,7 +684,7 @@ async function sendClientCardExample() {
     clientCard.appendChild(lineBreak);
     clientCard.appendChild(sendExampleButton);
 
-    console.log(
+    console.info(
         `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Пример договора] Добавлена кнопка отправки примера`,
     );
 }
@@ -715,7 +715,7 @@ function copyClientAgreement() {
     agreementBeforeTab.appendChild(lineBreak);
     agreementBeforeTab.appendChild(copyButton);
 
-    console.log(
+    console.info(
         `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Копирование] Добавлена кнопка копирования договора`,
     );
 }
@@ -868,7 +868,7 @@ function copyMAC() {
             event.stopPropagation();
             try {
                 await copyText(macAddress);
-                console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Копирование] - MAC адрес успешно скопирован`);
+                console.info(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Копирование] - MAC адрес успешно скопирован`);
                 $.notify('MAC-адрес скопирован', 'success');
             } catch (error) {
                 console.error('Copy error:', error);
@@ -1161,7 +1161,7 @@ function wrongTransferFalse() {
         radioButton.removeAttribute("disabled");
         radioButton.click();
 
-        console.log(
+        console.info(
             `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Отмечено как не ошибочное`,
         );
     }
@@ -1248,7 +1248,7 @@ function removeSetForMe() {
     checkbox.removeAttribute("disabled");
     checkbox.checked = false;
 
-    console.log(
+    console.info(
         `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Убрано назначение обращения на себя`,
     );
 }
@@ -1382,7 +1382,7 @@ async function fastButtonsChangeRequest() {
         });
         observer.observe(document.body, {childList: true, subtree: true});
 
-        console.log(
+        console.info(
             `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Обращение изменено на Онлайн вход - КС`,
         );
 
@@ -1427,7 +1427,7 @@ async function fastButtonsChangeRequest() {
 
         observer.observe(document.body, {childList: true, subtree: true});
 
-        console.log(
+        console.info(
             `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Обращение изменено на ОЦТП Исход - КС`,
         );
         $.notify("Обращение изменено на ОЦТП Исход - КС", "success");
@@ -1470,7 +1470,7 @@ async function fastButtonsChangeRequest() {
 
         observer.observe(document.body, {childList: true, subtree: true});
 
-        console.log(
+        console.info(
             `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Обращение изменено на ТС/ААО`,
         );
         $.notify("Обращение изменено на ТС/ААО", "success");
@@ -1515,7 +1515,7 @@ async function fastButtonsChangeRequest() {
 
         observer.observe(document.body, {childList: true, subtree: true});
 
-        console.log(
+        console.info(
             `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Обращение изменено на НРД - Исход`,
         );
         $.notify("Обращение изменено на НРД - Исход", "success");
@@ -1559,7 +1559,7 @@ async function fastButtonsChangeRequest() {
 
         observer.observe(document.body, {childList: true, subtree: true});
 
-        console.log(
+        console.info(
             `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Обращение изменено на НТП - Исход`,
         );
         $.notify("Обращение изменено на НТП - Исход", "success");
@@ -1589,7 +1589,7 @@ async function fastButtonsChangeRequest() {
         step.value = "616";
         step.dispatchEvent(changeEvent);
 
-        console.log(
+        console.info(
             `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Обращение изменено на Абон - Исход`,
         );
         $.notify("Обращение изменено на Абон - Исход", "success");
@@ -3006,7 +3006,7 @@ function processAppsTable(appsTab) {
         // Mark table as processed
         table.setAttribute('processed-by-helper', "true");
 
-        console.log(
+        console.info(
             `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Скрытие элементов] Скрыто неактивных строк: ${hiddenRowsCount}`
         );
     } catch (error) {
@@ -3281,7 +3281,7 @@ function handleServiceRequests() {
             });
 
             requestsContainer.setAttribute('processed-by-helper', "true");
-            console.log(
+            console.info(
                 `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Сервисные заявки] Обработка завершена`
             );
         } catch (error) {
@@ -3379,7 +3379,7 @@ function handleConnectionRequests() {
 
             // Mark container as processed
             requestsContainer.setAttribute('processed-by-helper', "true");
-            console.log(
+            console.info(
                 `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Заявки] Обработка заявок завершена`
             );
 
@@ -3538,7 +3538,7 @@ function initAppealsTable() {
 
             // Mark table as processed
             table.setAttribute('processed-by-helper', 'true');
-            console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Обработано скрытых шагов: ${totalHidden}`);
+            console.info(`[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Обработано скрытых шагов: ${totalHidden}`);
 
         } catch (error) {
             console.error(`[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Обращения] Ошибка:`, error);

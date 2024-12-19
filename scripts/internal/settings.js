@@ -33,12 +33,12 @@ document.addEventListener("DOMContentLoaded", async function () {
         browser.storage.sync
             .set({GENESYS_chatSound_newChatSound: selectedSound})
             .then(() => {
-                console.log(
+                console.info(
                     `[${new Date().toLocaleTimeString()}] [Хелпер] - [Настройки] Настройка выбранного звука изменена на ${selectedSound}`,
                 );
             })
             .catch((error) => {
-                console.log(
+                console.error(
                     `[${new Date().toLocaleTimeString()}] [Хелпер] - [Настройки] Ошибка при сохранении выбранного звука: ${error}`,
                 );
             });
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         browser.storage.sync
             .set({GENESYS_chatSound_newMessageSound: selectedSound})
             .then(() => {
-                console.log(
+                console.info(
                     `[${new Date().toLocaleTimeString()}] [Хелпер] - Настройка выбранного звука изменена на ${selectedSound}`,
                 );
             })
@@ -228,7 +228,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         browser.storage.sync
             .set({[setting]: isChecked})
             .then(() => {
-                console.log(
+                console.info(
                     `[${new Date().toLocaleTimeString()}] [Хелпер] - [Настройки] Настройка ${setting} изменена на ${isChecked}`,
                 );
             })
@@ -241,7 +241,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         browser.storage.sync
             .set({[colorSetting]: colorValue})
             .then(() => {
-                console.log(
+                console.info(
                     `[${new Date().toLocaleTimeString()}] [Хелпер] - [Настройки] Цвет ${colorSetting} изменён на ${colorValue}`,
                 );
             })
@@ -286,7 +286,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             "ARM_hideTabLoans",
         ];
         toggleCheckboxes(moneyCheckboxIds);
-        console.log(
+        console.info(
             `[${new Date().toLocaleTimeString()}] [Хелпер] - [Настройки] Скрыты вкладки начислений`,
         );
     });
@@ -304,7 +304,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             "ARM_hideTabDiagnosticNew",
         ];
         toggleCheckboxes(otherCheckboxIds);
-        console.log(
+        console.info(
             `[${new Date().toLocaleTimeString()}] [Хелпер] - [Настройки] Скрыты побочные вкладки`,
         );
     });
@@ -336,7 +336,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         reader.onload = function (event) {
             const settings = JSON.parse(event.target.result);
             browser.storage.sync.set(settings, function () {
-                console.log(
+                console.info(
                     `[${new Date().toLocaleTimeString()}] [Хелпер] - [Настройки] - Настройки успешно экспортированы`,
                 );
                 $.notify("Настройки успешно импортированы", "success");
@@ -447,7 +447,7 @@ async function checkForUpdates() {
 }
 
 function onError(error) {
-    console.log(
+    console.error(
         `[${new Date().toLocaleTimeString()}] [Хелпер] - [Настройки] Произошла ошибка: ${error}`,
     );
 }

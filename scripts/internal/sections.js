@@ -168,7 +168,7 @@ async function fetchMNA(cachedOnly = false) {
 
         if (data) {
             displayMNAData(data);
-            console.log(
+            console.info(
                 `[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] - [Провайдеры] Список провайдеров загружен из кеша`
             )
         }
@@ -180,7 +180,7 @@ async function fetchMNA(cachedOnly = false) {
         if (JSON.stringify(providersApiData) !== JSON.stringify(data)) {
             // If data is different, update cache and display
             await saveToStorage("mnaData", providersApiData);
-            console.log(
+            console.info(
                 `[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] - [Провайдеры] Загружены новые провайдеры из API`
             )
             data = providersApiData;
@@ -260,7 +260,7 @@ async function fetchRouters(cachedOnly = false) {
         if (data) {
             // If data exists in cache, display it immediately
             displayRoutersData(data);
-            console.log(
+            console.info(
                 `[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] - [Роутеры] Список роутеров загружен из кеша`
             )
         }
@@ -272,7 +272,7 @@ async function fetchRouters(cachedOnly = false) {
         if (JSON.stringify(routersApiData) !== JSON.stringify(data)) {
             // If data is different, update cache and display
             await saveToStorage("routersData", routersApiData);
-            console.log(
+            console.info(
                 `[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] - [Роутеры] Загружены новые роутеры из API`
             )
             data = routersApiData;
@@ -372,14 +372,12 @@ async function fetchPhrases(cachedOnly = false) {
 
         if (data) {
             displayPhrasesData(data);
-            console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] - [РМы] Список РМов загружен из кеша`);
+            console.info(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] - [РМы] Список РМов загружен из кеша`);
         }
 
         if (!cachedOnly) {
             try {
-                console.log("Fetching from API...");
                 const phrasesApiData = await fetchFromAPI("https://flomaster.chrsnv.ru/api/phrases");
-                console.log("API Response received:", phrasesApiData);
 
                 if (!Array.isArray(phrasesApiData)) {
                     console.warn("API response is not an array:", phrasesApiData);
@@ -388,7 +386,7 @@ async function fetchPhrases(cachedOnly = false) {
 
                 if (JSON.stringify(phrasesApiData) !== JSON.stringify(data)) {
                     await saveToStorage("phrasesData", phrasesApiData);
-                    console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] - [РМы] Загружены новые РМы из API`);
+                    console.info(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Общее] - [РМы] Загружены новые РМы из API`);
                     data = phrasesApiData;
                     isDataUpdated = true;
                 }

@@ -38,7 +38,7 @@ async function fetchReleaseInfo() {
       link.setAttribute('rel', 'noopener noreferrer');
     });
 
-    console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - Получено описание релиза`);
+    console.info(`[${new Date().toLocaleTimeString()}] [Хелпер] - Получено описание релиза`);
   } catch (error) {
     console.error(`[${new Date().toLocaleTimeString()}] [Хелпер] - Ошибка при получении информации о релизе:`, error);
 

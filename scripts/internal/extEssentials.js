@@ -90,22 +90,22 @@ async function setDefaults() {
             return browser.storage.sync.set(settingsToSet);
         })
         .then(() => {
-            console.log(
+            console.info(
                 `[${new Date().toLocaleTimeString()}] [Хелпер] - [Настройки] Базовые настройки установлены`
             )
         })
         .catch((error) => {
-            console.log(
+            console.error(
                 `[${new Date().toLocaleTimeString()}] [Хелпер] - [Настройки] Ошибка установки настроек: ` + error)
         });
 }
 
 browser.runtime.onInstalled.addListener(() => {
     checkForUpdates().then(() => {
-        console.log("Хелпер - Проверка обновлений")
+        console.info("Хелпер - Проверка обновлений")
     });
     setDefaults().then(() => {
-        console.log("Хелпер - Установка стандартных настроек")
+        console.info("Хелпер - Установка стандартных настроек")
     });
 });
 browser.runtime.onStartup.addListener(checkForUpdates);
