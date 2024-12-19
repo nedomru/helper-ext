@@ -156,7 +156,6 @@ if (
             `[${new Date().toLocaleTimeString()}] [Хелпер] - [АРМ] - [Предвосхищение] Предвосхищение загружено`,
         );
     });
-    4
     searchByLog()
     searchByFlag()
     searchByAppeal()
