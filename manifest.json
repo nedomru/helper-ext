@@ -53,10 +53,7 @@
         "scripts/internal/line/highlight.js",
         "scripts/internal/line/lineInit.js"
       ],
-      "matches": [
-        "http://*/*",
-        "https://*/*"
-      ]
+      "matches": ["*://*.ertelecom.ru/*"]
     }
   ],
   "background": {
