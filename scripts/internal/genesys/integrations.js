@@ -134,8 +134,8 @@ async function manualReconnect() {
     if (socket) {
         socket.close();
     }
-    await browser.storage.sync.get(["phpSessionId"], async function (result) {
-        let phpSessionId = result.phpSessionId;
+    await browser.storage.sync.get(["okc_phpSessionId"], async function (result) {
+        let phpSessionId = result.okc_phpSessionId;
         if (phpSessionId) {
             reconnectAttempts = 0;
             isActive = false

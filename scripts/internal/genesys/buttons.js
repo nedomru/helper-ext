@@ -61,7 +61,6 @@ async function initGenesysButtons() {
                     }
                 }
             } catch (e) {
-                continue; // Skip cross-origin stylesheets
             }
         }
 
