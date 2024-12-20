@@ -3878,7 +3878,7 @@ function searchByAppeal() {
                 const searchField = document.createElement('input');
                 searchField.id = 'appealsSearchField';
                 searchField.type = 'text';
-                searchField.placeholder = 'Поиск по обращениям...';
+                searchField.placeholder = 'Поиск...';
                 searchField.className = 'form-control';
                 searchField.style.cssText = 'width: 15%; padding: 6px; border: 1px solid #ddd; border-radius: 4px;';
 
@@ -3967,7 +3967,7 @@ function searchByLog() {
                 const searchField = document.createElement('input');
                 searchField.id = 'logSearchField';
                 searchField.type = 'text';
-                searchField.placeholder = 'Поиск по логам...';
+                searchField.placeholder = 'Поиск...';
                 searchField.className = 'form-control';
                 searchField.style.cssText = 'margin: 10px 0; width: 15%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;';
 
@@ -4024,7 +4024,7 @@ function searchByFlag() {
                 const searchField = document.createElement('input');
                 searchField.id = 'flagSearchField';
                 searchField.type = 'text';
-                searchField.placeholder = 'Поиск по свойствам...';
+                searchField.placeholder = 'Поиск...';
                 searchField.className = 'form-control';
                 searchField.style.cssText = 'width: 15%; padding: 6px; border: 1px solid #ddd; border-radius: 4px;';
 
