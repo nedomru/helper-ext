@@ -61,6 +61,7 @@ async function setDefaults() {
         LINE_showFB_Lunch: true,
         LINE_countAppointments: true,
         LINE_highlightEndingAppointments: true,
+        POPUP_specialistLine: "nck1",
 
         // Стандартные цвета
         HIGHLIGHTER_CS: "#ff0000",

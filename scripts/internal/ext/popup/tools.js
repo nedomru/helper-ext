@@ -1,3 +1,5 @@
+/*global browser*/
+
 // Проверка MAC-адреса
 async function handleMacSubmit() {
     document.getElementById("result-container").innerHTML = "";
@@ -285,6 +287,12 @@ async function handlePremiumSubmit() {
     loadingSpinner.style.display = 'block';
 
     const inputField = document.getElementById("premium-select").value;
+    try {
+        await browser.storage.sync.set({ POPUP_specialistLine: inputField });
+        console.log(`[Хелпер] - [Проверка премии] Линия специалиста установлена: ${inputField}`);
+    } catch (error) {
+        console.error(`[Хелпер] - [Проверка премии] Ошибка при сохранении линии:`, error);
+    }
 
     // Determine URL based on selection
     const url = inputField === "nck2"

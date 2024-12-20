@@ -171,9 +171,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         "LINE_showFB_JIRA",
         "LINE_showFB_NTP1",
         "LINE_showFB_NTP2",
-        // "LINE_updateNeededSL",
         "LINE_countAppointments",
-        "LINE_highlightEndingAppointments"
+        "LINE_highlightEndingAppointments",
+        "POPUP_specialistLine"
     ];
 
     const colorPickerIds = [
