@@ -1,53 +1,4 @@
-﻿/* global browser */
-
-document.addEventListener("DOMContentLoaded", function () {
-    const submitMac = document.getElementById("submit-mac");
-    const submitIP = document.getElementById("submit-ip");
-    const submitWhois = document.getElementById("submit-whois");
-    const submitLink = document.getElementById("submit-link");
-    const submitPremium = document.getElementById("submit-premium");
-    submitMac.addEventListener("click", handleMacSubmit);
-    submitIP.addEventListener("click", handleIPSubmit);
-    submitWhois.addEventListener("click", handleWhoisSubmit);
-    submitLink.addEventListener("click", handleLinkSubmit);
-    submitPremium.addEventListener("click", handlePremiumSubmit);
-
-    document
-        .getElementById("openSettings")
-        .addEventListener("click", function () {
-            browser.runtime.openOptionsPage();
-            window.close();
-        });
-    document
-        .getElementById("openTelegram")
-        .addEventListener("click", function () {
-            window.open("https://t.me/+jH1mblw0ytcwOWUy", "_blank");
-            window.close();
-        });
-    document.getElementById("openPlaner").addEventListener("click", function () {
-        window.open("https://planer.chrsnv.ru/spaces/issues/5aeb4b5fbfa349c5a4bd0d4897c807d3", "_blank");
-        window.close();
-    });
-    document.getElementById("openDonate").addEventListener("click", function () {
-        window.open("https://pay.cloudtips.ru/p/787b494c", "_blank");
-        window.close();
-    });
-
-    document
-        .getElementById("searchProvider")
-        .addEventListener("input", () =>
-            searchTable("searchProvider", "providersTable")
-        );
-    document
-        .getElementById("searchRouter")
-        .addEventListener("input", () =>
-            searchTable("searchRouter", "routersTable")
-        );
-
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-});
-
+// Проверка MAC-адреса
 async function handleMacSubmit() {
     document.getElementById("result-container").innerHTML = "";
     const loadingSpinner = document.getElementById('loadingResultsSpinner');
@@ -118,6 +69,7 @@ async function handleMacSubmit() {
     }
 }
 
+// Проверка IP-адреса
 async function handleIPSubmit() {
     document.getElementById("result-container").innerHTML = "";
     const loadingSpinner = document.getElementById('loadingResultsSpinner');
@@ -220,6 +172,7 @@ async function handleIPSubmit() {
     }
 }
 
+// Проверка WHOIS
 async function handleWhoisSubmit() {
     document.getElementById("result-container").innerHTML = "";
     const loadingSpinner = document.getElementById('loadingResultsSpinner');
@@ -300,6 +253,7 @@ async function handleWhoisSubmit() {
     }
 }
 
+// Сокращение ссылок
 async function handleLinkSubmit() {
     const inputField = document.getElementById("input-link").value.trim();
 
@@ -324,6 +278,7 @@ async function handleLinkSubmit() {
     }
 }
 
+// Проверка премии
 async function handlePremiumSubmit() {
     document.getElementById("result-container").innerHTML = "";
     const loadingSpinner = document.getElementById('loadingResultsSpinner');
@@ -369,7 +324,7 @@ async function handlePremiumSubmit() {
         }
 
         const data = await response.json();
-        const result = data[0]; // Changed from data["result"][0] to data[0]
+        const result = data[0];
 
         const tableHTML = `
             <table class="table table-hover table-bordered table-responsive table-sm">

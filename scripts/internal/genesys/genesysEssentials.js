@@ -27,8 +27,9 @@ if (
         "http://genesys-app1.cc4.ertelecom.ru:82/ui/ad/v1/index"
     ) !== -1
 ) {
-    browser.storage.sync.get(["phpSessionId"], function (result) {
-        let phpSessionId = result.phpSessionId;
+    browser.storage.sync.get(["okc_phpSessionId"], function (result) {
+        let phpSessionId = result.okc_phpSessionId;
+        console.info(phpSessionId)
         if (!phpSessionId) {
             $.notify("Не установлен PHPSESSID. Авторизуйся на линии", "error")
         } else {

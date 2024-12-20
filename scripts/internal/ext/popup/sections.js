@@ -33,7 +33,7 @@ function showTab(tabId) {
         console.warn(`Tab content for "${tabId}" not found.`);
     }
 
-    document.querySelectorAll('.btn-group button').forEach(button => {
+    document.querySelectorAll('.helper-tab-btn').forEach(button => {
         button.classList.remove('active');
         if (getTabId(button.textContent) === tabId) {
             button.classList.add('active');
@@ -43,7 +43,7 @@ function showTab(tabId) {
 
 // Function to add click event listeners to buttons
 function addButtonListeners() {
-    document.querySelectorAll('.btn-group button').forEach(button => {
+    document.querySelectorAll('.helper-tab-btn').forEach(button => {
         button.addEventListener('click', (event) => {
             const tabId = getTabId(button.textContent);
             showTab(tabId);
@@ -103,12 +103,6 @@ function createLinkOrText(value, text, isEmulator = false) {
     return `<a href="${value}" target="_blank">${text}</a>`;
 }
 
-async function clearFromStorage(key) {
-    return new Promise((resolve) => {
-        browser.storage.local.remove(key, resolve);
-    });
-}
-
 async function fetchFromAPI(api_url) {
     try {
         const response = await fetch(api_url, {
@@ -136,12 +130,6 @@ async function getFromStorage(key) {
         browser.storage.local.get(key, (result) => {
             resolve(result[key]);
         });
-    });
-}
-
-async function getMultipleFromStorage(keys) {
-    return new Promise((resolve) => {
-        browser.storage.local.get(keys, resolve);
     });
 }
 
@@ -357,30 +345,29 @@ async function fetchPhrases(cachedOnly = false) {
     try {
         let data = await getFromStorage("phrasesData");
 
-        if (data && !Array.isArray(data)) {
+        if (data && !Array.isArray(data.phrases?.hits)) {
             console.warn("Invalid cached data format, clearing cache");
             data = null;
             await browser.storage.local.remove("phrasesData");
         }
 
         if (cachedOnly && data) {
-            displayPhrasesData(data);
+            displayPhrasesData(data.phrases.hits);
             return;
         }
 
         let isDataUpdated = false;
 
         if (data) {
-            displayPhrasesData(data);
+            displayPhrasesData(data.phrases.hits);
             console.info(`[Хелпер] - [Общее] - [РМы] Список РМов загружен из кеша`);
         }
 
         if (!cachedOnly) {
             try {
-                const phrasesApiData = await fetchFromAPI("https://flomaster.chrsnv.ru/api/phrases");
+                const phrasesApiData = await fetchFromAPI("https://helper.chrsnv.ru/api/phrases.json");
 
-                if (!Array.isArray(phrasesApiData)) {
-                    console.warn("API response is not an array:", phrasesApiData);
+                if (!Array.isArray(phrasesApiData.phrases?.hits)) {
                     throw new Error("API response is not in the expected format");
                 }
 
@@ -392,7 +379,7 @@ async function fetchPhrases(cachedOnly = false) {
                 }
 
                 if (!data || isDataUpdated) {
-                    displayPhrasesData(data);
+                    displayPhrasesData(data.phrases.hits);
                 }
             } catch (apiError) {
                 console.error("API fetch error:", apiError);
@@ -453,195 +440,310 @@ function displayPhrasesData(data) {
 }
 
 function createDirectoryHTML(data) {
-    const categoriesMap = new Map();
+    function buildHierarchyTree(data) {
+        // First, filter out _top entries and create a unique items map
+        const uniqueItemsMap = new Map();
 
-    // First, group phrases by category, subcategory, and phrase_key
-    data.forEach(phrase => {
-        if (!categoriesMap.has(phrase.category)) {
-            categoriesMap.set(phrase.category, new Map());
-        }
-        const category = categoriesMap.get(phrase.category);
+        const filteredData = data.filter(item => {
+            // Skip items with _top anchor
+            if (item.anchor === '_top') return false;
 
-        if (!category.has(phrase.subcategory)) {
-            category.set(phrase.subcategory, new Map());
-        }
-        const subcategory = category.get(phrase.subcategory);
+            // Find the highest non-null level
+            const maxLevel = Object.keys(item.hierarchy)
+                .reduce((max, key) => {
+                    const level = parseInt(key.replace('lvl', ''));
+                    return item.hierarchy[key] ? Math.max(max, level) : max;
+                }, -1);
 
-        if (!subcategory.has(phrase.phrase_key)) {
-            subcategory.set(phrase.phrase_key, []);
-        }
-        subcategory.get(phrase.phrase_key).push(phrase);
-    });
+            if (maxLevel === -1) return false;
 
-    return `<ul class="directory" id="phrasesDirectoryContent">
-    ${Array.from(categoriesMap.entries()).map(([category, subcategories]) => `
-      <li class="directory-item open">
-        <span class="directory-folder category-folder" data-folder-type="category">
-          <span class="folder-icon">📂</span>${category}<span class="arrow-icon">⬎</span>
-        </span>
-        <ul class="directory-content">
-          ${Array.from(subcategories.entries()).map(([subcategory, phrases]) => `
-            <li class="directory-item">
-              <span class="directory-folder subcategory-folder" data-folder-type="subcategory">
-                <span class="folder-icon">📁</span>${subcategory}<span class="arrow-icon">⬎</span>
-              </span>
-              <ul class="directory-content">
-                ${Array.from(phrases.entries()).map(([phrase_key, phraseVariants]) => {
-        const defaultPhrase = phraseVariants.find(p => p.tag === 'default');
-        if (defaultPhrase) {
-            return `
-                      <li class="directory-item">
-                        <span class="directory-file phrase" data-phrase='${JSON.stringify(defaultPhrase)}'>
-                          <span class="file-icon">📄</span>${phrase_key}
-                        </span>
-                      </li>
-                    `;
-        } else {
-            return `
-                      <li class="directory-item">
-                        <span class="directory-folder phrase-folder" data-folder-type="phrase">
-                          <span class="folder-icon">📁</span>${phrase_key}<span class="arrow-icon">⬎</span>
-                        </span>
-                        <ul class="directory-content">
-                          ${phraseVariants.map(phrase => `
-                            <li class="directory-item">
-                              <span class="directory-file phrase" data-phrase='${JSON.stringify(phrase)}'>
-                                <span class="file-icon">📄</span>${phrase.tag}
-                              </span>
-                            </li>
-                          `).join('')}
-                        </ul>
-                      </li>
-                    `;
-        }
-    }).join('')}
-              </ul>
-            </li>
-          `).join('')}
-        </ul>
-      </li>
-    `).join('')}
-  </ul>`;
+            // Create a unique key using URL and the content of the highest non-null level
+            const key = `${item.url_without_anchor}-${item.hierarchy[`lvl${maxLevel}`]}`;
+
+            if (uniqueItemsMap.has(key)) return false;
+
+            uniqueItemsMap.set(key, item);
+            return true;
+        });
+
+        const tree = new Map();
+
+        filteredData.forEach(item => {
+            let currentLevel = tree;
+
+            // Find the highest non-null level
+            const maxLevel = Object.keys(item.hierarchy)
+                .reduce((max, key) => {
+                    const level = parseInt(key.replace('lvl', ''));
+                    return item.hierarchy[key] ? Math.max(max, level) : max;
+                }, -1);
+
+            // Get all levels up to the highest non-null level
+            const levels = [];
+            for (let i = 0; i <= maxLevel; i++) {
+                if (i === maxLevel || item.hierarchy[`lvl${i}`]) {
+                    levels.push({
+                        name: item.hierarchy[`lvl${i}`],
+                        level: i,
+                        isFinal: i === maxLevel
+                    });
+                }
+            }
+
+            // Build the tree structure
+            levels.forEach((level, index) => {
+                if (!level.name) return;
+
+                if (!currentLevel.has(level.name)) {
+                    currentLevel.set(level.name, {
+                        content: new Map(),
+                        items: [],
+                        level: level.level
+                    });
+                }
+
+                if (level.isFinal) {
+                    // This is the final level, add it as an item
+                    currentLevel.get(level.name).items.push({
+                        url: item.url,
+                        title: level.name,
+                        type: item.type
+                    });
+                } else {
+                    // Move to next level in hierarchy
+                    currentLevel = currentLevel.get(level.name).content;
+                }
+            });
+        });
+
+        return tree;
+    }
+
+    function renderTree(tree, level = 0) {
+        let html = '<ul class="directory-list">';
+
+        tree.forEach((value, key) => {
+                const hasSubfolders = value.content.size > 0;
+                const hasItems = value.items.length > 0;
+
+                // If it's a leaf node, render it directly as a file
+                if (value.isLeaf) {
+                    html += `
+                <li class="directory-item">
+                    <a href="${value.items[0].url}" target="_blank" class="directory-file">
+                        <span class="file-icon">📄</span>
+                        <span class="file-name">${key}</span>
+                    </a>
+                </li>`;
+                } else {
+                    html += `
+                <li class="directory-item">
+                    <div class="directory-folder" data-folder-type="level-${value.level}">
+                        <span class="folder-icon">📂</span>
+                        <span class="folder-name">${key}</span>
+                        <span class="arrow-icon">▸</span>
+                    </div>
+                    <div class="directory-content">`;
+
+                    if (hasSubfolders) {
+                        html += renderTree(value.content, level + 1);
+                    }
+
+                    if (hasItems) {
+                        html += value.items.map(item => `
+                        <div class="directory-item">
+                            <a href="${item.url}" target="_blank" class="directory-file">
+                                <span class="file-icon">📄</span>
+                                <span class="file-name">${item.title}</span>
+                            </a>
+                        </div>
+                    `).join('');
+                    }
+
+                    html += `
+                    </div>
+                </li>`;
+                }
+            }
+        )
+
+
+        html += '</ul>';
+        return html;
+    }
+
+    const tree = buildHierarchyTree(data);
+    return `
+        <div class="directory" id="phrasesDirectoryContent">
+            ${renderTree(tree)}
+        </div>
+    `;
 }
 
 function setupSearch() {
     const searchInput = document.getElementById('searchPhrase');
-    searchInput.addEventListener('input', performSearch);
-}
+    const debounceTimeout = 300;
+    let timeoutId = null;
 
-function performSearch() {
-    const searchQuery = document.getElementById('searchPhrase').value.toLowerCase();
-    const directoryItems = document.querySelectorAll('.directory-item');
-
-    directoryItems.forEach(item => {
-        const folderName = item.querySelector('.directory-folder')?.textContent.toLowerCase() || '';
-        const phraseNames = Array.from(item.querySelectorAll('.directory-file')).map(el => el.textContent.toLowerCase());
-        const phraseContents = Array.from(item.querySelectorAll('.directory-file')).map(el => {
-            const phraseData = JSON.parse(el.dataset.phrase);
-            return Object.values(phraseData).join(' ').toLowerCase();
-        });
-
-        const isMatch = folderName.includes(searchQuery) ||
-            phraseNames.some(name => name.includes(searchQuery)) ||
-            phraseContents.some(content => content.includes(searchQuery));
-
-        item.style.display = isMatch ? '' : 'none';
-
-        // If it's a top-level category, and it matches, show all its children
-        if (isMatch && item.classList.contains('open')) {
-            item.querySelectorAll('.directory-item').forEach(child => {
-                child.style.display = '';
-            });
+    searchInput.addEventListener('input', (e) => {
+        if (timeoutId) {
+            clearTimeout(timeoutId);
         }
+
+        timeoutId = setTimeout(() => {
+            const searchTerm = e.target.value.toLowerCase();
+            const items = document.querySelectorAll('.directory-item');
+
+            items.forEach(item => {
+                const folderName = item.querySelector('.folder-name')?.textContent.toLowerCase() || '';
+                const fileName = item.querySelector('.file-name')?.textContent.toLowerCase() || '';
+                const isMatch = folderName.includes(searchTerm) || fileName.includes(searchTerm);
+
+                if (isMatch) {
+                    // Show this item and all its parents
+                    item.style.display = '';
+                    let parent = item.parentElement.closest('.directory-item');
+                    while (parent) {
+                        parent.style.display = '';
+                        parent.classList.add('open');
+                        parent = parent.parentElement.closest('.directory-item');
+                    }
+                } else {
+                    // Only hide if none of the children match
+                    const hasMatchingChild = Array.from(item.querySelectorAll('.directory-item'))
+                        .some(child => child.style.display !== 'none');
+                    item.style.display = hasMatchingChild ? '' : 'none';
+                }
+            });
+        }, debounceTimeout);
     });
 }
 
 function addEventListeners() {
     document.querySelectorAll('.directory-folder').forEach(folder => {
-        folder.addEventListener('click', function () {
-            this.parentElement.classList.toggle('open');
-            updateFolderIcon(this);
+        folder.addEventListener('click', () => {
+            const item = folder.closest('.directory-item');
+            item.classList.toggle('open');
+            const arrowIcon = folder.querySelector('.arrow-icon');
+            arrowIcon.textContent = item.classList.contains('open') ? '▾' : '▸';
         });
     });
 
-    document.querySelectorAll('.phrase').forEach(phraseElement => {
-        phraseElement.addEventListener('click', function (event) {
-            event.preventDefault();
-            const phraseData = JSON.parse(this.getAttribute('data-phrase'));
-            const phraseValue = phraseData.phrase_value || 'Фраза недоступна';
-            navigator.clipboard.writeText(phraseValue)
-                .then(() => $.notify("Скопировано", "success"))
-                .catch(err => console.error('Не удалось скопировать: ', err));
-        });
-
-        phraseElement.addEventListener('mouseover', event => {
-            const phraseData = JSON.parse(event.currentTarget.getAttribute('data-phrase'));
-            showMiniWindow(event, phraseData.phrase_value);
-        });
-
-        phraseElement.addEventListener('mouseout', hideMiniWindow);
-    });
-}
-
-function updateFolderIcon(folderElement) {
-    const folderIcon = folderElement.querySelector('.folder-icon');
-    let arrowIcon = folderElement.querySelector('.arrow-icon');
-    const isOpen = folderElement.parentElement.classList.contains('open');
-
-    folderIcon.textContent = isOpen ? '📂' : '📁';
-
-    if (isOpen) {
-        if (!arrowIcon) {
-            arrowIcon = document.createElement('span');
-            arrowIcon.className = 'arrow-icon';
-            folderElement.appendChild(arrowIcon);
+    // Add hover effect for files to show full title
+    document.querySelectorAll('.directory-file').forEach(file => {
+        const fileName = file.querySelector('.file-name');
+        if (fileName) {
+            fileName.title = fileName.textContent;
         }
-        arrowIcon.textContent = '⬎';
-    } else if (arrowIcon) {
-        folderElement.removeChild(arrowIcon);
-    }
+    });
 }
 
 function addStyles() {
     const style = document.createElement('style');
     style.textContent = `
-        .directory { list-style-type: none; padding-left: 20px; }
-        .directory-item { margin: 5px 0; }
-        .directory-folder, .directory-file { cursor: pointer; user-select: none; padding: 5px; border-radius: 5px; display: inline-block; }
-        .directory-content { display: none; }
-        .directory-item.open > .directory-content { display: block; }
-        .category-folder { background-color: #f7f7f7; border: 1px solid #9da4ab; }
-        .subcategory-folder { background-color: #e6ffe6; border: 1px solid #b3ffb3; }
-        .phrase-folder { background-color: #fff0e6; border: 1px solid #ffd1b3; }
-        .phrase { background-color: #f9f9f9; border: 1px solid #e6e6e6; }
-        .directory-folder:hover, .directory-file:hover { filter: brightness(0.9); }
-        #miniWindow { position: absolute; background-color: white; border: 1px solid #ccc; padding: 10px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); display: none; z-index: 1000; max-width: 300px; }
-        .folder-icon, .file-icon { margin-right: 5px; }
-        .arrow-icon { margin-left: 5px; }
+        .directory {
+            font-family: Arial, sans-serif;
+            padding: 10px;
+        }
+        
+        .directory-list {
+            list-style: none;
+            padding-left: 20px;
+            margin: 0;
+        }
+        
+        .directory-item {
+            margin: 5px 0;
+        }
+        
+        .directory-folder {
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.2s;
+        }
+        
+        .directory-folder:hover {
+            background: #e0e0e0;
+        }
+        
+        .directory-content {
+            display: none;
+            margin-left: 20px;
+        }
+        
+        .directory-item.open > .directory-content {
+            display: block;
+        }
+        
+        .directory-file {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            text-decoration: none;
+            color: inherit;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .directory-file:hover {
+            background: #f0f0f0;
+        }
+        
+        .folder-icon, .file-icon {
+            font-size: 1.2em;
+        }
+        
+        .arrow-icon {
+            margin-left: auto;
+            font-size: 0.8em;
+        }
+        
+        [data-folder-type="level-0"] {
+            background: #e3f2fd;
+        }
+        
+        [data-folder-type="level-1"] {
+            background: #e8f5e9;
+        }
+        
+        [data-folder-type="level-2"] {
+            background: #fff3e0;
+        }
+        
+        [data-folder-type="level-3"] {
+            background: #f3e5f5;
+        }
+        
+        [data-folder-type="level-4"] {
+            background: #e0f7fa;
+        }
+        
+        .file-name {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 500px;
+        }
+        
+        .error-message {
+            padding: 20px;
+            background: #fff3f3;
+            border: 1px solid #ffcdd2;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        
+        /* Animation for folder opening/closing */
+        .directory-content {
+            transition: all 0.3s ease-in-out;
+        }
     `;
     document.head.appendChild(style);
-}
-
-function showMiniWindow(event, phraseValue) {
-    const miniWindow = document.getElementById('miniWindow') || createMiniWindow();
-    miniWindow.innerHTML = `<div>${phraseValue}</div>`;
-    miniWindow.style.display = 'block';
-    miniWindow.style.left = `${event.pageX + 10}px`;
-    miniWindow.style.top = `${event.pageY + 10}px`;
-}
-
-function hideMiniWindow() {
-    const miniWindow = document.getElementById('miniWindow');
-    if (miniWindow) {
-        miniWindow.style.display = 'none';
-    }
-}
-
-function createMiniWindow() {
-    const miniWindow = document.createElement('div');
-    miniWindow.id = 'miniWindow';
-    document.body.appendChild(miniWindow);
-    return miniWindow;
 }
 
 // Call initTabs and addButtonListeners when the page loads

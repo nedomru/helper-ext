@@ -28,17 +28,29 @@
         "scripts/external/jquery.min.js",
         "scripts/external/notify.js",
         "scripts/external/dompurify.min.js",
-        "scripts/internal/highlights.js",
-        "scripts/internal/armEssentials.js",
-        "scripts/internal/lineEssentials.js",
-        "scripts/internal/genesysEssentials.js",
-        "scripts/internal/settings.js"
+        "scripts/internal/ext/background/getCookies.js",
+        "scripts/internal/ext/popup/tools.js",
+        "scripts/internal/ext/popup/sections.js",
+        "scripts/internal/ext/popup/popup.js",
+        "scripts/internal/ext/settings/settings.js",
+        "scripts/internal/arm/armEssentials.js",
+        "scripts/internal/arm/highlights.js",
+        "scripts/internal/genesys/genesysEssentials.js",
+        "scripts/internal/line/countAppointments.js",
+        "scripts/internal/line/fastButtons.js",
+        "scripts/internal/line/highlight.js",
+        "scripts/internal/line/lineEssentials.js"
       ],
-      "matches": ["http://*/*", "https://*/*"]
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ]
     }
   ],
   "background": {
-    "scripts": ["scripts/internal/extEssentials.js"],
+    "scripts": [
+      "scripts/internal/ext/background/checkUpdates.js"
+    ],
     "persistent": false
   },
   "permissions": [
