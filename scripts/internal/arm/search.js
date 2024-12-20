@@ -9,7 +9,7 @@ async function searchByAppeal() {
             if (!document.getElementById('appealsSearchField')) {
                 // Create search wrapper with label
                 const searchWrapper = document.createElement('div');
-                searchWrapper.style.cssText = 'margin: 10px 0; display: flex; align-items: center; gap: 10px;';
+                searchWrapper.style.cssText = 'margin-bottom: 10px 0; display: flex; align-items: center; gap: 10px;';
 
                 const searchField = document.createElement('input');
                 searchField.id = 'appealsSearchField';
