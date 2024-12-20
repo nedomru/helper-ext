@@ -1,62 +1,10 @@
-if (document.URL.indexOf("genesys-app1") !== -1) {
-    const GENESYS_config = {
-        GENESYS_hideUselessButtons: hideUselessButtons,
-        GENESYS_showFastButtons: genesysButtons,
-        GENESYS_showOCTPLineStatus: otpcLineStatus,
-        GENESYS_chatColors: setupGenesysChatColors,
-        GENESYS_chatSound: setupGenesysChatSound,
-        // GENESYS_hideChatHeader: hideHeader,
-    };
-
-    browser.storage.sync
-        .get(Object.keys(GENESYS_config))
-        .then((result) => {
-            Object.keys(GENESYS_config).forEach((key) => {
-                if (result[key]) {
-                    GENESYS_config[key]();
-                }
-            });
-        })
-        .catch((error) => {
-            console.error("Ошибка при получении настроек:", error);
-        });
-}
-
-if (
-    document.URL.indexOf(
-        "http://genesys-app1.cc4.ertelecom.ru:82/ui/ad/v1/index"
-    ) !== -1
-) {
-    browser.storage.sync.get(["okc_phpSessionId"], function (result) {
-        let phpSessionId = result.okc_phpSessionId;
-        console.info(phpSessionId)
-        if (!phpSessionId) {
-            $.notify("Не установлен PHPSESSID. Авторизуйся на линии", "error")
-        } else {
-            browser.storage.sync.get(
-                [
-                    "GENESYS_showLineStatus_nck1",
-                    "GENESYS_showLineStatus_nck2",
-                ],
-                function (result) {
-                    const showLineStatusNck1 = result.GENESYS_showLineStatus_nck1;
-                    const showLineStatusNck2 = result.GENESYS_showLineStatus_nck2;
-
-                    if (showLineStatusNck1 || showLineStatusNck2) {
-                        socketConnect(phpSessionId).then(() => console.info(`[Хелпер] - [Генезис] - [Статус линии] - Активирован модуль статуса линии`));
-                    }
-                }
-            );
-        }
-    })
-}
-
 let isActive = false;
 let reconnectAttempts = 0;
 const maxReconnectAttempts = 5;
 const baseReconnectDelay = 1000; // 1 second
 let socket;
 
+// Подключение к сокету линии НЦК
 async function socketConnect(sessionID) {
     if (isActive) {
         return;
@@ -181,6 +129,7 @@ async function socketConnect(sessionID) {
     };
 }
 
+// Ручной реконнект к сокету линии НЦК
 async function manualReconnect() {
     if (socket) {
         socket.close();
@@ -196,6 +145,7 @@ async function manualReconnect() {
     })
 }
 
+// Добавление DIV для отображения статуса линий
 async function addMessageDiv(id) {
     if (document.querySelector(`#${id}`)) return;
     const observer = new MutationObserver(() => {
@@ -240,6 +190,7 @@ async function addMessageDiv(id) {
     });
 }
 
+// Обработка сообщений сокета линии НЦК
 async function handleSocketMessages(data, time) {
     if (!data?.availQueues) return;
 
@@ -349,190 +300,7 @@ Web: ${data.availQueues[3][1].currentWaitingCalls} / ${data.availQueues[3][1].to
 // }
 }
 
-function hideUselessButtons() {
-    const buttonsToRemove = [
-        "Facebook In Progress",
-        "Facebook Draft",
-        "Twitter In Progress",
-        "Twitter Draft",
-    ];
-
-    const observerOther = new MutationObserver(() => {
-        const facebookButton = document.querySelector(
-            `a[aria-label="Facebook In Progress"]`
-        );
-
-        if (facebookButton) {
-            buttonsToRemove.forEach((button) => {
-                const btn = document.querySelector(`a[aria-label="${button}"]`);
-                if (btn) {
-                    btn.remove();
-                }
-            });
-            document.querySelector(".dropdown.account-help").remove();
-            document.querySelector(".rebranding-logo").remove();
-
-            observerOther.disconnect();
-            console.info(
-                `[Хелпер] - [Генезис] - [Бесполезные кнопки] Все бесполезные кнопки удалены`
-            );
-        }
-    });
-
-    observerOther.observe(document.body, {
-        childList: true,
-        subtree: true,
-    });
-}
-
-async function genesysButtons() {
-    if (document.querySelector(".helper")) return;
-
-    // Удаляем !important у border-radius для кнопок
-    Array.from(document.styleSheets).forEach((styleSheet) => {
-        const rules = styleSheet.cssRules || styleSheet.cssRules;
-        if (!rules) return;
-
-        Array.from(rules).forEach((rule) => {
-            if (
-                rule.selectorText ===
-                ".wwe input, .wwe select, .wwe button, .wwe textarea"
-            ) {
-                rule.style.setProperty("border-radius", "0px", "");
-            }
-        });
-    });
-
-    const buttonsDiv = document.createElement("div");
-    buttonsDiv.classList.add("helper-buttons");
-    buttonsDiv.style.cssText =
-        "display: flex; justify-content: center; align-items: center; height: 100%; margin-left: 15px;";
-
-    const linksData = [
-        {
-            url: "https://flomaster.chrsnv.ru",
-            text: "Фломастер",
-            key: "GENESYS_showFB_flomaster",
-        },
-        {
-            url: "http://cm.roool.ru",
-            text: "ЧМ",
-            key: "GENESYS_showFB_chatMaster",
-        },
-        {
-            url: "https://dom.ru/service/knowledgebase/internet/kak-nastroit-router",
-            text: "Роутеры",
-            key: "GENESYS_showFB_setupRouter",
-        },
-        {
-            url: "https://dom.ru/faq/televidenie/kak-nastroit-cifrovye-kanaly-na-televizore",
-            text: "ТВ",
-            key: "GENESYS_showFB_setupTV",
-        },
-        {
-            url: "https://clever.ertelecom.ru/content/space/4/article/12409",
-            text: "ЧТП КТВ",
-            key: "GENESYS_showFB_channelsktv",
-        },
-        {
-            url: "https://clever.ertelecom.ru/content/space/4/article/8887",
-            text: "ЧТП ЦКТВ",
-            key: "GENESYS_showFB_channelscktv",
-        },
-        {
-            url: "https://dom.ru/service/knowledgebase/domru-tv/nastrojka-tv-pristavok",
-            text: "Декодеры",
-            key: "GENESYS_showFB_setupDecoder",
-        },
-        {
-            url: "http://octptest.corp.ertelecom.loc/diagnostic-results/perm/?C=M;O=D",
-            text: "FTP ПК",
-            key: "GENESYS_showFB_ftpPC",
-        },
-        {
-            url: "http://octptest.corp.ertelecom.loc/diagnostic-results/mobile/?C=M;O=D",
-            text: "FTP Моб",
-            key: "GENESYS_showFB_ftpAndroid",
-        },
-        {
-            url: "https://mh-dashboard-erth.proptech.ru/web/",
-            text: "Dashboard",
-            key: "GENESYS_showFB_dashboard",
-        },
-        {
-            url: "https://provisioning.ertelecom.ru/devices",
-            text: "Провиж",
-            key: "GENESYS_showFB_provisioning",
-        },
-    ];
-
-    // Получение значений всех настроек
-    const settingsKeys = linksData.map((link) => link.key);
-    const settings = await Promise.all(
-        settingsKeys.map((key) => browser.storage.sync.get(key))
-    );
-
-    linksData.forEach((linkData, index) => {
-        if (settings[index][linkData.key]) {
-            buttonsDiv.appendChild(createGenesysLink(linkData.url, linkData.text));
-        }
-    });
-
-    const observer = new MutationObserver(() => {
-        const lineHeader = document.getElementById("break_window");
-        if (lineHeader) {
-            lineHeader.parentNode.insertBefore(buttonsDiv, lineHeader.nextSibling);
-            observer.disconnect(); // Отключаем наблюдателя после добавления кнопок
-
-            console.info(
-                `[Хелпер] - [Генезис] - [Быстрые кнопки] Добавлены быстрые кнопки`
-            );
-        }
-    });
-
-    observer.observe(document.body, {childList: true, subtree: true});
-}
-
-function createGenesysLink(href, textContent, additionalStyles = {}) {
-    const link = document.createElement("a");
-    link.href = href;
-    link.target = "_blank";
-    link.textContent = textContent;
-    link.setAttribute("class", "helper");
-
-    // Применение общих стилей
-    Object.assign(link.style, {
-        fontSize: "1rem",
-        fontFamily: "Roboto, Tahoma, Verdana",
-        textAlign: "center",
-        color: "white",
-        marginRight: "8px",
-        cursor: "pointer",
-        height: "28px",
-        width: "100px",
-        display: "flex", // Используем Flexbox для центрирования
-        justifyContent: "center",
-        alignItems: "center",
-        lineHeight: "auto",
-        backgroundColor: "#4c5961",
-        border: "none", // Убираем границы, так как это ссылка
-        borderRadius: "18px",
-        textDecoration: "none", // Убираем подчеркивание
-    });
-
-    // Применение дополнительных стилей
-    Object.assign(link.style, additionalStyles);
-
-    link.addEventListener("mouseenter", () => {
-        link.style.backgroundColor = "#63737d";
-    });
-    link.addEventListener("mouseleave", () => {
-        link.style.backgroundColor = "#4c5961";
-    });
-
-    return link;
-}
-
+// Отображение статуса линии НЦК2
 async function otpcLineStatus() {
     let lastStatus = '';  // Cache last status to prevent unnecessary DOM updates
 
@@ -601,104 +369,3 @@ async function otpcLineStatus() {
     );
 }
 
-function setupGenesysChatColors() {
-    function applyColors() {
-        browser.storage.sync.get([
-            "GENESYS_chatColors_agentPromptColor",
-            "GENESYS_chatColors_agentTextColor",
-            "GENESYS_chatColors_clientPromptColor",
-            "GENESYS_chatColors_clientTextColor",
-        ], function (result) {
-            const agentNameColor = result.GENESYS_chatColors_agentPromptColor;
-            const agentTextColor = result.GENESYS_chatColors_agentTextColor;
-            const clientNameColor = result.GENESYS_chatColors_clientPromptColor;
-            const clientTextColor = result.GENESYS_chatColors_clientTextColor;
-
-            const colorScript = document.createElement('script');
-            colorScript.type = 'text/javascript';
-            let code = `
-window.genesys.wwe.configuration.set("chat.agent.prompt-color", "${agentNameColor}");
-window.genesys.wwe.configuration.set("chat.agent.text-color", "${agentTextColor}");
-window.genesys.wwe.configuration.set("chat.client.prompt-color", "${clientNameColor}");
-window.genesys.wwe.configuration.set("chat.client.text-color", "${clientTextColor}");
-      `
-            colorScript.appendChild(document.createTextNode(code));
-
-            document.body.appendChild(colorScript)
-
-            $.notify("Загружены кастомные цвета чата", "success")
-            console.info(`[Хелпер] - [Генезис] - [Цвета чата] - Применены кастомные цвета чата`)
-        });
-    }
-
-    function checkForGenesys() {
-        if (document.querySelector(".wwe-account-state")) {
-            observer.disconnect();
-            applyColors();
-        }
-    }
-
-    const observer = new MutationObserver(() => {
-        checkForGenesys();
-    });
-
-    observer.observe(document, {
-        childList: true,
-        subtree: true,
-        attributes: true,
-        characterData: true
-    });
-
-    checkForGenesys();
-}
-
-function setupGenesysChatSound() {
-    const baseURL = 'http://genesys-srv.cc3.ertelecom.ru/sounds/';
-    function convertPath(path) {
-        const fileName = path.split('/').pop(); // Получаем имя файла
-        return `${baseURL}${fileName}|-1|0`; // Формируем новый URL с добавлением |-1|0
-    }
-
-    function applySound() {
-        browser.storage.sync.get([
-            "GENESYS_chatSound_newChatSound",
-            "GENESYS_chatSound_newMessageSound",
-        ], function (result) {
-            const newChatSound = convertPath(result.GENESYS_chatSound_newChatSound);
-            const newMessageSound = convertPath(result.GENESYS_chatSound_newMessageSound);
-
-            const soundScript = document.createElement('script');
-            soundScript.type = 'text/javascript';
-            let code = `
-window.genesys.wwe.configuration.set("chat.ringing-bell", "${newChatSound}")
-window.genesys.wwe.configuration.set("chat.new-message-bell", "${newMessageSound}")
-      `
-            soundScript.appendChild(document.createTextNode(code));
-
-            document.body.appendChild(soundScript)
-
-            $.notify("Загружены кастомные звуки чата", "success")
-            console.info(`[Хелпер] - [Генезис] - [Цвета чата] - Применены кастомные звуки чата`)
-        });
-    }
-
-    function checkForGenesys() {
-        if (document.querySelector(".wwe-account-state")) {
-            observer.disconnect();
-            applySound();
-        }
-    }
-
-    const observer = new MutationObserver(() => {
-        checkForGenesys();
-    });
-
-    observer.observe(document, {
-        childList: true,
-        subtree: true,
-        attributes: true,
-        characterData: true
-    });
-
-    checkForGenesys();
-}

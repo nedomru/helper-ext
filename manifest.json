@@ -43,7 +43,10 @@
         "scripts/internal/arm/utility.js",
         "scripts/internal/arm/armInit.js",
 
-        "scripts/internal/genesys/genesysEssentials.js",
+        "scripts/internal/genesys/buttons.js",
+        "scripts/internal/genesys/integrations.js",
+        "scripts/internal/genesys/utility.js",
+        "scripts/internal/genesys/genesysInit.js",
 
         "scripts/internal/line/countAppointments.js",
         "scripts/internal/line/fastButtons.js",
