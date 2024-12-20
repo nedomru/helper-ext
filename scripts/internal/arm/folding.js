@@ -193,7 +193,7 @@ async function initApplicationsFold() {
 
 // Скрытие промежуточных шагов обращений
 async function initAppealsFold() {
-    new MutationObserver(mutations => {
+    new MutationObserver(() => {
         const container = document.getElementById('lazy_content_2448');
         if (!container?.textContent) return;
 
@@ -217,29 +217,34 @@ async function initAppealsFold() {
             });
             if (currentAppeal.length) appeals.push(currentAppeal);
 
-            // Process each appeal
             appeals.forEach((appeal, index) => {
-                if (appeal.length <= 2) return; // Skip appeals with 2 or fewer steps
+                const effectiveLength = index === 0 ? appeal.length - 1 : appeal.length;
+
+                const minSteps = 3;
+                if (effectiveLength < minSteps) return;
 
                 const appealNum = index + 1;
-                const hiddenSteps = appeal.length - 2;
+                const hiddenSteps = effectiveLength - 2;
                 totalHidden += hiddenSteps;
 
-                // Process steps
                 appeal.forEach((row, stepIndex) => {
                     row.setAttribute('appeal-number', appealNum);
 
+                    // Check for edit_comment class to identify last step
+                    const hasEditComment = row.querySelector('.edit_comment') !== null;
+
                     if (stepIndex === 0) {
                         row.setAttribute('appeal-step', 'first');
-                    } else if (stepIndex === appeal.length - 1) {
+                    } else if (hasEditComment || stepIndex === appeal.length - 1) {
+                        // Mark as last step if it has edit_comment or is the last row
                         row.setAttribute('appeal-step', 'last');
+                        row.style.display = ''; // Ensure it's visible
                     } else {
                         row.setAttribute('appeal-step', 'intermediate');
                         row.style.display = 'none';
                     }
                 });
 
-                // Add toggle button row
                 const toggleRow = document.createElement('tr');
                 toggleRow.style.backgroundColor = '#f8f9fa';
 
@@ -249,9 +254,9 @@ async function initAppealsFold() {
 
                 const toggleButton = document.createElement('a');
                 toggleButton.href = '#';
-                toggleButton.style.cssText = 'cursor:pointer; color:#0d6efd; text-decoration:none; padding:5px; display:block; text-align:center;';
+                toggleButton.style.cssText = 'cursor:pointer; color:#ff0000; text-decoration:none; padding:5px; display:block; text-align:center;';
                 toggleButton.setAttribute('data-state', 'hidden');
-                toggleButton.textContent = `▶️ Развернуть шаги (${hiddenSteps})`;
+                toggleButton.textContent = `▶️ Шаги скрыты (${hiddenSteps})`
 
                 toggleButton.addEventListener('click', e => {
                     e.preventDefault();
@@ -262,9 +267,10 @@ async function initAppealsFold() {
                         .forEach(row => row.style.display = isHidden ? 'table-row' : 'none');
 
                     toggleButton.textContent = isHidden
-                        ? `🔽 Свернуть шаги`
-                        : `▶️ Развернуть шаги (${hiddenSteps})`;
+                        ? `🔽 Шаги отображены`
+                        : `▶️ Шаги скрыты (${hiddenSteps})`
                     toggleButton.setAttribute('data-state', newState);
+                    toggleButton.style.color = isHidden ? '#006400' : '#ff0000';
                 });
 
                 toggleCell.appendChild(toggleButton);
@@ -272,7 +278,6 @@ async function initAppealsFold() {
                 appeal[0].parentNode.insertBefore(toggleRow, appeal[0].nextSibling);
             });
 
-            // Add global toggle button
             if (totalHidden > 0) {
                 const btnContainer = document.createElement('div');
                 btnContainer.style.cssText = 'display: flex; align-items: center; margin: 10px 0;';
@@ -281,7 +286,7 @@ async function initAppealsFold() {
                 toggleBtn.id = 'helper-toggle-appeals';
                 toggleBtn.className = 'btn btn-xs btn-primary helper';
                 toggleBtn.style.cssText = 'cursor: pointer; margin-right: 10px;';
-                toggleBtn.textContent = `▶️ Развернуть шаги (${totalHidden})`;
+                toggleBtn.textContent = `▶️ Шаги скрыты`;
                 toggleBtn.setAttribute('data-state', 'hidden');
                 toggleBtn.setAttribute('type', 'button');
 
@@ -296,25 +301,23 @@ async function initAppealsFold() {
                     const isHidden = toggleBtn.getAttribute('data-state') === 'hidden';
                     const newState = isHidden ? 'visible' : 'hidden';
 
-                    // Update all toggle buttons
                     const toggleButtons = table.querySelectorAll('a[data-state]');
                     toggleButtons.forEach(btn => {
                         const appealNum = btn.closest('tr').previousSibling.getAttribute('appeal-number');
                         const hiddenCount = document.querySelectorAll(`[appeal-number="${appealNum}"][appeal-step="intermediate"]`).length;
                         btn.textContent = isHidden
-                            ? '🔽 Свернуть шаги'
-                            : `▶️ Развернуть шаги (${hiddenCount})`;
+                            ? '🔽 Шаги отображены'
+                            : `▶️ Шаги скрыты (${hiddenCount})`;
                         btn.setAttribute('data-state', newState);
+                        btn.style.color = isHidden ? '#006400' : '#ff0000';
                     });
 
-                    // Update rows visibility
                     document.querySelectorAll('[appeal-step="intermediate"]')
                         .forEach(row => row.style.display = isHidden ? 'table-row' : 'none');
 
-                    // Update toggle button and status
                     toggleBtn.textContent = isHidden
-                        ? '🔽 Свернуть шаги'
-                        : `▶️ Развернуть шаги (${totalHidden})`;
+                        ? '🔽 Шаги отображены'
+                        : `▶️ Шаги скрыты`;
                     toggleBtn.setAttribute('data-state', newState);
 
                     status.textContent = isHidden
@@ -328,7 +331,6 @@ async function initAppealsFold() {
                 container.insertBefore(btnContainer, container.firstChild);
             }
 
-            // Mark table as processed
             table.setAttribute('processed-by-helper', 'true');
             console.info(`[Хелпер] - [АРМ] - [Обращения] Обработано скрытых шагов: ${totalHidden}`);
 
@@ -383,7 +385,7 @@ async function initServiceRequestsFold() {
                         button.href = '#';
                         button.style.cssText = 'cursor:pointer; color:#0d6efd; text-decoration:none; padding:5px; display:block; text-align:center;';
                         button.setAttribute('data-state', 'hidden');
-                        button.textContent = `▶️ Развернуть шаги (${middleRows.length})`;
+                        button.textContent = `▶️ Шаги свернуты (${middleRows.length})`;
 
                         button.addEventListener('click', function (e) {
                             e.preventDefault();
@@ -397,8 +399,8 @@ async function initServiceRequestsFold() {
 
                             this.setAttribute('data-state', newState);
                             this.textContent = newState === 'visible'
-                                ? '🔽 Свернуть шаги'
-                                : `▶️ Развернуть шаги (${middleRows.length})`;
+                                ? '🔽 Шаги отображены'
+                                : `▶️ Шаги свернуты (${middleRows.length})`;
                         });
 
                         const buttonRow = document.createElement('tr');
@@ -436,7 +438,7 @@ async function initServiceRequestsFold() {
 
 // Скрытие промежуточных шагов заявок на подключение
 async function initConnectionRequestsFold() {
-    const observer = new MutationObserver((mutations) => {
+    const observer = new MutationObserver(() => {
         const requestsContainer = document.getElementById('lazy_content_802');
         if (!requestsContainer?.textContent) return;
 
@@ -483,7 +485,7 @@ async function initConnectionRequestsFold() {
                     button.href = '#';
                     button.style.cssText = 'cursor:pointer; color:#0d6efd; text-decoration:none; padding:5px; display:block; text-align:center;';
                     button.setAttribute('data-state', 'hidden');
-                    button.textContent = `▶️ Развернуть шаги (${middleRows.length})`;
+                    button.textContent = `▶️ Шаги свернуты (${middleRows.length})`;
 
                     // Add click handler
                     button.addEventListener('click', function(e) {
@@ -500,8 +502,8 @@ async function initConnectionRequestsFold() {
                         // Update button state and text
                         this.setAttribute('data-state', newState);
                         this.textContent = newState === 'visible'
-                            ? '🔽 Свернуть шаги'
-                            : `▶️ Развернуть шаги (${middleRows.length})`;
+                            ? '🔽 Шаги отображены'
+                            : `▶️ Шаги свернуты (${middleRows.length})`;
                     });
 
                     buttonCell.appendChild(button);
