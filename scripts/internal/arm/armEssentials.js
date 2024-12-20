@@ -3800,6 +3800,7 @@ function removeDiagnosticTabs() {
             $('a[href="#diagTelephony"]').remove();
             $('a[href="#dataRecovery"]').remove();
             $('a[href="#diagSpas"]').remove();
+            $('a[href="#diagDeviceIzet"]').remove();
             $('a[href*="novotelecom"][href*="aboncard"]').remove();
         } catch (error) {
             console.error(`[Хелпер] - [АРМ] - [Обращения] Ошибка:`, error);
