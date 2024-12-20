@@ -1,6 +1,3 @@
-// Подсветка классификаторов на вкладке Обращений
-let intervalId;
-
 if (document.URL.indexOf("db.ertelecom.ru/cgi-bin") !== -1) {
     const config = {
         ARM_highlightRequestsClasses: initHighlighting,
@@ -15,146 +12,129 @@ if (document.URL.indexOf("db.ertelecom.ru/cgi-bin") !== -1) {
     });
 }
 
-// Подсветка классификаторов на вкладке Изменения обращений
-if (
-    document.URL.indexOf("wcc_request_appl_support.change_request_appl") !== -1
-) {
-    highlightRequestsEdit();
-}
-
-// Подсветка компенсации за аварию в операциях с договором
-if (
-    document.URL.indexOf(
-        "db.ertelecom.ru/cgi-bin/ppo/excells/adv_act_retention"
-    ) !== -1
-) {
-    highlightCompensation();
-}
-
 let dataToHighlight = {};
 
-// Функция для получения значения цвета из color picker
-function getHighlightColors(callback) {
-    browser.storage.sync
-        .get([
+async function getHighlightColors() {
+    try {
+        const settings = await browser.storage.sync.get([
             "HIGHLIGHTER_CS",
             "HIGHLIGHTER_EMAIL",
             "HIGHLIGHTER_OCTP",
             "HIGHLIGHTER_COMPENSATION",
-        ])
-        .then((settings) => {
-            dataToHighlight = {
-                "Контакт сорвался": settings.HIGHLIGHTER_CS || "#ff0000",
-                "Обращение из Email": settings.HIGHLIGHTER_EMAIL || "#006400",
-                "ОЦТП - Входящая связь": settings.HIGHLIGHTER_OCTP || "#008080",
-                "Компенсация за аварию": settings.HIGHLIGHTER_COMPENSATION || "#66CDAA",
-            };
-            if (callback) callback(); // вызываем callback после загрузки данных
-        })
-        .catch((error) => {
-            console.error("Ошибка при получении цветов:", error);
-        });
+        ]);
+
+        return {
+            "Контакт сорвался": settings.HIGHLIGHTER_CS || "#ff0000",
+            "Обращение из Email": settings.HIGHLIGHTER_EMAIL || "#006400",
+            "ОЦТП - Входящая связь": settings.HIGHLIGHTER_OCTP || "#008080",
+            "Компенсация за аварию": settings.HIGHLIGHTER_COMPENSATION || "#66CDAA",
+        };
+    } catch (error) {
+        console.error("[Хелпер] - [Подсветка] Ошибка при получении цветов:", error);
+        return {};
+    }
 }
 
-function highlightText(element) {
-    const text = element.innerText;
+function highlightText(element, colors) {
+    if (!element || !element.textContent) return;
 
-    // First check for warranty date to avoid multiple innerHTML updates
+    const text = element.textContent.trim();
+    let newHTML = text;
+
+    // First check for warranty dates
     const warrantyMatch = text.match(/гарантийный срок до (\d{2}\.\d{2}\.\d{4})/);
     if (warrantyMatch) {
         const date = new Date(warrantyMatch[1].split(".").reverse().join("-"));
         const currentDate = new Date();
         const color = date > currentDate ? "green" : "red";
-        element.innerHTML = text.replace(
+        newHTML = text.replace(
             warrantyMatch[1],
             `<span style="color: ${color}; font-weight: bold;">${warrantyMatch[1]}</span>`
         );
+        element.innerHTML = newHTML;
         return;
     }
 
-    // Then check for highlight texts
-    for (const [textToFind, color] of Object.entries(dataToHighlight)) {
+    // Then check for highlighted texts
+    for (const [textToFind, color] of Object.entries(colors)) {
         if (text.includes(textToFind)) {
-            element.innerHTML = text.replace(
-                textToFind,
+            newHTML = text.replace(
+                new RegExp(textToFind, 'g'),
                 `<span style="color: ${color}; font-weight: bold;">${textToFind}</span>`
             );
+            element.innerHTML = newHTML;
             return;
         }
     }
 }
 
 async function initHighlighting() {
-    // Get initial colors
-    await getHighlightColors();
+    const colors = await getHighlightColors();
+    const settings = await browser.storage.sync.get("ARM_removeUselessAppealsColumns");
+    const removeColumns = settings.ARM_removeUselessAppealsColumns;
 
-    // Create observer for both appeals containers
-    new MutationObserver(async (mutations) => {
-        try {
-            const settings = await browser.storage.sync.get("ARM_removeUselessAppealsColumns");
-            const removeColumns = settings.ARM_removeUselessAppealsColumns;
-            const minLength = removeColumns ? 9 : 10;
-            const problemColumnIndex = removeColumns ? 9 : 10;
+    // Create mutation observer for dynamic content
+    const observer = new MutationObserver(() => processTable(colors, removeColumns));
 
-            // Check both containers
-            const appealsContainer = document.getElementById('lazy_content_2448');
-            const warrantyContainer = document.getElementById('lazy_content_801');
-
-            // Process appeals container
-            if (appealsContainer?.textContent) {
-                appealsContainer.querySelectorAll('table tr').forEach(row => {
-                    const cells = row.querySelectorAll("td");
-                    if (cells.length <= minLength) return;
-
-                    const problemCell = cells[problemColumnIndex];
-                    const stageCell = cells[2];
-                    const warrantyCell = cells[5];
-
-                    if (!problemCell?.textContent ||
-                        !stageCell?.textContent ||
-                        !warrantyCell?.textContent) return;
-
-                    // Skip if already highlighted
-                    if (problemCell.classList.contains("helper-highlighted") ||
-                        stageCell.classList.contains("helper-highlighted") ||
-                        warrantyCell.classList.contains("helper-highlighted")) return;
-
-                    // Highlight cells
-                    highlightText(stageCell);
-                    highlightText(problemCell);
-                    problemCell.classList.add("helper-highlighted");
-
-                    highlightText(warrantyCell);
-                    warrantyCell.classList.add("helper-highlighted");
-                });
-            }
-
-            // Process warranty container
-            if (warrantyContainer?.textContent) {
-                warrantyContainer.querySelectorAll('table tr').forEach(row => {
-                    const cells = row.querySelectorAll("td");
-                    if (cells.length < 6) return;
-
-                    const warrantyCell = cells[5];
-                    if (!warrantyCell?.textContent) return;
-
-                    // Skip if already highlighted
-                    if (warrantyCell.classList.contains("helper-highlighted")) return;
-
-                    // Highlight warranty cell
-                    highlightText(warrantyCell);
-                    warrantyCell.classList.add("helper-highlighted");
-                });
-            }
-
-        } catch (error) {
-            console.error(`[Хелпер] - [АРМ] - [Подсветка] Ошибка:`, error);
-        }
-    }).observe(document.body, {
+    // Start observing the document with the configured parameters
+    observer.observe(document.body, {
         childList: true,
         subtree: true,
         characterData: true
     });
+
+    // Initial processing
+    processTable(colors, removeColumns);
+}
+
+function processTable(colors, removeColumns) {
+    try {
+        const tables = document.querySelectorAll('table');
+        tables.forEach(table => {
+            const rows = table.querySelectorAll('tr');
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                if (cells.length < (removeColumns ? 9 : 10)) return;
+
+                const stageCell = cells[2];
+                const warrantyCell = cells[5];
+                const problemCell = cells[removeColumns ? 9 : 10];
+
+                // Skip if already processed
+                if (row.hasAttribute('data-highlighted')) return;
+
+                // Process each cell if it exists and hasn't been highlighted
+                if (stageCell && !stageCell.classList.contains('helper-highlighted')) {
+                    highlightText(stageCell, colors);
+                    stageCell.classList.add('helper-highlighted');
+                }
+
+                if (warrantyCell && !warrantyCell.classList.contains('helper-highlighted')) {
+                    highlightText(warrantyCell, colors);
+                    warrantyCell.classList.add('helper-highlighted');
+                }
+
+                if (problemCell && !problemCell.classList.contains('helper-highlighted')) {
+                    highlightText(problemCell, colors);
+                    problemCell.classList.add('helper-highlighted');
+                }
+
+                // Mark row as processed
+                row.setAttribute('data-highlighted', 'true');
+            });
+        });
+    } catch (error) {
+        console.error('[Хелпер] - [Подсветка] Ошибка при обработке таблицы:', error);
+    }
+}
+
+// Handle other page specific highlights
+if (document.URL.indexOf("wcc_request_appl_support.change_request_appl") !== -1) {
+    highlightRequestsEdit();
+}
+
+if (document.URL.indexOf("db.ertelecom.ru/cgi-bin/ppo/excells/adv_act_retention") !== -1) {
+    highlightCompensation();
 }
 
 function highlightRequestsEdit() {
@@ -174,8 +154,10 @@ function highlightCompensation() {
             cell.style.color = "black";
             cell.style.backgroundColor = "white";
             const tdCell = cell.parentElement.querySelector("td");
-            tdCell.style.color = "black";
-            tdCell.style.backgroundColor = "white";
+            if (tdCell) {
+                tdCell.style.color = "black";
+                tdCell.style.backgroundColor = "white";
+            }
         }
     });
 }
