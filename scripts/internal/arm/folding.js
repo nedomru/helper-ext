@@ -246,7 +246,7 @@ async function initAppealsFold() {
                 });
 
                 const toggleRow = document.createElement('tr');
-                toggleRow.style.backgroundColor = '#f8f9fa';
+                toggleRow.style.backgroundColor = '#E5E1DA';
 
                 const toggleCell = document.createElement('td');
                 toggleCell.colSpan = table.rows[0].cells.length;
@@ -349,15 +349,17 @@ async function initServiceRequestsFold() {
         'Помощь оказана',
     ];
 
-    const observer = new MutationObserver((mutations) => {
+    new MutationObserver(() => {
         const serviceContainer = document.getElementById('lazy_content_2445');
         if (!serviceContainer?.textContent) return;
 
         const requestsContainer = serviceContainer.querySelector('#tc_ppd_tp_cz');
-        if (!requestsContainer || requestsContainer.getAttribute('processed-by-helper') === "true") return;
+        if (!requestsContainer || requestsContainer.getAttribute('processed-by-helper')) return;
 
         try {
+            let totalHidden = 0;
             const tables = requestsContainer.querySelectorAll('table.border');
+
             tables.forEach(table => {
                 const rows = Array.from(table.querySelectorAll('tr')).slice(1);
                 if (rows.length < 2) return;
@@ -370,6 +372,7 @@ async function initServiceRequestsFold() {
                     const firstRow = rows[0];
                     const detailRow = rows[rows.length - 1];
                     const middleRows = rows.slice(1, -2);
+                    totalHidden += middleRows.length;
 
                     firstRow.style.display = 'table-row';
                     lastContentRow.style.display = 'table-row';
@@ -381,160 +384,242 @@ async function initServiceRequestsFold() {
                     });
 
                     if (middleRows.length > 0) {
-                        const button = document.createElement('a');
-                        button.href = '#';
-                        button.style.cssText = 'cursor:pointer; color:#0d6efd; text-decoration:none; padding:5px; display:block; text-align:center;';
-                        button.setAttribute('data-state', 'hidden');
-                        button.textContent = `▶️ Шаги свернуты (${middleRows.length})`;
+                        const toggleRow = document.createElement('tr');
+                        toggleRow.style.backgroundColor = '#E5E1DA';
 
-                        button.addEventListener('click', function (e) {
+                        const toggleCell = document.createElement('td');
+                        toggleCell.colSpan = firstRow.cells.length;
+                        toggleCell.style.padding = '0';
+
+                        const toggleButton = document.createElement('a');
+                        toggleButton.href = '#';
+                        toggleButton.style.cssText = 'cursor:pointer; color:#ff0000; text-decoration:none; padding:5px; display:block; text-align:center;';
+                        toggleButton.setAttribute('data-state', 'hidden');
+                        toggleButton.textContent = `▶️ Шаги скрыты (${middleRows.length})`;
+
+                        toggleButton.addEventListener('click', e => {
                             e.preventDefault();
-                            const isHidden = this.getAttribute('data-state') === 'hidden';
+                            const isHidden = toggleButton.getAttribute('data-state') === 'hidden';
                             const newState = isHidden ? 'visible' : 'hidden';
 
                             const rows = document.querySelectorAll(`[data-request-id="${requestId}"]`);
                             rows.forEach(row => {
-                                row.style.display = newState === 'visible' ? 'table-row' : 'none';
+                                row.style.display = isHidden ? 'table-row' : 'none';
                             });
 
-                            this.setAttribute('data-state', newState);
-                            this.textContent = newState === 'visible'
-                                ? '🔽 Шаги отображены'
-                                : `▶️ Шаги свернуты (${middleRows.length})`;
+                            toggleButton.textContent = isHidden
+                                ? `🔽 Шаги отображены`
+                                : `▶️ Шаги скрыты (${middleRows.length})`;
+                            toggleButton.setAttribute('data-state', newState);
+                            toggleButton.style.color = isHidden ? '#006400' : '#ff0000';
                         });
 
-                        const buttonRow = document.createElement('tr');
-                        buttonRow.style.backgroundColor = "#f8f9fa";
-                        const buttonCell = document.createElement('td');
-                        buttonCell.colSpan = firstRow.cells.length;
-                        buttonCell.style.padding = '0';
-                        buttonCell.appendChild(button);
-                        buttonRow.appendChild(buttonCell);
-
-                        firstRow.parentNode.insertBefore(buttonRow, firstRow.nextSibling);
+                        toggleCell.appendChild(toggleButton);
+                        toggleRow.appendChild(toggleCell);
+                        firstRow.parentNode.insertBefore(toggleRow, firstRow.nextSibling);
                     }
                 }
             });
 
-            requestsContainer.setAttribute('processed-by-helper', "true");
-            console.info(
-                `[Хелпер] - [АРМ] - [Сервисные заявки] Обработка завершена`
-            );
-        } catch (error) {
-            console.error(
-                `[Хелпер] - [АРМ] - [Сервисные заявки] Ошибка:`,
-                error
-            );
-        }
-    });
+            if (totalHidden > 0) {
+                const btnContainer = document.createElement('div');
+                btnContainer.style.cssText = 'display: flex; align-items: center; margin: 10px 0;';
 
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true,
-        characterData: false,
-        attributes: false
-    });
+                const toggleBtn = document.createElement('button');
+                toggleBtn.id = 'helper-toggle-requests';
+                toggleBtn.className = 'btn btn-xs btn-primary helper';
+                toggleBtn.style.cssText = 'cursor: pointer; margin-right: 10px;';
+                toggleBtn.textContent = `▶️ Шаги скрыты`;
+                toggleBtn.setAttribute('data-state', 'hidden');
+                toggleBtn.setAttribute('type', 'button');
+
+                const status = document.createElement('span');
+                status.textContent = 'Промежуточные шаги скрыты';
+                status.style.color = '#dc3545';
+
+                // Find and replace this part in the toggle button click handler
+                toggleBtn.addEventListener('click', e => {
+                    e.preventDefault();
+                    const isHidden = toggleBtn.getAttribute('data-state') === 'hidden';
+                    const newState = isHidden ? 'visible' : 'hidden';
+
+                    const toggleButtons = requestsContainer.querySelectorAll('a[data-state]');
+                    toggleButtons.forEach(btn => {
+                        // Get the hidden rows count by finding next row with data-request-id
+                        const buttonRow = btn.closest('tr');
+                        const nextRow = buttonRow.nextElementSibling;
+                        if (nextRow) {
+                            const requestId = nextRow.getAttribute('data-request-id');
+                            // Get original count of hidden rows for this request
+                            const hiddenCount = document.querySelectorAll(`[data-request-id="${requestId}"]`).length;
+                            btn.textContent = isHidden
+                                ? '🔽 Шаги отображены'
+                                : `▶️ Шаги скрыты (${hiddenCount})`;
+                            btn.setAttribute('data-state', newState);
+                            btn.style.color = isHidden ? '#006400' : '#ff0000';
+                        }
+                    });
+
+                    document.querySelectorAll('[data-request-id]')
+                        .forEach(row => row.style.display = isHidden ? 'table-row' : 'none');
+
+                    toggleBtn.textContent = isHidden
+                        ? '🔽 Шаги отображены'
+                        : `▶️ Шаги скрыты`;
+                    toggleBtn.setAttribute('data-state', newState);
+
+                    status.textContent = isHidden
+                        ? 'Отображены все шаги'
+                        : 'Промежуточные шаги скрыты';
+                    status.style.color = isHidden ? '#198754' : '#dc3545';
+                });
+
+                btnContainer.appendChild(toggleBtn);
+                btnContainer.appendChild(status);
+                serviceContainer.insertBefore(btnContainer, serviceContainer.firstChild);
+            }
+
+            requestsContainer.setAttribute('processed-by-helper', 'true');
+            console.info(`[Хелпер] - [АРМ] - [Сервисные заявки] Обработано скрытых шагов: ${totalHidden}`);
+
+        } catch (error) {
+            console.error(`[Хелпер] - [АРМ] - [Сервисные заявки] Ошибка:`, error);
+        }
+    }).observe(document.body, {childList: true, subtree: true});
 }
 
 // Скрытие промежуточных шагов заявок на подключение
 async function initConnectionRequestsFold() {
-    const observer = new MutationObserver(() => {
+    new MutationObserver(() => {
         const requestsContainer = document.getElementById('lazy_content_802');
         if (!requestsContainer?.textContent) return;
 
-        // Check if container is already processed to avoid duplicate processing
-        if (requestsContainer.getAttribute('processed-by-helper') === "true") return;
+        if (requestsContainer.getAttribute('processed-by-helper')) return;
 
         try {
-            // Get all tables in the container
+            let totalHidden = 0;
             const tables = requestsContainer.querySelectorAll('table.border');
 
             tables.forEach(table => {
-                // Get all rows except header
                 const rows = Array.from(table.querySelectorAll('tbody tr'));
                 if (rows.length < 2) return;
 
-                // Get first and last rows
                 const firstRow = rows[0];
                 const lastRow = rows[rows.length - 1];
                 const middleRows = rows.slice(1, -1);
+                totalHidden += middleRows.length;
 
-                // Keep first and last rows visible
                 firstRow.style.display = 'table-row';
                 lastRow.style.display = 'table-row';
 
-                // Generate unique ID for this request
                 const requestId = Math.random().toString(36).substr(2, 9);
 
-                // Hide middle rows and add data attribute
                 middleRows.forEach(row => {
                     row.style.display = 'none';
                     row.setAttribute('data-request-id', requestId);
                 });
 
-                // Only create toggle button if there are hidden rows
                 if (middleRows.length > 0) {
-                    const buttonRow = document.createElement('tr');
-                    buttonRow.style.backgroundColor = "#f8f9fa";
+                    const toggleRow = document.createElement('tr');
+                    toggleRow.style.backgroundColor = '#E5E1DA';
 
-                    const buttonCell = document.createElement('td');
-                    buttonCell.colSpan = table.rows[0].cells.length;
-                    buttonCell.style.padding = '0';
+                    const toggleCell = document.createElement('td');
+                    toggleCell.colSpan = table.rows[0].cells.length;
+                    toggleCell.style.padding = '0';
 
-                    const button = document.createElement('a');
-                    button.href = '#';
-                    button.style.cssText = 'cursor:pointer; color:#0d6efd; text-decoration:none; padding:5px; display:block; text-align:center;';
-                    button.setAttribute('data-state', 'hidden');
-                    button.textContent = `▶️ Шаги свернуты (${middleRows.length})`;
+                    const toggleButton = document.createElement('a');
+                    toggleButton.href = '#';
+                    toggleButton.style.cssText = 'cursor:pointer; color:#ff0000; text-decoration:none; padding:5px; display:block; text-align:center;';
+                    toggleButton.setAttribute('data-state', 'hidden');
+                    toggleButton.textContent = `▶️ Шаги скрыты (${middleRows.length})`;
 
-                    // Add click handler
-                    button.addEventListener('click', function(e) {
+                    toggleButton.addEventListener('click', e => {
                         e.preventDefault();
-                        const isHidden = this.getAttribute('data-state') === 'hidden';
+                        const isHidden = toggleButton.getAttribute('data-state') === 'hidden';
                         const newState = isHidden ? 'visible' : 'hidden';
 
-                        // Toggle visibility of associated rows
                         const rows = document.querySelectorAll(`[data-request-id="${requestId}"]`);
                         rows.forEach(row => {
-                            row.style.display = newState === 'visible' ? 'table-row' : 'none';
+                            row.style.display = isHidden ? 'table-row' : 'none';
                         });
 
-                        // Update button state and text
-                        this.setAttribute('data-state', newState);
-                        this.textContent = newState === 'visible'
-                            ? '🔽 Шаги отображены'
-                            : `▶️ Шаги свернуты (${middleRows.length})`;
+                        toggleButton.textContent = isHidden
+                            ? `🔽 Шаги отображены`
+                            : `▶️ Шаги скрыты (${middleRows.length})`;
+                        toggleButton.setAttribute('data-state', newState);
+                        toggleButton.style.color = isHidden ? '#006400' : '#ff0000';
                     });
 
-                    buttonCell.appendChild(button);
-                    buttonRow.appendChild(buttonCell);
-
-                    // Insert button row after first row
-                    firstRow.parentNode.insertBefore(buttonRow, firstRow.nextSibling);
+                    toggleCell.appendChild(toggleButton);
+                    toggleRow.appendChild(toggleCell);
+                    firstRow.parentNode.insertBefore(toggleRow, firstRow.nextSibling);
                 }
             });
 
-            // Mark container as processed
-            requestsContainer.setAttribute('processed-by-helper', "true");
-            console.info(
-                `[Хелпер] - [АРМ] - [Заявки] Обработка заявок завершена`
-            );
+            if (totalHidden > 0) {
+                const btnContainer = document.createElement('div');
+                btnContainer.style.cssText = 'display: flex; align-items: center; margin: 10px 0;';
+
+                const toggleBtn = document.createElement('button');
+                toggleBtn.id = 'helper-toggle-connections';
+                toggleBtn.className = 'btn btn-xs btn-primary helper';
+                toggleBtn.style.cssText = 'cursor: pointer; margin-right: 10px;';
+                toggleBtn.textContent = `▶️ Шаги скрыты`;
+                toggleBtn.setAttribute('data-state', 'hidden');
+                toggleBtn.setAttribute('type', 'button');
+
+                const status = document.createElement('span');
+                status.textContent = 'Промежуточные шаги скрыты';
+                status.style.color = '#dc3545';
+
+                toggleBtn.addEventListener('click', e => {
+                    e.preventDefault();
+                    const isHidden = toggleBtn.getAttribute('data-state') === 'hidden';
+                    const newState = isHidden ? 'visible' : 'hidden';
+
+                    const toggleButtons = requestsContainer.querySelectorAll('a[data-state]');
+                    toggleButtons.forEach(btn => {
+                        // Get the hidden rows count by finding next row with data-request-id
+                        const buttonRow = btn.closest('tr');
+                        const nextRow = buttonRow.nextElementSibling;
+                        if (nextRow) {
+                            const requestId = nextRow.getAttribute('data-request-id');
+                            // Get original count of hidden rows for this request
+                            const hiddenCount = document.querySelectorAll(`[data-request-id="${requestId}"]`).length;
+                            btn.textContent = isHidden
+                                ? '🔽 Шаги отображены'
+                                : `▶️ Шаги скрыты (${hiddenCount})`;
+                            btn.setAttribute('data-state', newState);
+                            btn.style.color = isHidden ? '#006400' : '#ff0000';
+                        }
+                    });
+
+                    document.querySelectorAll('[data-request-id]')
+                        .forEach(row => row.style.display = isHidden ? 'table-row' : 'none');
+
+                    toggleBtn.textContent = isHidden
+                        ? '🔽 Шаги отображены'
+                        : `▶️ Шаги скрыты`;
+                    toggleBtn.setAttribute('data-state', newState);
+
+                    status.textContent = isHidden
+                        ? 'Отображены все шаги'
+                        : 'Промежуточные шаги скрыты';
+                    status.style.color = isHidden ? '#198754' : '#dc3545';
+                });
+
+                btnContainer.appendChild(toggleBtn);
+                btnContainer.appendChild(status);
+                requestsContainer.insertBefore(btnContainer, requestsContainer.firstChild);
+            }
+
+            requestsContainer.setAttribute('processed-by-helper', 'true');
+            console.info(`[Хелпер] - [АРМ] - [Заявки] Обработано скрытых шагов: ${totalHidden}`);
 
         } catch (error) {
-            console.error(
-                `[Хелпер] - [АРМ] - [Заявки] Ошибка:`,
-                error
-            );
+            console.error(`[Хелпер] - [АРМ] - [Заявки] Ошибка:`, error);
         }
-    });
-
-    // Start observing document with configuration
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true,
-        characterData: false,
-        attributes: false
-    });
+    }).observe(document.body, {childList: true, subtree: true});
 }
 
 // Удаление неиспользуемых вкладок диагностики EQM
