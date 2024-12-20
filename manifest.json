@@ -51,7 +51,7 @@
         "scripts/internal/line/countAppointments.js",
         "scripts/internal/line/fastButtons.js",
         "scripts/internal/line/highlight.js",
-        "scripts/internal/line/lineEssentials.js"
+        "scripts/internal/line/lineInit.js"
       ],
       "matches": [
         "http://*/*",
