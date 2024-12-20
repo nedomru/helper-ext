@@ -28,14 +28,23 @@
         "scripts/external/jquery.min.js",
         "scripts/external/notify.js",
         "scripts/external/dompurify.min.js",
+
         "scripts/internal/ext/background/getCookies.js",
         "scripts/internal/ext/popup/tools.js",
         "scripts/internal/ext/popup/sections.js",
         "scripts/internal/ext/popup/popup.js",
         "scripts/internal/ext/settings/settings.js",
-        "scripts/internal/arm/armEssentials.js",
+
+        "scripts/internal/arm/buttons.js",
+        "scripts/internal/arm/checkboxes.js",
+        "scripts/internal/arm/folding.js",
         "scripts/internal/arm/highlights.js",
+        "scripts/internal/arm/search.js",
+        "scripts/internal/arm/utility.js",
+        "scripts/internal/arm/armInit.js",
+
         "scripts/internal/genesys/genesysEssentials.js",
+
         "scripts/internal/line/countAppointments.js",
         "scripts/internal/line/fastButtons.js",
         "scripts/internal/line/highlight.js",

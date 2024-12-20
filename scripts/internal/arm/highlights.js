@@ -1,17 +1,3 @@
-if (document.URL.indexOf("db.ertelecom.ru/cgi-bin") !== -1) {
-    const config = {
-        ARM_highlightRequestsClasses: initHighlighting,
-    };
-
-    browser.storage.sync.get(Object.keys(config)).then((result) => {
-        Object.keys(config).forEach((key) => {
-            if (result[key]) {
-                config[key]();
-            }
-        });
-    });
-}
-
 let dataToHighlight = {};
 
 async function getHighlightColors() {
