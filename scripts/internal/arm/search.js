@@ -33,9 +33,10 @@ async function searchByAppeal() {
 
                     tables.forEach(table => {
                         const rows = table.getElementsByTagName('tr');
-                        const toggleRows = table.querySelectorAll('tr[style*="background-color: rgb(248, 249, 250)"]');
+                        const toggleRows = table.querySelectorAll('tr[style*="background-color: rgb(229, 225, 218)"]');
+                        const intermediateRows = table.querySelectorAll('[appeal-step="intermediate"]');
 
-                        // Show/hide toggle rows based on search value
+                        // Handle toggle rows visibility
                         toggleRows.forEach(row => {
                             row.style.display = searchValue ? 'none' : 'table-row';
                         });
@@ -45,7 +46,7 @@ async function searchByAppeal() {
                             const row = rows[i];
 
                             // Skip category header rows and toggle rows
-                            if (row.cells.length === 1 || row.style.backgroundColor === 'rgb(248, 249, 250)') continue;
+                            if (row.cells.length === 1 || row.style.backgroundColor === 'rgb(229, 225, 218)') continue;
 
                             const cells = row.getElementsByTagName('td');
                             let rowText = '';
@@ -57,19 +58,22 @@ async function searchByAppeal() {
 
                             // If searching, show all rows that match
                             if (searchValue) {
-                                row.style.display = rowText.includes(searchValue) ? '' : 'none';
+                                row.style.display = rowText.includes(searchValue) ? 'table-row' : 'none';
                             } else {
-                                // If not searching, restore original state
+                                // If not searching, restore original hiding state
                                 if (row.getAttribute('appeal-step') === 'intermediate') {
-                                    row.style.display = 'none';
+                                    // Check the state of the global toggle button
+                                    const globalToggleBtn = document.getElementById('helper-toggle-appeals');
+                                    const globalState = globalToggleBtn?.getAttribute('data-state') || 'hidden';
+                                    row.style.display = globalState === 'hidden' ? 'none' : 'table-row';
                                 } else {
-                                    row.style.display = '';
+                                    row.style.display = 'table-row';
                                 }
                             }
                         }
                     });
 
-                    // Update global toggle button state and text
+                    // Update global toggle button visibility and text
                     const globalToggleBtn = document.getElementById('helper-toggle-appeals');
                     const statusText = globalToggleBtn?.nextElementSibling;
 
