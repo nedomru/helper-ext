@@ -172,8 +172,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         "LINE_showFB_NTP1",
         "LINE_showFB_NTP2",
         "LINE_countAppointments",
-        "LINE_highlightEndingAppointments",
-        "POPUP_specialistLine"
+        "LINE_highlightEndingAppointments"
     ];
 
     const colorPickerIds = [
@@ -310,7 +309,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
 
     // Экспорт настроек
-    const allSettingsIds = [...checkboxIds, ...colorPickerIds, ...soundPick];
+    const allSettingsIds = [...checkboxIds, ...colorPickerIds, ...soundPick, "POPUP_specialistLine"];
 
     function exportSettings() {
         chrome.storage.sync.get(allSettingsIds, function (settings) {

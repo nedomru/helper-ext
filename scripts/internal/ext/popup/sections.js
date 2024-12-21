@@ -12,7 +12,7 @@ function getTabId(buttonText) {
 }
 
 // Function to show a tab
-function showTab(tabId) {
+async function showTab(tabId) {
     // Hide all tab contents
     document.querySelectorAll('.tabcontent').forEach(tab => {
         tab.style.display = 'none';
@@ -26,6 +26,25 @@ function showTab(tabId) {
             fetchMNA()
         } else if (tabId === "Роутеры") {
             fetchRouters()
+        } else if (tabId === "РМы") {
+            // Handle РМы tab specifically
+            const iframe = selectedTab.querySelector('iframe');
+            if (iframe) {
+                try {
+                    const result = await browser.storage.sync.get('lastFlomasterUrl');
+                    const lastUrl = result.lastFlomasterUrl;
+
+                    if (lastUrl && lastUrl.includes('flomaster')) {
+                        iframe.src = lastUrl;
+                        console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [РМы] Загружен сохраненный URL: ${lastUrl}`);
+                    }
+
+                    // Set up URL tracking for the iframe
+                    handleIframeUrlChange(iframe);
+                } catch (error) {
+                    console.error(`[${new Date().toLocaleTimeString()}] [Хелпер] - [РМы] Ошибка при загрузке URL:`, error);
+                }
+            }
         }
         browser.storage.sync.set({lastTab: tabId});
     } else {
@@ -63,6 +82,34 @@ async function initTabs() {
     await fetchMNA(true)
     await fetchRouters(true)
 }
+
+function handleIframeUrlChange(iframe) {
+    if (!iframe) return;
+
+    // Create a proxy to track iframe navigation
+    const proxy = new Proxy(iframe, {
+        set: function(target, property, value) {
+            target[property] = value;
+            if (property === 'src' && value.includes('flomaster')) {
+                browser.storage.sync.set({ lastFlomasterUrl: value });
+                console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [РМы] Сохранен URL: ${value}`);
+            }
+            return true;
+        }
+    });
+
+    // Monitor iframe load events
+    iframe.addEventListener('load', function() {
+        const currentUrl = iframe.contentWindow.location.href;
+        if (currentUrl.includes('flomaster')) {
+            browser.storage.sync.set({ lastFlomasterUrl: currentUrl });
+            console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [РМы] Сохранен URL: ${currentUrl}`);
+        }
+    });
+
+    return proxy;
+}
+
 
 function searchTable(inputId, tableId) {
     const input = document.getElementById(inputId);
