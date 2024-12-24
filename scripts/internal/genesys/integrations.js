@@ -11,6 +11,7 @@ async function socketConnect(sessionID) {
     }
 
     isActive = true;
+    await getOKCSessionId()
 
     const url =
         "wss://okc.ertelecom.ru/ts-line-genesys-okcdb-ws/?EIO=4&transport=websocket";

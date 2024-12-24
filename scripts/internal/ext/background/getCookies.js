@@ -18,3 +18,34 @@ if (document.URL.indexOf("okc.ertelecom.ru") !== -1) {
         }
     );
 }
+
+async function getOKCSessionId() {
+    try {
+        // First try to get from storage
+        const result = await browser.storage.sync.get('okc_phpSessionId');
+        if (result.okc_phpSessionId) {
+            console.info('[Хелпер] - [Настройки] - Получен PHPSESSID из storage:', result.okc_phpSessionId);
+            return result.okc_phpSessionId;
+        }
+
+        // If not in storage, try to get from cookies
+        const cookies = await browser.cookies.get({
+            url: 'https://okc.ertelecom.ru',
+            name: 'PHPSESSID'
+        });
+
+        if (cookies) {
+            const PHPSESSID = cookies.value;
+            // Save to storage for future use
+            await browser.storage.sync.set({ okc_phpSessionId: PHPSESSID });
+            console.info('[Хелпер] - [Настройки] - Получен и сохранен PHPSESSID из cookies:', PHPSESSID);
+            return PHPSESSID;
+        }
+
+        console.warn('[Хелпер] - [Настройки] - PHPSESSID не найден ни в storage, ни в cookies');
+        return null;
+    } catch (error) {
+        console.error('[Хелпер] - [Настройки] - Ошибка при получении PHPSESSID:', error);
+        return null;
+    }
+}
