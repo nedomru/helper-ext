@@ -368,7 +368,16 @@ async function handlePremiumSubmit() {
                     <tr>
                         <th scope="row">Оценка</th>
                         <td class="align-middle">${result.CSI}</td>
-                        <td class="align-middle">${result.CSI_NORMATIVE}</td>
+                        <td class="align-middle" style="text-decoration: underline; cursor: pointer;"
+                            data-bs-toggle="tooltip" 
+                            data-bs-html="true" 
+                            data-bs-title="Для премии за оценку:<br>
+                            ${(result.CSI_NORMATIVE * 1.008).toFixed(2)} = 20%<br>
+                            ${(result.CSI_NORMATIVE * 1.004).toFixed(2)} = 15%<br>
+                            ${(result.CSI_NORMATIVE * 1.000).toFixed(2)} = 10%<br>
+                            ${(result.CSI_NORMATIVE * 0.980).toFixed(2)} = 5%<br>
+                            < ${(result.CSI_NORMATIVE * 0.980).toFixed(2)} = 0%"
+                        >${result.CSI_NORMATIVE}</td>
                         <td class="align-middle">${result.PERC_CSI}%</td>
                     </tr>
                     <tr>
@@ -380,13 +389,32 @@ async function handlePremiumSubmit() {
                     <tr>
                         <th scope="row">FLR</th>
                         <td class="align-middle">${result.FLR}</td>
-                        <td class="align-middle">${result.FLR_NORMATIVE}</td>
+                        <td class="align-middle" style="text-decoration: underline; cursor: pointer;"
+                            data-bs-toggle="tooltip" 
+                            data-bs-html="true" 
+                            data-bs-title="Для премии за FLR:<br>
+                            ${(result.FLR_NORMATIVE * 1.03).toFixed(2)} = 30%<br>
+                            ${(result.FLR_NORMATIVE * 1.02).toFixed(2)} = 25%<br>
+                            ${(result.FLR_NORMATIVE * 1.01).toFixed(2)} = 21%<br>
+                            ${(result.FLR_NORMATIVE * 1.00).toFixed(2)} = 18%<br>
+                            ${(result.FLR_NORMATIVE * 0.95).toFixed(2)} = 13%<br>
+                            < ${(result.FLR_NORMATIVE * 0.95).toFixed(2)} = 8%"
+                        >${result.FLR_NORMATIVE}</td>
                         <td class="align-middle">${result.PERC_FLR}%</td>
                     </tr>
                     <tr>
                         <th scope="row">ГОК</th>
                         <td class="align-middle">${result.GOK}</td>
-                        <td class="align-middle">${result.GOK_NORMATIVE}</td>
+                        <td class="align-middle" style="text-decoration: underline; cursor: pointer;"
+                            data-bs-toggle="tooltip" 
+                            data-bs-html="true" 
+                            data-bs-title="Для премии за ГОК:<br>
+                            ${(result.GOK_NORMATIVE * 1.008).toFixed(2)} = 20%<br>
+                            ${(result.GOK_NORMATIVE * 1.004).toFixed(2)} = 15%<br>
+                            ${(result.GOK_NORMATIVE * 1.000).toFixed(2)} = 10%<br>
+                            ${(result.GOK_NORMATIVE * 0.980).toFixed(2)} = 5%<br>
+                            < ${(result.GOK_NORMATIVE * 0.980).toFixed(2)} = 0%"
+                        >${result.GOK_NORMATIVE}</td>
                         <td class="align-middle">${result.PERC_GOK}%</td>
                     </tr>
                     <tr>
@@ -401,6 +429,12 @@ async function handlePremiumSubmit() {
 
         loadingSpinner.style.display = 'none';
         document.getElementById("result-container").innerHTML = DOMPurify.sanitize(tableHTML);
+
+        // Initialize tooltips
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl, {
+            placement: 'right'
+        }));
     } catch (error) {
         loadingSpinner.style.display = 'none';
         document.getElementById("result-container").innerText =
