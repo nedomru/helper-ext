@@ -1,11 +1,7 @@
 // Function to get the corresponding tab ID for a button
 function getTabId(buttonText) {
     const tabMap = {
-        'Главная': 'Главная',
-        'MnA': 'MnA',
-        'Роутеры': 'Роутеры',
-        'РМы': 'РМы',
-        'Инструменты': 'Инструменты'
+        'Главная': 'Главная', 'MnA': 'MnA', 'Роутеры': 'Роутеры', 'РМы': 'РМы', 'Инструменты': 'Инструменты'
     };
     console.log(buttonText)
     return tabMap[buttonText] || buttonText;
@@ -26,25 +22,6 @@ async function showTab(tabId) {
             fetchMNA()
         } else if (tabId === "Роутеры") {
             fetchRouters()
-        } else if (tabId === "РМы") {
-            // Handle РМы tab specifically
-            const iframe = selectedTab.querySelector('iframe');
-            if (iframe) {
-                try {
-                    const result = await browser.storage.sync.get('lastFlomasterUrl');
-                    const lastUrl = result.lastFlomasterUrl;
-
-                    if (lastUrl && lastUrl.includes('flomaster')) {
-                        iframe.src = lastUrl;
-                        console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [РМы] Загружен сохраненный URL: ${lastUrl}`);
-                    }
-
-                    // Set up URL tracking for the iframe
-                    handleIframeUrlChange(iframe);
-                } catch (error) {
-                    console.error(`[${new Date().toLocaleTimeString()}] [Хелпер] - [РМы] Ошибка при загрузке URL:`, error);
-                }
-            }
         }
         browser.storage.sync.set({lastTab: tabId});
     } else {
@@ -82,34 +59,6 @@ async function initTabs() {
     await fetchMNA(true)
     await fetchRouters(true)
 }
-
-function handleIframeUrlChange(iframe) {
-    if (!iframe) return;
-
-    // Create a proxy to track iframe navigation
-    const proxy = new Proxy(iframe, {
-        set: function(target, property, value) {
-            target[property] = value;
-            if (property === 'src' && value.includes('flomaster')) {
-                browser.storage.sync.set({ lastFlomasterUrl: value });
-                console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [РМы] Сохранен URL: ${value}`);
-            }
-            return true;
-        }
-    });
-
-    // Monitor iframe load events
-    iframe.addEventListener('load', function() {
-        const currentUrl = iframe.contentWindow.location.href;
-        if (currentUrl.includes('flomaster')) {
-            browser.storage.sync.set({ lastFlomasterUrl: currentUrl });
-            console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [РМы] Сохранен URL: ${currentUrl}`);
-        }
-    });
-
-    return proxy;
-}
-
 
 function searchTable(inputId, tableId) {
     const input = document.getElementById(inputId);
@@ -151,10 +100,8 @@ function createLinkOrText(value, text, isEmulator = false) {
 async function fetchFromAPI(api_url) {
     try {
         const response = await fetch(api_url, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
+            method: 'GET', headers: {
+                'Accept': 'application/json', 'Content-Type': 'application/json'
             }
         });
 
@@ -201,9 +148,7 @@ async function fetchMNA(cachedOnly = false) {
 
         if (data) {
             displayMNAData(data);
-            console.info(
-                `[Хелпер] - [Общее] - [Провайдеры] Список провайдеров загружен из кеша`
-            )
+            console.info(`[Хелпер] - [Общее] - [Провайдеры] Список провайдеров загружен из кеша`)
         }
 
         // Fetch fresh data from API in the background
@@ -213,9 +158,7 @@ async function fetchMNA(cachedOnly = false) {
         if (JSON.stringify(providersApiData) !== JSON.stringify(data)) {
             // If data is different, update cache and display
             await saveToStorage("mnaData", providersApiData);
-            console.info(
-                `[Хелпер] - [Общее] - [Провайдеры] Загружены новые провайдеры из API`
-            )
+            console.info(`[Хелпер] - [Общее] - [Провайдеры] Загружены новые провайдеры из API`)
             data = providersApiData;
             isDataUpdated = true;
         }
@@ -235,15 +178,13 @@ function displayMNAData(data) {
 
     if (data.mna && Array.isArray(data.mna)) {
         const rows = data.mna
-            .map(
-                (provider) => `
+            .map((provider) => `
       <tr>
         <td class="align-middle"><a href="${provider.link}" target="_blank">${provider.name}</a></td>
         <td class="align-middle">${provider.authorization}</td>
         <td class="align-middle">${provider.connection}</td>
       </tr>
-    `
-            )
+    `)
             .join("");
 
         const tableHTML = `
@@ -293,9 +234,7 @@ async function fetchRouters(cachedOnly = false) {
         if (data) {
             // If data exists in cache, display it immediately
             displayRoutersData(data);
-            console.info(
-                `[Хелпер] - [Общее] - [Роутеры] Список роутеров загружен из кеша`
-            )
+            console.info(`[Хелпер] - [Общее] - [Роутеры] Список роутеров загружен из кеша`)
         }
 
         // Fetch fresh data from API in the background
@@ -305,9 +244,7 @@ async function fetchRouters(cachedOnly = false) {
         if (JSON.stringify(routersApiData) !== JSON.stringify(data)) {
             // If data is different, update cache and display
             await saveToStorage("routersData", routersApiData);
-            console.info(
-                `[Хелпер] - [Общее] - [Роутеры] Загружены новые роутеры из API`
-            )
+            console.info(`[Хелпер] - [Общее] - [Роутеры] Загружены новые роутеры из API`)
             data = routersApiData;
             isDataUpdated = true;
         }
@@ -328,8 +265,7 @@ function displayRoutersData(data) {
 
     if (data.routers && Array.isArray(data.routers)) {
         const rows = data.routers
-            .map(
-                (router) => `
+            .map((router) => `
     <tr>
       <td class="align-middle">${router.Name}</td>
       <td class="align-middle">${createLinkOrText(router.PPPoE, "PPPoE")}</td>
@@ -340,8 +276,7 @@ function displayRoutersData(data) {
       <td class="align-middle">${createLinkOrText(router.BZ, "БЗ")}</td>
       <td class="align-middle">${createLinkOrText(router.Emulator, "Эмулятор", true)}</td>
     </tr>
-  `
-            )
+  `)
             .join("");
 
         const tableHTML = `

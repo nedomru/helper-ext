@@ -34,17 +34,45 @@ async function initGenesysButtons() {
     };
 
     const LINKS_CONFIG = [
-        { url: "https://flomaster.chrsnv.ru", text: "Фломастер", key: "GENESYS_showFB_flomaster" },
-        { url: "http://cm.roool.ru", text: "ЧМ", key: "GENESYS_showFB_chatMaster" },
-        { url: "https://dom.ru/service/knowledgebase/internet/kak-nastroit-router", text: "Роутеры", key: "GENESYS_showFB_setupRouter" },
-        { url: "https://dom.ru/faq/televidenie/kak-nastroit-cifrovye-kanaly-na-televizore", text: "ТВ", key: "GENESYS_showFB_setupTV" },
-        { url: "https://clever.ertelecom.ru/content/space/4/article/12409", text: "ЧТП КТВ", key: "GENESYS_showFB_channelsktv" },
-        { url: "https://clever.ertelecom.ru/content/space/4/article/8887", text: "ЧТП ЦКТВ", key: "GENESYS_showFB_channelscktv" },
-        { url: "https://dom.ru/service/knowledgebase/domru-tv/nastrojka-tv-pristavok", text: "Декодеры", key: "GENESYS_showFB_setupDecoder" },
-        { url: "http://octptest.corp.ertelecom.loc/diagnostic-results/perm/?C=M;O=D", text: "FTP ПК", key: "GENESYS_showFB_ftpPC" },
-        { url: "http://octptest.corp.ertelecom.loc/diagnostic-results/mobile/?C=M;O=D", text: "FTP Моб", key: "GENESYS_showFB_ftpAndroid" },
-        { url: "https://mh-dashboard-erth.proptech.ru/web/", text: "Dashboard", key: "GENESYS_showFB_dashboard" },
-        { url: "https://provisioning.ertelecom.ru/devices", text: "Провиж", key: "GENESYS_showFB_provisioning" }
+        {url: "https://flomaster.chrsnv.ru", text: "Фломастер", key: "GENESYS_showFB_flomaster"},
+        {url: "http://cm.roool.ru", text: "ЧМ", key: "GENESYS_showFB_chatMaster"},
+        {
+            url: "https://dom.ru/service/knowledgebase/internet/kak-nastroit-router",
+            text: "Роутеры",
+            key: "GENESYS_showFB_setupRouter"
+        },
+        {
+            url: "https://dom.ru/faq/televidenie/kak-nastroit-cifrovye-kanaly-na-televizore",
+            text: "ТВ",
+            key: "GENESYS_showFB_setupTV"
+        },
+        {
+            url: "https://clever.ertelecom.ru/content/space/4/article/12409",
+            text: "ЧТП КТВ",
+            key: "GENESYS_showFB_channelsktv"
+        },
+        {
+            url: "https://clever.ertelecom.ru/content/space/4/article/8887",
+            text: "ЧТП ЦКТВ",
+            key: "GENESYS_showFB_channelscktv"
+        },
+        {
+            url: "https://dom.ru/service/knowledgebase/domru-tv/nastrojka-tv-pristavok",
+            text: "Декодеры",
+            key: "GENESYS_showFB_setupDecoder"
+        },
+        {
+            url: "http://octptest.corp.ertelecom.loc/diagnostic-results/perm/?C=M;O=D",
+            text: "FTP ПК",
+            key: "GENESYS_showFB_ftpPC"
+        },
+        {
+            url: "http://octptest.corp.ertelecom.loc/diagnostic-results/mobile/?C=M;O=D",
+            text: "FTP Моб",
+            key: "GENESYS_showFB_ftpAndroid"
+        },
+        {url: "https://mh-dashboard-erth.proptech.ru/web/", text: "Dashboard", key: "GENESYS_showFB_dashboard"},
+        {url: "https://provisioning.ertelecom.ru/devices", text: "Провиж", key: "GENESYS_showFB_provisioning"}
     ];
 
     try {
@@ -103,7 +131,7 @@ async function initGenesysButtons() {
             }
         });
 
-        observer.observe(document.body, { childList: true, subtree: true });
+        observer.observe(document.body, {childList: true, subtree: true});
 
     } catch (error) {
         console.error("[Хелпер] - [Генезис] - [Быстрые кнопки] Ошибка инициализации:", error);
