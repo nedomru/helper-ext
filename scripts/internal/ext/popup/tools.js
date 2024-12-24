@@ -359,7 +359,13 @@ async function handlePremiumSubmit() {
                     </tr>
                     <tr>
                         <th scope="row">Тесты</th>
-                        <td colspan="3" class="align-middle">${result.PERC_TESTING}%</td>
+                        <td colspan="3" class="align-middle" style="text-decoration: underline; cursor: pointer;" data-bs-toggle="tooltip" 
+                            data-bs-html="true" 
+                            data-bs-title="Для премии за тесты:<br>
+                            Всё сдано = 5%<br>
+                            < Всё сдано = 0%<br><br>
+                            
+                            Кликни для открытия тестов"><a href="https://okc.ertelecom.ru/stats/testing/lk/profile" target="_blank" style="text-decoration:none; color:inherit;">${result.PERC_TESTING}%</a></td>
                     </tr>
                     <tr>
                         <th scope="row">Благодарности</th>
