@@ -97,7 +97,7 @@ async function socketConnect(sessionID) {
         lineStats =
             document.querySelector("#line-status-nck1") ||
             document.querySelector("#line-status-nck2");
-        if (lineStats) lineStats.innerText = "Закрыто";
+        if (lineStats) lineStats.innerText = "Починить";
 
         if (reconnectAttempts < maxReconnectAttempts) {
             const delay = baseReconnectDelay * Math.pow(2, reconnectAttempts);
