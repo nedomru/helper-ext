@@ -137,3 +137,7 @@ async function initGenesysButtons() {
         console.error("[Хелпер] - [Генезис] - [Быстрые кнопки] Ошибка инициализации:", error);
     }
 }
+
+async function customEmojis() {
+
+}

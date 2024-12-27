@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Privacy Settings - Хелпер</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            line-height: 1.5;
+        }
+        .container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .consent-options {
+            margin: 2rem 0;
+        }
+        .consent-option {
+            margin: 1rem 0;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+        button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .accept {
+            background: #0060df;
+            color: white;
+        }
+        .decline {
+            background: #e0e0e6;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Приветики-пакетики!</h1>
+
+    <p>Для использования Хелпера требуется согласиться со следующими пунктами:</p>
+
+    <div class="consent-options">
+        <div class="consent-option">
+            <h3>Хранилище браузера</h3>
+            <p>Расширение сохраняет настройки в хранилище браузера для того, чтобы тебе не пришлось каждый раз настраивать его заново</p>
+            <input type="checkbox" id="storageConsent" name="storageConsent">
+            <label for="storageConsent">Я согласен дать доступ к хранилищу браузера</label>
+        </div>
+
+        <div class="consent-option">
+            <h3>Использование сторонних сервисов</h3>
+            <p>Расширение использует сторонние сервисы для проверки MAC, IP-адресов, а так же другой информации<br>
+                Этот пункт включает в себя разрешение на запросы в эти сервисы</p>
+            <input type="checkbox" id="apiConsent" name="apiConsent">
+            <label for="apiConsent">Я согласен отправлять запросы в сторонние сервисы</label>
+        </div>
+    </div>
+
+    <div class="buttons">
+        <button class="decline" id="declineAll">Отказаться и удалить расширение</button>
+        <button class="accept" id="acceptSelected">Согласиться и продолжить</button>
+    </div>
+</div>
+
+<script src="../scripts/internal/ext/background/privacy-consent.js"></script>
+</body>
+</html>

@@ -74,6 +74,7 @@
     "tabs",
     "sessions",
     "storage",
+    "management",
     "activeTab",
     "notifications"
   ],

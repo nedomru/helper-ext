@@ -24,7 +24,13 @@ async function checkForUpdates() {
         await browser.tabs.create({
             url: browser.runtime.getURL("pages/update.html"),
         });
+        const {privacyConsents} = await browser.storage.local.get('privacyConsents');
+        if (!privacyConsents) {
+            const consentUrl = browser.runtime.getURL('pages/privacy-consent.html');
+            await browser.tabs.create({url: consentUrl});
+        }
     }
+
 }
 
 async function setDefaults() {
@@ -102,12 +108,14 @@ async function setDefaults() {
         });
 }
 
-browser.runtime.onInstalled.addListener(() => {
-    checkForUpdates().then(() => {
+browser.runtime.onInstalled.addListener(async () => {
+    checkForUpdates().then(async (details) => {
         console.info("Хелпер - Проверка обновлений")
     });
     setDefaults().then(() => {
         console.info("Хелпер - Установка стандартных настроек")
     });
+    const consentUrl = browser.runtime.getURL('pages/privacy-consent.html');
+    await browser.tabs.create({url: consentUrl});
 });
 browser.runtime.onStartup.addListener(checkForUpdates);
