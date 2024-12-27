@@ -3,13 +3,11 @@
 document.addEventListener("DOMContentLoaded", async function () {
     const submitMac = document.getElementById("submit-mac");
     const submitIP = document.getElementById("submit-ip");
-    const submitWhois = document.getElementById("submit-whois");
     const submitLink = document.getElementById("submit-link");
     const submitPremium = document.getElementById("submit-premium");
 
     submitMac.addEventListener("click", handleMacSubmit);
     submitIP.addEventListener("click", handleIPSubmit);
-    submitWhois.addEventListener("click", handleWhoisSubmit);
     submitLink.addEventListener("click", handleLinkSubmit);
     submitPremium.addEventListener("click", handlePremiumSubmit);
 
