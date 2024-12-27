@@ -56,6 +56,7 @@ async function setDefaults() {
         ARM_filterClientSessions: true,
         ARM_removeUselessDiagTabs: true,
         ARM_removeUselessAppealsColumns: true,
+        ARM_setAppealItemToInternet: true,
         LINE_showFB: true,
         LINE_showFB_Mail: true,
         LINE_showFB_Lunch: true,

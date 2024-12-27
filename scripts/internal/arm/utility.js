@@ -738,3 +738,17 @@ async function addMassCompensationButton() {
         }
     });
 }
+
+// Автоматическая смена продукта обращения на Интернет
+async function changeAppealItemToInternet() {
+    const changeEvent = new Event("change", {
+        bubbles: true,
+        cancelable: true,
+    });
+
+    const product = document.querySelector(".uni_reas_prod");
+    if (product.value !== "70") {
+        product.value = "70";
+        product.dispatchEvent(changeEvent);
+    }
+}

@@ -94,7 +94,7 @@ const initializeExtension = async () => {
 
     // Инициализация функций левого фрейма
     if (matchesUrlPattern(URL_PATTERNS.LEFT_FRAME)) {
-        await initializeFeatures({ ARM_changeRequestFBLF: fastButtonsLeftFrame });
+        await initializeFeatures({ ARM_changeRequestFBLF: fastButtonsLeftFrame, ARM_setAppealItemToInternet: changeAppealItemToInternet });
     }
 
     // Инициализация функций страницы акций на удержание

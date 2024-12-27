@@ -158,6 +158,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         "ARM_filterClientSessions",
         "ARM_removeUselessDiagTabs",
         "ARM_removeUselessAppealsColumns",
+        "ARM_setAppealItemToInternet",
         "LINE_highlightOperators",
         "LINE_dutyButtons",
         "LINE_showFB",
