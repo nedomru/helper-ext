@@ -382,14 +382,22 @@ async function handlePremiumSubmit() {
                             ${(result.CSI_NORMATIVE * 1.004).toFixed(2)} = 15%<br>
                             ${(result.CSI_NORMATIVE * 1.000).toFixed(2)} = 10%<br>
                             ${(result.CSI_NORMATIVE * 0.980).toFixed(2)} = 5%<br>
-                            < ${(result.CSI_NORMATIVE * 0.980).toFixed(2)} = 0%"
+                            < ${(result.CSI_NORMATIVE * 0.980).toFixed(2)} = 0%<br><br>
+                            Текущий % выполнения: ${result.NORM_CSI}%"
                         >${result.CSI_NORMATIVE}</td>
                         <td class="align-middle">${result.PERC_CSI}%</td>
                     </tr>
                     <tr>
                         <th scope="row">Отклик</th>
                         <td class="align-middle">${result.CSI_RESPONSE}</td>
-                        <td class="align-middle">-</td>
+                        <td class="align-middle" style="text-decoration: underline; cursor: pointer;"
+                            data-bs-toggle="tooltip" 
+                            data-bs-html="true" 
+                            data-bs-title="Для премии за оценку:<br>
+                            ${(result.CSI_RESPONSE_NORMATIVE)} = Премия есть<br>
+                            < ${(result.CSI_RESPONSE_NORMATIVE)} = Премии нет<br><br>
+                            Текущий % выполнения: ${result.NORM_CSI_RESPONSE}%"
+                        >${result.CSI_RESPONSE_NORMATIVE}</td>
                         <td class="align-middle">-</td>
                     </tr>
                     <tr>
@@ -404,7 +412,8 @@ async function handlePremiumSubmit() {
                             ${(result.FLR_NORMATIVE * 1.01).toFixed(2)} = 21%<br>
                             ${(result.FLR_NORMATIVE * 1.00).toFixed(2)} = 18%<br>
                             ${(result.FLR_NORMATIVE * 0.95).toFixed(2)} = 13%<br>
-                            < ${(result.FLR_NORMATIVE * 0.95).toFixed(2)} = 8%"
+                            < ${(result.FLR_NORMATIVE * 0.95).toFixed(2)} = 8%<br><br>
+                            Текущий % выполнения: ${result.NORM_FLR}%"
                         >${result.FLR_NORMATIVE}</td>
                         <td class="align-middle">${result.PERC_FLR}%</td>
                     </tr>
@@ -419,7 +428,8 @@ async function handlePremiumSubmit() {
                             ${(result.GOK_NORMATIVE * 1.004).toFixed(2)} = 15%<br>
                             ${(result.GOK_NORMATIVE * 1.000).toFixed(2)} = 10%<br>
                             ${(result.GOK_NORMATIVE * 0.980).toFixed(2)} = 5%<br>
-                            < ${(result.GOK_NORMATIVE * 0.980).toFixed(2)} = 0%"
+                            < ${(result.GOK_NORMATIVE * 0.980).toFixed(2)} = 0%<br><br>
+                            Текущий % выполнения: ${result.NORM_GOK}%"
                         >${result.GOK_NORMATIVE}</td>
                         <td class="align-middle">${result.PERC_GOK}%</td>
                     </tr>
