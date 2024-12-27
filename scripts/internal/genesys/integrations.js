@@ -162,6 +162,7 @@ async function addMessageDiv(id) {
             containerDiv.style.border = "1px solid #949494";
             containerDiv.style.backgroundColor = "#4c5961";
             containerDiv.style.color = "white";
+            containerDiv.classList.add("helper-line-status")
 
             const newDiv = document.createElement("div");
             newDiv.id = id;
@@ -210,6 +211,7 @@ async function handleSocketMessages(data, time) {
 
     if (settings.showLineNCK1) {
         const lineStats = document.querySelector("#line-status-nck1");
+        const lineStatsDiv = document.querySelector(".helper-line-status")
         if (!lineStats) return;
 
         lineStats.style.color = data.waitingChats.nck1 > 0 ? "red" : "white";
@@ -222,9 +224,9 @@ async function handleSocketMessages(data, time) {
         const newContent = `<p>${contentToShow}</p>`;
         if (lineStats.innerHTML !== newContent) {
             lineStats.innerHTML = newContent;
-            lineStats.style.transition = "background-color 0.3s";
-            lineStats.style.backgroundColor = "#909ea6";
-            setTimeout(() => lineStats.style.backgroundColor = "#4c5961", 300);
+            lineStatsDiv.style.transition = "background-color 0.3s";
+            lineStatsDiv.style.backgroundColor = "#909ea6";
+            setTimeout(() => lineStatsDiv.style.backgroundColor = "#4c5961", 300);
         }
 
         const tooltipMessage = `Статистика НЦК1 за день
@@ -248,6 +250,7 @@ Web: ${data.availQueues[1][1].currentWaitingCalls} / ${data.availQueues[1][1].to
 
     if (settings.showLineNCK2) {
         const lineStats = document.querySelector("#line-status-nck2");
+        const lineStatsDiv = document.querySelector(".helper-line-status")
         if (!lineStats) return;
 
         lineStats.style.color = data.waitingChats.nck2 > 0 ? "red" : "white";
@@ -260,9 +263,9 @@ Web: ${data.availQueues[1][1].currentWaitingCalls} / ${data.availQueues[1][1].to
         const newContent = `<p>${contentToShow}</p>`;
         if (lineStats.innerHTML !== newContent) {
             lineStats.innerHTML = newContent;
-            lineStats.style.transition = "background-color 0.3s";
-            lineStats.style.backgroundColor = "#909ea6";
-            setTimeout(() => lineStats.style.backgroundColor = "#4c5961", 300);
+            lineStatsDiv.style.transition = "background-color 0.3s";
+            lineStatsDiv.style.backgroundColor = "#909ea6";
+            setTimeout(() => lineStatsDiv.style.backgroundColor = "#4c5961", 300);
         }
         const tooltipMessage = `Статистика НЦК2 за день
 
