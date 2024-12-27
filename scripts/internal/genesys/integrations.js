@@ -223,7 +223,7 @@ async function handleSocketMessages(data, time) {
 
         const newContent = `<p>${contentToShow}</p>`;
         if (lineStats.innerHTML !== newContent) {
-            lineStats.innerHTML = newContent;
+            lineStats.innerHTML = DOMPurify.sanitize(newContent);
             lineStatsDiv.style.transition = "background-color 0.3s";
             lineStatsDiv.style.backgroundColor = "#909ea6";
             setTimeout(() => lineStatsDiv.style.backgroundColor = "#4c5961", 300);
@@ -262,7 +262,7 @@ Web: ${data.availQueues[1][1].currentWaitingCalls} / ${data.availQueues[1][1].to
 
         const newContent = `<p>${contentToShow}</p>`;
         if (lineStats.innerHTML !== newContent) {
-            lineStats.innerHTML = newContent;
+            lineStats.innerHTML = DOMPurify.sanitize(newContent);
             lineStatsDiv.style.transition = "background-color 0.3s";
             lineStatsDiv.style.backgroundColor = "#909ea6";
             setTimeout(() => lineStatsDiv.style.backgroundColor = "#4c5961", 300);
