@@ -309,7 +309,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
 
     // Экспорт настроек
-    const allSettingsIds = [...checkboxIds, ...colorPickerIds, ...soundPick, "POPUP_specialistLine"];
+    const allSettingsIds = [...checkboxIds, ...colorPickerIds, ...soundPick, "POPUP_userLine"];
 
     function exportSettings() {
         chrome.storage.sync.get(allSettingsIds, function (settings) {

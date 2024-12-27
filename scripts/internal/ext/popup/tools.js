@@ -207,16 +207,30 @@ async function handlePremiumSubmit() {
 
     const inputField = document.getElementById("premium-select").value;
     try {
-        await browser.storage.sync.set({ POPUP_specialistLine: inputField });
+        await browser.storage.sync.set({ POPUP_userLine: inputField });
         console.log(`[Хелпер] - [Проверка премии] Линия специалиста установлена: ${inputField}`);
     } catch (error) {
         console.error(`[Хелпер] - [Проверка премии] Ошибка при сохранении линии:`, error);
     }
 
     // Determine URL based on selection
-    const url = inputField === "nck2"
-        ? "https://okc.ertelecom.ru/stats/premium/ntp-nck2/get-premium-spec-month"
-        : "https://okc.ertelecom.ru/stats/premium/ntp-nck1/get-premium-spec-month";
+    let url;
+    switch (inputField) {
+        case 'nck1':
+            url = "https://okc.ertelecom.ru/stats/premium/ntp-nck1/get-premium-spec-month"
+            break;
+        case 'nck2':
+            url = "https://okc.ertelecom.ru/stats/premium/ntp-nck2/get-premium-spec-month"
+            break;
+        case 'rg_nck1':
+            url = "https://okc.ertelecom.ru/stats/premium/ntp-nck1/get-premium-head-month"
+            break;
+        case 'rg_nck2':
+            url = "https://okc.ertelecom.ru/stats/premium/ntp-nck2/get-premium-head-month"
+            break;
+        default:
+            console.log(`Sorry, we are out of ${expr}.`);
+    }
 
     // Format date for request
     const now = new Date();
@@ -251,9 +265,11 @@ async function handlePremiumSubmit() {
         }
 
         const data = await response.json();
-        const result = data[0];
 
-        const tableHTML = `
+        let tableHTML
+        if (inputField === "nck1" || inputField === "nck2") {
+            const result = data[0];
+            tableHTML = `
             <table class="table table-hover table-bordered table-responsive table-sm">
                 <thead>
                     <tr>
@@ -289,6 +305,10 @@ async function handlePremiumSubmit() {
                     <tr>
                         <th scope="row">Благодарности</th>
                         <td colspan="3" class="align-middle">${result.PERC_THANKS}%</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Ручная правка</th>
+                        <td colspan="3" class="align-middle">${result.HEAD_ADJUST === null ? "-" : result.HEAD_ADJUST}</td>
                     </tr>
                     <tr>
                         <th scope="row">Оценка</th>
@@ -361,6 +381,81 @@ async function handlePremiumSubmit() {
                 </tbody>
             </table>
         `;
+        }
+        else {
+            const result = data["premium"][0];
+            console.log(result)
+            tableHTML = `
+            <table class="table table-hover table-bordered table-responsive table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">Параметр</th>
+                        <th scope="col">Факт</th>
+                        <th scope="col">Норматив</th>
+                        <th scope="col">Процент</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr>
+                        <th scope="row">Руководитель</th>
+                        <td colspan="3" class="align-middle">${result.USER_FIO}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Общая премия</th>
+                        <td colspan="3" class="align-middle">${result.TOTAL_PREMIUM}%</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Ручная правка</th>
+                        <td colspan="3" class="align-middle">${result.HEAD_ADJUST === null ? "-" : result.HEAD_ADJUST}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">ГОК</th>
+                        <td class="align-middle">${result.GOK}</td>
+                        <td class="align-middle" style="text-decoration: underline; cursor: pointer;"
+                            data-bs-toggle="tooltip" 
+                            data-bs-html="true" 
+                            data-bs-title="Для премии за ГОК:<br>
+                            ${(result.GOK_NORMATIVE * 1.008).toFixed(2)} = 20%<br>
+                            ${(result.GOK_NORMATIVE * 1.004).toFixed(2)} = 15%<br>
+                            ${(result.GOK_NORMATIVE * 1.000).toFixed(2)} = 10%<br>
+                            ${(result.GOK_NORMATIVE * 0.980).toFixed(2)} = 5%<br>
+                            < ${(result.GOK_NORMATIVE * 0.980).toFixed(2)} = 0%<br><br>
+                            Текущий % выполнения: ${result.NORM_GOK}%"
+                        >${result.GOK_NORMATIVE}</td>
+                        <td class="align-middle">${result.PERC_GOK}%</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">FLR</th>
+                        <td class="align-middle">${result.FLR}</td>
+                        <td class="align-middle" style="text-decoration: underline; cursor: pointer;"
+                            data-bs-toggle="tooltip" 
+                            data-bs-html="true" 
+                            data-bs-title="Для премии за FLR:<br>
+                            ${(result.FLR_NORMATIVE * 1.008).toFixed(2)} = 20%<br>
+                            ${(result.FLR_NORMATIVE * 1.004).toFixed(2)} = 15%<br>
+                            ${(result.FLR_NORMATIVE * 1.000).toFixed(2)} = 10%<br>
+                            ${(result.FLR_NORMATIVE * 0.980).toFixed(2)} = 5%<br>
+                            < ${(result.FLR_NORMATIVE * 0.980).toFixed(2)} = 0%<br><br>
+                            Текущий % выполнения: ${result.NORM_FLR}%"
+                        >${result.FLR_NORMATIVE}</td>
+                        <td class="align-middle">${result.PERC_FLR}%</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">СЦ</th>
+                        <td class="align-middle">${result.PERS_FACT}</td>
+                        <td>${result.PERS_PLAN_1}/${result.PERS_PLAN_2}</td>
+                        <td class="align-middle">${result.PERS_PERCENT}%</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">SL</th>
+                        <td class="align-middle">${result.SL_FACT === null ? "-" : result.SL_FACT}</td>
+                        <td>${result.SL_PLAN_1 === null ? "-" : result.SL_PLAN_1}/${result.SL_PLAN_2 === null ? "-" : result.SL_PLAN_2}</td>
+                        <td class="align-middle">${result.SL_PERCENT}%</td>
+                    </tr>
+                </tbody>
+            </table>
+        `;
+        }
 
         loadingSpinner.style.display = 'none';
         document.getElementById("result-container").innerHTML = DOMPurify.sanitize(tableHTML);

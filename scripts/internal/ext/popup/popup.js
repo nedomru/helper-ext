@@ -13,8 +13,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Установка линии специалиста в проверке премии
     try {
-        const result = await browser.storage.sync.get("POPUP_specialistLine");
-        const specialistLine = result.POPUP_specialistLine || "nck1";
+        const result = await browser.storage.sync.get("POPUP_userLine");
+        const specialistLine = result.POPUP_userLine || "nck1";
         const selectElement = document.getElementById("premium-select");
 
         const optionIndex = Array.from(selectElement.options).findIndex(option => option.value === specialistLine);
