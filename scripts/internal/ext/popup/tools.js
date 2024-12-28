@@ -411,33 +411,13 @@ async function handlePremiumSubmit() {
                     <tr>
                         <th scope="row">ГОК</th>
                         <td class="align-middle">${result.GOK}</td>
-                        <td class="align-middle" style="text-decoration: underline; cursor: pointer;"
-                            data-bs-toggle="tooltip" 
-                            data-bs-html="true" 
-                            data-bs-title="Для премии за ГОК:<br>
-                            ${(result.GOK_NORMATIVE * 1.008).toFixed(2)} = 20%<br>
-                            ${(result.GOK_NORMATIVE * 1.004).toFixed(2)} = 15%<br>
-                            ${(result.GOK_NORMATIVE * 1.000).toFixed(2)} = 10%<br>
-                            ${(result.GOK_NORMATIVE * 0.980).toFixed(2)} = 5%<br>
-                            < ${(result.GOK_NORMATIVE * 0.980).toFixed(2)} = 0%<br><br>
-                            Текущий % выполнения: ${result.NORM_GOK}%"
-                        >${result.GOK_NORMATIVE}</td>
+                        <td class="align-middle">${result.GOK_NORMATIVE}</td>
                         <td class="align-middle">${result.PERC_GOK}%</td>
                     </tr>
                     <tr>
                         <th scope="row">FLR</th>
                         <td class="align-middle">${result.FLR}</td>
-                        <td class="align-middle" style="text-decoration: underline; cursor: pointer;"
-                            data-bs-toggle="tooltip" 
-                            data-bs-html="true" 
-                            data-bs-title="Для премии за FLR:<br>
-                            ${(result.FLR_NORMATIVE * 1.008).toFixed(2)} = 20%<br>
-                            ${(result.FLR_NORMATIVE * 1.004).toFixed(2)} = 15%<br>
-                            ${(result.FLR_NORMATIVE * 1.000).toFixed(2)} = 10%<br>
-                            ${(result.FLR_NORMATIVE * 0.980).toFixed(2)} = 5%<br>
-                            < ${(result.FLR_NORMATIVE * 0.980).toFixed(2)} = 0%<br><br>
-                            Текущий % выполнения: ${result.NORM_FLR}%"
-                        >${result.FLR_NORMATIVE}</td>
+                        <td class="align-middle">${result.FLR_NORMATIVE}</td>
                         <td class="align-middle">${result.PERC_FLR}%</td>
                     </tr>
                     <tr>
