@@ -314,7 +314,12 @@ async function handlePremiumSubmit() {
                     </tr>
                     <tr>
                         <th scope="row">Благодарности</th>
-                        <td colspan="3" class="align-middle">${result.PERC_THANKS ? result.PERC_THANKS : '-'}%</td>
+                        <td colspan="3" class="align-middle" style="text-decoration: underline;" data-bs-toggle="tooltip" 
+                            data-bs-html="true" 
+                            data-bs-title="Для премии за благи:<br>
+                            >= 2 благи = 6%<br>
+                            1 блага = 3%<br>
+                            < 1 благи = 0%">${result.PERC_THANKS ? result.PERC_THANKS : '-'}%</td>
                     </tr>
                     <tr>
                         <th scope="row">Ручная правка</th>
@@ -323,7 +328,7 @@ async function handlePremiumSubmit() {
                     <tr>
                         <th scope="row">Оценка</th>
                         <td class="align-middle">${result.CSI ? result.CSI : '-'}</td>
-                        <td class="align-middle" style="text-decoration: underline; cursor: pointer;"
+                        <td class="align-middle" style="text-decoration: underline;"
                             data-bs-toggle="tooltip" 
                             data-bs-html="true" 
                             data-bs-title="Для премии за оценку:<br>
@@ -339,7 +344,7 @@ async function handlePremiumSubmit() {
                     <tr>
                         <th scope="row">Отклик</th>
                         <td class="align-middle">${result.CSI_RESPONSE ? result.CSI_RESPONSE : '-'}</td>
-                        <td class="align-middle" style="text-decoration: underline; cursor: pointer;"
+                        <td class="align-middle" style="text-decoration: underline;"
                             data-bs-toggle="tooltip" 
                             data-bs-html="true" 
                             data-bs-title="Для премии за оценку:<br>
@@ -352,7 +357,7 @@ async function handlePremiumSubmit() {
                     <tr>
                         <th scope="row">FLR</th>
                         <td class="align-middle">${result.FLR ? result.FLR : '-'}</td>
-                        <td class="align-middle" style="text-decoration: underline; cursor: pointer;"
+                        <td class="align-middle" style="text-decoration: underline;"
                             data-bs-toggle="tooltip" 
                             data-bs-html="true" 
                             data-bs-title="Для премии за FLR:<br>
@@ -369,7 +374,7 @@ async function handlePremiumSubmit() {
                     <tr>
                         <th scope="row">ГОК</th>
                         <td class="align-middle">${result.GOK ? result.GOK : '-'}</td>
-                        <td class="align-middle" style="text-decoration: underline; cursor: pointer;"
+                        <td class="align-middle" style="text-decoration: underline;"
                             data-bs-toggle="tooltip" 
                             data-bs-html="true" 
                             data-bs-title="Для премии за ГОК:<br>
