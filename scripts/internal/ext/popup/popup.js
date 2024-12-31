@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     submitIP.addEventListener("click", handleIPSubmit);
     submitLink.addEventListener("click", handleLinkSubmit);
     submitPremium.addEventListener("click", handlePremiumSubmit);
+    populatePremiumDropdown()
 
     // Установка линии специалиста в проверке премии
     try {

@@ -202,6 +202,14 @@ async function handleLinkSubmit() {
 // Проверка премии
 async function handlePremiumSubmit() {
     document.getElementById("result-container").innerHTML = "";
+    const monthSelector = document.getElementById("monthSelect");
+
+    const monthValue = monthSelector.options[monthSelector.selectedIndex].value
+    const monthName =monthSelector.options[monthSelector.selectedIndex].text
+    const yearValue = document.getElementById('yearSelect').value
+
+    const month = parseInt(monthValue, 10);
+    const year = parseInt(yearValue, 10);
     const loadingSpinner = document.getElementById('loadingResultsSpinner');
     loadingSpinner.style.display = 'block';
 
@@ -232,9 +240,7 @@ async function handlePremiumSubmit() {
             console.log(`Sorry, we are out of ${expr}.`);
     }
 
-    // Format date for request
-    const now = new Date();
-    const formattedDate = `01.${String(now.getMonth() + 1).padStart(2, "0")}.${now.getFullYear()}`;
+    const formattedDate = `01.${String(month).padStart(2, "0")}.${year}`;
 
     // Create request body
     const requestBody = {
@@ -285,12 +291,16 @@ async function handlePremiumSubmit() {
                         <td colspan="3" class="align-middle">${result.USER_FIO}</td>
                     </tr>
                     <tr>
+                        <th scope="row">Месяц</th>
+                        <td colspan="3" class="align-middle">${monthName}, ${yearValue}</td>
+                    </tr>
+                    <tr>
                         <th scope="row">Общая премия</th>
-                        <td colspan="3" class="align-middle">${result.TOTAL_PREMIUM}%</td>
+                        <td colspan="3" class="align-middle">${result.TOTAL_PREMIUM ? result.TOTAL_PREMIUM : '-'}%</td>
                     </tr>
                     <tr>
                         <th scope="row">Кол-во чатов</th>
-                        <td colspan="3" class="align-middle">${result.TOTAL_CHATS}</td>
+                        <td colspan="3" class="align-middle">${result.TOTAL_CHATS ? result.TOTAL_CHATS : '-'}</td>
                     </tr>
                     <tr>
                         <th scope="row">Тесты</th>
@@ -300,19 +310,19 @@ async function handlePremiumSubmit() {
                             Всё сдано = 5%<br>
                             < Всё сдано = 0%<br><br>
                             
-                            Кликни для открытия тестов"><a href="https://okc.ertelecom.ru/stats/testing/lk/profile" target="_blank" style="text-decoration:none; color:inherit;">${result.PERC_TESTING}%</a></td>
+                            Кликни для открытия тестов"><a href="https://okc.ertelecom.ru/stats/testing/lk/profile" target="_blank" style="text-decoration:none; color:inherit;">${result.PERC_TESTING ? result.PERC_TESTING : '-'}%</a></td>
                     </tr>
                     <tr>
                         <th scope="row">Благодарности</th>
-                        <td colspan="3" class="align-middle">${result.PERC_THANKS}%</td>
+                        <td colspan="3" class="align-middle">${result.PERC_THANKS ? result.PERC_THANKS : '-'}%</td>
                     </tr>
                     <tr>
                         <th scope="row">Ручная правка</th>
-                        <td colspan="3" class="align-middle">${result.HEAD_ADJUST === null ? "-" : result.HEAD_ADJUST}</td>
+                        <td colspan="3" class="align-middle">${result.HEAD_ADJUST ? result.HEAD_ADJUST : '-'}</td>
                     </tr>
                     <tr>
                         <th scope="row">Оценка</th>
-                        <td class="align-middle">${result.CSI}</td>
+                        <td class="align-middle">${result.CSI ? result.CSI : '-'}</td>
                         <td class="align-middle" style="text-decoration: underline; cursor: pointer;"
                             data-bs-toggle="tooltip" 
                             data-bs-html="true" 
@@ -322,26 +332,26 @@ async function handlePremiumSubmit() {
                             ${(result.CSI_NORMATIVE * 1.000).toFixed(2)} = 10%<br>
                             ${(result.CSI_NORMATIVE * 0.980).toFixed(2)} = 5%<br>
                             < ${(result.CSI_NORMATIVE * 0.980).toFixed(2)} = 0%<br><br>
-                            Текущий % выполнения: ${result.NORM_CSI}%"
-                        >${result.CSI_NORMATIVE}</td>
-                        <td class="align-middle">${result.PERC_CSI}%</td>
+                            Текущий % выполнения: ${result.NORM_CSI ? result.NORM_CSI : '-'}%"
+                        >${result.CSI_NORMATIVE ? result.CSI_NORMATIVE : '-'}</td>
+                        <td class="align-middle">${result.PERC_CSI ? result.PERC_CSI : '-'}%</td>
                     </tr>
                     <tr>
                         <th scope="row">Отклик</th>
-                        <td class="align-middle">${result.CSI_RESPONSE}</td>
+                        <td class="align-middle">${result.CSI_RESPONSE ? result.CSI_RESPONSE : '-'}</td>
                         <td class="align-middle" style="text-decoration: underline; cursor: pointer;"
                             data-bs-toggle="tooltip" 
                             data-bs-html="true" 
                             data-bs-title="Для премии за оценку:<br>
                             ${(result.CSI_RESPONSE_NORMATIVE)} = Премия есть<br>
                             < ${(result.CSI_RESPONSE_NORMATIVE)} = Премии нет<br><br>
-                            Текущий % выполнения: ${result.NORM_CSI_RESPONSE}%"
-                        >${result.CSI_RESPONSE_NORMATIVE}</td>
+                            Текущий % выполнения: ${result.NORM_CSI_RESPONSE ? result.NORM_CSI_RESPONSE : '-'}%"
+                        >${result.CSI_RESPONSE_NORMATIVE ? result.CSI_RESPONSE_NORMATIVE : '-'}</td>
                         <td class="align-middle">-</td>
                     </tr>
                     <tr>
                         <th scope="row">FLR</th>
-                        <td class="align-middle">${result.FLR}</td>
+                        <td class="align-middle">${result.FLR ? result.FLR : '-'}</td>
                         <td class="align-middle" style="text-decoration: underline; cursor: pointer;"
                             data-bs-toggle="tooltip" 
                             data-bs-html="true" 
@@ -352,13 +362,13 @@ async function handlePremiumSubmit() {
                             ${(result.FLR_NORMATIVE * 1.00).toFixed(2)} = 18%<br>
                             ${(result.FLR_NORMATIVE * 0.95).toFixed(2)} = 13%<br>
                             < ${(result.FLR_NORMATIVE * 0.95).toFixed(2)} = 8%<br><br>
-                            Текущий % выполнения: ${result.NORM_FLR}%"
-                        >${result.FLR_NORMATIVE}</td>
-                        <td class="align-middle">${result.PERC_FLR}%</td>
+                            Текущий % выполнения: ${result.NORM_FLR ? result.NORM_FLR : '-'}%"
+                        >${result.FLR_NORMATIVE ? result.FLR_NORMATIVE : '-'}</td>
+                        <td class="align-middle">${result.PERC_FLR ? result.PERC_FLR : '-'}%</td>
                     </tr>
                     <tr>
                         <th scope="row">ГОК</th>
-                        <td class="align-middle">${result.GOK}</td>
+                        <td class="align-middle">${result.GOK ? result.GOK : '-'}</td>
                         <td class="align-middle" style="text-decoration: underline; cursor: pointer;"
                             data-bs-toggle="tooltip" 
                             data-bs-html="true" 
@@ -368,15 +378,15 @@ async function handlePremiumSubmit() {
                             ${(result.GOK_NORMATIVE * 1.000).toFixed(2)} = 10%<br>
                             ${(result.GOK_NORMATIVE * 0.980).toFixed(2)} = 5%<br>
                             < ${(result.GOK_NORMATIVE * 0.980).toFixed(2)} = 0%<br><br>
-                            Текущий % выполнения: ${result.NORM_GOK}%"
-                        >${result.GOK_NORMATIVE}</td>
-                        <td class="align-middle">${result.PERC_GOK}%</td>
+                            Текущий % выполнения: ${result.NORM_GOK ? result.NORM_GOK : '-'}%"
+                        >${result.GOK_NORMATIVE ? result.GOK_NORMATIVE : '-'}</td>
+                        <td class="align-middle">${result.PERC_GOK ? result.PERC_GOK : '-'}%</td>
                     </tr>
                     <tr>
                         <th scope="row">СЦ</th>
-                        <td class="align-middle">${result.PERS_FACT || '-'}</td>
+                        <td class="align-middle">${result.PERS_FACT ? result.PERS_FACT : '-'}</td>
                         <td class="align-middle">${result.PERS_PLAN_1 ? `${result.PERS_PLAN_1} / ${result.PERS_PLAN_2}` : '-'}</td>
-                        <td class="align-middle">${result.PERS_PERCENT}%</td>
+                        <td class="align-middle">${result.PERS_PERCENT ? result.PERS_PERCENT : '-'}%</td>
                     </tr>
                 </tbody>
             </table>
@@ -401,36 +411,40 @@ async function handlePremiumSubmit() {
                         <td colspan="3" class="align-middle">${result.USER_FIO}</td>
                     </tr>
                     <tr>
+                        <th scope="row">Месяц</th>
+                        <td colspan="3" class="align-middle">${monthName}, ${yearValue}</td>
+                    </tr>
+                    <tr>
                         <th scope="row">Общая премия</th>
-                        <td colspan="3" class="align-middle">${result.TOTAL_PREMIUM}%</td>
+                        <td colspan="3" class="align-middle">${result.TOTAL_PREMIUM ? result.TOTAL_PREMIUM : '-'}%</td>
                     </tr>
                     <tr>
                         <th scope="row">Ручная правка</th>
-                        <td colspan="3" class="align-middle">${result.HEAD_ADJUST === null ? "-" : result.HEAD_ADJUST}</td>
+                        <td colspan="3" class="align-middle">${result.HEAD_ADJUST ? result.HEAD_ADJUST : '-'}</td>
                     </tr>
                     <tr>
                         <th scope="row">ГОК</th>
-                        <td class="align-middle">${result.GOK}</td>
-                        <td class="align-middle">${result.GOK_NORMATIVE}</td>
-                        <td class="align-middle">${result.PERC_GOK}%</td>
+                        <td class="align-middle">${result.GOK ? result.GOK : '-'}</td>
+                        <td class="align-middle">${result.GOK_NORMATIVE ? result.GOK_NORMATIVE : '-'}</td>
+                        <td class="align-middle">${result.PERC_GOK ? result.PERC_GOK : '-'}%</td>
                     </tr>
                     <tr>
                         <th scope="row">FLR</th>
-                        <td class="align-middle">${result.FLR}</td>
-                        <td class="align-middle">${result.FLR_NORMATIVE}</td>
-                        <td class="align-middle">${result.PERC_FLR}%</td>
+                        <td class="align-middle">${result.FLR ? result.FLR : '-'}</td>
+                        <td class="align-middle">${result.FLR_NORMATIVE ? result.FLR_NORMATIVE : '-'}</td>
+                        <td class="align-middle">${result.PERC_FLR ? result.PERC_FLR : '-'}%</td>
                     </tr>
                     <tr>
                         <th scope="row">СЦ</th>
-                        <td class="align-middle">${result.PERS_FACT}</td>
-                        <td>${result.PERS_PLAN_1}/${result.PERS_PLAN_2}</td>
-                        <td class="align-middle">${result.PERS_PERCENT}%</td>
+                        <td class="align-middle">${result.PERS_FACT ? result.PERS_FACT : '-'}</td>
+                        <td>${result.PERS_PLAN_1 ? result.PERS_PLAN_1 : '-'}/${result.PERS_PLAN_2 ? result.PERS_PLAN_2 : '-'}</td>
+                        <td class="align-middle">${result.PERS_PERCENT ? result.PERS_PERCENT : '-'}%</td>
                     </tr>
                     <tr>
                         <th scope="row">SL</th>
-                        <td class="align-middle">${result.SL_FACT === null ? "-" : result.SL_FACT}</td>
-                        <td>${result.SL_PLAN_1 === null ? "-" : result.SL_PLAN_1}/${result.SL_PLAN_2 === null ? "-" : result.SL_PLAN_2}</td>
-                        <td class="align-middle">${result.SL_PERCENT}%</td>
+                        <td class="align-middle">${result.SL_FACT ? result.SL_FACT : '-'}</td>
+                        <td>${result.SL_PLAN_1 ? result.SL_PLAN_1 : '-'}/${result.SL_PLAN_2 ? result.SL_PLAN_2 : '-'}</td>
+                        <td class="align-middle">${result.SL_PERCENT ? result.SL_PERCENT : '-'}%</td>
                     </tr>
                 </tbody>
             </table>
@@ -451,4 +465,28 @@ async function handlePremiumSubmit() {
             "Не удалось получить премию\nУбедись, что ты авторизован(а) на okc.ertelecom.ru";
         console.error("Ошибка:", error);
     }
+}
+
+// Заполнение даты в проверке премии
+function populatePremiumDropdown() {
+    const yearSelect = document.getElementById('yearSelect');
+    const monthSelect = document.getElementById('monthSelect');
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth(); // 0-11
+
+    // Clear any existing options
+    yearSelect.innerHTML = '';
+
+    // Populate the dropdown with the current year and the last five years
+    for (let year = currentYear; year >= currentYear - 5; year--) { // From current year to 5 years ago
+        const option = document.createElement('option');
+        option.value = year;
+        option.textContent = year;
+        yearSelect.appendChild(option);
+    }
+
+    // Set the default values to the current year and month
+    yearSelect.value = currentYear;
+    monthSelect.selectedIndex = currentMonth;
 }

@@ -202,30 +202,52 @@
 </div>
 
 <div id="Инструменты" class="tabcontent">
-    <div class="d-flex flex-column w-75">
+    <div class="d-flex flex-column">
         <div class="input-group mb-2">
-            <span class="input-group-text col-sm-4">Проверка MAC</span>
+            <span class="input-group-text col-sm-3">Проверка MAC</span>
             <input type="text" class="form-control" id="input-mac" placeholder="Введи MAC" aria-label="MAC-адрес">
             <button class="btn btn-outline-secondary" type="button" id="submit-mac">Проверить</button>
         </div>
         <div class="input-group mb-2">
-            <span class="input-group-text col-sm-4">Проверка IP</span>
+            <span class="input-group-text col-sm-3">Проверка IP</span>
             <input type="text" class="form-control" id="input-ip" placeholder="Введи IP" aria-label="IP-адрес">
             <button class="btn btn-outline-secondary" type="button" id="submit-ip">Проверить</button>
         </div>
         <div class="input-group mb-2">
-            <span class="input-group-text col-sm-4">Сокращ. ссылок</span>
+            <span class="input-group-text col-sm-3">Сокращ. ссылок</span>
             <input type="text" class="form-control" id="input-link" placeholder="Введи ссылку" aria-label="Ссылка">
             <button class="btn btn-outline-secondary" type="button" id="submit-link">Сократить</button>
         </div>
         <div class="input-group">
-            <span class="input-group-text col-sm-4">Проверка премии</span>
+            <span class="input-group-text col-sm-2">Премия</span>
+
             <select class="form-select" id="premium-select" aria-label="Проверка премии">
                 <option value="nck1" selected>Спец НЦК1</option>
                 <option value="nck2">Спец НЦК2</option>
                 <option value="rg_nck1" selected>РГ НЦК1</option>
                 <option value="rg_nck2">РГ НЦК2</option>
             </select>
+
+            <!-- Month Dropdown -->
+            <select class="form-select" id="monthSelect" aria-label="Выбери месяц">
+                <option value="1" selected>Январь</option>
+                <option value="2">Февраль</option>
+                <option value="3">Март</option>
+                <option value="4">Апрель</option>
+                <option value="5">Май</option>
+                <option value="6">Июнь</option>
+                <option value="7">Июль</option>
+                <option value="8">Август</option>
+                <option value="9">Сентябрь</option>
+                <option value="10">Октябрь</option>
+                <option value="11">Ноябрь</option>
+                <option value="12">Декабрь</option>
+            </select>
+
+            <!-- Year Dropdown -->
+            <select class="form-select" id="yearSelect" aria-label="Выбери год">
+            </select>
+
             <button class="btn btn-outline-secondary" type="button" id="submit-premium">Проверить</button>
         </div>
 
