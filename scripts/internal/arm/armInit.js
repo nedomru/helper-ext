@@ -77,29 +77,33 @@ const initializeFeatures = async (features) => {
 const initializeExtension = async () => {
     // Инициализация функции копирования по всему ARM'у
     if (matchesUrlPattern(URL_PATTERNS.EXCELLS)) {
-        await initializeFeatures({ ARM_allowCopy: allowCopy });
+        await initializeFeatures({ARM_allowCopy: allowCopy});
     }
 
     // Инициализация функций страницы сессий клиента
     if (matchesUrlPattern(URL_PATTERNS.CLIENT_SESSION)) {
-        await initializeFeatures({ ARM_filterClientSessions: initFilterClientSessions, ARM_copySearchMAC: copyMAC });
+        await initializeFeatures({ARM_filterClientSessions: initFilterClientSessions, ARM_copySearchMAC: copyMAC});
         await loadLastDayClientSessions();
     }
 
     // Инициализация функций копирования IP и MAC-адреса
     if (matchesUrlPattern(URL_PATTERNS.RADIUS_LOGIN)) {
         await copyIP();
-        await initializeFeatures({ ARM_copySearchMAC: copyMAC });
+        await initializeFeatures({ARM_copySearchMAC: copyMAC});
     }
 
     // Инициализация функций левого фрейма
     if (matchesUrlPattern(URL_PATTERNS.LEFT_FRAME)) {
-        await initializeFeatures({ ARM_changeRequestFBLF: fastButtonsLeftFrame, ARM_setAppealItemToInternet: changeAppealItemToInternet });
+        await initializeFeatures({
+            ARM_changeRequestFBLF: fastButtonsLeftFrame,
+            ARM_setAppealItemToInternet: changeAppealItemToInternet
+        });
     }
 
     // Инициализация функций страницы акций на удержание
     if (matchesUrlPattern(URL_PATTERNS.RETENTION)) {
         await addMassCompensationButton();
+        await autoFormatCompensateButtons();
     }
 
     // Инициализация базовых функций АРМа

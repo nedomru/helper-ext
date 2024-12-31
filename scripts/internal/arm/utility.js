@@ -517,6 +517,17 @@ async function autoFormatEQMMacs() {
     });
 }
 
+// Автоматическое форматирование кнопок в компенсациях
+async function autoFormatCompensateButtons() {
+    const compensationLinks = document.querySelectorAll('a.compensation');
+
+    compensationLinks.forEach(link => {
+        if (link.textContent.trim().toLowerCase() === 'ok') {
+            link.textContent = 'Применить';
+        }
+    });
+}
+
 // Автоматическое проставление компенсации за аварию за несколько дней
 async function addMassCompensationButton() {
     // Date validation regex: DD.MM format
