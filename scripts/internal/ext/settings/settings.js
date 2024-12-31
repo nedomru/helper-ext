@@ -62,6 +62,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Загрузка сохраненных настроек
     const checkboxIds = [
+        "GENESYS_hideChatHeader",
         "GENESYS_showLineStatus_nck1",
         "GENESYS_showLineStatus_nck2",
         "GENESYS_showFastButtons",

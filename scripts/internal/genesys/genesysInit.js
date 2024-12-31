@@ -5,6 +5,7 @@ const GENESYS_URL = {
 
 const GENESYS_FEATURES = {
     core: {
+        GENESYS_hideChatHeader: hideChatHeader,
         GENESYS_hideUselessButtons: hideUselessButtons,
         GENESYS_showFastButtons: initGenesysButtons,
         GENESYS_showOCTPLineStatus: otpcLineStatus,
