@@ -1,0 +1,4 @@
+/.idea/
+/web-ext-artifacts/
+.web-extension-id
+.amo-upload-uuid
