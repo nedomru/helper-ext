@@ -38,6 +38,9 @@ async function initializeGenesysFeatures() {
                 await handler();
             }
         }
+        await initFileUpload()
+        await initTranslations()
+        // messageAreaResize()
     } catch (error) {
         Logger.error(`Ошибка инициализации основных функций: ${error.message}`);
     }
