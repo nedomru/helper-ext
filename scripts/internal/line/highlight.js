@@ -1,9 +1,5 @@
 // Подсветка операторов с определенными классами на линии
 async function highlightOperators() {
-    console.info(
-        `[Хелпер] - [Линия] - [Подсветка операторов] Активирован модуль подсветки`
-    );
-
     const STATUSES = {
         PROJECT: "Проектная деятельность",
         RSG: "Задачи от руководителя группы",
@@ -95,8 +91,6 @@ async function highlightOperators() {
 
 // Подсветка близких к концу назначений
 async function highlightEndingAppointments() {
-    console.info(`[Хелпер] - [Линия] - [Подсветка назначений] Активирован модуль подсветки`);
-
     const THIRTY_MINUTES = 30 * 60 * 1000;
     let updateTimeout = null;
     let observer = null;

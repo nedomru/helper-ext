@@ -14,10 +14,6 @@ const LINE_FEATURES = {
       handler: highlightOperators,
       description: 'Подсветка операторов'
     },
-    LINE_dutyButtons: {
-      handler: dutyButtons,
-      description: 'Кнопки дежурных'
-    },
     LINE_countAppointments: {
       handler: countAppointments,
       description: 'Подсчет назначений'
@@ -25,7 +21,11 @@ const LINE_FEATURES = {
     LINE_highlightEndingAppointments: {
       handler: highlightEndingAppointments,
       description: 'Подсветка завершающихся назначений'
-    }
+    },
+    LINE_dutyButtons: {
+      handler: dutyButtons,
+      description: 'Кнопки дежурных'
+    },
   }
 };
 
@@ -44,6 +44,7 @@ async function initializeLineFeatures() {
       if (settings[feature]) {
         try {
           await config.handler();
+          console.log(config.handler)
           Logger.info(`[Линия] - Активирован модуль: ${config.description}`);
         } catch (featureError) {
           Logger.error(`[Линия] - Сбой модуля ${config.description}: ${featureError.message}`);

@@ -280,7 +280,5 @@ async function specialistButtons() {
         }
     `;
     document.head.appendChild(styleSheet);
-
-    console.info(`[Хелпер] - [Линия] - [Быстрые кнопки] Добавлены быстрые кнопки на линию`);
 }
 
