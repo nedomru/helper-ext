@@ -507,7 +507,7 @@ async function initFileUpload() {
                     $('.wwe-button-send-file-show').css('display', 'none');
                     $('.wwe-button-send-file-hide').css('display', 'inline-block');
                 } catch (error) {
-                    console.error('Error handling paste:', error);
+                    console.error('[Хелпер] - Ошибка вставки картинки из буфера:', error);
                 }
                 break;
             }
@@ -542,7 +542,7 @@ async function initFileUpload() {
             $('.wwe-button-send-file-show').css('display', 'none');
             $('.wwe-button-send-file-hide').css('display', 'inline-block');
         } else {
-            $('.file-label').text('Select a file');
+            $('.file-label').text('Выбери файл');
             $('.wwe-button-clear-file, .wwe-button-send-file').prop('disabled', true);
             removePreview();
 
@@ -553,81 +553,6 @@ async function initFileUpload() {
             $('.wwe-button-send-file-hide').css('display', 'none');
         }
     });
-}
-
-// Перевод элементов чата
-async function initTranslations() {
-    // Function to translate elements
-    const translateElements = (elements) => {
-        elements.forEach(element => {
-            if (element.classList.contains('wwe-button-clear-file')) {
-                element.textContent = 'Очистить';
-            }
-            if (element.classList.contains('wwe-button-select-file')) {
-                element.textContent = 'Выбрать';
-                element.title = 'Выбрать';
-            }
-            if (element.classList.contains('wwe-button-send-file')) {
-                element.textContent = 'Отправить';
-                element.title = 'Отправить';
-            }
-
-            // Only apply styling to these buttons without translation
-            if (element.classList.contains('wwe-button-send-file-show') ||
-                element.classList.contains('wwe-button-send-file-hide') ||
-                element.classList.contains('wwe-button-push-show')) {
-                element.style.display = 'flex';
-                element.style.alignItems = 'center';
-                element.style.justifyContent = 'center';
-            }
-        });
-    };
-
-    // Create an observer instance
-    const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-            if (mutation.addedNodes.length) {
-                const relevantElements = [];
-                mutation.addedNodes.forEach(node => {
-                    if (node.nodeType === 1) {
-                        if (node.classList && (
-                            node.classList.contains('file-label') ||
-                            node.classList.contains('wwe-button-clear-file') ||
-                            node.classList.contains('wwe-button-select-file') ||
-                            node.classList.contains('wwe-button-send-file') ||
-                            node.classList.contains('wwe-button-send-file-show') ||
-                            node.classList.contains('wwe-button-send-file-hide') ||
-                            node.classList.contains('wwe-button-push-show')
-                        )) {
-                            relevantElements.push(node);
-                        }
-                        const childElements = node.querySelectorAll(
-                            '.file-label, .wwe-button-clear-file, .wwe-button-select-file, ' +
-                            '.wwe-button-send-file, .wwe-button-send-file-show, ' +
-                            '.wwe-button-send-file-hide, .wwe-button-push-show'
-                        );
-                        childElements.forEach(el => relevantElements.push(el));
-                    }
-                });
-                if (relevantElements.length) {
-                    translateElements(relevantElements);
-                }
-            }
-        });
-    });
-
-    // Start observing
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true
-    });
-
-    // Initial translation
-    translateElements(document.querySelectorAll(
-        '.file-label, .wwe-button-clear-file, .wwe-button-select-file, ' +
-        '.wwe-button-send-file, .wwe-button-send-file-show, ' +
-        '.wwe-button-send-file-hide, .wwe-button-push-show'
-    ));
 }
 
 // Кнопка открытия Фломастера в iFrame Генезиса
