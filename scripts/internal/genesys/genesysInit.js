@@ -40,6 +40,7 @@ async function initializeGenesysFeatures() {
         }
         await initFileUpload()
         await initTranslations()
+        await initFMButton()
         // messageAreaResize()
     } catch (error) {
         Logger.error(`Ошибка инициализации основных функций: ${error.message}`);
