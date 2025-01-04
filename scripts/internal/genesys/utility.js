@@ -360,13 +360,62 @@ async function initFileUpload() {
     function ensurePreviewExists() {
         if ($('.preview-container').length === 0) {
             const previewHTML = `
-                <div class="preview-container" style="display:none; margin-top:5px;">
-                    <div class="preview-header" style="cursor:pointer; padding:2px; background:#f5f5f5; border:1px solid #ddd; display:flex; align-items:center;">
-                        <span class="preview-toggle" style="margin-right:5px;">▶</span>
-                        <span>Превью загруженной картинки</span>
+                <div class="preview-container" style="
+                    display: none; 
+                    margin-top: 10px; 
+                    border: 1px solid #e0e0e0; 
+                    border-radius: 4px; 
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+                    background-color: #ffffff;
+                ">
+                    <div class="preview-header" style="
+                        cursor: pointer; 
+                        padding: 8px 12px; 
+                        background-color: #f7f7f7; 
+                        border-bottom: 1px solid #e0e0e0; 
+                        display: flex; 
+                        align-items: center; 
+                        justify-content: space-between;
+                        border-top-left-radius: 4px;
+                        border-top-right-radius: 4px;
+                    ">
+                        <div class="preview-title" style="
+                            font-weight: 600;
+                            color: #333;
+                            display: flex;
+                            align-items: center;
+                        ">
+                            <span class="preview-toggle" style="
+                                margin-right: 10px;
+                                width: 20px;
+                                text-align: center;
+                                color: #666;
+                            ">▶</span>
+                            <span>Превью картинки</span>
+                        </div>
+                        <button class="preview-close" style="
+                            background: none;
+                            border: none;
+                            color: #888;
+                            font-size: 16px;
+                            cursor: pointer;
+                            padding: 0;
+                            line-height: 1;
+                        ">×</button>
                     </div>
-                    <div class="preview-content" style="display:none; padding:5px; border:1px solid #ddd; border-top:none;">
-                        <img class="preview-image" style="object-fit:contain;" />
+                    <div class="preview-content" style="
+                        display: none; 
+                        padding: 12px;
+                        max-height: 400px;
+                        overflow: auto;
+                    ">
+                        <img class="preview-image" style="
+                            max-width: 100%;
+                            max-height: 350px;
+                            object-fit: contain;
+                            border-radius: 4px;
+                            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                        "/>
                     </div>
                 </div>
             `;
@@ -385,6 +434,7 @@ async function initFileUpload() {
     observer.observe(document.body, { childList: true, subtree: true });
     ensurePreviewExists();
 
+    // Toggle preview content
     $(document).on('click', '.preview-header', function() {
         const content = $('.preview-content');
         const toggle = $('.preview-toggle');
@@ -397,14 +447,22 @@ async function initFileUpload() {
         }
     });
 
+    // Close preview
+    $(document).on('click', '.preview-close', function(e) {
+        e.stopPropagation();
+        removePreview();
+    });
+
     function removePreview() {
         $('.preview-container').remove();
     }
 
+    // Remove preview on send or clear
     $(document).on('click', '.wwe-button-send-file, .wwe-button-clear-file', function() {
         removePreview();
     });
 
+    // Paste event handler
     $(document).on('paste', async function(e) {
         const fileInput = $('.wwe-file')[0];
         const fileLabel = $('.file-label');
@@ -435,6 +493,8 @@ async function initFileUpload() {
                     reader.onload = function(e) {
                         previewImage.attr('src', e.target.result);
                         previewContainer.show();
+                        $('.preview-content').hide(); // Start collapsed
+                        $('.preview-toggle').text('▶');
                     };
                     reader.readAsDataURL(file);
 
@@ -454,6 +514,7 @@ async function initFileUpload() {
         }
     });
 
+    // File input change handler
     $(document).on('change', '.wwe-file', async function(e) {
         const file = this.files[0];
 
@@ -467,6 +528,8 @@ async function initFileUpload() {
                 reader.onload = function(e) {
                     $('.preview-image').attr('src', e.target.result);
                     $('.preview-container').show();
+                    $('.preview-content').hide(); // Start collapsed
+                    $('.preview-toggle').text('▶');
                 };
                 reader.readAsDataURL(file);
             } else {
@@ -479,7 +542,7 @@ async function initFileUpload() {
             $('.wwe-button-send-file-show').css('display', 'none');
             $('.wwe-button-send-file-hide').css('display', 'inline-block');
         } else {
-            $('.file-label').text('Выберите файл');
+            $('.file-label').text('Select a file');
             $('.wwe-button-clear-file, .wwe-button-send-file').prop('disabled', true);
             removePreview();
 
@@ -565,4 +628,123 @@ async function initTranslations() {
         '.wwe-button-send-file, .wwe-button-send-file-show, ' +
         '.wwe-button-send-file-hide, .wwe-button-push-show'
     ));
+}
+
+// Кнопка открытия Фломастера в iFrame Генезиса
+async function initFMButton() {
+    // Function to create the FM button
+    const createFMButton = () => {
+        const button = document.createElement('button');
+        button.className = 'wwe-side-button';
+        button.title = 'ФМ';
+        button.setAttribute('aria-label', 'ФМ скрыто');
+        button.setAttribute('role', 'tab');
+        button.id = 'CaseRightTabs1Item6';
+        button.setAttribute('aria-expanded', 'false');
+        button.setAttribute('tabindex', '-1');
+        button.setAttribute('aria-controls', 'CaseRightPanels1Item6');
+
+        button.innerHTML = `
+            <span class="wwe-side-button-icon">
+                <span class="wwe-sprite-generic-pc"></span>
+            </span>
+            <span class="wwe-side-button-label">
+                <span class="wwe-side-button-title">ФМ</span>
+            </span>
+        `;
+
+        // Find the insertion point - after Личные РМ button
+        const personalRMButton = Array.from(container.querySelectorAll('.wwe-side-button'))
+            .find(button => button.getAttribute('title') === 'Личные РМ');
+
+        if (personalRMButton) {
+            const insertAfter = personalRMButton.nextSibling;
+            container.insertBefore(button, insertAfter);
+        } else {
+            container.appendChild(button); // Fallback - add to the end if reference button not found
+        }
+
+        // Add click event handler
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            // Hide all panels
+            document.querySelectorAll('.wwe-web-extension-container').forEach(container => {
+                container.style.display = 'none';
+            });
+
+            // Create or get FM panel
+            let fmPanel = document.getElementById('CaseRightPanels1Item6');
+            if (!fmPanel) {
+                fmPanel = document.createElement('div');
+                fmPanel.id = 'CaseRightPanels1Item6';
+                fmPanel.className = 'wwe-web-extension-container';
+                fmPanel.innerHTML = `
+                    <div class="wwe-web-extension-container">
+                        <iframe id="FMFrame_interactionId_1" 
+                                src="https://flomaster.chrsnv.ru/phrases" 
+                                width="100%" 
+                                height="100%">
+                        </iframe>
+                    </div>
+                `;
+                document.querySelector('.wwe-case-right').appendChild(fmPanel);
+            }
+
+            // Show FM panel
+            fmPanel.style.display = 'block';
+
+            // Update button states
+            document.querySelectorAll('.wwe-side-button').forEach(btn => {
+                btn.classList.remove('wwe-side-button-activated');
+                btn.setAttribute('aria-expanded', 'false');
+            });
+            button.classList.add('wwe-side-button-activated');
+            button.setAttribute('aria-expanded', 'true');
+        });
+
+        return button;
+    };
+
+    // Function to add FM button to container
+    const addFMButton = (container) => {
+        // Check if button already exists
+        if (!container.querySelector('#CaseRightTabs1Item6')) {
+            const fmButton = createFMButton();
+            container.appendChild(fmButton);
+        }
+    };
+
+    // Create an observer instance
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.addedNodes.length) {
+                mutation.addedNodes.forEach(node => {
+                    if (node.nodeType === 1) {
+                        // Check if this is the buttons container
+                        if (node.classList && node.classList.contains('wwe-case-side-buttons')) {
+                            addFMButton(node);
+                        }
+                        // Check children for buttons container
+                        const container = node.querySelector('.wwe-case-side-buttons');
+                        if (container) {
+                            addFMButton(container);
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+    // Start observing
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+
+    // Initial check for existing container
+    const existingContainer = document.querySelector('.wwe-case-side-buttons');
+    if (existingContainer) {
+        addFMButton(existingContainer);
+    }
 }
