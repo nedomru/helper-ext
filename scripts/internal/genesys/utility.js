@@ -557,16 +557,23 @@ async function initFileUpload() {
 
 // Кнопка открытия Фломастера в iFrame Генезиса
 async function initFMButton() {
-    const createFMButton = () => {
+    // Create FM button with isolated functionality
+    const createFMButton = (containerId) => {
         const button = document.createElement('button');
         button.className = 'wwe-side-button wwe-split-row-item';
         button.title = 'ФМ';
         button.setAttribute('aria-label', 'ФМ скрыто');
         button.setAttribute('role', 'tab');
-        button.id = 'CaseRightTabs1Item6';
+
+        // Use container ID to create unique button and panel IDs
+        const buttonId = `CaseRightTabs${containerId}Item6`;
+        const panelId = `CaseRightPanels${containerId}Item6`;
+
+        button.id = buttonId;
         button.setAttribute('aria-expanded', 'false');
         button.setAttribute('tabindex', '-1');
-        button.setAttribute('aria-controls', 'CaseRightPanels1Item6');
+        button.setAttribute('aria-controls', panelId);
+        button.setAttribute('data-container-id', containerId);
 
         button.innerHTML = `
             <span class="wwe-side-button-icon">
@@ -577,61 +584,61 @@ async function initFMButton() {
             </span>
         `;
 
-        // Add click event handler with delegated events
-        button.addEventListener('click', handleButtonClick);
-
+        button.addEventListener('click', handleFMButtonClick);
         return button;
     };
 
-    // Common button click handler
-    const handleButtonClick = (e) => {
+    // Updated button click handler with container-specific handling
+    const handleFMButtonClick = (e) => {
         const button = e.currentTarget;
-        const panelId = button.getAttribute('aria-controls');
+        const containerId = button.getAttribute('data-container-id');
+        const buttonContainer = button.closest('.wwe-case-side-buttons');
 
-        // Get relevant elements
-        const allButtons = document.querySelectorAll('.wwe-case-side-buttons .wwe-side-button');
-        const allPanels = document.querySelectorAll('.wwe-web-extension-container');
+        if (buttonContainer) {
+            const allButtons = buttonContainer.querySelectorAll('.wwe-side-button');
+            allButtons.forEach(btn => {
+                if (btn !== button) {
+                    btn.classList.remove('wwe-side-button-activated');
+                    btn.setAttribute('aria-expanded', 'false');
+                    btn.setAttribute('tabindex', '-1');
 
-        // Update button states
-        allButtons.forEach(btn => {
-            const isCurrentButton = btn === button;
-            btn.classList.toggle('wwe-side-button-activated', isCurrentButton);
-            btn.setAttribute('aria-expanded', isCurrentButton ? 'true' : 'false');
-            btn.setAttribute('tabindex', isCurrentButton ? '0' : '-1');
-        });
-
-        // Update panel visibility
-        allPanels.forEach(panel => {
-            panel.style.display = panel.id === panelId ? 'block' : 'none';
-        });
-
-        // Handle FM panel specifically
-        const fmPanel = document.getElementById(panelId);
-        if (fmPanel) {
-            const fmContainer = fmPanel.querySelector('.wwe-web-extension-container');
-            if (fmContainer) {
-                fmContainer.style.display = button.classList.contains('wwe-side-button-activated') ? 'block' : 'none';
-            }
+                    const panelId = btn.getAttribute('aria-controls');
+                    const panel = document.getElementById(panelId);
+                    if (panel) {
+                        panel.style.display = 'none';
+                    }
+                }
+            });
         }
 
-        // Ensure iframe is properly displayed within the panel
-        const fmIframe = document.querySelector('#FMFrame_interactionId_1');
-        if (fmIframe && button.classList.contains('wwe-side-button-activated')) {
-            fmIframe.style.display = 'block';
+        const isActivated = button.classList.contains('wwe-side-button-activated');
+        button.classList.toggle('wwe-side-button-activated');
+        button.setAttribute('aria-expanded', (!isActivated).toString());
+        button.setAttribute('tabindex', isActivated ? '-1' : '0');
+
+        const fmPanel = document.getElementById(`CaseRightPanels${containerId}Item6`);
+        if (fmPanel) {
+            fmPanel.style.display = isActivated ? 'none' : 'block';
+            const fmIframe = fmPanel.querySelector(`#FMFrame_${containerId}`);
+            if (fmIframe) {
+                fmIframe.style.display = isActivated ? 'none' : 'block';
+            }
         }
     };
 
-    // Create or update FM panel
-    const createFMPanel = () => {
-        let panel = document.getElementById('CaseRightPanels1Item6');
+    // Create FM panel with container-specific IDs
+    const createFMPanel = (containerId, rightPanel) => {
+        const panelId = `CaseRightPanels${containerId}Item6`;
+        let panel = document.getElementById(panelId);
+
         if (!panel) {
             panel = document.createElement('div');
-            panel.id = 'CaseRightPanels1Item6';
+            panel.id = panelId;
             panel.className = 'wwe-web-extension-container';
             panel.style.display = 'none';
             panel.innerHTML = `
-                <div class="wwe-web-extension-container" style="display: none;">
-                    <iframe id="FMFrame_interactionId_1" 
+                <div class="wwe-web-extension-container">
+                    <iframe id="FMFrame_${containerId}" 
                             src="https://flomaster.chrsnv.ru/phrases" 
                             width="100%" 
                             height="100%"
@@ -640,7 +647,6 @@ async function initFMButton() {
                 </div>
             `;
 
-            const rightPanel = document.querySelector('.wwe-case-right');
             if (rightPanel) {
                 rightPanel.appendChild(panel);
             }
@@ -648,26 +654,26 @@ async function initFMButton() {
         return panel;
     };
 
-    // Add click handlers to existing buttons
-    const setupExistingButtons = () => {
-        const existingButtons = document.querySelectorAll('.wwe-case-side-buttons .wwe-side-button:not([data-handler-added])');
-        existingButtons.forEach(btn => {
-            if (!btn.hasAttribute('data-handler-added')) {
-                btn.setAttribute('data-handler-added', 'true');
-                btn.addEventListener('click', handleButtonClick);
-            }
-        });
+    // Function to generate unique container ID
+    const getContainerId = (container) => {
+        if (!container.getAttribute('data-fm-container-id')) {
+            const containers = Array.from(document.querySelectorAll('.wwe-case-side-buttons'));
+            const index = containers.indexOf(container) + 1;
+            container.setAttribute('data-fm-container-id', index.toString());
+        }
+        return container.getAttribute('data-fm-container-id');
     };
 
     // Function to add FM button to container
-    const addFMButton = () => {
-        const container = document.querySelector('.wwe-case-side-buttons');
-
+    const addFMButton = (container) => {
         if (!container) return;
 
-        // Check if button already exists
-        if (!container.querySelector('#CaseRightTabs1Item6')) {
-            const fmButton = createFMButton();
+        const containerId = getContainerId(container);
+        const buttonId = `CaseRightTabs${containerId}Item6`;
+
+        // Check if button already exists in this container
+        if (!container.querySelector(`#${buttonId}`)) {
+            const fmButton = createFMButton(containerId);
             const personalRMButton = container.querySelector('button[title="Личные РМ"]');
 
             if (personalRMButton && personalRMButton.nextSibling) {
@@ -676,28 +682,38 @@ async function initFMButton() {
                 container.appendChild(fmButton);
             }
 
-            // Create panel
-            createFMPanel();
-
-            // Setup event handlers for existing buttons
-            setupExistingButtons();
+            // Find corresponding right panel
+            const rightPanel = container.closest('.wwe-case')?.querySelector('.wwe-case-right');
+            if (rightPanel) {
+                createFMPanel(containerId, rightPanel);
+            }
         }
     };
 
-    // Initial setup
-    addFMButton();
+    // Initial setup for all existing containers
+    document.querySelectorAll('.wwe-case-side-buttons').forEach(addFMButton);
 
-    // Create an observer instance
+    // Create an observer instance to watch for new containers
     const observer = new MutationObserver((mutations) => {
-        for (const mutation of mutations) {
+        mutations.forEach(mutation => {
             if (mutation.type === 'childList') {
-                addFMButton();
-                setupExistingButtons();
+                // Check for new button containers
+                const addedNodes = Array.from(mutation.addedNodes);
+                addedNodes.forEach(node => {
+                    if (node.nodeType === Node.ELEMENT_NODE) {
+                        // Check if the added node is a container
+                        if (node.matches('.wwe-case-side-buttons')) {
+                            addFMButton(node);
+                        }
+                        // Check for containers within added nodes
+                        node.querySelectorAll('.wwe-case-side-buttons').forEach(addFMButton);
+                    }
+                });
             }
-        }
+        });
     });
 
-    // Start observing the document
+    // Start observing the document with configuration
     observer.observe(document.body, {
         childList: true,
         subtree: true
