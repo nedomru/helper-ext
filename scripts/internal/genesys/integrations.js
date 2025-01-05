@@ -97,7 +97,10 @@ async function socketConnect(sessionID) {
         lineStats =
             document.querySelector("#line-status-nck1") ||
             document.querySelector("#line-status-nck2");
-        if (lineStats) lineStats.innerText = "Починить";
+        if (lineStats) {
+            lineStats.innerText = "Починить статус линии";
+            lineStats.parentElement.style.backgroundColor = "#635252"; // Error state background
+        }
 
         if (reconnectAttempts < maxReconnectAttempts) {
             const delay = baseReconnectDelay * Math.pow(2, reconnectAttempts);
@@ -149,6 +152,7 @@ async function manualReconnect() {
 // Добавление DIV для отображения статуса линий
 async function addMessageDiv(id) {
     if (document.querySelector(`#${id}`)) return;
+
     const observer = new MutationObserver(() => {
         const title = document.querySelector(".title");
 
@@ -162,24 +166,31 @@ async function addMessageDiv(id) {
             containerDiv.style.border = "1px solid #949494";
             containerDiv.style.backgroundColor = "#4c5961";
             containerDiv.style.color = "white";
-            containerDiv.classList.add("helper-line-status")
+            containerDiv.classList.add("helper-line-status");
+            containerDiv.style.cursor = "pointer";
+            containerDiv.style.transition = "background-color 0.2s ease";
+
+            // Add hover effect
+            containerDiv.addEventListener('mouseover', () => {
+                containerDiv.style.backgroundColor = "#5a6971";
+            });
+
+            containerDiv.addEventListener('mouseout', () => {
+                containerDiv.style.backgroundColor = "#4c5961";
+            });
 
             const newDiv = document.createElement("div");
             newDiv.id = id;
             newDiv.style.display = "flex";
             newDiv.style.alignItems = "center";
+            newDiv.style.pointerEvents = "none"; // Ensures clicks pass through to container
 
-            const refreshIcon = document.createElement("span");
-            refreshIcon.innerHTML = "&#x21BB;"; // Unicode for a circular arrow
-            refreshIcon.style.cursor = "pointer";
-            refreshIcon.style.marginLeft = "5px"
-            refreshIcon.style.fontSize = "20px";
-            refreshIcon.style.marginLeft = "10px";
-            refreshIcon.setAttribute("title", "Переподключиться к линии");
-            refreshIcon.addEventListener('click', manualReconnect);
+            // Add click handler to the entire container
+            containerDiv.addEventListener('click', async () => {
+                await manualReconnect();
+            });
 
             containerDiv.appendChild(newDiv);
-            containerDiv.appendChild(refreshIcon);
 
             title.parentNode.insertBefore(containerDiv, title.nextSibling);
             observer.disconnect();
@@ -191,6 +202,7 @@ async function addMessageDiv(id) {
         subtree: true,
     });
 }
+
 
 // Обработка сообщений сокета линии НЦК
 async function handleSocketMessages(data, time) {
@@ -228,24 +240,24 @@ async function handleSocketMessages(data, time) {
             lineStatsDiv.style.backgroundColor = "#909ea6";
             setTimeout(() => lineStatsDiv.style.backgroundColor = "#4c5961", 300);
         }
-
-        const tooltipMessage = `Статистика НЦК1 за день
-
-Чаты:
-Mobile: ${data.availQueues[0][0].currentWaitingCalls} / ${data.availQueues[0][0].totalEnteredCalls}
-Web: ${data.availQueues[0][1].currentWaitingCalls} / ${data.availQueues[0][1].totalEnteredCalls}
-SmartDom: ${data.availQueues[0][2].currentWaitingCalls} / ${data.availQueues[0][2].totalEnteredCalls}
-DHCP: ${data.availQueues[0][3].currentWaitingCalls} / ${data.availQueues[0][3].totalEnteredCalls}
----
-Тикеты:
-Email: ${data.availQueues[0][6].currentWaitingCalls} / ${data.availQueues[0][6].totalEnteredCalls}
----
-Переливы:
-Mobile: ${data.availQueues[1][0].currentWaitingCalls} / ${data.availQueues[1][0].totalEnteredCalls}
-Web: ${data.availQueues[1][1].currentWaitingCalls} / ${data.availQueues[1][1].totalEnteredCalls}
-
-Состояние на ${time} ПРМ`;
-        lineStats.setAttribute("title", tooltipMessage);
+        // Тултип со статус линии
+//         const tooltipMessage = `Статистика НЦК1 за день
+//
+// Чаты:
+// Mobile: ${data.availQueues[0][0].currentWaitingCalls} / ${data.availQueues[0][0].totalEnteredCalls}
+// Web: ${data.availQueues[0][1].currentWaitingCalls} / ${data.availQueues[0][1].totalEnteredCalls}
+// SmartDom: ${data.availQueues[0][2].currentWaitingCalls} / ${data.availQueues[0][2].totalEnteredCalls}
+// DHCP: ${data.availQueues[0][3].currentWaitingCalls} / ${data.availQueues[0][3].totalEnteredCalls}
+// ---
+// Тикеты:
+// Email: ${data.availQueues[0][6].currentWaitingCalls} / ${data.availQueues[0][6].totalEnteredCalls}
+// ---
+// Переливы:
+// Mobile: ${data.availQueues[1][0].currentWaitingCalls} / ${data.availQueues[1][0].totalEnteredCalls}
+// Web: ${data.availQueues[1][1].currentWaitingCalls} / ${data.availQueues[1][1].totalEnteredCalls}
+//
+// Состояние на ${time} ПРМ`;
+//         lineStats.setAttribute("title", tooltipMessage);
     }
 
     if (settings.showLineNCK2) {
@@ -267,22 +279,23 @@ Web: ${data.availQueues[1][1].currentWaitingCalls} / ${data.availQueues[1][1].to
             lineStatsDiv.style.backgroundColor = "#909ea6";
             setTimeout(() => lineStatsDiv.style.backgroundColor = "#4c5961", 300);
         }
-        const tooltipMessage = `Статистика НЦК2 за день
-
-Чаты:
-Mobile: ${data.availQueues[2][0].currentWaitingCalls} / ${data.availQueues[2][0].totalEnteredCalls}
-Web: ${data.availQueues[2][1].currentWaitingCalls} / ${data.availQueues[2][1].totalEnteredCalls}
-SmartDom: ${data.availQueues[2][2].currentWaitingCalls} / ${data.availQueues[2][2].totalEnteredCalls}
----
-Тикеты:
-Email: ${data.availQueues[2][6].currentWaitingCalls} / ${data.availQueues[2][6].totalEnteredCalls}
----
-Переливы:
-Mobile: ${data.availQueues[3][0].currentWaitingCalls} / ${data.availQueues[3][0].totalEnteredCalls}
-Web: ${data.availQueues[3][1].currentWaitingCalls} / ${data.availQueues[3][1].totalEnteredCalls}
-
-Состояние на ${time} ПРМ`;
-        lineStats.setAttribute("title", tooltipMessage);
+        // Тултип со статус линии
+//         const tooltipMessage = `Статистика НЦК2 за день
+//
+// Чаты:
+// Mobile: ${data.availQueues[2][0].currentWaitingCalls} / ${data.availQueues[2][0].totalEnteredCalls}
+// Web: ${data.availQueues[2][1].currentWaitingCalls} / ${data.availQueues[2][1].totalEnteredCalls}
+// SmartDom: ${data.availQueues[2][2].currentWaitingCalls} / ${data.availQueues[2][2].totalEnteredCalls}
+// ---
+// Тикеты:
+// Email: ${data.availQueues[2][6].currentWaitingCalls} / ${data.availQueues[2][6].totalEnteredCalls}
+// ---
+// Переливы:
+// Mobile: ${data.availQueues[3][0].currentWaitingCalls} / ${data.availQueues[3][0].totalEnteredCalls}
+// Web: ${data.availQueues[3][1].currentWaitingCalls} / ${data.availQueues[3][1].totalEnteredCalls}
+//
+// Состояние на ${time} ПРМ`;
+//         lineStats.setAttribute("title", tooltipMessage);
     }
 
     // if (settings.showLineMessages) {
