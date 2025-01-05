@@ -43,7 +43,7 @@ async function initInformationFold() {
                 toggleButton.id = 'helper-toggle-info';
                 toggleButton.className = 'btn btn-xs btn-primary helper';
                 toggleButton.style.cssText = 'cursor: pointer; margin-right: 10px;';
-                toggleButton.textContent = `▶️ Развернуть строки (${totalHidden})`;
+                toggleButton.textContent = `▶️ Развернуть строки`;
                 toggleButton.setAttribute('data-state', 'hidden');
                 toggleButton.setAttribute('type', 'button');
                 toggleButton.title = `Скрыты следующие поля: ${rowsToHide.filter(r => r).join(', ')}`;
@@ -67,7 +67,7 @@ async function initInformationFold() {
                     // Update button and status text
                     toggleButton.textContent = isHidden
                         ? '🔽 Свернуть строки'
-                        : `▶️ Развернуть строки (${totalHidden})`;
+                        : `▶️ Развернуть строки`;
                     toggleButton.setAttribute('data-state', newState);
 
                     status.textContent = isHidden
