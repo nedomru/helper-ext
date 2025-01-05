@@ -1,6 +1,5 @@
 // Копирование MAC-адреса из сессии и сессий за период
 async function copyMAC() {
-    // Add styles for the button group if not already present
     if (!document.getElementById('helper-button-styles')) {
         const style = document.createElement('style');
         style.id = 'helper-button-styles';
@@ -68,19 +67,17 @@ async function copyMAC() {
     }
 
     const createMACButtons = (macAddressElement) => {
-        // Skip if buttons already exist
         if (macAddressElement.nextElementSibling?.classList.contains('helper-button-group')) {
             return;
         }
 
         const macAddress = macAddressElement.innerText;
 
-        // Create button group container
         const buttonGroup = document.createElement('div');
         buttonGroup.classList.add('helper-button-group');
         buttonGroup.style.position = 'relative';
 
-        // Create copy button
+        // Создание кнопки копирования
         const copyButton = document.createElement('button');
         copyButton.classList.add('helper-button', 'helper-button-left');
         copyButton.innerText = '📋';
@@ -98,7 +95,7 @@ async function copyMAC() {
             }
         };
 
-        // Create search button
+        // Создание кнопки копирования
         const searchButton = document.createElement('button');
         searchButton.classList.add('helper-button', 'helper-button-right');
         searchButton.innerText = '🔎';
@@ -140,21 +137,18 @@ async function copyMAC() {
             }
         };
 
-        // Add buttons to group
         buttonGroup.appendChild(copyButton);
         buttonGroup.appendChild(searchButton);
 
-        // Add group after MAC address element
         macAddressElement.parentElement.appendChild(buttonGroup);
     };
 
-    // Function to add buttons to all MAC addresses on the page
+    // Добавляем кнопку ко всем мак-адресам на странице
     const addCopyButtons = () => {
         const macAddressElements = document.querySelectorAll('.mac, .js-get-vendor-by-mac');
         macAddressElements.forEach(createMACButtons);
     };
 
-    // Set up the mutation observer
     const setupObserver = () => {
         const targetNode = document.getElementById('js-res-app');
         if (!targetNode) return;
@@ -176,22 +170,19 @@ async function copyMAC() {
         const observer = new MutationObserver(callback);
         observer.observe(targetNode, config);
 
-        // Store observer reference for cleanup
         window._macObserver = observer;
     };
 
-    // Cleanup previous observer if it exists
     if (window._macObserver) {
         window._macObserver.disconnect();
         window._macObserver = null;
     }
 
-    // Initialize based on current URL
+    // Проверка паттерна URL-адреса
     if (document.URL.includes('db.ertelecom.ru/static_pages/private/wcc/client_session/?user_id')) {
         setupObserver();
     }
 
-    // Add buttons to existing elements
     addCopyButtons();
 }
 

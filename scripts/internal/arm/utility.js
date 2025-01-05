@@ -314,12 +314,11 @@ async function initFilterClientSessions() {
     const updateCountDisplay = (reasonCounts) => {
         if (!countDisplay) return;
 
-        // Sort the reasons by count in descending order
+        // Сортируем по причине завершения сессии
         const sortedReasons = Object.entries(reasonCounts).sort(
             (a, b) => b[1] - a[1]
         );
 
-        // Calculate total count
         const totalCount = Object.values(reasonCounts).reduce((sum, count) => sum + count, 0);
 
         countDisplay.innerHTML = `
@@ -354,7 +353,7 @@ async function initFilterClientSessions() {
         const filter = document.getElementById("reason-filter").value;
         const rows = document.querySelectorAll("#js-res-app table tbody tr");
         rows.forEach((row) => {
-            const reasonCell = row.cells[6]; // 7th column (index 6)
+            const reasonCell = row.cells[6];
             if (reasonCell) {
                 row.style.display =
                     filter === "all" || reasonCell.textContent.includes(filter)
@@ -463,13 +462,11 @@ async function autoFormatEQMMacs() {
         if (!container?.textContent) return;
 
         try {
-            // Process all text nodes in the container that contain MAC addresses
             const walker = document.createTreeWalker(
                 container,
                 NodeFilter.SHOW_TEXT,
                 {
                     acceptNode: node => {
-                        // Only process text nodes that contain MAC-like patterns
                         return /[0-9A-F]{2}[-:][0-9A-F]{2}[-:][0-9A-F]{2}[-:][0-9A-F]{2}[-:][0-9A-F]{2}[-:][0-9A-F]{2}/i.test(node.textContent)
                             ? NodeFilter.FILTER_ACCEPT
                             : NodeFilter.FILTER_SKIP;
@@ -482,22 +479,18 @@ async function autoFormatEQMMacs() {
             while (currentNode = walker.nextNode()) {
                 const originalText = currentNode.textContent;
 
-                // Replace MAC addresses using hyphens with colon format
                 const newText = originalText.replace(
                     /([0-9A-F]{2})[-:]([0-9A-F]{2})[-:]([0-9A-F]{2})[-:]([0-9A-F]{2})[-:]([0-9A-F]{2})[-:]([0-9A-F]{2})/gi,
                     (match, p1, p2, p3, p4, p5, p6) => {
-                        // Preserve original case while ensuring colons as separators
                         return `${p1}:${p2}:${p3}:${p4}:${p5}:${p6}`;
                     }
                 );
 
-                // Only update if changes were made
                 if (originalText !== newText) {
                     currentNode.textContent = newText;
                 }
             }
 
-            // Also process MAC addresses in input fields with specific attributes
             const macInputs = container.querySelectorAll('input[readonly][value*="-"]');
             macInputs.forEach(input => {
                 const macValue = input.value;
@@ -513,7 +506,7 @@ async function autoFormatEQMMacs() {
         childList: true,
         subtree: true,
         characterData: true,
-        attributeFilter: ['value'] // Also watch for changes to input values
+        attributeFilter: ['value']
     });
 }
 
@@ -530,11 +523,10 @@ async function autoFormatCompensateButtons() {
 
 // Автоматическое проставление компенсации за аварию за несколько дней
 async function addMassCompensationButton() {
-    // Date validation regex: DD.MM format
+    // Валидация regex: формат DD.MM
     const dateRegex = /^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])$/;
     const currentYear = new Date().getFullYear();
 
-    // Helper function to get parameters from URL with proper escaping
     function getParametersFromUrl() {
         const url = new URL(window.location.href);
         return {
@@ -544,20 +536,19 @@ async function addMassCompensationButton() {
         };
     }
 
-    // Helper function to get required parameters from page
     function getPageParameters() {
-        // Get the products count
+        // Получаем количество продуктов
         const productsCount = document.querySelector('input[name="products_cnt$i"]')?.value;
 
-        // Find the specific row for "Компенсация за аварию"
+        // Ищем строку "Компенсация за аварию"
         const compensationRow = Array.from(document.querySelectorAll('th')).find(
             th => th.textContent.includes('Компенсация за аварию')
         )?.closest('tr');
 
-        // Get the compensation link from this specific row
+        // Получаем ссылку на компенсацию из найденной строки
         const compensationLink = compensationRow?.querySelector('a.compensation');
 
-        // Get the attributes from the specific compensation link
+        // Получаем аттрибуты страницы для генерации ссылки на компенсацию
         const monthId = compensationLink?.getAttribute('month_id');
         const flagId = compensationLink?.getAttribute('flag_id');
         const flagIdAndIndex = compensationLink?.getAttribute('flag_id_and_i');
@@ -570,7 +561,7 @@ async function addMassCompensationButton() {
         };
     }
 
-    // Helper function to validate date
+    // Валидация даты
     function isValidDate(dateString) {
         if (!dateRegex.test(dateString)) return false;
 
@@ -581,12 +572,12 @@ async function addMassCompensationButton() {
             date.getMonth() === month - 1;
     }
 
-    // Helper function to format date with current year
+    // Форматирование даты с текущим годом
     function formatDateWithYear(dateString) {
         return `${dateString}.${currentYear}`;
     }
 
-    // Helper function to get dates array between start and end dates
+    // Получение промежутка между указанными датами
     function getDatesArray(startDate, endDate) {
         const dates = [];
         const currentDate = new Date(startDate.split('.').reverse().join('-'));
@@ -603,13 +594,12 @@ async function addMassCompensationButton() {
         return dates;
     }
 
-    // Helper function to make compensation request
+    // Функция для отправки POST запроса на компенсацию
     async function makeCompensationRequest(urlParameters, pageParameters, compensationDate) {
-        // Get the current location's hostname and extract the base domain
+        // Получаем текущий hostname для сохранения города
         const currentURL = window.location.href;
         const baseURL = currentURL.match(/(https:\/\/[^\/]+)/)[1];
 
-        // Construct the full URL using the same base domain
         const fetchURL = `${baseURL}/cgi-bin/ppo/excells/adv_act_retention.add_flag`;
 
         const requestBody = new URLSearchParams({

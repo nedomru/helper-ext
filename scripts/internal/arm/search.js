@@ -5,9 +5,7 @@ async function searchByAppeal() {
         if (!container?.textContent) return;
 
         try {
-            // Check if search field already exists to avoid duplicates
             if (!document.getElementById('appealsSearchField')) {
-                // Create search wrapper with label
                 const searchWrapper = document.createElement('div');
                 searchWrapper.style.cssText = 'margin-bottom: 10px; display: flex; align-items: center; gap: 10px;';
 
@@ -20,13 +18,11 @@ async function searchByAppeal() {
 
                 searchWrapper.appendChild(searchField);
 
-                // Insert search wrapper before the tab content
                 const tabContent = container.querySelector('.tab-content');
                 if (tabContent) {
                     tabContent.parentNode.insertBefore(searchWrapper, tabContent);
                 }
 
-                // Add search functionality
                 searchField.addEventListener('input', function (e) {
                     const searchValue = e.target.value.toLowerCase();
                     const tables = container.querySelectorAll('.tab-pane table');
@@ -34,35 +30,29 @@ async function searchByAppeal() {
                     tables.forEach(table => {
                         const rows = table.getElementsByTagName('tr');
                         const toggleRows = table.querySelectorAll('tr[style*="background-color: rgb(229, 225, 218)"]');
-                        const intermediateRows = table.querySelectorAll('[appeal-step="intermediate"]');
-
-                        // Handle toggle rows visibility
+                        table.querySelectorAll('[appeal-step="intermediate"]');
                         toggleRows.forEach(row => {
                             row.style.display = searchValue ? 'none' : 'table-row';
                         });
 
-                        // Start from index 1 to skip header row
+                        // Скипаем хедер таблицы
                         for (let i = 1; i < rows.length; i++) {
                             const row = rows[i];
 
-                            // Skip category header rows and toggle rows
+                            // Скипаем строку категорий таблицы
                             if (row.cells.length === 1 || row.style.backgroundColor === 'rgb(229, 225, 218)') continue;
 
                             const cells = row.getElementsByTagName('td');
                             let rowText = '';
 
-                            // Concatenate all cell text in the row
                             for (let j = 0; j < cells.length; j++) {
                                 rowText += cells[j].textContent.toLowerCase() + ' ';
                             }
 
-                            // If searching, show all rows that match
                             if (searchValue) {
                                 row.style.display = rowText.includes(searchValue) ? 'table-row' : 'none';
                             } else {
-                                // If not searching, restore original hiding state
                                 if (row.getAttribute('appeal-step') === 'intermediate') {
-                                    // Check the state of the global toggle button
                                     const globalToggleBtn = document.getElementById('helper-toggle-appeals');
                                     const globalState = globalToggleBtn?.getAttribute('data-state') || 'hidden';
                                     row.style.display = globalState === 'hidden' ? 'none' : 'table-row';
@@ -73,7 +63,6 @@ async function searchByAppeal() {
                         }
                     });
 
-                    // Update global toggle button visibility and text
                     const globalToggleBtn = document.getElementById('helper-toggle-appeals');
                     const statusText = globalToggleBtn?.nextElementSibling;
 
@@ -102,9 +91,7 @@ async function searchByLog() {
         if (!container?.textContent) return;
 
         try {
-            // Check if search field already exists to avoid duplicates
             if (!document.getElementById('logSearchField')) {
-                // Create search field
                 const searchField = document.createElement('input');
                 searchField.id = 'logSearchField';
                 searchField.type = 'text';
@@ -112,27 +99,22 @@ async function searchByLog() {
                 searchField.className = 'form-control';
                 searchField.style.cssText = 'margin: 10px 0; width: 15%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;';
 
-                // Insert search field before the table
                 container.parentNode.insertBefore(searchField, container);
 
-                // Add search functionality
                 searchField.addEventListener('input', function (e) {
                     const searchValue = e.target.value.toLowerCase();
                     const table = container.querySelector('table');
                     const rows = table.getElementsByTagName('tr');
 
-                    // Start from index 1 to skip header row
                     for (let i = 1; i < rows.length; i++) {
                         const row = rows[i];
                         const cells = row.getElementsByTagName('td');
                         let rowText = '';
 
-                        // Concatenate all cell text in the row
                         for (let j = 0; j < cells.length; j++) {
                             rowText += cells[j].textContent.toLowerCase() + ' ';
                         }
 
-                        // Show/hide row based on search match
                         if (rowText.includes(searchValue)) {
                             row.style.display = '';
                         } else {
@@ -150,16 +132,13 @@ async function searchByLog() {
 
 // Поиск по свойствам
 async function searchByFlag() {
-    // Create the observer and store its reference
     const observer = new MutationObserver(mutations => {
         const container = document.getElementById('lazy_content_2416');
         const flagTable = container?.querySelector('.table-flag-agr');
         if (!flagTable) return;
 
         try {
-            // Check if search field already exists to avoid duplicates
             if (!document.getElementById('flagSearchField')) {
-                // Create search wrapper with label
                 const searchWrapper = document.createElement('div');
                 searchWrapper.style.cssText = 'margin: 10px 0; display: flex; align-items: center; gap: 10px;';
 
@@ -172,11 +151,9 @@ async function searchByFlag() {
 
                 searchWrapper.appendChild(searchField);
 
-                // Insert search wrapper before the flag table
                 const buttonContainer = container.querySelector('.dialog_agr_flag').parentNode;
                 buttonContainer.appendChild(searchWrapper);
 
-                // Add search functionality
                 searchField.addEventListener('input', function (e) {
                     const searchValue = e.target.value.toLowerCase();
                     const table = flagTable.querySelector('table');
@@ -184,18 +161,15 @@ async function searchByFlag() {
 
                     const rows = table.getElementsByTagName('tr');
 
-                    // Start from index 1 to skip header row
                     for (let i = 1; i < rows.length; i++) {
                         const row = rows[i];
                         const cells = row.getElementsByTagName('td');
                         let rowText = '';
 
-                        // Concatenate all cell text in the row
                         for (let j = 0; j < cells.length; j++) {
                             rowText += cells[j].textContent.toLowerCase() + ' ';
                         }
 
-                        // Show/hide row based on search match
                         if (rowText.includes(searchValue)) {
                             row.style.display = '';
                         } else {
@@ -204,7 +178,6 @@ async function searchByFlag() {
                     }
                 });
 
-                // Disconnect observer once search field is added
                 observer.disconnect();
             }
         } catch (error) {
@@ -212,7 +185,6 @@ async function searchByFlag() {
         }
     });
 
-    // Start observing the target node
     observer.observe(document.getElementById('lazy_content_2416') || document.body, {
         childList: true,
         subtree: true

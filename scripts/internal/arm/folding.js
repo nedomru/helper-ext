@@ -24,7 +24,7 @@ async function initInformationFold() {
 
             let totalHidden = 0;
 
-            // Process table rows
+            // Процессим строки
             Array.from(table.rows).slice(2).forEach(row => {
                 const firstCell = row.cells[0]?.textContent;
                 if (rowsToHide.includes(firstCell)) {
@@ -34,7 +34,6 @@ async function initInformationFold() {
                 }
             });
 
-            // Add toggle container and controls
             if (totalHidden > 0) {
                 const buttonContainer = document.createElement('div');
                 buttonContainer.style.cssText = 'display: flex; margin-bottom: 10px; align-items: center;';

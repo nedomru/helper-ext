@@ -63,7 +63,7 @@ async function highlightOperators() {
                 }
             });
 
-        }, 100); // Debounce time
+        }, 100);
     };
 
     const observer = new MutationObserver((mutations) => {
@@ -73,14 +73,13 @@ async function highlightOperators() {
         }
     });
 
-    // Start observing
     observer.observe(appointmentsTable, {
         childList: true,
         subtree: true,
         characterData: true
     });
 
-    // Initial highlight
+    // Инициализация подсветки
     const tbody = appointmentsTable.querySelector("tbody");
     if (tbody) {
         highlightRows(tbody);

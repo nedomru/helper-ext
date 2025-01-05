@@ -1,8 +1,6 @@
 // Автоматическое проставление галочек платного сервиса в левом фрейме и изменении обращения
 async function paidHelpTrue() {
-    // Helper function to properly trigger events
     function triggerPayServiceChange(checkbox) {
-        // Click event
         const clickEvent = new MouseEvent('click', {
             bubbles: true,
             cancelable: true,
@@ -10,24 +8,19 @@ async function paidHelpTrue() {
         });
         checkbox.dispatchEvent(clickEvent);
 
-        // Change event
         const changeEvent = new Event('change', {
             bubbles: true,
             cancelable: true
         });
         checkbox.dispatchEvent(changeEvent);
 
-        // Set checked state
         checkbox.checked = true;
 
-        // Get onclick function name from element
         const onclickStr = checkbox.getAttribute('onclick');
         if (onclickStr) {
-            // Extract function name and arguments
             const match = onclickStr.match(/(\w+)\((\d+)\)/);
             if (match) {
                 const [_, funcName, arg] = match;
-                // Call the appropriate function based on name
                 if (typeof window[funcName] === 'function') {
                     window[funcName](parseInt(arg));
                 }
@@ -46,7 +39,6 @@ async function paidHelpTrue() {
                         let element = payServiceSpan;
                         let isVisible = true;
 
-                        // Check visibility of element and its parents
                         while (element && element !== document.body) {
                             const style = window.getComputedStyle(element);
                             if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') {
@@ -57,7 +49,6 @@ async function paidHelpTrue() {
                         }
 
                         if (isVisible && !checkbox.checked) {
-                            // Use the helper function to trigger events
                             triggerPayServiceChange(checkbox);
                             observer.disconnect();
                         }
