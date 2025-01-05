@@ -758,7 +758,9 @@ async function changeAppealItemToInternet() {
     });
 
     const product = document.querySelector(".uni_reas_prod");
-    if (product.value !== "70") {
+    const values = Array.from(product.options).map(option => option.value);
+
+    if (values.includes("70")) {
         product.value = "70";
         product.dispatchEvent(changeEvent);
     }
