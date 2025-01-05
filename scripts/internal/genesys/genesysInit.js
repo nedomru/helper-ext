@@ -41,7 +41,7 @@ async function initializeGenesysFeatures() {
         await initFileUpload()
         await initFMButton()
         await customEmojis()
-        // messageAreaResize()
+        // await messageAreaResize()
     } catch (error) {
         Logger.error(`Ошибка инициализации основных функций: ${error.message}`);
     }
