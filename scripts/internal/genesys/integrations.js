@@ -28,8 +28,8 @@ async function socketConnect(sessionID) {
                 const showLineStatusNck1 = result.GENESYS_showLineStatus_nck1;
                 const showLineStatusNck2 = result.GENESYS_showLineStatus_nck2;
 
-                if (showLineStatusNck1) addMessageDiv("line-status-nck1");
-                if (showLineStatusNck2) addMessageDiv("line-status-nck2");
+                if (showLineStatusNck1) addLineStatusDiv("line-status-nck1");
+                if (showLineStatusNck2) addLineStatusDiv("line-status-nck2");
             }
         );
     };
@@ -150,7 +150,7 @@ async function manualReconnect() {
 }
 
 // Добавление DIV для отображения статуса линий
-async function addMessageDiv(id) {
+async function addLineStatusDiv(id) {
     if (document.querySelector(`#${id}`)) return;
 
     const observer = new MutationObserver(() => {
@@ -158,8 +158,6 @@ async function addMessageDiv(id) {
 
         if (title) {
             const containerDiv = document.createElement("div");
-            containerDiv.style.alignItems = "center";
-            containerDiv.style.justifyContent = "space-between";
             containerDiv.style.padding = "10px";
             containerDiv.style.marginLeft = "10px";
             containerDiv.style.fontSize = "15px";
@@ -203,7 +201,6 @@ async function addMessageDiv(id) {
     });
 }
 
-
 // Обработка сообщений сокета линии НЦК
 async function handleSocketMessages(data, time) {
     if (!data?.availQueues) return;
@@ -228,7 +225,7 @@ async function handleSocketMessages(data, time) {
 
         lineStats.style.color = data.waitingChats.nck1 > 0 ? "red" : "white";
 
-        let contentToShow = `<span style="display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; background-color: #666666; border-radius: 50%; margin-right: 5px; font-size: 12px;">1</span>Слоты: ${data.chatCapacity.nck1.available}/${data.chatCapacity.nck1.max} | SL: ${data.daySl.nck1}`;
+        let contentToShow = `<span style="display: inline-flex; justify-content: center; width: 20px; height: 20px; background-color: #666666; border-radius: 50%; margin-right: 5px; font-size: 12px;">1</span>Слоты: ${data.chatCapacity.nck1.available}/${data.chatCapacity.nck1.max} | SL: ${data.daySl.nck1}`;
         if (data.waitingChats.nck1 > 0) {
             contentToShow += ` | ОЧЕРЕДЬ: ${data.waitingChats.nck1}`;
         }
@@ -267,7 +264,7 @@ async function handleSocketMessages(data, time) {
 
         lineStats.style.color = data.waitingChats.nck2 > 0 ? "red" : "white";
 
-        let contentToShow = `<span style="display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; background-color: #666666; border-radius: 50%; margin-right: 5px; font-size: 12px;">2</span>Слоты: ${data.chatCapacity.nck2.available}/${data.chatCapacity.nck2.max} | SL: ${data.daySl.nck2}`;
+        let contentToShow = `<span style="display: inline-flex; justify-content: center; width: 20px; height: 20px; background-color: #666666; border-radius: 50%; margin-right: 5px; font-size: 12px;">2</span>Слоты: ${data.chatCapacity.nck2.available}/${data.chatCapacity.nck2.max} | SL: ${data.daySl.nck2}`;
         if (data.waitingChats.nck2 > 0) {
             contentToShow += ` | ОЧЕРЕДЬ: ${data.waitingChats.nck2}`;
         }
