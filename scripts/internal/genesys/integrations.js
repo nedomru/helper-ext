@@ -202,7 +202,7 @@ async function addLineStatusDiv(id) {
 }
 
 // Обработка сообщений сокета линии НЦК
-async function handleSocketMessages(data, time) {
+async function handleSocketMessages(data) {
     if (!data?.availQueues) return;
 
     // Get all settings in parallel
