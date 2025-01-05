@@ -155,90 +155,91 @@ async function initGenesysButtons() {
 }
 
 // Кастомные эмодзи чата
-// async function customEmojis() {
-//     const emojiCategories = {
-//         "😊": ["😀", "😄", "😁", "😅", "🥹", "😂", "🤣", "😊", "😇", "🙂", "😉", "😌", "😍", "🥰", "😘", "😋", "🤨", "🧐", "🤓", "😎", "🤩", "🥳", "😏", "😒", "😞", "😔", "😟", "😕", "🙁", "☹️", "😣", "😖", "😫", "😩", "🥺", "😢", "😭"],
-//         "👍": ["🙏","🤝", "👍", "👎", "👊", "✊", "🤛", "🤜", "🫶", "🤞", "✌️", "🤟", "🤘", "👌", "🤌", "🤏", "👈", "👉"],
-//         "❤️": ["❤️", "🧡", "💛", "💚", "💙", "💜", "🖤", "🤍", "🤎", "💔", "❣️", "💕", "💞", "💓", "💗"],
-//         "flowers": ["🌼", "🌻", "🌹", "🌷", "", "", "", "🌸"],
-//         "g": ["⚙️", "🤖", "⌛️", "🪄", "🌹", "🌸", "⭐️", "🍆"]
-//     };
-//
-//     function createEmojiContainer() {
-//         const container = document.createElement('div');
-//         container.className = 'containerSmile containerSmileHidden enhanced';
-//         container.style.cssText = `
-//             border-radius: 5px;
-//             position: absolute;
-//             left: 2px;
-//             right: 105px;
-//             top: 124px;
-//             max-width: 450px;
-//             background-color: white;
-//             box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-//             padding: 5px;
-//             max-height: 200px;
-//             overflow-y: auto;
-//         `;
-//         return container;
-//     }
-//
-//     function createEmojiGrid() {
-//         const grid = document.createElement('div');
-//         grid.style.cssText = `
-//             display: grid;
-//             grid-template-columns: repeat(auto-fill, minmax(28px, 1fr));
-//             gap: 2px;
-//             padding: 5px;
-//         `;
-//         return grid;
-//     }
-//
-//     function createEmojiElement(emoji) {
-//         const emojiDiv = document.createElement('div');
-//         emojiDiv.className = 'smileItem';
-//         emojiDiv.style.cssText = `
-//             display: flex;
-//             align-items: center;
-//             justify-content: center;
-//             font-size: 18px;
-//             padding: 4px;
-//             cursor: pointer;
-//             border-radius: 3px;
-//             transition: background-color 0.15s;
-//         `;
-//         emojiDiv.textContent = emoji;
-//         emojiDiv.onmouseover = () => emojiDiv.style.backgroundColor = '#f0f0f0';
-//         emojiDiv.onmouseout = () => emojiDiv.style.backgroundColor = 'transparent';
-//         return emojiDiv;
-//     }
-//
-//     const observer = new MutationObserver((mutations) => {
-//         mutations.forEach((mutation) => {
-//             if (mutation.type === 'childList') {
-//                 const existingContainer = document.querySelector('.containerSmile:not(.enhanced)');
-//                 if (existingContainer) {
-//                     const parent = existingContainer.parentElement;
-//                     existingContainer.remove();
-//
-//                     const container = createEmojiContainer();
-//
-//                     Object.entries(emojiCategories).forEach(([category, emojis]) => {
-//                         const grid = createEmojiGrid();
-//                         emojis.forEach(emoji => {
-//                             grid.appendChild(createEmojiElement(emoji));
-//                         });
-//                         container.appendChild(grid);
-//                     });
-//
-//                     parent.appendChild(container);
-//                 }
-//             }
-//         });
-//     });
-//
-//     observer.observe(document.body, { childList: true, subtree: true });
-// }
+async function customEmojis() {
+    const emojiCategories = {
+        "base": ["🙂", "😁", "😂", "😅", "😆", "❤️", "😉", "😔", "😭", "😳", "😰", "🙈", "😍", "😌", "🙏", "😥", "🤔", "👌", "👍", "🎉", "🎊", "☀️"],
+        "😊": ["😀", "🫡", "😄", "🤣", "😊", "😇", "🙂", "🥰", "😘", "😋", "🤨", "🧐", "🤓", "😎", "🤩", "🥳", "😏", "😒", "😞", "😔", "😟", "😕", "🙁", "☹️", "😣", "😖", "😫", "😩", "🥺", "😢", "😭"],
+        "👍": ["🙏","🤝", "👍", "👎", "👊", "✊", "🤛", "🤜", "🫶", "🤞", "✌️", "🤟", "🤘", "👌", "🤌", "🤏", "👈", "👉"],
+        "❤️": ["❤️", "🧡", "💛", "💚", "💙", "💜", "🖤", "🤍", "🤎", "💔", "❣️", "💕", "💞", "💓", "💗"],
+        "flowers": ["🌼", "🌻", "🌹", "🌷", "🌸"],
+        "g": ["⚙️", "❄️", "📎", "🤖", "⌛️", "🪄", "🌹", "🌸", "⭐️", "🍆"]
+    };
+
+    function createEmojiContainer() {
+        const container = document.createElement('div');
+        container.className = 'containerSmile containerSmileHidden enhanced';
+        container.style.cssText = `
+            border-radius: 5px;
+            position: absolute;
+            left: 2px;
+            right: 105px;
+            top: 124px;
+            max-width: 450px;
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            padding: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+        `;
+        return container;
+    }
+
+    function createEmojiGrid() {
+        const grid = document.createElement('div');
+        grid.style.cssText = `
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(28px, 1fr));
+            gap: 2px;
+            padding: 5px;
+        `;
+        return grid;
+    }
+
+    function createEmojiElement(emoji) {
+        const emojiDiv = document.createElement('div');
+        emojiDiv.className = 'smileItem';
+        emojiDiv.style.cssText = `
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            padding: 4px;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: background-color 0.15s;
+        `;
+        emojiDiv.textContent = emoji;
+        emojiDiv.onmouseover = () => emojiDiv.style.backgroundColor = '#f0f0f0';
+        emojiDiv.onmouseout = () => emojiDiv.style.backgroundColor = 'transparent';
+        return emojiDiv;
+    }
+
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.type === 'childList') {
+                const existingContainer = document.querySelector('.containerSmile:not(.enhanced)');
+                if (existingContainer) {
+                    const parent = existingContainer.parentElement;
+                    existingContainer.remove();
+
+                    const container = createEmojiContainer();
+
+                    Object.entries(emojiCategories).forEach(([category, emojis]) => {
+                        const grid = createEmojiGrid();
+                        emojis.forEach(emoji => {
+                            grid.appendChild(createEmojiElement(emoji));
+                        });
+                        container.appendChild(grid);
+                    });
+
+                    parent.appendChild(container);
+                }
+            }
+        });
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+}
 
 // Скрытие заголовков чата
 async function hideChatHeader() {
