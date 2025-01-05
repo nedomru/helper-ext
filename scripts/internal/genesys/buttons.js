@@ -240,17 +240,3 @@ async function customEmojis() {
 
     observer.observe(document.body, { childList: true, subtree: true });
 }
-
-// Скрытие заголовков чата
-async function hideChatHeader() {
-    new MutationObserver(mutations => {
-        const headerDiv = document.querySelector('.wwe-case-information-header');
-        if (!headerDiv) return;
-
-        if (!headerDiv.classList.contains("hided-by-helper")) {
-            headerDiv.click();
-            headerDiv.setAttribute('aria-expanded', 'false');
-            headerDiv.classList.add("hided-by-helper");
-        }
-    }).observe(document.body, {childList: true, subtree: true});
-}
