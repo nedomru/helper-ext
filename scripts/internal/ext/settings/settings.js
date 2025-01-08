@@ -69,7 +69,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         "GENESYS_showFB_flomaster",
         "GENESYS_showFB_channelsktv",
         "GENESYS_showFB_channelscktv",
-        "GENESYS_showFB_chatMaster",
         "GENESYS_showFB_setupRouter",
         "GENESYS_showFB_setupTV",
         "GENESYS_showFB_setupDecoder",

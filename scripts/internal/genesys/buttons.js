@@ -8,7 +8,6 @@ async function initGenesysButtons() {
     // Configuration for available links
     const LINKS_CONFIG = [
         {url: "https://flomaster.chrsnv.ru", text: "Фломастер", key: "GENESYS_showFB_flomaster"},
-        {url: "http://cm.roool.ru", text: "ЧатМастер", key: "GENESYS_showFB_chatMaster"},
         {url: "https://dom.ru/service/knowledgebase/internet/kak-nastroit-router", text: "Настройка роутеров", key: "GENESYS_showFB_setupRouter"},
         {url: "https://dom.ru/faq/televidenie/kak-nastroit-cifrovye-kanaly-na-televizore", text: "Настройка ТВ", key: "GENESYS_showFB_setupTV"},
         {url: "https://dom.ru/service/knowledgebase/domru-tv/nastrojka-tv-pristavok", text: "Настройка декодеров", key: "GENESYS_showFB_setupDecoder"},
