@@ -151,11 +151,7 @@ async function specialistButtons() {
 
     const buttonToggleContainer = document.createElement("div");
     buttonToggleContainer.innerHTML = `
-        <div class="v-card v-sheet">
-            <div class="v-card__text">
-                <div class="v-btn-toggle v-item-group v-btn-toggle--rounded">
-                </div>
-            </div>
+        <div class="v-btn-toggle v-item-group v-btn-toggle--rounded">
         </div>
     `;
     buttonToggleContainer.style.marginLeft = "20px";
