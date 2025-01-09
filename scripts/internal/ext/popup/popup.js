@@ -37,11 +37,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         window.close();
     });
 
-    document.getElementById("openPlaner").addEventListener("click", function () {
-        window.open("https://planer.chrsnv.ru/spaces/issues/5aeb4b5fbfa349c5a4bd0d4897c807d3", "_blank");
-        window.close();
-    });
-
     document.getElementById("openDonate").addEventListener("click", function () {
         window.open("https://pay.cloudtips.ru/p/787b494c", "_blank");
         window.close();
