@@ -5,7 +5,7 @@ const GENESYS_URL = {
 
 const GENESYS_FEATURES = {
     core: {
-        GENESYS_hideChatHeader: hideChatHeader,
+        // GENESYS_hideChatHeader: hideChatHeader,
         GENESYS_hideUselessButtons: hideUselessButtons,
         GENESYS_showFastButtons: initGenesysButtons,
         GENESYS_showOCTPLineStatus: otpcLineStatus,
@@ -41,7 +41,7 @@ async function initializeGenesysFeatures() {
         await initFileUpload()
         await initFMButton()
         await customEmojis()
-        await handleChatHeaders()
+        // await handleChatHeaders()
         // await messageAreaResize()
     } catch (error) {
         Logger.error(`Ошибка инициализации основных функций: ${error.message}`);

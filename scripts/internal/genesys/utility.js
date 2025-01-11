@@ -747,17 +747,17 @@ async function handleChatHeaders() {
             headerDiv.classList.add("device-by-helper");
 
             // Get device info
-            const deviceElement = document.querySelector('#wweCaseData1PhoneModelValue .wwe-data-text-value');
             const osElement = document.querySelector('#wweCaseData1OSVersionValue .wwe-data-text-value');
 
             if (deviceElement && osElement) {
-                const device = deviceElement.getAttribute('title') || deviceElement.textContent;
                 const os = osElement.getAttribute('title') || osElement.textContent;
 
                 // Create device info element
                 const deviceInfo = document.createElement('div');
                 deviceInfo.className = 'wwe-device-info';
-                deviceInfo.textContent = os.contains("Android") ? " | Android" : " | iOS"
+                
+                // Include both device name and OS type
+                deviceInfo.textContent = ` | Устройство: ${os.includes("Android") ? "Android" : "iOS"}`;
                 deviceInfo.style.cssText = 'color: white; font-size: 12px; margin-top: 4px; padding: 0 8px;';
 
                 // Insert after the header label but before the header tool
