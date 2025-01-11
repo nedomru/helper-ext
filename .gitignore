@@ -1,4 +1,7 @@
-/.idea/
+.idea/
+.vscode/
 /web-ext-artifacts/
 .web-extension-id
 .amo-upload-uuid
+.amo-upload-uuid
+.web-extension-id
