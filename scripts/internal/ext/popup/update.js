@@ -9,7 +9,7 @@ async function fetchReleaseInfo() {
   try {
     // Fetch latest release data
     const response = await fetch(
-        "https://api.github.com/repos/nedomru-dev/helper-site/releases/latest"
+        "https://api.github.com/repos/nedomru/helper-site/releases/latest"
     );
 
     if (!response.ok) {

@@ -12,7 +12,7 @@ async function checkForUpdates() {
     }
 
     const response = await fetch(
-        "https://api.github.com/repos/nedomru-dev/helper-site/releases/latest"
+        "https://api.github.com/repos/nedomru/helper-site/releases/latest"
     );
 
     const data = await response.json();
