@@ -38,9 +38,9 @@ async function initializeGenesysFeatures() {
                 await handler();
             }
         }
-        await initFileUpload()
         await initFMButton()
         await customEmojis()
+        // await initFileUpload()
         // await handleChatHeaders()
         // await messageAreaResize()
     } catch (error) {
