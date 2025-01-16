@@ -39,6 +39,7 @@ async function setDefaults() {
         GENESYS_showFB_flomaster: true,
         GENESYS_showFB_setupRouter: true,
         GENESYS_showFB_setupTV: true,
+        GENESYS_showFlomaster: true,
         ARM_allowCopy: true,
         ARM_sendClientCardExample: true,
         ARM_copyClientAddress: true,

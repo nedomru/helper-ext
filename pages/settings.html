@@ -42,8 +42,7 @@
                 <div class="tab-content" id="settingsTabContent">
                     <br>
                     <!-- Содержимое вкладки Общее -->
-                    <div class="tab-pane fade show active" id="general" role="tabpanel"
-                         aria-labelledby="general-tab">
+                    <div class="tab-pane fade show active" role="tabpanel" id="general" aria-labelledby="general-tab">
                         <!-- Проверка обновлений -->
                         <div class="card">
                             <div class="card-body">
@@ -103,622 +102,825 @@
                     </div>
 
                     <!-- Содержимое вкладки Генезис -->
-                    <div class="tab-pane fade" id="genesys" role="tabpanel" aria-labelledby="genesys-tab">
-                        <!-- Генезис -->
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Генезис</h5>
-                                <p class="card-text">Общий функционал, применяемый к странице Генезиса
-                                </p>
+                    <div class="tab-pane fade" role="tabpanel" id="genesys" aria-labelledby="genesys-tab">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <!-- Основные настройки -->
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link active" aria-controls="genesys-main" aria-selected="true"
+                                   data-bs-toggle="tab"
+                                   href="#genesys-main" role="tab">Основные настройки</a>
+                            </li>
+
+                            <!-- Чаты -->
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" aria-controls="genesys-chats" aria-selected="true"
+                                   data-bs-toggle="tab"
+                                   href="#genesys-chats" role="tab">Чаты</a>
+                            </li>
+
+                            <!-- Быстрые кнопки -->
+                            <li class="nav-item dropdown" role="presentation">
+                                <a class="nav-link" aria-controls="genesys-fb" aria-selected="true"
+                                   data-bs-toggle="tab"
+                                   href="#genesys-fb" role="tab">Быстрые кнопки</a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content" id="genesysTabContent"><br>
+                            <!--Генезис-->
+                            <div class="tab-pane fade show active" role="tabpanel" id="genesys-main"
+                                 aria-labelledby="genesys-main">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Генезис</h5>
+                                        <p class="card-text">Общий функционал, применяемый к странице Генезиса
+                                        </p>
+                                    </div>
+                                    <div class="list-group">
+                                        <!-- Отображать статус линии НЦК1 -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0" data-bs-toggle="tooltip" data-bs-html="true"
+                                                            data-bs-placement="right"
+                                                            data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/LVYwgZH.png'/>">
+                                                        Отображать статус линии НЦК1</strong>
+                                                    <p class="mb-0">Добавляет поле со статусом линии НЦК1 в Генезис
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <label for="GENESYS_showLineStatus_nck1">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                   id="GENESYS_showLineStatus_nck1"/>
+                                                        </label>
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Отображать статус линии НЦК2 -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0" data-bs-toggle="tooltip" data-bs-html="true"
+                                                            data-bs-placement="right"
+                                                            data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/x9j2xM6.png'/>">
+                                                        Отображать статус линии НЦК2</strong>
+                                                    <p class="mb-0">Добавляет поле со статусом линии НЦК2 в Генезис
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <label for="GENESYS_showLineStatus_nck2">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                   id="GENESYS_showLineStatus_nck2"/>
+                                                        </label>
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Отображать сообщения дежурных -->
+                                        <!--<div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0" data-bs-toggle="tooltip" data-bs-html="true"
+                                                        data-bs-placement="right"
+                                                        data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/NUqcbU6.png'/>">
+                                                        Отображать сообщения дежурных</strong>
+                                                    <p class="mb-0">При появлении сообщения на линии оно будет отображено в
+                                                        Генезисе
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="GENESYS_showLineMessages" />
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>-->
+
+                                        <!-- Скрывать бесполезные кнопки -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0" data-bs-toggle="tooltip" data-bs-html="true"
+                                                            data-bs-placement="right"
+                                                            data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/NUqcbU6.png'/>">
+                                                        Скрывать бесполезные кнопки</strong>
+                                                    <p class="mb-0">Помощь, Facebook Drafts & in Progress,
+                                                        Twitter
+                                                        Drafts
+                                                        & in Progress
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <label for="GENESYS_hideUselessButtons">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                   id="GENESYS_hideUselessButtons"/>
+                                                        </label>
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Отображать аварийность НЦК2 -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0" data-bs-toggle="tooltip" data-bs-html="true"
+                                                            data-bs-placement="right"
+                                                            data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/TJ6Yahj.png'/>">
+                                                        Отображать аварийность НЦК2</strong>
+                                                    <p class="mb-0">Включить отображение статуса аварийности НЦК2
+                                                        линии
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <label for="GENESYS_showOCTPLineStatus">
+                                                            <input type="checkbox"
+                                                                   class="custom-control-input"
+                                                                   id="GENESYS_showOCTPLineStatus"/>
+                                                        </label>
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Отображать канал обращения в заголовке чата -->
+                                        <!--<div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">Отображать канал обращения в заголовке
+                                                        чата</strong>
+                                                    <p class="mb-0">При поступлении чата отображает канал
+                                                        обращения
+                                                        клиента в заголовке чата (Тестовая функция)
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="GENESYS_showClientChannelOnCard" />
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>-->
+
+
+                                    </div>
+                                </div>
                             </div>
-                            <div class="list-group">
-                                <!-- Скрывать заголовки чатов -->
-                                <!-- <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0">
-                                                Скрывать заголовки чатов</strong>
-                                            <p class="mb-0">Автоматически скрывает заголовок чата при выпадении
-                                            </p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-switch">
-                                                <label for="GENESYS_hideChatHeader">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="GENESYS_hideChatHeader"/>
-                                                </label>
-                                                <span class="custom-control-label"></span>
+
+                            <!--Чаты-->
+                            <div class="tab-pane fade" role="tabpanel" id="genesys-chats"
+                                 aria-labelledby="genesys-chats">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Основные</h5>
+                                    </div>
+                                    <div class="list-group">
+                                        <!-- Сворачивать заголовок автоматически -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">
+                                                        Сворачивать заголовок чата автоматически</strong>
+                                                    <p class="mb-0">При выпадении чата автоматически сворачивает его заголовок (<b>НЕСТАБИЛЬНО</b>)
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <label for="GENESYS_hideChatHeader">
+                                                            <input type="checkbox"
+                                                                   class="custom-control-input"
+                                                                   id="GENESYS_hideChatHeader"/>
+                                                        </label>
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div> -->
-                                <!-- Отображать статус линии НЦК1 -->
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0" data-bs-toggle="tooltip" data-bs-html="true"
-                                                    data-bs-placement="right"
-                                                    data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/LVYwgZH.png'/>">
-                                                Отображать статус линии НЦК1</strong>
-                                            <p class="mb-0">Добавляет поле со статусом линии НЦК1 в Генезис
-                                            </p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-switch">
-                                                <label for="GENESYS_showLineStatus_nck1">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="GENESYS_showLineStatus_nck1"/>
-                                                </label>
-                                                <span class="custom-control-label"></span>
+
+                                        <!-- Включить изменение размера окна чата -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">
+                                                        Включить изменение размера окна чата</strong>
+                                                    <p class="mb-0">Разрешает изменение размера текстового поля в чате (<b>НЕСТАБИЛЬНО</b>)
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <label for="GENESYS_allowChatResize">
+                                                            <input type="checkbox"
+                                                                   class="custom-control-input"
+                                                                   id="GENESYS_allowChatResize"/>
+                                                        </label>
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <!-- Отображать статус линии НЦК2 -->
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0" data-bs-toggle="tooltip" data-bs-html="true"
-                                                    data-bs-placement="right"
-                                                    data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/x9j2xM6.png'/>">
-                                                Отображать статус линии НЦК2</strong>
-                                            <p class="mb-0">Добавляет поле со статусом линии НЦК2 в Генезис
-                                            </p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-switch">
-                                                <label for="GENESYS_showLineStatus_nck2">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="GENESYS_showLineStatus_nck2"/>
-                                                </label>
-                                                <span class="custom-control-label"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Отображать сообщения дежурных -->
-                                <!--<div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0" data-bs-toggle="tooltip" data-bs-html="true"
-                                                data-bs-placement="right"
-                                                data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/NUqcbU6.png'/>">
-                                                Отображать сообщения дежурных</strong>
-                                            <p class="mb-0">При появлении сообщения на линии оно будет отображено в
-                                                Генезисе
-                                            </p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-switch">
-                                                <input type="checkbox" class="custom-control-input"
-                                                <input type="checkbox" class="custom-control-input"
-                                                    id="GENESYS_showLineMessages" />
-                                                <span class="custom-control-label"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>-->
-                                <!-- Скрывать бесполезные кнопки -->
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0" data-bs-toggle="tooltip" data-bs-html="true"
-                                                    data-bs-placement="right"
-                                                    data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/NUqcbU6.png'/>">
-                                                Скрывать бесполезные кнопки</strong>
-                                            <p class="mb-0">Помощь, Facebook Drafts & in Progress,
-                                                Twitter
-                                                Drafts
-                                                & in Progress
-                                            </p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-switch">
-                                                <label for="GENESYS_hideUselessButtons">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="GENESYS_hideUselessButtons"/>
-                                                </label>
-                                                <span class="custom-control-label"></span>
+
+                                        <!-- Включить загрузку картинок в чат из буфера обмена -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">
+                                                        Включить загрузку картинок в чат из буфера обмена</strong>
+                                                    <p class="mb-0">Разрешает вставку изображений в чат через ПКМ-Вставить или ctrl+v (<b>НЕСТАБИЛЬНО</b>)
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <label for="GENESYS_allowImagePaste">
+                                                            <input type="checkbox"
+                                                                   class="custom-control-input"
+                                                                   id="GENESYS_allowImagePaste"/>
+                                                        </label>
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Отображать аварийность НЦК2 -->
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0" data-bs-toggle="tooltip" data-bs-html="true"
-                                                    data-bs-placement="right"
-                                                    data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/TJ6Yahj.png'/>">
-                                                Отображать аварийность НЦК2</strong>
-                                            <p class="mb-0">Включить отображение статуса аварийности НЦК2
-                                                линии
-                                            </p>
+                                <br>
+
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Вертикальные вкладки</h5>
+                                    </div>
+                                    <div class="list-group">
+                                        <!-- Добавлять Фломастер -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">
+                                                        Добавлять Фломастер</strong>
+                                                    <p class="mb-0">В вертикальное меню каждого чата добавляется кнопка
+                                                        Фломастер<br>
+                                                        Работает как Личные РМы
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <label for="GENESYS_showFlomaster">
+                                                            <input type="checkbox"
+                                                                   class="custom-control-input"
+                                                                   id="GENESYS_showFlomaster"/>
+                                                        </label>
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-switch">
-                                                <label for="GENESYS_showOCTPLineStatus">
-                                                    <input type="checkbox"
-                                                           class="custom-control-input"
-                                                           id="GENESYS_showOCTPLineStatus"/>
-                                                </label>
-                                                <span class="custom-control-label"></span>
+
+                                        <!-- Скрывать вкладку Ответы-->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">
+                                                        Скрывать вкладку Ответы</strong>
+                                                    <p class="mb-0">Скрывает во всех чатах вкладку Ответы
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <label for="GENESYS_hideAnswersTab">
+                                                            <input type="checkbox"
+                                                                   class="custom-control-input"
+                                                                   id="GENESYS_hideAnswersTab"/>
+                                                        </label>
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Скрывать вкладку Личные РМы-->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">
+                                                        Скрывать вкладку Личные РМы</strong>
+                                                    <p class="mb-0">Скрывает во всех чатах вкладку Личные РМы
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <label for="GENESYS_hideMyRMs">
+                                                            <input type="checkbox"
+                                                                   class="custom-control-input"
+                                                                   id="GENESYS_hideMyRMs"/>
+                                                        </label>
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Скрывать заголовки чатов -->
-                                <!--<div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0">Скрывать заголовки чатов</strong>
-                                            <p class="mb-0">При поступлении чата заголовок скрывается.
-                                                Его
-                                                можно
-                                                раскрыть обратно (Тестовая функция)
-                                            </p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-switch">
-                                                <label for="GENESYS_hideChatHeader">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="GENESYS_hideChatHeader"/>
-                                                </label>
-                                                <span class="custom-control-label"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>-->
+                                <br>
 
-                                <!-- Отображать канал обращения в заголовке
-                                                чата
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0">Отображать канал обращения в заголовке
-                                                чата</strong>
-                                            <p class="mb-0">При поступлении чата отображает канал
-                                                обращения
-                                                клиента в заголовке чата (Тестовая функция)
-                                            </p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-switch">
-                                                <input type="checkbox" class="custom-control-input"
-                                                    id="GENESYS_showClientChannelOnCard" />
-                                                <span class="custom-control-label"></span>
+                                <!-- Цвета чата -->
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Цвета чата</h5>
+                                    </div>
+                                    <div class="list-group">
+                                        <!-- Активировать кастомные цвета -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">Активировать кастомные цвета</strong>
+                                                    <p class="mb-0">Функция активирует выбранные в пунктах ниже
+                                                        цвета. Для
+                                                        применения требуется обновить страницу Генезиса.
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <label for="GENESYS_chatColors">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                   id="GENESYS_chatColors"/>
+                                                        </label>
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
+
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">Цвет имени оператора</strong>
+                                                    <p class="mb-0">Изменяет цвет имени оператора
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <input type="color" id="GENESYS_chatColors_agentPromptColor"
+                                                           class="form-control form-control-color"
+                                                           title="Выберите цвет"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">Цвет сообщения оператора</strong>
+                                                    <p class="mb-0">Изменяет цвет текста сообщения оператора
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <input type="color" id="GENESYS_chatColors_agentTextColor"
+                                                           class="form-control form-control-color"
+                                                           title="Выберите цвет"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">Цвет имени клиента</strong>
+                                                    <p class="mb-0">Изменяет цвет имени клиента
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <input type="color"
+                                                           id="GENESYS_chatColors_clientPromptColor"
+                                                           class="form-control form-control-color"
+                                                           title="Выберите цвет"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">Цвет сообщения клиента</strong>
+                                                    <p class="mb-0">Изменяет цвет текста сообщения клиента
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <input type="color" id="GENESYS_chatColors_clientTextColor"
+                                                           class="form-control form-control-color"
+                                                           title="Выберите цвет"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
-                                </div>-->
+                                </div>
+
+                                <br>
+
+                                <!-- Звук чата -->
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Звук чата</h5>
+                                    </div>
+                                    <div class="list-group">
+                                        <!-- Активировать кастомный звук -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">Активировать кастомный звук</strong>
+                                                    <p class="mb-0">Функция активирует выбранный ниже звук чата
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <label for="GENESYS_chatSound">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                   id="GENESYS_chatSound"/>
+                                                        </label>
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">Выбор звука нового чата</strong>
+                                                    <p class="mb-0">Звук активируется при получении нового
+                                                        чата</p>
+                                                    <div class="input-group mt-2">
+                                                        <label for="chatSoundSelect">
+                                                            <select id="chatSoundSelect" class="form-control">
+                                                                <option value="../resources/sounds/Sound_1.mp3">
+                                                                    Звук 1
+                                                                </option>
+                                                                <option value="../resources/sounds/Sound_2.mp3">
+                                                                    Звук 2
+                                                                </option>
+                                                                <option value="../resources/sounds/Sound_3.mp3">
+                                                                    Звук 3
+                                                                </option>
+                                                                <option value="../resources/sounds/Sound_4.mp3">
+                                                                    Звук 4
+                                                                </option>
+                                                                <option value="../resources/sounds/Sound_5.mp3">
+                                                                    Звук 5
+                                                                </option>
+                                                                <option value="../resources/sounds/Sound_6.mp3">
+                                                                    Звук 6
+                                                                </option>
+                                                                <option value="../resources/sounds/Sound_7.mp3">
+                                                                    Звук 7
+                                                                </option>
+                                                                <option value="../resources/sounds/Sound_8.mp3">
+                                                                    Звук 8
+                                                                </option>
+                                                                <option value="../resources/sounds/Sound_9.mp3">
+                                                                    Звук 9
+                                                                </option>
+                                                                <option value="../resources/sounds/zvuk-chpok-4.mp3">
+                                                                    Звук 10
+                                                                </option>
+                                                            </select>
+                                                        </label>
+                                                        <button id="chatPlaySound" class="btn btn-primary">
+                                                            Прослушать
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">Выбор звука нового сообщения в
+                                                        чате</strong>
+                                                    <p class="mb-0">Звук активируется при получении нового
+                                                        сообщения в чате</p>
+                                                    <div class="input-group mt-2">
+                                                        <label for="messageSoundSelect">
+                                                            <select id="messageSoundSelect"
+                                                                    class="form-control">
+                                                                <option value="../resources/sounds/Sound_1.mp3">
+                                                                    Звук 1
+                                                                </option>
+                                                                <option value="../resources/sounds/Sound_2.mp3">
+                                                                    Звук 2
+                                                                </option>
+                                                                <option value="../resources/sounds/Sound_3.mp3">
+                                                                    Звук 3
+                                                                </option>
+                                                                <option value="../resources/sounds/Sound_4.mp3">
+                                                                    Звук 4
+                                                                </option>
+                                                                <option value="../resources/sounds/Sound_5.mp3">
+                                                                    Звук 5
+                                                                </option>
+                                                                <option value="../resources/sounds/Sound_6.mp3">
+                                                                    Звук 6
+                                                                </option>
+                                                                <option value="../resources/sounds/Sound_7.mp3">
+                                                                    Звук 7
+                                                                </option>
+                                                                <option value="../resources/sounds/Sound_8.mp3">
+                                                                    Звук 8
+                                                                </option>
+                                                                <option value="../resources/sounds/Sound_9.mp3">
+                                                                    Звук 9
+                                                                </option>
+                                                                <option value="../resources/sounds/zvuk-chpok-4.mp3">
+                                                                    Звук 10
+                                                                </option>
+                                                            </select>
+                                                        </label>
+                                                        <button class="btn btn-primary" id="messagePlaySound">
+                                                            Прослушать
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <audio id="audioPlayer" src=""></audio>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <br>
-                        <!-- Цвета чата -->
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Цвета чата</h5>
-                            </div>
-                            <div class="list-group">
-                                <!-- Активировать кастомные цвета -->
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0">Активировать кастомные цвета</strong>
-                                            <p class="mb-0">Функция активирует выбранные в пунктах ниже цвета. Для
-                                                применения требуется обновить страницу Генезиса.
-                                            </p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-switch">
-                                                <label for="GENESYS_chatColors">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="GENESYS_chatColors"/>
-                                                </label>
-                                                <span class="custom-control-label"></span>
+
+                            <!--Быстрые кнопки-->
+                            <div class="tab-pane fade" role="tabpanel" id="genesys-fb"
+                                 aria-labelledby="genesys-fb">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Быстрые кнопки</h5>
+                                    </div>
+                                    <div class="list-group">
+                                        <!-- Включить быстрые кнопки -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0" data-bs-toggle="tooltip"
+                                                            data-bs-html="true"
+                                                            data-bs-placement="right"
+                                                            data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/ce6EeQp.png'/>">
+                                                        Быстрые кнопки</strong>
+                                                    <p class="mb-0">Для применения настроек нужно обновить
+                                                        страницу
+                                                        генезиса
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <label for="GENESYS_showFastButtons">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                   id="GENESYS_showFastButtons"/>
+                                                        </label>
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
 
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0">Цвет имени оператора</strong>
-                                            <p class="mb-0">Изменяет цвет имени оператора
-                                            </p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <input type="color" id="GENESYS_chatColors_agentPromptColor"
-                                                   class="form-control form-control-color"
-                                                   title="Выберите цвет"/>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0">Цвет сообщения оператора</strong>
-                                            <p class="mb-0">Изменяет цвет текста сообщения оператора
-                                            </p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <input type="color" id="GENESYS_chatColors_agentTextColor"
-                                                   class="form-control form-control-color"
-                                                   title="Выберите цвет"/>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0">Цвет имени клиента</strong>
-                                            <p class="mb-0">Изменяет цвет имени клиента
-                                            </p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <input type="color" id="GENESYS_chatColors_clientPromptColor"
-                                                   class="form-control form-control-color"
-                                                   title="Выберите цвет"/>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0">Цвет сообщения клиента</strong>
-                                            <p class="mb-0">Изменяет цвет текста сообщения клиента
-                                            </p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <input type="color" id="GENESYS_chatColors_clientTextColor"
-                                                   class="form-control form-control-color"
-                                                   title="Выберите цвет"/>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                        <br>
-                        <!-- Звук чата -->
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Звук чата</h5>
-                            </div>
-                            <div class="list-group">
-                                <!-- Активировать кастомный звук -->
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0">Активировать кастомный звук</strong>
-                                            <p class="mb-0">Функция активирует выбранный ниже звук чата
-                                            </p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-switch">
-                                                <label for="GENESYS_chatSound">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="GENESYS_chatSound"/>
-                                                </label>
-                                                <span class="custom-control-label"></span>
+                                        <!-- Фломастер -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">Фломастер</strong>
+                                                    <p class="mb-0">Название кнопки: <i>Фломастер</i><br>
+                                                        Ссылка: <i>https://flomaster.chrsnv.ru</i></p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <label for="GENESYS_showFB_flomaster">
+                                                            <input class="custom-control-input"
+                                                                   id="GENESYS_showFB_flomaster"
+                                                                   type="checkbox"/>
+                                                        </label>
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0">Выбор звука нового чата</strong>
-                                            <p class="mb-0">Звук активируется при получении нового чата</p>
-                                            <div class="input-group mt-2">
-                                                <label for="chatSoundSelect">
-                                                    <select id="chatSoundSelect" class="form-control">
-                                                        <option value="../resources/sounds/Sound_1.mp3">Звук 1</option>
-                                                        <option value="../resources/sounds/Sound_2.mp3">Звук 2</option>
-                                                        <option value="../resources/sounds/Sound_3.mp3">Звук 3</option>
-                                                        <option value="../resources/sounds/Sound_4.mp3">Звук 4</option>
-                                                        <option value="../resources/sounds/Sound_5.mp3">Звук 5</option>
-                                                        <option value="../resources/sounds/Sound_6.mp3">Звук 6</option>
-                                                        <option value="../resources/sounds/Sound_7.mp3">Звук 7</option>
-                                                        <option value="../resources/sounds/Sound_8.mp3">Звук 8</option>
-                                                        <option value="../resources/sounds/Sound_9.mp3">Звук 9</option>
-                                                        <option value="../resources/sounds/zvuk-chpok-4.mp3">Звук 10
-                                                        </option>
-                                                    </select>
-                                                </label>
-                                                <button id="chatPlaySound" class="btn btn-primary">Прослушать</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0">Выбор звука нового сообщения в чате</strong>
-                                            <p class="mb-0">Звук активируется при получении нового сообщения в чате</p>
-                                            <div class="input-group mt-2">
-                                                <label for="messageSoundSelect">
-                                                    <select id="messageSoundSelect" class="form-control">
-                                                        <option value="../resources/sounds/Sound_1.mp3">Звук 1</option>
-                                                        <option value="../resources/sounds/Sound_2.mp3">Звук 2</option>
-                                                        <option value="../resources/sounds/Sound_3.mp3">Звук 3</option>
-                                                        <option value="../resources/sounds/Sound_4.mp3">Звук 4</option>
-                                                        <option value="../resources/sounds/Sound_5.mp3">Звук 5</option>
-                                                        <option value="../resources/sounds/Sound_6.mp3">Звук 6</option>
-                                                        <option value="../resources/sounds/Sound_7.mp3">Звук 7</option>
-                                                        <option value="../resources/sounds/Sound_8.mp3">Звук 8</option>
-                                                        <option value="../resources/sounds/Sound_9.mp3">Звук 9</option>
-                                                        <option value="../resources/sounds/zvuk-chpok-4.mp3">Звук 10
-                                                        </option>
-                                                    </select>
-                                                </label>
-                                                <button class="btn btn-primary" id="messagePlaySound">Прослушать
-                                                </button>
+                                        <!-- Настройка роутеров -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">Настройка роутеров</strong>
+                                                    <p class="mb-0">Название кнопки: <i>Роутеры</i><br>
+                                                        Ссылка:
+                                                        <i>https://dom.ru/service/knowledgebase/internet/kak-nastroit-router</i>
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <label for="GENESYS_showFB_setupRouter">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                   id="GENESYS_showFB_setupRouter"/>
+                                                        </label>
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <audio id="audioPlayer" src=""></audio>
-                            </div>
-                        </div>
-                        <br>
-                        <!-- Быстрые кнопки -->
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Быстрые кнопки</h5>
-                            </div>
-                            <div class="list-group">
-                                <!-- Включить быстрые кнопки -->
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0" data-bs-toggle="tooltip" data-bs-html="true"
-                                                    data-bs-placement="right"
-                                                    data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/ce6EeQp.png'/>">
-                                                Быстрые кнопки</strong>
-                                            <p class="mb-0">Для применения настроек нужно обновить
-                                                страницу
-                                                генезиса
-                                            </p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-switch">
-                                                <label for="GENESYS_showFastButtons">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="GENESYS_showFastButtons"/>
-                                                </label>
-                                                <span class="custom-control-label"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <!-- Фломастер -->
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0">Фломастер</strong>
-                                            <p class="mb-0">Название кнопки: <i>Фломастер</i><br>
-                                                Ссылка: <i>https://flomaster.chrsnv.ru</i></p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-switch">
-                                                <label for="GENESYS_showFB_flomaster">
-                                                    <input class="custom-control-input" id="GENESYS_showFB_flomaster"
-                                                           type="checkbox"/>
-                                                </label>
-                                                <span class="custom-control-label"></span>
+                                        <!-- Настройка ТВ -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">Настройка ТВ</strong>
+                                                    <p class="mb-0">Название кнопки: <i>ТВ</i><br>
+                                                        Ссылка:
+                                                        <i>https://dom.ru/faq/televidenie/kak-nastroit-cifrovye-kanaly-na-televizore</i>
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <label for="GENESYS_showFB_setupTV">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                   id="GENESYS_showFB_setupTV"/>
+                                                        </label>
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
 
-                                <!-- Настройка роутеров -->
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0">Настройка роутеров</strong>
-                                            <p class="mb-0">Название кнопки: <i>Роутеры</i><br>
-                                                Ссылка:
-                                                <i>https://dom.ru/service/knowledgebase/internet/kak-nastroit-router</i>
-                                            </p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-switch">
-                                                <label for="GENESYS_showFB_setupRouter">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="GENESYS_showFB_setupRouter"/>
-                                                </label>
-                                                <span class="custom-control-label"></span>
+                                        <!-- ЧТП КТВ -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">ЧТП КТВ</strong>
+                                                    <p class="mb-0">Название кнопки: <i>ЧТП КТВ</i><br>
+                                                        Ссылка:
+                                                        <i>https://clever.ertelecom.ru/content/space/4/article/12409</i>
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <label for="GENESYS_showFB_channelsktv">
+                                                            <input class="custom-control-input"
+                                                                   id="GENESYS_showFB_channelsktv"
+                                                                   type="checkbox"/>
+                                                        </label>
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
 
-                                <!-- Настройка ТВ -->
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0">Настройка ТВ</strong>
-                                            <p class="mb-0">Название кнопки: <i>ТВ</i><br>
-                                                Ссылка:
-                                                <i>https://dom.ru/faq/televidenie/kak-nastroit-cifrovye-kanaly-na-televizore</i>
-                                            </p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-switch">
-                                                <label for="GENESYS_showFB_setupTV">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="GENESYS_showFB_setupTV"/>
-                                                </label>
-                                                <span class="custom-control-label"></span>
+                                        <!-- ЧТП ЦКТВ -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">ЧТП ЦКТВ</strong>
+                                                    <p class="mb-0">Название кнопки: <i>ЧТП ЦКТВ</i><br>
+                                                        Ссылка:
+                                                        <i>https://clever.ertelecom.ru/content/space/4/article/8887</i>
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <label for="GENESYS_showFB_channelscktv">
+                                                            <input class="custom-control-input"
+                                                                   id="GENESYS_showFB_channelscktv"
+                                                                   type="checkbox"/>
+                                                        </label>
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
 
-                                <!-- ЧТП КТВ -->
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0">ЧТП КТВ</strong>
-                                            <p class="mb-0">Название кнопки: <i>ЧТП КТВ</i><br>
-                                                Ссылка:
-                                                <i>https://clever.ertelecom.ru/content/space/4/article/12409</i>
-                                            </p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-switch">
-                                                <label for="GENESYS_showFB_channelsktv">
-                                                    <input class="custom-control-input" id="GENESYS_showFB_channelsktv"
-                                                           type="checkbox"/>
-                                                </label>
-                                                <span class="custom-control-label"></span>
+                                        <!-- Настройка декодеров -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">Настройка декодеров</strong>
+                                                    <p class="mb-0">Название кнопки: <i>Декодеры</i><br>
+                                                        Ссылка:
+                                                        <i>https://dom.ru/service/knowledgebase/domru-tv/nastrojka-tv-pristavok</i>
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <label for="GENESYS_showFB_setupDecoder">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                   id="GENESYS_showFB_setupDecoder"/>
+                                                        </label>
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
 
-                                <!-- ЧТП ЦКТВ -->
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0">ЧТП ЦКТВ</strong>
-                                            <p class="mb-0">Название кнопки: <i>ЧТП ЦКТВ</i><br>
-                                                Ссылка:
-                                                <i>https://clever.ertelecom.ru/content/space/4/article/8887</i>
-                                            </p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-switch">
-                                                <label for="GENESYS_showFB_channelscktv">
-                                                    <input class="custom-control-input" id="GENESYS_showFB_channelscktv"
-                                                           type="checkbox"/>
-                                                </label>
-                                                <span class="custom-control-label"></span>
+                                        <!-- FTP ПК -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">FTP с ПК</strong>
+                                                    <p class="mb-0">Название кнопки: <i>FTP ПК</i><br>
+                                                        Ссылка:
+                                                        <i>http://octptest.corp.ertelecom.loc/diagnostic-results/perm/?C=M;O=D</i><br>
+                                                        Кнопка ведет на FTP сервер, куда приходят результаты
+                                                        test.exe с
+                                                        ПК<br>
+                                                        Сортировка результатов идет по дате.
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <label for="GENESYS_showFB_ftpPC">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                   id="GENESYS_showFB_ftpPC"/>
+                                                        </label>
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
 
-                                <!-- Настройка декодеров -->
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0">Настройка декодеров</strong>
-                                            <p class="mb-0">Название кнопки: <i>Декодеры</i><br>
-                                                Ссылка:
-                                                <i>https://dom.ru/service/knowledgebase/domru-tv/nastrojka-tv-pristavok</i>
-                                            </p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-switch">
-                                                <label for="GENESYS_showFB_setupDecoder">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="GENESYS_showFB_setupDecoder"/>
-                                                </label>
-                                                <span class="custom-control-label"></span>
+                                        <!-- FTP Моб -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">FTP с андроида</strong>
+                                                    <p class="mb-0">Название кнопки: <i>FTP Моб</i><br>
+                                                        Ссылка:
+                                                        <i>http://octptest.corp.ertelecom.loc/diagnostic-results/mobile/?C=M;O=D</i><br>
+                                                        Кнопка ведет на FTP сервер, куда приходят результаты
+                                                        test.exe с
+                                                        андроида<br>
+                                                        Сортировка результатов идет по дате.
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <label for="GENESYS_showFB_ftpAndroid">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                   id="GENESYS_showFB_ftpAndroid"/>
+                                                        </label>
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
 
-                                <!-- FTP ПК -->
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0">FTP с ПК</strong>
-                                            <p class="mb-0">Название кнопки: <i>FTP ПК</i><br>
-                                                Ссылка:
-                                                <i>http://octptest.corp.ertelecom.loc/diagnostic-results/perm/?C=M;O=D</i><br>
-                                                Кнопка ведет на FTP сервер, куда приходят результаты test.exe с
-                                                ПК<br>
-                                                Сортировка результатов идет по дате.
-                                            </p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-switch">
-                                                <label for="GENESYS_showFB_ftpPC">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="GENESYS_showFB_ftpPC"/>
-                                                </label>
-                                                <span class="custom-control-label"></span>
+                                        <!-- Dashboard -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">Dashboard домофонии</strong>
+                                                    <p class="mb-0">Название кнопки: <i>Dashboard</i><br>
+                                                        Ссылка:
+                                                        <i>https://mh-dashboard-erth.proptech.ru/web/</i>
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <label for="GENESYS_showFB_dashboard">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                   id="GENESYS_showFB_dashboard"/>
+                                                        </label>
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
 
-                                <!-- FTP Моб -->
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0">FTP с андроида</strong>
-                                            <p class="mb-0">Название кнопки: <i>FTP Моб</i><br>
-                                                Ссылка:
-                                                <i>http://octptest.corp.ertelecom.loc/diagnostic-results/mobile/?C=M;O=D</i><br>
-                                                Кнопка ведет на FTP сервер, куда приходят результаты test.exe с
-                                                андроида<br>
-                                                Сортировка результатов идет по дате.
-                                            </p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-switch">
-                                                <label for="GENESYS_showFB_ftpAndroid">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="GENESYS_showFB_ftpAndroid"/>
-                                                </label>
-                                                <span class="custom-control-label"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Dashboard -->
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0">Dashboard домофонии</strong>
-                                            <p class="mb-0">Название кнопки: <i>Dashboard</i><br>
-                                                Ссылка:
-                                                <i>https://mh-dashboard-erth.proptech.ru/web/</i>
-                                            </p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-switch">
-                                                <label for="GENESYS_showFB_dashboard">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="GENESYS_showFB_dashboard"/>
-                                                </label>
-                                                <span class="custom-control-label"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Провижининг -->
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0">Провижининг</strong>
-                                            <p class="mb-0">Название кнопки: <i>Провиж</i><br>
-                                                Ссылка:
-                                                <i>https://provisioning.ertelecom.ru/devices</i>
-                                            </p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-switch">
-                                                <label for="GENESYS_showFB_provisioning">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="GENESYS_showFB_provisioning"/>
-                                                </label>
-                                                <span class="custom-control-label"></span>
+                                        <!-- Провижининг -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">Провижининг</strong>
+                                                    <p class="mb-0">Название кнопки: <i>Провиж</i><br>
+                                                        Ссылка:
+                                                        <i>https://provisioning.ertelecom.ru/devices</i>
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <label for="GENESYS_showFB_provisioning">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                   id="GENESYS_showFB_provisioning"/>
+                                                        </label>
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -728,61 +930,65 @@
                     </div>
 
                     <!-- Содержимое вкладки АРМ -->
-                    <div aria-labelledby="arm-tab" class="tab-pane fade" id="arm" role="tabpanel">
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <div class="tab-pane fade" role="tabpanel" id="arm" aria-labelledby="arm-tab">
+                        <ul class="nav nav-tabs" role="tablist">
                             <!-- Основные настройки -->
                             <li class="nav-item" role="presentation">
-                                <a aria-controls="main" aria-selected="true" class="nav-link active"
+                                <a class="nav-link active" aria-controls="arm-main" aria-selected="true"
                                    data-bs-toggle="tab"
-                                   href="#main" id="main-tab" role="tab">Основные настройки</a>
+                                   href="#arm-main" role="tab">Основные настройки</a>
                             </li>
                             <!-- Заявки -->
                             <li class="nav-item" role="presentation">
-                                <a aria-controls="servicerequests" aria-selected="true" class="nav-link"
+                                <a class="nav-link" aria-controls="arm-requests" aria-selected="true"
                                    data-bs-toggle="tab"
-                                   href="#servicerequests" id="servicerequests-tab" role="tab">Заявки</a>
+                                   href="#arm-requests" role="tab">Заявки</a>
                             </li>
                             <!-- Быстрые кнопки -->
                             <li class="nav-item dropdown" role="presentation">
-                                <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
-                                   href="#" id="fastsettings-dropdown" role="button">
-                                    Быстрые кнопки
-                                </a>
-                                <ul aria-labelledby="fastsettings-dropdown" class="dropdown-menu">
-                                    <li><a aria-controls="leftframe" class="dropdown-item" data-bs-toggle="tab"
-                                           href="#leftframe" role="tab">Левый фрейм</a></li>
-                                    <li><a aria-controls="changerequest" class="dropdown-item" data-bs-toggle="tab"
-                                           href="#changerequest" role="tab">Изменение
+                                <a class="nav-link dropdown-toggle" role="button" href="#"
+                                   data-bs-toggle="dropdown"
+                                   aria-expanded="false">Быстрые кнопки</a>
+                                <ul class="dropdown-menu" aria-labelledby="fastsettings-dropdown">
+                                    <li><a class="dropdown-item" role="tab" href="#arm-fb-leftframe"
+                                           aria-controls="arm-fb-leftframe"
+                                           data-bs-toggle="tab"
+                                    >Левый фрейм</a></li>
+                                    <li><a class="dropdown-item" role="tab" href="#arm-fb-changerequest"
+                                           aria-controls="arm-fb-changerequest"
+                                           data-bs-toggle="tab"
+                                    >Изменение
                                         обращения</a>
                                     </li>
                                 </ul>
                             </li>
                             <!-- Копирование элементов -->
                             <li class="nav-item" role="presentation">
-                                <a aria-controls="copyelements" aria-selected="false" class="nav-link"
+                                <a aria-controls="arm-copy" aria-selected="false" class="nav-link"
                                    data-bs-toggle="tab"
-                                   href="#copyelements" id="copyelements-tab" role="tab">Копирование
+                                   href="#arm-copy" role="tab">Копирование
                                     элементов</a>
                             </li>
                             <!-- Скрытие элементов -->
                             <li class="nav-item" role="presentation">
-                                <a aria-controls="hidetabs" aria-selected="false" class="nav-link" data-bs-toggle="tab"
-                                   href="#hidetabs" id="hidetabs-tab" role="tab">Скрытие элементов</a>
+                                <a aria-controls="arm-hiding" aria-selected="false" class="nav-link"
+                                   data-bs-toggle="tab"
+                                   href="#arm-hiding" role="tab">Скрытие элементов</a>
                             </li>
                             <!-- Подсветка обращений -->
                             <li class="nav-item" role="presentation">
-                                <a aria-controls="highlights" aria-selected="false" class="nav-link"
+                                <a class="nav-link" aria-controls="arm-highlight" aria-selected="false"
                                    data-bs-toggle="tab"
-                                   href="#highlights" id="highlights-tab" role="tab">Подсветка
+                                   href="#arm-highlight" role="tab">Подсветка
                                     обращений</a>
                             </li>
                         </ul>
 
 
-                        <div class="tab-content" id="myTabContent"><br>
+                        <div class="tab-content" id="armTabContent"><br>
                             <!--АРМ-->
-                            <div aria-labelledby="main-tab" class="tab-pane fade show active" id="main"
-                                 role="tabpanel">
+                            <div class="tab-pane fade show active" role="tabpanel" id="arm-main"
+                                 aria-labelledby="arm-main">
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">АРМ</h5>
@@ -802,7 +1008,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_allowCopy">
-                                                            <input class="custom-control-input" id="ARM_allowCopy"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_allowCopy"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -814,8 +1021,11 @@
                                         <div class="list-group-item">
                                             <div class="row align-items-center">
                                                 <div class="col">
-                                                    <strong class="mb-0">Менять продукт обращения на Интернет</strong>
-                                                    <p class="mb-0">Автоматически изменяет активный продукт в левом фрейме на Интернет
+                                                    <strong class="mb-0">Менять продукт обращения на
+                                                        Интернет</strong>
+                                                    <p class="mb-0">Автоматически изменяет активный продукт в
+                                                        левом
+                                                        фрейме на Интернет
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
@@ -835,7 +1045,8 @@
                                             <div class="row align-items-center">
                                                 <div class="col">
                                                     <strong class="mb-0">Добавить отправку примера</strong>
-                                                    <p class="mb-0">Добавляет на договор клиента кнопку отправки примера
+                                                    <p class="mb-0">Добавляет на договор клиента кнопку отправки
+                                                        примера
                                                         дежурному
                                                     </p>
                                                 </div>
@@ -867,7 +1078,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_hideSPAS">
-                                                            <input class="custom-control-input" id="ARM_hideSPAS"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_hideSPAS"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -913,7 +1125,8 @@
                                                             data-bs-toggle="tooltip">
                                                         Убирать галочку <b>Назначить на
                                                         меня</b></strong>
-                                                    <p class="mb-0">Убирает галочку на <b>"Назначить на меня"</b>
+                                                    <p class="mb-0">Убирает галочку на <b>"Назначить на
+                                                        меня"</b>
                                                         при
                                                         изменении обращения
                                                     </p>
@@ -921,7 +1134,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_checkSetToMe">
-                                                            <input class="custom-control-input" id="ARM_checkSetToMe"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_checkSetToMe"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -986,8 +1200,8 @@
                             </div>
 
                             <!--Заявки-->
-                            <div aria-labelledby="servicerequests-tab" class="tab-pane fade" id="servicerequests"
-                                 role="tabpanel">
+                            <div class="tab-pane fade" role="tabpanel" id="arm-requests"
+                                 aria-labelledby="arm-requests">
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Заявки</h5>
@@ -1026,14 +1240,16 @@
                                                 <div class="col">
                                                     <strong class="mb-0">
                                                         Помечать заявки платным сервисом</strong>
-                                                    <p class="mb-0">Помечает все заявки (в левом фрейме и при изменении
+                                                    <p class="mb-0">Помечает все заявки (в левом фрейме и при
+                                                        изменении
                                                         обращения) платным сервисом (ставит галочку платности)
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_checkPaidHelp">
-                                                            <input class="custom-control-input" id="ARM_checkPaidHelp"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_checkPaidHelp"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -1050,7 +1266,9 @@
                                                             data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/DjVu4Lw.png'/>"
                                                             data-bs-toggle="tooltip">
                                                         Отображать договор клиента</strong>
-                                                    <p class="mb-0">Отображает номер договора клиента при изменении обращения
+                                                    <p class="mb-0">Отображает номер договора клиента при
+                                                        изменении
+                                                        обращения
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
@@ -1070,7 +1288,8 @@
                             </div>
 
                             <!-- Быстрые кнопки - Левый фрейм-->
-                            <div aria-labelledby="leftframe" class="tab-pane fade" id="leftframe" role="tabpanel">
+                            <div class="tab-pane fade" role="tabpanel" id="arm-fb-leftframe"
+                                 aria-labelledby="arm-fb-leftframe">
                                 <div class="list-group">
                                     <div class="list-group-item">
                                         <div class="row align-items-center">
@@ -1085,7 +1304,8 @@
                                             <div class="col-auto">
                                                 <div class="custom-control custom-switch">
                                                     <label for="ARM_changeRequestFBLF">
-                                                        <input class="custom-control-input" id="ARM_changeRequestFBLF"
+                                                        <input class="custom-control-input"
+                                                               id="ARM_changeRequestFBLF"
                                                                type="checkbox"/>
                                                     </label>
                                                     <span class="custom-control-label"></span>
@@ -1109,7 +1329,8 @@
                                                             data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/SlNjSk8.png'/>"
                                                             data-bs-toggle="tooltip">КС
                                                         НЦК1</strong>
-                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка -
+                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка
+                                                        -
                                                         <i>Онлайн - Входящая связь</i><br>Причина обращения -
                                                         <i>Контакт сорвался</i>
                                                     </p>
@@ -1136,7 +1357,8 @@
                                                             data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/ydCFObY.png'/>"
                                                             data-bs-toggle="tooltip">КС
                                                         НЦК2</strong>
-                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка -
+                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка
+                                                        -
                                                         <i>ОЦТП - Исходящая связь</i><br>Причина обращения -
                                                         <i>Контакт сорвался</i>
                                                     </p>
@@ -1161,7 +1383,8 @@
                                                     <strong data-bs-html="true" data-bs-placement="right"
                                                             data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/kkf6e62.png'/>"
                                                             data-bs-toggle="tooltip">Тикет</strong>
-                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка -
+                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка
+                                                        -
                                                         <i>Онлайн - Входящая связь</i><br>Причина обращения -
                                                         <i>Обращение из Email</i>
                                                     </p>
@@ -1187,7 +1410,8 @@
                                                             data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/yuU5NCF.png'/>"
                                                             data-bs-toggle="tooltip">ВХОД
                                                         НРД</strong>
-                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка -
+                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка
+                                                        -
                                                         <i>НСК - Входящая связь</i><br>Причина обращения -
                                                         <i>Намерение расторгнуть договор</i>
                                                     </p>
@@ -1220,7 +1444,8 @@
                                                     <strong data-bs-html="true" data-bs-placement="right"
                                                             data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/59BEdvu.png'/>"
                                                             data-bs-toggle="tooltip">Youtube</strong>
-                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка -
+                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка
+                                                        -
                                                         <i>Не требует дальнейшей обработки</i><br>Причина
                                                         обращения -
                                                         <i>Низкая скорость - Низкая скорость Youtube</i>
@@ -1246,7 +1471,8 @@
                                                             data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/4ZCFrYE.png'/>"
                                                             data-bs-toggle="tooltip">Отмена
                                                         СЗ</strong>
-                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка -
+                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка
+                                                        -
                                                         <i>Не требует дальнейшей обработки</i><br>Причина
                                                         обращения -
                                                         <i>Технический сервис - Отмена СЗ</i>
@@ -1274,7 +1500,8 @@
                                                     <p class="mb-0">Продукт - <i>Интернет</i><br>Обработка -
                                                         <i>Не требует дальнейшей обработки</i><br>Причина
                                                         обращения -
-                                                        <i>Настройка и диагностика - Не открываются страницы - Не
+                                                        <i>Настройка и диагностика - Не открываются страницы -
+                                                            Не
                                                             открываются все страницы</i>
                                                     </p>
                                                 </div>
@@ -1381,7 +1608,8 @@
                                                     <p class="mb-0">Продукт - <i>Телевидение</i><br>Обработка -
                                                         <i>Не требует дальнейшей обработки</i><br>Причина
                                                         обращения -
-                                                        <i>Настройка и диагностика - Отсутствие вещания на каналах -
+                                                        <i>Настройка и диагностика - Отсутствие вещания на
+                                                            каналах -
                                                             Нет вещания на всех каналах</i>
                                                     </p>
                                                 </div>
@@ -1419,9 +1647,11 @@
                                                     <p class="mb-0">Продукт - <i>не изменяется</i>
                                                         <br>Обработка -
                                                         <i>Онлайн - Входящая связь</i><br>Причина
-                                                        обращения - <i>Консультация по сервисам услугам — Консультация
+                                                        обращения - <i>Консультация по сервисам услугам —
+                                                            Консультация
                                                             по условиям приостановления</i>
-                                                        <br>Текст обращения - <i>БП Самообслуживание. Консультация по
+                                                        <br>Текст обращения - <i>БП Самообслуживание.
+                                                            Консультация по
                                                             условиям приостановления</i>
                                                     </p>
                                                 </div>
@@ -1445,11 +1675,13 @@
                                                             data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/8PZWPlG.png'/>"
                                                             data-bs-toggle="tooltip">Активация
                                                         ТП</strong>
-                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка -
+                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка
+                                                        -
                                                         <i>Онлайн - Входящая связь</i><br>Причина
                                                         обращения -
                                                         <i>Операции с договором — Смена ТП/Активация ТП</i>
-                                                        <br>Текст обращения - <i>БП Самообслуживание. Активация ТП</i>
+                                                        <br>Текст обращения - <i>БП Самообслуживание. Активация
+                                                            ТП</i>
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
@@ -1477,7 +1709,8 @@
                                                         обращения -
                                                         <i>Консультация по сервисам услугам — Консультация по
                                                             платному контенту</i>
-                                                        <br>Текст обращения - <i>БП Самообслуживание. Консультация по
+                                                        <br>Текст обращения - <i>БП Самообслуживание.
+                                                            Консультация по
                                                             скоростному бонусу</i>
                                                     </p>
                                                 </div>
@@ -1501,8 +1734,11 @@
                                                     <p class="mb-0">Продукт - <i>Интернет</i><br>Обработка -
                                                         <i>Онлайн - Входящая связь</i><br>Причина
                                                         обращения -
-                                                        <i>Консультация по сервисам услугам — Консультация по платному контенту</i>
-                                                        <br>Текст обращения - <i>БП Самообслуживание. Консультация по
+                                                        <i>Консультация по сервисам услугам — Консультация по
+                                                            платному
+                                                            контенту</i>
+                                                        <br>Текст обращения - <i>БП Самообслуживание.
+                                                            Консультация по
                                                             управлению подпиской/пакетом каналов</i>
                                                     </p>
                                                 </div>
@@ -1526,8 +1762,12 @@
                                                     <p class="mb-0">Продукт - <i>Интернет</i><br>Обработка -
                                                         <i>Онлайн - Входящая связь</i><br>Причина
                                                         обращения -
-                                                        <i>Настройка и диагностика - Настройка роутера - Изменение настроек Wi-Fi</i>
-                                                        <br>Текст обращения - <i>БП Самообслуживание. Консультация по смене имени/ключа сети Wi-Fi</i>
+                                                        <i>Настройка и диагностика - Настройка роутера -
+                                                            Изменение
+                                                            настроек Wi-Fi</i>
+                                                        <br>Текст обращения - <i>БП Самообслуживание.
+                                                            Консультация по
+                                                            смене имени/ключа сети Wi-Fi</i>
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
@@ -1553,9 +1793,11 @@
                                                     <p class="mb-0">Продукт - <i>Интернет</i><br>Обработка -
                                                         <i>Онлайн - Входящая связь</i><br>Причина
                                                         обращения -
-                                                        <i>Настройка и диагностика — Настройка роутера — Изменение
+                                                        <i>Настройка и диагностика — Настройка роутера —
+                                                            Изменение
                                                             настроек Wi-Fi</i>
-                                                        <br>Текст обращения - <i>БП Самообслуживание. Ключ сети (пароль
+                                                        <br>Текст обращения - <i>БП Самообслуживание. Ключ сети
+                                                            (пароль
                                                             от Wi-Fi)</i>
                                                     </p>
                                                 </div>
@@ -1577,14 +1819,17 @@
                                                 <div class="col">
                                                     <strong data-bs-html="true" data-bs-placement="right"
                                                             data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/TRIMVo2.png'/>"
-                                                            data-bs-toggle="tooltip">Восстановление данных (вход в
+                                                            data-bs-toggle="tooltip">Восстановление данных (вход
+                                                        в
                                                         ЛК)</strong>
-                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка -
+                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка
+                                                        -
                                                         <i>Онлайн - Входящая связь</i><br>Причина
                                                         обращения -
                                                         <i>Операции с договором — Восстановление\смена учётных
                                                             данных</i>
-                                                        <br>Текст обращения - <i>БП Самообслуживание. Восстановление
+                                                        <br>Текст обращения - <i>БП Самообслуживание.
+                                                            Восстановление
                                                             данных (вход в ЛК)</i>
                                                     </p>
                                                 </div>
@@ -1608,10 +1853,12 @@
                                                             data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/sLG8jws.png'/>"
                                                             data-bs-toggle="tooltip">Настройка
                                                         роутера</strong>
-                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка -
+                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка
+                                                        -
                                                         <i>Онлайн - Входящая связь</i><br>Причина
                                                         обращения -
-                                                        <i>Настройка и диагностика — Настройка роутера — Настройка
+                                                        <i>Настройка и диагностика — Настройка роутера —
+                                                            Настройка
                                                             роутера</i>
                                                         <br>Текст обращения - <i>БП Самообслуживание. Настройка
                                                             роутера</i>
@@ -1637,12 +1884,14 @@
                                                             data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/gMskVQ9.png'/>"
                                                             data-bs-toggle="tooltip">Повышение
                                                         АП</strong>
-                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка -
+                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка
+                                                        -
                                                         <i>Онлайн - Входящая связь</i><br>Причина
                                                         обращения -
                                                         <i>Начисления и платежи — Повышение АП — Консультация по
                                                             повышению АП</i>
-                                                        <br>Текст обращения - <i>БП Самообслуживание. Повышение АП</i>
+                                                        <br>Текст обращения - <i>БП Самообслуживание. Повышение
+                                                            АП</i>
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
@@ -1668,9 +1917,11 @@
                                                     <p class="mb-0">Продукт - <i>КТВ</i><br>Обработка -
                                                         <i>Онлайн - Входящая связь</i><br>Причина
                                                         обращения -
-                                                        <i>Настройка и диагностика — Отсутствие вещания на каналах —
+                                                        <i>Настройка и диагностика — Отсутствие вещания на
+                                                            каналах —
                                                             Нет вещания на всех каналах</i>
-                                                        <br>Текст обращения - <i>БП Самообслуживание. КТВ, нет вещания
+                                                        <br>Текст обращения - <i>БП Самообслуживание. КТВ, нет
+                                                            вещания
                                                             на всех каналах</i>
                                                     </p>
                                                 </div>
@@ -1694,12 +1945,15 @@
                                                             data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/OMmMDo8.png'/>"
                                                             data-bs-toggle="tooltip">Активация
                                                         ключа в МП</strong>
-                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка -
+                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка
+                                                        -
                                                         <i>Онлайн - Входящая связь</i><br>Причина
                                                         обращения -
-                                                        <i>Настройка и диагностика — Вопросы по ключам — Проблема с
+                                                        <i>Настройка и диагностика — Вопросы по ключам —
+                                                            Проблема с
                                                             добавлением/верификацией ключа в МП</i>
-                                                        <br>Текст обращения - <i>БП Самообслуживание. Активация ключа в
+                                                        <br>Текст обращения - <i>БП Самообслуживание. Активация
+                                                            ключа в
                                                             МП</i>
                                                     </p>
                                                 </div>
@@ -1723,13 +1977,15 @@
                                                             data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/8RKINT2.png'/>"
                                                             data-bs-toggle="tooltip">Восстановление
                                                         ПИН-кода РК Movix</strong>
-                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка -
+                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка
+                                                        -
                                                         <i>Онлайн - Входящая связь</i><br>Причина
                                                         обращения -
                                                         <i>Настройка и диагностика — Настройка
                                                             ТВ/приставки/САМ-модуля — PIN код и родительский
                                                             контроль</i>
-                                                        <br>Текст обращения - <i>БП Самообслуживание. Восстановление
+                                                        <br>Текст обращения - <i>БП Самообслуживание.
+                                                            Восстановление
                                                             пин-кода РК Movix</i>
                                                     </p>
                                                 </div>
@@ -1754,12 +2010,15 @@
                                                             data-bs-toggle="tooltip">Не
                                                         проходит звонок в «Умный
                                                         Дом.ru»</strong>
-                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка -
+                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка
+                                                        -
                                                         <i>Онлайн - Входящая связь</i><br>Причина
                                                         обращения -
-                                                        <i>Настройка и диагностика — Сложность со звонком в МП Умный
+                                                        <i>Настройка и диагностика — Сложность со звонком в МП
+                                                            Умный
                                                             Дом.ru — Не проходит звонок в приложение</i>
-                                                        <br>Текст обращения - <i>БП Самообслуживание. Не проходит звонок
+                                                        <br>Текст обращения - <i>БП Самообслуживание. Не
+                                                            проходит звонок
                                                             в МП «Умный Дом.ru»</i>
                                                     </p>
                                                 </div>
@@ -1783,12 +2042,14 @@
                                                             data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/t31Xjc0.png'/>"
                                                             data-bs-toggle="tooltip">ВН.
                                                         Камера в статусе «недоступна»</strong>
-                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка -
+                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка
+                                                        -
                                                         <i>Онлайн - Входящая связь</i><br>Причина
                                                         обращения -
                                                         <i>Настройка и диагностика — МП Умный Дом.ru — Камера в
                                                             статусе "недоступна"</i>
-                                                        <br>Текст обращения - <i>БП Самообслуживание. ВН. Камера в
+                                                        <br>Текст обращения - <i>БП Самообслуживание. ВН. Камера
+                                                            в
                                                             статусе «недоступна»</i>
                                                     </p>
                                                 </div>
@@ -1813,12 +2074,14 @@
                                                             data-bs-toggle="tooltip">Привязка
                                                         пульта к ТВ (Movix Go, Movix Pro
                                                         Model 2021)</strong>
-                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка -
+                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка
+                                                        -
                                                         <i>Онлайн - Входящая связь</i><br>Причина
                                                         обращения -
                                                         <i>Настройка и диагностика — Сложности с переключением
                                                             каналов — Нет сигнала при переключении каналов</i>
-                                                        <br>Текст обращения - <i>БП Самообслуживание. Привязка пульта к
+                                                        <br>Текст обращения - <i>БП Самообслуживание. Привязка
+                                                            пульта к
                                                             ТВ</i>
                                                     </p>
                                                 </div>
@@ -1843,12 +2106,14 @@
                                                             data-bs-toggle="tooltip">Приставка
                                                         не реагирует на пульт (Movix Go,
                                                         Movix Pro Model 2021)</strong>
-                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка -
+                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка
+                                                        -
                                                         <i>Онлайн - Входящая связь</i><br>Причина
                                                         обращения -
                                                         <i>Настройка и диагностика — Сложности с переключением
                                                             каналов — Нет сигнала при переключении каналов</i>
-                                                        <br>Текст обращения - <i>БП Самообслуживание. Приставка не
+                                                        <br>Текст обращения - <i>БП Самообслуживание. Приставка
+                                                            не
                                                             реагирует на пульт</i>
                                                     </p>
                                                 </div>
@@ -1880,7 +2145,8 @@
                                                     <strong data-bs-html="true" data-bs-placement="right"
                                                             data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/gkgGUfu.png'/>"
                                                             data-bs-toggle="tooltip">Авария</strong>
-                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка -
+                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка
+                                                        -
                                                         <i>Не требует дальнейшей обработки</i><br>Причина
                                                         обращения -
                                                         <i>Авария/ППР - Авария</i>
@@ -1906,13 +2172,16 @@
                                                             data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/SMsfoeN.png'/>"
                                                             data-bs-toggle="tooltip">Вопрос
                                                         решён до диагностики</strong>
-                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка -
+                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка
+                                                        -
                                                         <i>Не требует дальнейшей обработки</i><br>Причина
                                                         обращения -
-                                                        <i>Настройка и диагностика - Не открываются страницы - Не
+                                                        <i>Настройка и диагностика - Не открываются страницы -
+                                                            Не
                                                             открываются все страницы</i>
                                                         <br>Текст обращения - <i>Вопрос клиента был решен до
-                                                            диагностики. Проинформирован о необходимости повторного
+                                                            диагностики. Проинформирован о необходимости
+                                                            повторного
                                                             обращения в случае возникновения сложностей
                                                             #НЦКБЫСТРЫЙЧАТ</i>
                                                     </p>
@@ -1937,7 +2206,8 @@
                                                             data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/JttKd41.png'/>"
                                                             data-bs-toggle="tooltip">Отключение
                                                         услуг по ДЗ</strong>
-                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка -
+                                                    <p class="mb-0">Продукт - <i>не изменяется</i><br>Обработка
+                                                        -
                                                         <i>Не требует дальнейшей обработки</i><br>Причина
                                                         обращения -
                                                         <i>Начисления и платежи - Начисления или баланс - Закрыт
@@ -1963,14 +2233,16 @@
                                 </div>
 
                             </div>
+
                             <!-- Быстрые кнопки - Изменение обращения -->
-                            <div aria-labelledby="changerequest" class="tab-pane fade" id="changerequest"
-                                 role="tabpanel">
+                            <div class="tab-pane fade" role="tabpanel" id="arm-fb-changerequest"
+                                 aria-labelledby="arm-fb-changerequest">
                                 <div class="list-group">
                                     <div class="list-group-item">
                                         <div class="row align-items-center">
                                             <div class="col">
-                                                <strong class="mb-0" data-bs-html="true" data-bs-placement="right"
+                                                <strong class="mb-0" data-bs-html="true"
+                                                        data-bs-placement="right"
                                                         data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/O356j5e.png'/>"
                                                         data-bs-toggle="tooltip">
                                                     Включить быстрые кнопки в изменении обращения</strong>
@@ -1980,7 +2252,8 @@
                                             <div class="col-auto">
                                                 <div class="custom-control custom-switch">
                                                     <label for="ARM_changeRequestFBCR">
-                                                        <input class="custom-control-input" id="ARM_changeRequestFBCR"
+                                                        <input class="custom-control-input"
+                                                               id="ARM_changeRequestFBCR"
                                                                type="checkbox"/>
                                                     </label>
                                                     <span class="custom-control-label"></span>
@@ -2160,9 +2433,9 @@
                                     </div>
                                 </div>
                             </div>
+
                             <!-- Копирование элементов -->
-                            <div aria-labelledby="copyelements-tab" class="tab-pane fade" id="copyelements"
-                                 role="tabpanel">
+                            <div class="tab-pane fade" role="tabpanel" id="arm-copy" aria-labelledby="arm-copy">
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Копирование элементов</h5>
@@ -2238,7 +2511,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_copyClientCard">
-                                                            <input class="custom-control-input" id="ARM_copyClientCard"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_copyClientCard"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2293,7 +2567,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_copyTimeSlots">
-                                                            <input class="custom-control-input" id="ARM_copyTimeSlots"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_copyTimeSlots"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2318,7 +2593,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_copySearchMAC">
-                                                            <input class="custom-control-input" id="ARM_copySearchMAC"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_copySearchMAC"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2329,8 +2605,10 @@
                                     </div>
                                 </div>
                             </div>
+
                             <!-- Скрытие элементов -->
-                            <div aria-labelledby="hidetabs-tab" class="tab-pane fade" id="hidetabs" role="tabpanel">
+                            <div class="tab-pane fade" role="tabpanel" id="arm-hiding"
+                                 aria-labelledby="arm-hiding">
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Сворачивание элементов</h5>
@@ -2345,9 +2623,11 @@
                                                     <strong class="mb-0" data-bs-html="true"
                                                             data-bs-placement="right"
                                                             data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/oPQRafK.png'/>"
-                                                            data-bs-toggle="tooltip">Сворачивать приложения</strong>
+                                                            data-bs-toggle="tooltip">Сворачивать
+                                                        приложения</strong>
                                                     <strong class="mb-0"></strong>
-                                                    <p class="card-text">Сворачивает неактивные и закрытые приложения
+                                                    <p class="card-text">Сворачивает неактивные и закрытые
+                                                        приложения
                                                         автоматически
                                                     </p>
                                                 </div>
@@ -2370,19 +2650,24 @@
                                                     <strong class="mb-0" data-bs-html="true"
                                                             data-bs-placement="right"
                                                             data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/psRsPpl.png'/>"
-                                                            data-bs-toggle="tooltip">Сворачивать строки в Инфо</strong>
-                                                    <p class="card-text">Сворачивает редко нужные строки на вкладке
+                                                            data-bs-toggle="tooltip">Сворачивать строки в
+                                                        Инфо</strong>
+                                                    <p class="card-text">Сворачивает редко нужные строки на
+                                                        вкладке
                                                         Инфо:
                                                         <br>
-                                                        Статус, Схема оплаты, Категория, Контактные e-mail, Место
-                                                        рождения, Активные приложения, Промо-пакет, Идентификационные
+                                                        Статус, Схема оплаты, Категория, Контактные e-mail,
+                                                        Место
+                                                        рождения, Активные приложения, Промо-пакет,
+                                                        Идентификационные
                                                         данные, Автоплатеж
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_hideInfoTabRows">
-                                                            <input class="custom-control-input" id="ARM_hideInfoTabRows"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_hideInfoTabRows"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2394,15 +2679,18 @@
                                         <div class="list-group-item">
                                             <div class="row align-items-center">
                                                 <div class="col">
-                                                    <strong class="mb-0">Сворачивать строки в Обращениях</strong>
-                                                    <p class="card-text">Сворачивает промежуточные шаги обращений
+                                                    <strong class="mb-0">Сворачивать строки в
+                                                        Обращениях</strong>
+                                                    <p class="card-text">Сворачивает промежуточные шаги
+                                                        обращений
                                                         <br>Оставляет только первый и последний шаг обращения
                                                     <p>
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_hideAppeals">
-                                                            <input class="custom-control-input" id="ARM_hideAppeals"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_hideAppeals"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2414,14 +2702,18 @@
                                         <div class="list-group-item">
                                             <div class="row align-items-center">
                                                 <div class="col">
-                                                    <strong class="mb-0">Удалять ненужные столбцы обращений</strong>
-                                                    <p class="card-text">Удаляет столбцы "Исполнитель", "Продукт", "Платформа", "Оборудование" со вкладки обращений
+                                                    <strong class="mb-0">Удалять ненужные столбцы
+                                                        обращений</strong>
+                                                    <p class="card-text">Удаляет столбцы "Исполнитель",
+                                                        "Продукт",
+                                                        "Платформа", "Оборудование" со вкладки обращений
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_removeUselessAppealsColumns">
-                                                            <input class="custom-control-input" id="ARM_removeUselessAppealsColumns"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_removeUselessAppealsColumns"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2436,16 +2728,20 @@
                                                     <strong class="mb-0" data-bs-html="true"
                                                             data-bs-placement="right"
                                                             data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/LAr30TZ.png'/>"
-                                                            data-bs-toggle="tooltip">Сворачивать сервисные заявки</strong>
-                                                    <p class="card-text">Сворачивает промежуточные шаги сервисных заявок
-                                                        <br>На скрытых заявках отображает пункты "Выполнено (Отправить в
+                                                            data-bs-toggle="tooltip">Сворачивать сервисные
+                                                        заявки</strong>
+                                                    <p class="card-text">Сворачивает промежуточные шаги
+                                                        сервисных заявок
+                                                        <br>На скрытых заявках отображает пункты "Выполнено
+                                                        (Отправить в
                                                         Call-центр)", "Заявка выполнена", "Выполнено"
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_hideRequests">
-                                                            <input class="custom-control-input" id="ARM_hideRequests"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_hideRequests"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2457,15 +2753,20 @@
                                         <div class="list-group-item">
                                             <div class="row align-items-center">
                                                 <div class="col">
-                                                    <strong class="mb-0">Сворачивать заявки на подключение</strong>
-                                                    <p class="card-text">Сворачивает промежуточные шаги заявок на подключение
-                                                        <br>На скрытых заявках отображает первый и последний пункты
+                                                    <strong class="mb-0">Сворачивать заявки на
+                                                        подключение</strong>
+                                                    <p class="card-text">Сворачивает промежуточные шаги заявок
+                                                        на
+                                                        подключение
+                                                        <br>На скрытых заявках отображает первый и последний
+                                                        пункты
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_hideConnectionRequests">
-                                                            <input class="custom-control-input" id="ARM_hideConnectionRequests"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_hideConnectionRequests"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2477,14 +2778,19 @@
                                         <div class="list-group-item">
                                             <div class="row align-items-center">
                                                 <div class="col">
-                                                    <strong class="mb-0">Удалять ненужные вкладки диагностики</strong>
-                                                    <p class="card-text">Удаляет вкладки "Диагностика телефонии", "Восстановление сброшенных данных", "Диагностика СПАС", "Диагностика сети НТК", "Диагностика Интерзет"
+                                                    <strong class="mb-0">Удалять ненужные вкладки
+                                                        диагностики</strong>
+                                                    <p class="card-text">Удаляет вкладки "Диагностика
+                                                        телефонии",
+                                                        "Восстановление сброшенных данных", "Диагностика СПАС",
+                                                        "Диагностика сети НТК", "Диагностика Интерзет"
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_removeUselessDiagTabs">
-                                                            <input class="custom-control-input" id="ARM_removeUselessDiagTabs"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_removeUselessDiagTabs"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2529,7 +2835,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_hideTabPL">
-                                                            <input class="custom-control-input" id="ARM_hideTabPL"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_hideTabPL"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2547,7 +2854,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_hideTabInvoices">
-                                                            <input class="custom-control-input" id="ARM_hideTabInvoices"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_hideTabInvoices"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2565,7 +2873,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_hideTabPayments">
-                                                            <input class="custom-control-input" id="ARM_hideTabPayments"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_hideTabPayments"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2660,7 +2969,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_hideTabLoans">
-                                                            <input class="custom-control-input" id="ARM_hideTabLoans"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_hideTabLoans"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2668,7 +2978,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <button class="btn btn-outline-secondary" id="toggleMoneyCheckboxes">Скрыть
+                                        <button class="btn btn-outline-secondary" id="toggleMoneyCheckboxes">
+                                            Скрыть
                                             все
                                             начисления
                                         </button>
@@ -2690,7 +3001,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_hideTabIPTV">
-                                                            <input class="custom-control-input" id="ARM_hideTabIPTV"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_hideTabIPTV"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2708,7 +3020,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_hideTabMVNO">
-                                                            <input class="custom-control-input" id="ARM_hideTabMVNO"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_hideTabMVNO"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2726,7 +3039,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_hideTabAVTOSP">
-                                                            <input class="custom-control-input" id="ARM_hideTabAVTOSP"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_hideTabAVTOSP"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2744,7 +3058,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_hideTabPORTRET">
-                                                            <input class="custom-control-input" id="ARM_hideTabPORTRET"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_hideTabPORTRET"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2762,7 +3077,8 @@
                                                 <div class="col-auto">
                                                     <div class="custom-control custom-switch">
                                                         <label for="ARM_hideTabMNP">
-                                                            <input class="custom-control-input" id="ARM_hideTabMNP"
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_hideTabMNP"
                                                                    type="checkbox"/>
                                                         </label>
                                                         <span class="custom-control-label"></span>
@@ -2808,16 +3124,18 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <button class="btn btn-outline-secondary" id="toggleOtherCheckboxes">Скрыть
+                                        <button class="btn btn-outline-secondary" id="toggleOtherCheckboxes">
+                                            Скрыть
                                             все
                                             прочее
                                         </button>
                                     </div>
                                 </div>
                             </div>
+
                             <!-- Подсветка обращений -->
-                            <div aria-labelledby="highlights-tab" class="tab-pane fade" id="highlights"
-                                 role="tabpanel">
+                            <div class="tab-pane fade" role="tabpanel" id="arm-highlight"
+                                 aria-labelledby="arm-highlight">
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Подсветка классов обращений</h5>
@@ -2860,7 +3178,8 @@
                                                     </p>
                                                 </div>
                                                 <div class="col-auto">
-                                                    <input class="form-control form-control-color" id="HIGHLIGHTER_CS"
+                                                    <input class="form-control form-control-color"
+                                                           id="HIGHLIGHTER_CS"
                                                            title="Выберите цвет"
                                                            type="color"/>
                                                 </div>
@@ -2898,7 +3217,8 @@
                                                         связь"</p>
                                                 </div>
                                                 <div class="col-auto">
-                                                    <input class="form-control form-control-color" id="HIGHLIGHTER_OCTP"
+                                                    <input class="form-control form-control-color"
+                                                           id="HIGHLIGHTER_OCTP"
                                                            title="Выберите цвет"
                                                            type="color"/>
                                                 </div>
@@ -2930,7 +3250,7 @@
                     </div>
 
                     <!-- Содержимое вкладки Линия -->
-                    <div aria-labelledby="line-tab" class="tab-pane fade" id="line" role="tabpanel">
+                    <div class="tab-pane fade" role="tabpanel" id="line" aria-labelledby="line-tab">
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Линия</h5>
@@ -2955,7 +3275,8 @@
                                         <div class="col-auto">
                                             <div class="custom-control custom-switch">
                                                 <label for="LINE_highlightOperators">
-                                                    <input class="custom-control-input" id="LINE_highlightOperators"
+                                                    <input class="custom-control-input"
+                                                           id="LINE_highlightOperators"
                                                            type="checkbox"/>
                                                 </label>
                                                 <span class="custom-control-label"></span>
@@ -2972,7 +3293,8 @@
                                                     data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/oUKiYZn.png'/>"
                                                     data-bs-toggle="tooltip">
                                                 Подсветка близких к концу назначений</strong>
-                                            <p class="mb-0">Подсвечивает время конца назначений, которым осталось меньше
+                                            <p class="mb-0">Подсвечивает время конца назначений, которым
+                                                осталось меньше
                                                 30 минут до закрытия</p>
                                         </div>
                                         <div class="col-auto">
@@ -3002,7 +3324,8 @@
                                         <div class="col-auto">
                                             <div class="custom-control custom-switch">
                                                 <label for="LINE_countAppointments">
-                                                    <input class="custom-control-input" id="LINE_countAppointments"
+                                                    <input class="custom-control-input"
+                                                           id="LINE_countAppointments"
                                                            type="checkbox"/>
                                                 </label>
                                                 <span class="custom-control-label"></span>
@@ -3034,33 +3357,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- Прогноз SL -->
-                                <!--<div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <strong class="mb-0" data-bs-html="true" data-bs-placement="right"
-                                                    data-bs-title="<img class='img-thumbnail' src='https://i.imgur.com/1dEeD1C.png'/>"
-                                                    data-bs-toggle="tooltip">
-                                                Прогноз SL</strong>
-                                            <p class="mb-0">Отображает прогноз SL на следующие 30 минут
-                                                при
-                                                наведении
-                                                на
-                                                иконку SL на линии. Работает только у спецов с доступом к
-                                                инструменту.</p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-switch">
-                                                <label for="LINE_updateNeededSL">
-                                                    <input class="custom-control-input" id="LINE_updateNeededSL"
-                                                           type="checkbox"/>
-                                                </label>
-                                                <span class="custom-control-label"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>-->
                             </div>
                         </div>
                         <br>
@@ -3203,7 +3499,8 @@
                                         <div class="col-auto">
                                             <div class="custom-control custom-switch">
                                                 <label for="LINE_showFB_BreakNCK1">
-                                                    <input class="custom-control-input" id="LINE_showFB_BreakNCK1"
+                                                    <input class="custom-control-input"
+                                                           id="LINE_showFB_BreakNCK1"
                                                            type="checkbox"/>
                                                 </label>
                                                 <span class="custom-control-label"></span>
@@ -3224,7 +3521,8 @@
                                         <div class="col-auto">
                                             <div class="custom-control custom-switch">
                                                 <label for="LINE_showFB_BreakNCK2">
-                                                    <input class="custom-control-input" id="LINE_showFB_BreakNCK2"
+                                                    <input class="custom-control-input"
+                                                           id="LINE_showFB_BreakNCK2"
                                                            type="checkbox"/>
                                                 </label>
                                                 <span class="custom-control-label"></span>

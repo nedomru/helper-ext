@@ -5,12 +5,17 @@ const GENESYS_URL = {
 
 const GENESYS_FEATURES = {
     core: {
-        // GENESYS_hideChatHeader: hideChatHeader,
         GENESYS_hideUselessButtons: hideUselessButtons,
         GENESYS_showFastButtons: initGenesysButtons,
         GENESYS_showOCTPLineStatus: otpcLineStatus,
         GENESYS_chatColors: setupGenesysChatColors,
-        GENESYS_chatSound: setupGenesysChatSound
+        GENESYS_chatSound: setupGenesysChatSound,
+        GENESYS_showFlomaster: showFlomaster,
+        GENESYS_hideAnswersTab: hideAnswersTab,
+        GENESYS_hideMyRMs: hideMyRMs,
+        GENESYS_hideChatHeader: hideChatHeader,
+        GENESYS_allowChatResize: messageAreaResize,
+        GENESYS_allowImagePaste: allowImagePaste
     },
     lineStatus: {
         GENESYS_showLineStatus_nck1: 'nck1',
@@ -38,11 +43,8 @@ async function initializeGenesysFeatures() {
                 await handler();
             }
         }
-        await initFMButton()
         await customEmojis()
-        // await initFileUpload()
         // await handleChatHeaders()
-        // await messageAreaResize()
     } catch (error) {
         Logger.error(`Ошибка инициализации основных функций: ${error.message}`);
     }

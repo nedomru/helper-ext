@@ -356,7 +356,7 @@ async function messageAreaResize() {
 }
 
 // Загрузка файла в чат из буфера
-async function initFileUpload() {
+async function allowImagePaste() {
     function ensurePreviewExists() {
         if ($('.preview-container').length === 0) {
             const previewHTML = `
@@ -556,7 +556,7 @@ async function initFileUpload() {
 }
 
 // Кнопка открытия Фломастера в iFrame Генезиса
-async function initFMButton() {
+async function showFlomaster() {
     // Create FM button with isolated functionality
     const createFMButton = (containerId) => {
         const button = document.createElement('button');
@@ -707,6 +707,92 @@ async function initFMButton() {
                         }
                         // Check for containers within added nodes
                         node.querySelectorAll('.wwe-case-side-buttons').forEach(addFMButton);
+                    }
+                });
+            }
+        });
+    });
+
+    // Start observing the document with configuration
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+}
+
+// Удаление вкладки Ответы
+async function hideAnswersTab() {
+    // Function to remove the specific button from a container
+    const removeAnswersButton = (container) => {
+        if (!container) return;
+
+        // Find the button with title "Ответы"
+        const answersButton = container.querySelector('button[title="Ответы"]');
+        if (answersButton) {
+            answersButton.remove();
+        }
+    };
+
+    // Initial removal for existing containers
+    document.querySelectorAll('.wwe-case-side-buttons').forEach(removeAnswersButton);
+
+    // Create an observer instance to watch for new containers
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach(mutation => {
+            if (mutation.type === 'childList') {
+                // Check added nodes
+                const addedNodes = Array.from(mutation.addedNodes);
+                addedNodes.forEach(node => {
+                    if (node.nodeType === Node.ELEMENT_NODE) {
+                        // Check if the added node is a container
+                        if (node.matches('.wwe-case-side-buttons')) {
+                            removeAnswersButton(node);
+                        }
+                        // Check for containers within added nodes
+                        node.querySelectorAll('.wwe-case-side-buttons').forEach(removeAnswersButton);
+                    }
+                });
+            }
+        });
+    });
+
+    // Start observing the document with configuration
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+}
+
+// Удаление вкладки Личные РМы
+async function hideMyRMs() {
+    // Function to remove the specific button from a container
+    const removeMyRMsButton = (container) => {
+        if (!container) return;
+
+        // Find the button with title "Ответы"
+        const answersButton = container.querySelector('button[title="Личные РМ"]');
+        if (answersButton) {
+            answersButton.remove();
+        }
+    };
+
+    // Initial removal for existing containers
+    document.querySelectorAll('.wwe-case-side-buttons').forEach(removeMyRMsButton);
+
+    // Create an observer instance to watch for new containers
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach(mutation => {
+            if (mutation.type === 'childList') {
+                // Check added nodes
+                const addedNodes = Array.from(mutation.addedNodes);
+                addedNodes.forEach(node => {
+                    if (node.nodeType === Node.ELEMENT_NODE) {
+                        // Check if the added node is a container
+                        if (node.matches('.wwe-case-side-buttons')) {
+                            removeMyRMsButton(node);
+                        }
+                        // Check for containers within added nodes
+                        node.querySelectorAll('.wwe-case-side-buttons').forEach(removeMyRMsButton);
                     }
                 });
             }
