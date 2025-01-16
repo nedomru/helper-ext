@@ -210,6 +210,11 @@
             <input type="text" class="form-control" id="input-link" placeholder="Введи ссылку" aria-label="Ссылка">
             <button class="btn btn-outline-secondary" type="button" id="submit-link">Сократить</button>
         </div>
+        <div class="input-group mb-2">
+            <span class="input-group-text col-sm-3">Проверка спеца</span>
+            <input type="text" class="form-control" id="input-specialist" placeholder="Введи фамилию и имя" aria-label="ФИО">
+            <button class="btn btn-outline-secondary" type="button" id="submit-specialist">Проверить</button>
+        </div>
         <div class="input-group">
             <span class="input-group-text col-sm-2">Премия</span>
 
@@ -243,6 +248,7 @@
             <button class="btn btn-outline-secondary" type="button" id="submit-premium">Проверить</button>
         </div>
 
+        <div id="specialist-results"></div>
         <div id="result-container"></div>
         <div id="loadingResultsSpinner" class="spinner-border" style="display: none" role="status">
             <span class="visually-hidden">Загрузка...</span>

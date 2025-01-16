@@ -4,12 +4,17 @@ document.addEventListener("DOMContentLoaded", async function () {
     const submitMac = document.getElementById("submit-mac");
     const submitIP = document.getElementById("submit-ip");
     const submitLink = document.getElementById("submit-link");
+    const submitSpecialist = document.getElementById("submit-specialist");
     const submitPremium = document.getElementById("submit-premium");
 
     submitMac.addEventListener("click", handleMacSubmit);
     submitIP.addEventListener("click", handleIPSubmit);
     submitLink.addEventListener("click", handleLinkSubmit);
+    submitSpecialist.addEventListener("click", handleSpecialistSubmit);
     submitPremium.addEventListener("click", handlePremiumSubmit);
+
+
+
     populatePremiumDropdown()
 
     // Установка линии специалиста в проверке премии

@@ -199,13 +199,278 @@ async function handleLinkSubmit() {
     }
 }
 
+// Проверка специалиста
+async function handleSpecialistSubmit() {
+    const inputField = document.getElementById("input-specialist");
+    const resultsDiv = document.getElementById("specialist-results");
+    const loadingSpinner = document.getElementById('loadingResultsSpinner')
+    const searchTerm = inputField.value.trim().toLowerCase();
+
+    resultsDiv.innerHTML = "";
+    loadingSpinner.style.display = 'block';
+
+    if (!searchTerm) return;
+
+    try {
+        let employees_data = await getFromStorage("employeesData");
+
+        if (employees_data) {
+            console.info(`[Хелпер] - [Общее] - [Специалисты] Список специалистов загружен из кеша`)
+            resultsDiv.style.display = "block";
+            await updateEmployees()
+        } else {
+            await updateEmployees()
+        }
+
+        // Filter employees based on search term
+        const filteredEmployees = employees_data.filter(emp =>
+            emp.name.toLowerCase().includes(searchTerm)
+        );
+
+        if (filteredEmployees.length === 0) {
+            $.notify("Сотрудник не найден", "warning");
+            resultsDiv.style.display = "none";
+            return;
+        }
+
+        if (filteredEmployees.length === 1) {
+            const requestBody = {
+                employee: filteredEmployees[0].id
+            };
+
+
+            const employee_data = await fetch(`https://okc.ertelecom.ru/stats/dossier/api/get-dossier`, {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "accept": "application/json, text/plain, */*",
+                    "content-type": "application/json",
+                    "sec-fetch-dest": "empty",
+                    "sec-fetch-mode": "cors",
+                    "sec-fetch-site": "same-origin"
+                },
+                referrerPolicy: "strict-origin-when-cross-origin",
+                body: JSON.stringify(requestBody),
+                mode: "cors",
+            });
+
+            if (employee_data.status !== 200) {
+                $.notify("Ошибка", "error");
+                return;
+            }
+
+            const employee = await employee_data.json();
+
+            loadingSpinner.style.display = 'none';
+
+            const fillPostsHistory = (postsHistory) => {
+                return postsHistory.map(post => `
+    <tr>
+      <th>${post.TRANSFER_DATE}</th>
+      <td class="align-middle">${post.POST_NAME}</td>
+    </tr>
+  `).join('');
+            };
+
+            const tableHTML = `
+            <hr class="hr" />
+            <h5>Результаты проверки специалиста</h5>
+            <table class="table table-hover table-bordered table-responsive table-sm">
+                <tbody class="table-group-divider">
+                    <tr>
+                        <th>ФИО</th>
+                        <td class="align-middle">${employee.employeeInfo.FIO}</td>
+                    </tr>
+                    <tr>
+                        <th>Должность</th>
+                        <td class="align-middle">${employee.employeeInfo.POST_NAME}</td>
+                    </tr>
+                    <tr>
+                        <th>Направление</th>
+                        <td class="align-middle">${employee.employeeInfo.SUBDIVISION_NAME}</td>
+                    </tr>
+                    <tr>
+                        <th>Руководитель</th>
+                        <td class="align-middle">${employee.employeeInfo.HEAD_NAME}</td>
+                    </tr>
+                    <tr>
+                        <th>Трудоустроен</th>
+                        <td class="align-middle">${employee.employeeInfo.EMPLOYMENT_DATE}</td>
+                    </tr>
+                    <tr>
+                        <th>День рождения</th>
+                        <td class="align-middle">${employee.employeeInfo.BIRTHDAY}</td>
+                    </tr>
+                    <tr>
+                        <th>Город</th>
+                        <td class="align-middle">${employee.employeeInfo.CITY_NAME}</td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+            <h5>История должностей</h5>
+            <table class="table table-hover table-bordered table-responsive table-sm">
+                <tbody class="table-group-divider">
+                    ${fillPostsHistory(employee.postsHistory)}
+                </tbody>
+            </table>
+        `;
+            document.getElementById("result-container").innerHTML =
+                DOMPurify.sanitize(tableHTML);
+            inputField.value = "";
+            return;
+        }
+
+        // If multiple employees found, show selection UI
+        resultsDiv.innerHTML = `
+            <div class="list-group">
+                ${filteredEmployees.map(emp => `
+                    <button type="button" 
+        class="list-group-item list-group-item-action" 
+        data-employee-id="${emp.id}">
+    ${emp.name}
+    ${emp.firedDate ? `<small class="text-danger">(уволен ${emp.firedDate})</small>` : ''}
+</button>
+                `).join('')}
+            </div>
+        `;
+
+        resultsDiv.style.display = "block";
+        loadingSpinner.style.display = 'none';
+
+        document.querySelectorAll('.list-group-item').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const employeeId = e.currentTarget.dataset.employeeId;
+                selectEmployee(employeeId);
+            });
+        });
+
+
+    } catch (error) {
+        $.notify("Произошла ошибка", "error");
+        console.error(error);
+    }
+}
+
+// Обновить список сотрудников
+async function updateEmployees() {
+    const employees_response = await fetch(`https://okc.ertelecom.ru/stats/dossier/api/get-employees`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-origin"
+        },
+        referrerPolicy: "strict-origin-when-cross-origin",
+        mode: "cors",
+    });
+
+    if (employees_response.status !== 200) {
+        $.notify("Ошибка", "error");
+        return;
+    }
+
+    const employees = await employees_response.json();
+    await saveToStorage("employeesData", employees)
+}
+
+// Выбор специалиста из списка
+async function selectEmployee(employeeId) {
+    const inputField = document.getElementById("input-specialist");
+    document.getElementById("specialist-results").style.display = "none";
+
+    const requestBody = {
+        employee: employeeId
+    };
+
+    const employee_data = await fetch(`https://okc.ertelecom.ru/stats/dossier/api/get-dossier`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-origin"
+        },
+        referrerPolicy: "strict-origin-when-cross-origin",
+        body: JSON.stringify(requestBody),
+        mode: "cors",
+    });
+
+    if (employee_data.status !== 200) {
+        $.notify("Ошибка", "error");
+        return;
+    }
+
+    const fillPostsHistory = (postsHistory) => {
+        return postsHistory.map(post => `
+    <tr>
+      <th>${post.TRANSFER_DATE}</th>
+      <td class="align-middle">${post.POST_NAME}</td>
+    </tr>
+  `).join('');
+    };
+
+    const employee = await employee_data.json();
+    const tableHTML = `
+            <hr class="hr" />
+            <h5>Результаты проверки специалиста</h5>
+            <table class="table table-hover table-bordered table-responsive table-sm">
+                <tbody class="table-group-divider">
+                    <tr>
+                        <th>ФИО</th>
+                        <td class="align-middle">${employee.employeeInfo.FIO}</td>
+                    </tr>
+                    <tr>
+                        <th>Должность</th>
+                        <td class="align-middle">${employee.employeeInfo.POST_NAME}</td>
+                    </tr>
+                    <tr>
+                        <th>Направление</th>
+                        <td class="align-middle">${employee.employeeInfo.SUBDIVISION_NAME}</td>
+                    </tr>
+                    <tr>
+                        <th>Руководитель</th>
+                        <td class="align-middle">${employee.employeeInfo.HEAD_NAME}</td>
+                    </tr>
+                    <tr>
+                        <th>Трудоустроен</th>
+                        <td class="align-middle">${employee.employeeInfo.EMPLOYMENT_DATE}</td>
+                    </tr>
+                    <tr>
+                        <th>День рождения</th>
+                        <td class="align-middle">${employee.employeeInfo.BIRTHDAY}</td>
+                    </tr>
+                    <tr>
+                        <th>Город</th>
+                        <td class="align-middle">${employee.employeeInfo.CITY_NAME}</td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+            <h5>История должностей</h5>
+            <table class="table table-hover table-bordered table-responsive table-sm">
+                <tbody class="table-group-divider">
+                    ${fillPostsHistory(employee.postsHistory)}
+                </tbody>
+            </table>
+        `;
+    document.getElementById("result-container").innerHTML =
+        DOMPurify.sanitize(tableHTML);
+    inputField.value = "";
+}
+
 // Проверка премии
 async function handlePremiumSubmit() {
     document.getElementById("result-container").innerHTML = "";
     const monthSelector = document.getElementById("monthSelect");
 
     const monthValue = monthSelector.options[monthSelector.selectedIndex].value
-    const monthName =monthSelector.options[monthSelector.selectedIndex].text
+    const monthName = monthSelector.options[monthSelector.selectedIndex].text
     const yearValue = document.getElementById('yearSelect').value
 
     const month = parseInt(monthValue, 10);
@@ -215,7 +480,7 @@ async function handlePremiumSubmit() {
 
     const inputField = document.getElementById("premium-select").value;
     try {
-        await browser.storage.sync.set({ POPUP_userLine: inputField });
+        await browser.storage.sync.set({POPUP_userLine: inputField});
         console.log(`[Хелпер] - [Проверка премии] Линия специалиста установлена: ${inputField}`);
     } catch (error) {
         console.error(`[Хелпер] - [Проверка премии] Ошибка при сохранении линии:`, error);
@@ -396,8 +661,7 @@ async function handlePremiumSubmit() {
                 </tbody>
             </table>
         `;
-        }
-        else {
+        } else {
             const result = data["premium"][0];
             console.log(result)
             tableHTML = `
@@ -495,3 +759,4 @@ function populatePremiumDropdown() {
     yearSelect.value = currentYear;
     monthSelect.selectedIndex = currentMonth;
 }
+
