@@ -2455,7 +2455,13 @@ async function agrTransCompensationButton() {
                 }
 
                 // Get start date (now only requiring DD.MM)
-                let startDate = prompt("Введите начальную дату (ДД.ММ):");
+                const currentDate = new Date();
+
+                const day = String(currentDate.getDate()).padStart(2, '0');
+                const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+                const currentDay = `${day}.${month}`;
+
+                let startDate = prompt("Введите начальную дату (ДД.ММ)", currentDay);
                 if (!startDate) return;
                 if (!isValidDate(startDate)) {
                     $.notify("Неверный формат начальной даты. Используйте формат ДД.ММ", "error");
@@ -2464,7 +2470,7 @@ async function agrTransCompensationButton() {
                 startDate = formatDateWithYear(startDate);
 
                 // Get end date (now only requiring DD.MM)
-                let endDate = prompt("Введите конечную дату (ДД.ММ):");
+                let endDate = prompt("Введите конечную дату (ДД.ММ)");
                 if (!endDate) return;
                 if (!isValidDate(endDate)) {
                     $.notify("Неверный формат конечной даты. Используйте формат ДД.ММ", "error");
@@ -2575,8 +2581,14 @@ async function infoCompensationButton() {
 
         let is_one_day = confirm("Компенсация за один день - ОК\nКомпенсация за несколько дней - Отмена")
 
+        const currentDate = new Date();
+
+        const day = String(currentDate.getDate()).padStart(2, '0');
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+        const currentDay = `${day}.${month}`;
+        
         if (is_one_day) {
-            let compensDay = prompt("Введи дату (01.01)")
+            let compensDay = prompt("Введи дату (ДД.ММ)", currentDay)
             if (!compensDay) return;
             if (!isValidDate(compensDay)) {
                 $.notify("Неверный формат начальной даты. Используйте формат ДД.ММ", "error");
@@ -2586,7 +2598,7 @@ async function infoCompensationButton() {
             await compensate(formatDateWithYear(compensDay), ssn, user_id, agr_id)
         } else {
             // Спрашиваем первичную дату
-            let startDate = prompt("Введи начальную дату (ДД.ММ):");
+            let startDate = prompt("Введи начальную дату (ДД.ММ)", currentDay);
             if (!startDate) return;
             if (!isValidDate(startDate)) {
                 $.notify("Неверный формат начальной даты. Используйте формат ДД.ММ", "error");
@@ -2595,7 +2607,7 @@ async function infoCompensationButton() {
             startDate = formatDateWithYear(startDate);
 
             // Спрашиваем конечную дату
-            let endDate = prompt("Введи конечную дату (ДД.ММ):");
+            let endDate = prompt("Введи конечную дату (ДД.ММ)");
             if (!endDate) return;
             if (!isValidDate(endDate)) {
                 $.notify("Неверный формат конечной даты. Используйте формат ДД.ММ", "error");
