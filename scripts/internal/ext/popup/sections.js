@@ -3,7 +3,6 @@ function getTabId(buttonText) {
     const tabMap = {
         'Главная': 'Главная', 'MnA': 'MnA', 'Роутеры': 'Роутеры', 'РМы': 'РМы', 'Инструменты': 'Инструменты'
     };
-    console.log(buttonText)
     return tabMap[buttonText] || buttonText;
 }
 
@@ -140,7 +139,7 @@ async function fetchMNA(cachedOnly = false) {
     try {
         // Try to get data from cache first
         let data = await getFromStorage("mnaData");
-        if (cachedOnly) {
+        if (cachedOnly && data) {
             displayMNAData(data);
             return
         }
@@ -176,7 +175,7 @@ async function fetchMNA(cachedOnly = false) {
 function displayMNAData(data) {
     const providersTableElement = document.getElementById("providersTable");
 
-    if (data.mna && Array.isArray(data.mna)) {
+    if (data || data.mna && Array.isArray(data.mna)) {
         const rows = data.mna
             .map((provider) => `
       <tr>
@@ -225,7 +224,7 @@ async function fetchRouters(cachedOnly = false) {
 
     try {
         let data = await getFromStorage("routersData");
-        if (cachedOnly) {
+        if (cachedOnly && data) {
             displayRoutersData(data);
             return
         }
@@ -263,7 +262,7 @@ async function fetchRouters(cachedOnly = false) {
 function displayRoutersData(data) {
     const routersTableElement = document.getElementById("routersTable");
 
-    if (data.routers && Array.isArray(data.routers)) {
+    if (data || data.routers && Array.isArray(data.routers)) {
         const rows = data.routers
             .map((router) => `
     <tr>

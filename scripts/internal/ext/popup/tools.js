@@ -230,6 +230,7 @@ async function handleSpecialistSubmit() {
         if (filteredEmployees.length === 0) {
             $.notify("Сотрудник не найден", "warning");
             resultsDiv.style.display = "none";
+            loadingSpinner.style.display = 'none';
             return;
         }
 
@@ -379,6 +380,9 @@ async function updateEmployees() {
 
 // Выбор специалиста из списка
 async function selectEmployee(employeeId) {
+    const loadingSpinner = document.getElementById('loadingResultsSpinner')
+    loadingSpinner.style.display = 'block';
+
     const inputField = document.getElementById("input-specialist");
     document.getElementById("specialist-results").style.display = "none";
 
@@ -462,6 +466,7 @@ async function selectEmployee(employeeId) {
     document.getElementById("result-container").innerHTML =
         DOMPurify.sanitize(tableHTML);
     inputField.value = "";
+    loadingSpinner.style.display = 'none';
 }
 
 // Проверка премии
