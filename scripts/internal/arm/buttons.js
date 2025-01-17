@@ -661,7 +661,8 @@ async function fastButtonsLeftFrame() {
         "ARM_changeRequestFBLF_FastChat_DZ",
         "ARM_changeRequestFBLF_Self_recoverLK",
         "ARM_changeRequestFBLF_Self_Subscriptions",
-        "ARM_changeRequestFBLF_Self_ChangeWiFi"
+        "ARM_changeRequestFBLF_Self_ChangeWiFi",
+        "ARM_changeRequestFBLF_Open_Abon"
     ];
 
     // Получение значений всех настроек
@@ -942,6 +943,15 @@ async function fastButtonsLeftFrame() {
         });
     }
 
+    if (settings[30][settingsKeys[30]]) {
+        buttons.push({
+            value: "На Абон",
+            class: "helper helper-button",
+            action: handle_naAbon,
+            category: "Открытое",
+        });
+    }
+
     buttons.forEach((button) => {
         if (categories[button.category]) {
             categories[button.category].push(button);
@@ -1123,6 +1133,27 @@ async function fastButtonsLeftFrame() {
 
         waitForElement(".uni_load_obj_reason", (substep) => {
             substep.value = "2123";
+            substep.dispatchEvent(changeEvent);
+        });
+    }
+
+    async function handle_naAbon() {
+        const step = document.querySelector(".uni_reas_step");
+        step.value = "2296";
+        step.dispatchEvent(changeEvent);
+
+        waitForElement(".uni_load_obj_reason", (substep) => {
+            substep.value = "1042";
+            substep.dispatchEvent(changeEvent);
+        });
+
+        waitForElement(".uni_load_main_reason", (substep) => {
+            substep.value = "18252";
+            substep.dispatchEvent(changeEvent);
+        });
+
+        waitForElement(".uni_load_child_reason", (substep) => {
+            substep.value = "18254";
             substep.dispatchEvent(changeEvent);
         });
     }

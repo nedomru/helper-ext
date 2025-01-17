@@ -104,6 +104,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         "ARM_changeRequestFBLF",
         "ARM_changeRequestFBLF_Open_KCNCK1",
         "ARM_changeRequestFBLF_Open_KCNCK2",
+        "ARM_changeRequestFBLF_Open_Abon",
         "ARM_changeRequestFBLF_Open_VhodNRD",
         "ARM_changeRequestFBLF_Open_Ticket",
         "ARM_changeRequestFBLF_Closed_CancelSZ",
