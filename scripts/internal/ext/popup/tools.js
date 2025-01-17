@@ -584,7 +584,8 @@ async function handlePremiumSubmit() {
                             data-bs-title="Для премии за благи:<br>
                             >= 2 благи = 6%<br>
                             1 блага = 3%<br>
-                            < 1 благи = 0%">${result.PERC_THANKS ? result.PERC_THANKS : '-'}%</td>
+                            < 1 благи = 0%"
+                        >${result.PERC_THANKS ? result.PERC_THANKS : '-'}%</td>
                     </tr>
                     <tr>
                         <th scope="row">Ручная правка</th>
@@ -694,25 +695,60 @@ async function handlePremiumSubmit() {
                     <tr>
                         <th scope="row">ГОК</th>
                         <td class="align-middle">${result.GOK ? result.GOK : '-'}</td>
-                        <td class="align-middle">${result.GOK_NORMATIVE ? result.GOK_NORMATIVE : '-'}</td>
+                        <td class="align-middle" style="text-decoration: underline;"
+                            data-bs-toggle="tooltip" 
+                            data-bs-html="true" 
+                            data-bs-title="Для премии за качество обслуживания:<br>
+                            ${(result.GOK_NORMATIVE * 1.04).toFixed(2)} = 20%<br>
+                            ${(result.GOK_NORMATIVE * 1.02).toFixed(2)} = 18%<br>
+                            ${(result.GOK_NORMATIVE * 1.00).toFixed(2)} = 16%<br>
+                            ${(result.GOK_NORMATIVE * 0.96).toFixed(2)} = 14%<br>
+                            ${(result.GOK_NORMATIVE * 0.91).toFixed(2)} = 12%<br>
+                            ${(result.GOK_NORMATIVE * 0.80).toFixed(2)} = 10%<br>
+                            < ${(result.GOK_NORMATIVE * 0.80).toFixed(2)} = 0%<br><br>
+                            Текущий % выполнения: ${result.NORM_GOK ? result.NORM_GOK : '-'}%"
+                        >${result.GOK_NORMATIVE ? result.GOK_NORMATIVE : '-'}</td>
                         <td class="align-middle">${result.PERC_GOK ? result.PERC_GOK : '-'}%</td>
                     </tr>
                     <tr>
                         <th scope="row">FLR</th>
                         <td class="align-middle">${result.FLR ? result.FLR : '-'}</td>
-                        <td class="align-middle">${result.FLR_NORMATIVE ? result.FLR_NORMATIVE : '-'}</td>
+                        <td class="align-middle" style="text-decoration: underline;"
+                            data-bs-toggle="tooltip" 
+                            data-bs-html="true" 
+                            data-bs-title="Для премии за FLR:<br>
+                            ${(result.FLR_NORMATIVE * 1.20).toFixed(2)} = 25%<br>
+                            ${(result.FLR_NORMATIVE * 1.14).toFixed(2)} = 23%<br>
+                            ${(result.FLR_NORMATIVE * 1.07).toFixed(2)} = 18%<br>
+                            ${(result.FLR_NORMATIVE * 1.00).toFixed(2)} = 16%<br>
+                            ${(result.FLR_NORMATIVE * 0.96).toFixed(2)} = 14%<br>
+                            < ${(result.FLR_NORMATIVE * 0.96).toFixed(2)} = 10%<br><br>
+                            Текущий % выполнения: ${result.NORM_FLR ? result.NORM_FLR : '-'}%"
+                        >${result.FLR_NORMATIVE ? result.FLR_NORMATIVE : '-'}</td>
                         <td class="align-middle">${result.PERC_FLR ? result.PERC_FLR : '-'}%</td>
                     </tr>
                     <tr>
                         <th scope="row">СЦ</th>
                         <td class="align-middle">${result.PERS_FACT ? result.PERS_FACT : '-'}</td>
-                        <td>${result.PERS_PLAN_1 ? result.PERS_PLAN_1 : '-'}/${result.PERS_PLAN_2 ? result.PERS_PLAN_2 : '-'}</td>
+                        <td style="text-decoration: underline;" data-bs-toggle="tooltip" 
+                            data-bs-html="true" 
+                            data-bs-title="Для премии за СЦ:<br>
+                            2 норматива = 25%<br>
+                            1 норматив = 16%<br>
+                            < 1 норматива = 0%"
+                        >${result.PERS_PLAN_1 ? result.PERS_PLAN_1 : '-'}/${result.PERS_PLAN_2 ? result.PERS_PLAN_2 : '-'}</td>
                         <td class="align-middle">${result.PERS_PERCENT ? result.PERS_PERCENT : '-'}%</td>
                     </tr>
                     <tr>
                         <th scope="row">SL</th>
                         <td class="align-middle">${result.SL_FACT ? result.SL_FACT : '-'}</td>
-                        <td>${result.SL_PLAN_1 ? result.SL_PLAN_1 : '-'}/${result.SL_PLAN_2 ? result.SL_PLAN_2 : '-'}</td>
+                        <td style="text-decoration: underline;" data-bs-toggle="tooltip" 
+                            data-bs-html="true" 
+                            data-bs-title="Для премии за SL:<br>
+                            2 норматива = 10%<br>
+                            1 норматив = 5%<br>
+                            < 1 норматива = 0%"
+                        >${result.SL_PLAN_1 ? result.SL_PLAN_1 : '-'}/${result.SL_PLAN_2 ? result.SL_PLAN_2 : '-'}</td>
                         <td class="align-middle">${result.SL_PERCENT ? result.SL_PERCENT : '-'}%</td>
                     </tr>
                 </tbody>
