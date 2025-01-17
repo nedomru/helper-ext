@@ -206,6 +206,7 @@ async function handleSpecialistSubmit() {
     const loadingSpinner = document.getElementById('loadingResultsSpinner')
     const searchTerm = inputField.value.trim().toLowerCase();
 
+    document.getElementById("result-container").innerHTML = "";
     resultsDiv.innerHTML = "";
     loadingSpinner.style.display = 'block';
 
