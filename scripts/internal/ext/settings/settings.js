@@ -198,6 +198,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         "GENESYS_chatSound_newMessageSound",
     ];
 
+    const other = [
+        "POPUP_userLine",
+    ];
+
     const result = await browser.storage.sync.get(checkboxIds);
     try {
         checkboxIds.forEach((id) => {
@@ -316,7 +320,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
 
     // Экспорт настроек
-    const allSettingsIds = [...checkboxIds, ...colorPickerIds, ...soundPick, "POPUP_userLine"];
+    const allSettingsIds = [...checkboxIds, ...colorPickerIds, ...soundPick, ...other];
 
     function exportSettings() {
         chrome.storage.sync.get(allSettingsIds, function (settings) {
