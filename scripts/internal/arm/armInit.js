@@ -78,6 +78,7 @@ const initializeExtension = async () => {
     // Инициализация функции копирования по всему ARM'у
     if (matchesUrlPattern(URL_PATTERNS.EXCELLS)) {
         await initializeFeatures({ARM_allowCopy: allowCopy});
+        await infoCompensationButton()
     }
 
     // Инициализация функций страницы сессий клиента
@@ -102,7 +103,7 @@ const initializeExtension = async () => {
 
     // Инициализация функций страницы акций на удержание
     if (matchesUrlPattern(URL_PATTERNS.RETENTION)) {
-        await addMassCompensationButton();
+        await agrTransCompensationButton();
         await autoFormatCompensateButtons();
     }
 

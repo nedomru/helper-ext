@@ -2292,3 +2292,395 @@ async function loadLastDayClientSessions() {
         loadDataButton.parentNode.insertBefore(button, loadDataButton.nextSibling); // Добавляем кнопку после кнопки "Загрузить"
     }
 }
+
+// Кнопка компенсации за аварию за несколько дней // Операции с договором
+async function agrTransCompensationButton() {
+    // Валидация regex: формат DD.MM
+    const dateRegex = /^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])$/;
+    const currentYear = new Date().getFullYear();
+
+    function getParametersFromUrl() {
+        const url = new URL(window.location.href);
+        return {
+            sessionId: url.searchParams.get('session_id$c'),
+            userId: url.searchParams.get('client$c'),
+            agreementId: url.searchParams.get('agreement_id$i')
+        };
+    }
+
+    function getPageParameters() {
+        // Получаем количество продуктов
+        const productsCount = document.querySelector('input[name="products_cnt$i"]')?.value;
+
+        // Ищем строку "Компенсация за аварию"
+        const compensationRow = Array.from(document.querySelectorAll('th')).find(
+            th => th.textContent.includes('Компенсация за аварию')
+        )?.closest('tr');
+
+        // Получаем ссылку на компенсацию из найденной строки
+        const compensationLink = compensationRow?.querySelector('a.compensation');
+
+        // Получаем аттрибуты страницы для генерации ссылки на компенсацию
+        const monthId = compensationLink?.getAttribute('month_id');
+        const flagId = compensationLink?.getAttribute('flag_id');
+        const flagIdAndIndex = compensationLink?.getAttribute('flag_id_and_i');
+
+        return {
+            productsCount,
+            monthId,
+            flagId,
+            flagIdAndIndex
+        };
+    }
+
+    // Валидация даты
+    function isValidDate(dateString) {
+        if (!dateRegex.test(dateString)) return false;
+
+        const [day, month] = dateString.split('.').map(Number);
+        const date = new Date(currentYear, month - 1, day);
+
+        return date.getDate() === day &&
+            date.getMonth() === month - 1;
+    }
+
+    // Форматирование даты с текущим годом
+    function formatDateWithYear(dateString) {
+        return `${dateString}.${currentYear}`;
+    }
+
+    // Получение промежутка между указанными датами
+    function getDatesArray(startDate, endDate) {
+        const dates = [];
+        const currentDate = new Date(startDate.split('.').reverse().join('-'));
+        const lastDate = new Date(endDate.split('.').reverse().join('-'));
+
+        while (currentDate <= lastDate) {
+            dates.push(currentDate.toLocaleDateString('ru-RU', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            }));
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+        return dates;
+    }
+
+    // Функция для отправки POST запроса на компенсацию
+    async function makeCompensationRequest(urlParameters, pageParameters, compensationDate) {
+        // Получаем текущий hostname для сохранения города
+        const currentURL = window.location.href;
+        const baseURL = currentURL.match(/(https:\/\/[^\/]+)/)[1];
+
+        const fetchURL = `${baseURL}/cgi-bin/ppo/excells/adv_act_retention.add_flag`;
+
+        const requestBody = new URLSearchParams({
+            'session_id$c': urlParameters.sessionId,
+            'client$c': urlParameters.userId,
+            'agreement_id$i': urlParameters.agreementId,
+            'products_cnt$i': pageParameters.productsCount,
+            'month_id$i': pageParameters.monthId,
+            'flag_id$i': pageParameters.flagId,
+            'flag_id_and_i$i': pageParameters.flagIdAndIndex,
+            'date_from$c': compensationDate
+        });
+
+        const response = await fetch(fetchURL, {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:133.0) Gecko/20100101 Firefox/133.0",
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                "Accept-Language": "en-US,en;q=0.5",
+                "Content-Type": "application/x-www-form-urlencoded",
+                "Sec-GPC": "1",
+                "Upgrade-Insecure-Requests": "1",
+                "Sec-Fetch-Dest": "iframe",
+                "Sec-Fetch-Mode": "navigate",
+                "Sec-Fetch-Site": "same-origin",
+                "Sec-Fetch-User": "?1",
+                "Priority": "u=4",
+                "Pragma": "no-cache",
+                "Cache-Control": "no-cache"
+            },
+            body: requestBody.toString()
+        });
+
+        const buffer = await response.arrayBuffer();
+        const decoder = new TextDecoder('windows-1251');
+        const responseText = decoder.decode(buffer);
+
+        if (responseText.includes('УСПЕШНОЕ') || responseText.includes('Флаг успешно добавлен')) {
+            $.notify(`${compensationDate} - Успешно компенсировано`, "success")
+
+            console.log(responseText)
+        }  else if (responseText.includes('Данный признак уже есть на приложении')) {
+            $.notify(`${compensationDate} - Компенсация уже есть`, "error");
+        }
+        else {
+            $.notify(`${compensationDate} - АРМ не дает компенсировать. Попробуй вручную`, "error");
+        }
+
+        if (!response.ok) {
+            throw new Error(`Failed for date ${compensationDate}: HTTP ${response.status}`);
+        }
+
+        return true;
+    }
+
+    // Find and process table cells
+    const tableCells = document.querySelectorAll("th");
+    tableCells.forEach((cell) => {
+        if (cell.innerText === "Компенсация за аварию") {
+            const lineBreak = document.createElement("br");
+            const button = document.createElement("button");
+            button.innerText = "Несколько дней";
+            button.className = "button";
+
+            button.onclick = async () => {
+                // Get parameters from URL and page
+                const urlParameters = getParametersFromUrl();
+                const pageParameters = getPageParameters();
+
+                // Validate we have all required parameters
+                if (!urlParameters.sessionId || !urlParameters.userId || !urlParameters.agreementId) {
+                    $.notify("Не удалось получить необходимые параметры из URL", "error");
+                    return;
+                }
+
+                if (!pageParameters.productsCount || !pageParameters.monthId ||
+                    !pageParameters.flagId || !pageParameters.flagIdAndIndex) {
+                    $.notify("Не удалось получить необходимые параметры со страницы", "error");
+                    return;
+                }
+
+                // Get start date (now only requiring DD.MM)
+                let startDate = prompt("Введите начальную дату (ДД.ММ):");
+                if (!startDate) return;
+                if (!isValidDate(startDate)) {
+                    $.notify("Неверный формат начальной даты. Используйте формат ДД.ММ", "error");
+                    return;
+                }
+                startDate = formatDateWithYear(startDate);
+
+                // Get end date (now only requiring DD.MM)
+                let endDate = prompt("Введите конечную дату (ДД.ММ):");
+                if (!endDate) return;
+                if (!isValidDate(endDate)) {
+                    $.notify("Неверный формат конечной даты. Используйте формат ДД.ММ", "error");
+                    return;
+                }
+                endDate = formatDateWithYear(endDate);
+
+                // Validate date range
+                const startDateObject = new Date(startDate.split('.').reverse().join('-'));
+                const endDateObject = new Date(endDate.split('.').reverse().join('-'));
+                if (startDateObject > endDateObject) {
+                    $.notify("Начальная дата не может быть позже конечной даты", "error");
+                    return;
+                }
+
+                try {
+                    const dates = getDatesArray(startDate, endDate);
+                    let successCount = 0;
+                    let errorCount = 0;
+
+                    // Process each date
+                    for (const date of dates) {
+                        try {
+                            await makeCompensationRequest(urlParameters, pageParameters, date);
+                            successCount++;
+                            // Add small delay between requests
+                            await new Promise(resolve => setTimeout(resolve, 100));
+                        } catch (error) {
+                            console.error('Error processing compensation:', error);
+                            errorCount++;
+                        }
+                    }
+
+                    // Show final results
+                    if (successCount > 0) {
+                        $.notify(`Успешно добавлено компенсаций: ${successCount}`, "success");
+                    }
+                    if (errorCount > 0) {
+                        $.notify(`Ошибок при добавлении: ${errorCount}`, "error");
+                    }
+
+                } catch (error) {
+                    console.error('Failed to process compensations:', error);
+                    $.notify("Произошла ошибка при обработке компенсаций", "error");
+                }
+            };
+            cell.appendChild(lineBreak);
+            cell.appendChild(button);
+        }
+    });
+}
+
+// Кнопка компенсации за аварию за несколько дней // Предвосхищение
+async function infoCompensationButton() {
+    const refreshBtn = document.querySelector('.refresh-frame');
+    const top3Btn = document.querySelector('.top_3_butt');
+    const container = document.getElementById('top-3-block');
+
+    const dateRegex = /^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])$/;
+    const currentYear = new Date().getFullYear();
+
+    if (!refreshBtn || !top3Btn || !container) return;
+
+    const compensateBtn = document.createElement('button');
+    compensateBtn.className = 'btn btn-success helper-compensation float-right btn-xs';
+    compensateBtn.type = 'button';
+    compensateBtn.textContent = 'Компенсировать';
+    compensateBtn.style.marginRight = '5px';
+
+    container.insertBefore(compensateBtn, top3Btn);
+
+    function isValidDate(dateString) {
+        if (!dateRegex.test(dateString)) return false;
+
+        const [day, month] = dateString.split('.').map(Number);
+        const date = new Date(currentYear, month - 1, day);
+
+        return date.getDate() === day &&
+            date.getMonth() === month - 1;
+    }
+
+    // Форматирование даты с текущим годом
+    function formatDateWithYear(dateString) {
+        return `${dateString}.${currentYear}`;
+    }
+
+    // Получение промежутка между указанными датами
+    function getDatesArray(startDate, endDate) {
+        const dates = [];
+        const currentDate = new Date(startDate.split('.').reverse().join('-'));
+        const lastDate = new Date(endDate.split('.').reverse().join('-'));
+
+        while (currentDate <= lastDate) {
+            dates.push(currentDate.toLocaleDateString('ru-RU', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            }));
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+        return dates;
+    }
+
+    compensateBtn.addEventListener("click", async (event) => {
+        let ssn = document.querySelector('input[class="js-ssn-prn"]')?.value;
+        let user_id = document.querySelector('input[class="js-user-id-prn"]')?.value;
+        let agr_id = document.querySelector('input[class="js-agr-id-prn"]')?.value;
+
+        let is_one_day = confirm("Компенсация за один день - ОК\nКомпенсация за несколько дней - Отмена")
+
+        if (is_one_day) {
+            let compensDay = prompt("Введи дату (01.01)")
+            if (!compensDay) return;
+            if (!isValidDate(compensDay)) {
+                $.notify("Неверный формат начальной даты. Используйте формат ДД.ММ", "error");
+                return;
+            }
+
+            await compensate(formatDateWithYear(compensDay), ssn, user_id, agr_id)
+        } else {
+            // Спрашиваем первичную дату
+            let startDate = prompt("Введи начальную дату (ДД.ММ):");
+            if (!startDate) return;
+            if (!isValidDate(startDate)) {
+                $.notify("Неверный формат начальной даты. Используйте формат ДД.ММ", "error");
+                return;
+            }
+            startDate = formatDateWithYear(startDate);
+
+            // Спрашиваем конечную дату
+            let endDate = prompt("Введи конечную дату (ДД.ММ):");
+            if (!endDate) return;
+            if (!isValidDate(endDate)) {
+                $.notify("Неверный формат конечной даты. Используйте формат ДД.ММ", "error");
+                return;
+            }
+            endDate = formatDateWithYear(endDate);
+
+            // Проверяем корректность дат
+            const startDateObject = new Date(startDate.split('.').reverse().join('-'));
+            const endDateObject = new Date(endDate.split('.').reverse().join('-'));
+            if (startDateObject > endDateObject) {
+                $.notify("Начальная дата не может быть позже конечной даты", "error");
+                return;
+            }
+
+            try {
+                const dates = getDatesArray(startDate, endDate);
+
+                // Process each date
+                for (const date of dates) {
+                    console.log(date)
+                    await compensate(date, ssn, user_id, agr_id);
+
+                    // Задержка между запросами
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                }
+
+            } catch (error) {
+                $.notify("Произошла ошибка при обработке компенсаций", "error");
+            }
+        }
+    });
+
+    async function compensate(date, ssn, user_id, agr_id) {
+        const currentURL = window.location.href;
+        const baseURL = currentURL.match(/(https:\/\/[^\/]+)/)[1];
+
+        const endpoint = '/cgi-bin/ppo/excells/adv_act_retention.add_compensate_from_antic';
+
+        const formData = new URLSearchParams({
+            'ssn$c': ssn,
+            'user_id$c': user_id,
+            'agr_id$c': agr_id,
+            'compens_date$c': date
+        });
+
+        try {
+            let response = await fetch(`${baseURL}${endpoint}`, {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Accept': '*/*',
+                    'Accept-Language': 'en-US,en;q=0.5',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Sec-GPC': '1',
+                    'Sec-Fetch-Dest': 'empty',
+                    'Sec-Fetch-Mode': 'cors',
+                    'Sec-Fetch-Site': 'same-origin',
+                    'Priority': 'u=0'
+                },
+                body: formData.toString()
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const buffer = await response.arrayBuffer();
+            const decoder = new TextDecoder('windows-1251');
+            const responseText = decoder.decode(buffer);
+
+            if (responseText.includes('УСПЕШНОЕ') || responseText.includes('Флаг успешно добавлен')) {
+                $.notify(`${date} - Успешно компенсировано`, "success")
+
+                console.log(responseText)
+            }  else if (responseText.includes('Данный признак уже есть на приложении')) {
+                $.notify(`${date} - Компенсация уже есть`, "error");
+            }
+            else {
+                $.notify(`${date} - АРМ не дает компенсировать. Попробуй вручную`, "error");
+            }
+        } catch (error) {
+            console.error('Ошибка компенсации:', error);
+            throw error;
+        }
+    }
+}
