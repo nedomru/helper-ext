@@ -330,7 +330,6 @@ async function handleSpecialistSubmit() {
         class="list-group-item list-group-item-action" 
         data-employee-id="${emp.id}">
     ${emp.name}
-    ${emp.firedDate ? `<small class="text-danger">(уволен ${emp.firedDate})</small>` : ''}
 </button>
                 `).join('')}
             </div>
