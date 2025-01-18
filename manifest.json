@@ -67,7 +67,6 @@
     "*://*.ertelecom.ru/*",
     "*://*.maclookup.app/*",
     "*://*.ipquery.io/*",
-    "*://*.telegram.org/*",
     "*://*.github.com/*",
     "tabs",
     "sessions",
