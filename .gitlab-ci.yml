@@ -1,0 +1,31 @@
+image: node:latest
+
+stages:
+  - sign
+
+# Create .web-ext-config.js to exclude files
+before_script:
+  - |
+    echo 'module.exports = {
+      ignoreFiles: [
+        ".gitignore",
+        "LICENSE",
+        "README.md",
+        ".web-ext-config.js",
+        ".git",
+        ".gitlab-ci.yml"
+      ]
+    }' > .web-ext-config.js
+
+sign:
+  stage: sign
+  script:
+    - npm install --global web-ext
+    - web-ext sign --channel=unlisted --api-key=$AMO_JWT_ISSUER --api-secret=$AMO_JWT_SECRET
+  artifacts:
+    paths:
+      - web-ext-artifacts/*.xpi
+  only:
+    - main # Only run on main branch
+  environment:
+    name: production
