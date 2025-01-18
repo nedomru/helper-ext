@@ -88,11 +88,6 @@ async function socketConnect(sessionID) {
             );
         }
 
-        $.notify(
-            "Соединение с линией разорвано",
-            "error"
-        );
-
         let lineStats;
         lineStats =
             document.querySelector("#line-status-nck1") ||
@@ -102,9 +97,9 @@ async function socketConnect(sessionID) {
             lineStats.parentElement.style.backgroundColor = "#635252"; // Error state background
         }
 
+        $.notify(`Переподключение к линии...`, "warning");
         if (reconnectAttempts < maxReconnectAttempts) {
             const delay = baseReconnectDelay * Math.pow(2, reconnectAttempts);
-            $.notify(`Пытаемся переподключиться к линии... (Попытка ${reconnectAttempts + 1}/${maxReconnectAttempts})`, "warning");
             console.warn(`[Хелпер] - [Генезис] - [Линия] Пробуем переподключиться через ${delay / 1000} секунд...`)
 
             setTimeout(() => {
