@@ -15,7 +15,8 @@ const GENESYS_FEATURES = {
         GENESYS_hideMyRMs: hideMyRMs,
         GENESYS_hideChatHeader: hideChatHeader,
         GENESYS_allowChatResize: messageAreaResize,
-        GENESYS_allowImagePaste: allowImagePaste
+        GENESYS_allowImagePaste: allowImagePaste,
+        GENESYS_customEmoji: customEmojis
     },
     lineStatus: {
         GENESYS_showLineStatus_nck1: 'nck1',
@@ -43,7 +44,6 @@ async function initializeGenesysFeatures() {
                 await handler();
             }
         }
-        await customEmojis()
         // await handleChatHeaders()
     } catch (error) {
         Logger.error(`Ошибка инициализации основных функций: ${error.message}`);
