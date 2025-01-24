@@ -18,9 +18,9 @@ async function showTab(tabId) {
     if (selectedTab) {
         selectedTab.style.display = 'block';
         if (tabId === "MnA") {
-            fetchMNA()
+            await fetchMNA()
         } else if (tabId === "Роутеры") {
-            fetchRouters()
+            await fetchRouters()
         }
         browser.storage.sync.set({lastTab: tabId});
     } else {
