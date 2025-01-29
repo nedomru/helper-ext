@@ -44,7 +44,6 @@ async function initializeLineFeatures() {
       if (settings[feature]) {
         try {
           await config.handler();
-          console.log(config.handler)
           Logger.info(`[Линия] - Активирован модуль: ${config.description}`);
         } catch (featureError) {
           Logger.error(`[Линия] - Сбой модуля ${config.description}: ${featureError.message}`);
