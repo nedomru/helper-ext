@@ -93,7 +93,6 @@ async function highlightEndingAppointments() {
     const THIRTY_MINUTES = 30 * 60 * 1000;
     let updateTimeout = null;
     let observer = null;
-    let intervalId = null;
 
     const appointmentsTable = document.getElementsByClassName("bottom-row")[0];
     if (!appointmentsTable) {
@@ -123,7 +122,7 @@ async function highlightEndingAppointments() {
         updateTimeout = setTimeout(() => {
             if (!tbody) return;
 
-            const currentTime = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Moscow' }));
+            const currentTime = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Yekaterinburg' }));
             const rows = tbody.getElementsByTagName('tr');
 
             for (let i = 0; i < rows.length; i++) {
