@@ -1373,7 +1373,7 @@ async function fastButtonsLeftFrame() {
         });
 
         waitForElement(".comment_text", (substep) => {
-            substep.value = "БП Самообслуживание. КТВ, нет вещания на всех каналах";
+            substep.value = "БП Самообслуживание. ТВ, нет вещания на всех каналах";
             substep.dispatchEvent(changeEvent);
         });
     }
