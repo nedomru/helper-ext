@@ -2413,8 +2413,6 @@ async function agrTransCompensationButton() {
 
         if (responseText.includes('УСПЕШНОЕ') || responseText.includes('Флаг успешно добавлен')) {
             $.notify(`${compensationDate} - Успешно компенсировано`, "success")
-
-            console.log(responseText)
         }  else if (responseText.includes('Данный признак уже есть на приложении')) {
             $.notify(`${compensationDate} - Компенсация уже есть`, "error");
         }
@@ -2629,7 +2627,6 @@ async function infoCompensationButton() {
 
                 // Process each date
                 for (const date of dates) {
-                    console.log(date)
                     await compensate(date, ssn, user_id, agr_id);
 
                     // Задержка между запросами
@@ -2683,8 +2680,6 @@ async function infoCompensationButton() {
 
             if (responseText.includes('УСПЕШНОЕ') || responseText.includes('Флаг успешно добавлен')) {
                 $.notify(`${date} - Успешно компенсировано`, "success")
-
-                console.log(responseText)
             }  else if (responseText.includes('Данный признак уже есть на приложении')) {
                 $.notify(`${date} - Компенсация уже есть`, "error");
             }

@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const optionIndex = Array.from(selectElement.options).findIndex(option => option.value === specialistLine);
         selectElement.selectedIndex = optionIndex >= 0 ? optionIndex : 0;
 
-        console.log(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Проверка премии] Загружена линия специалиста: ${specialistLine}`);
+        console.info(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Проверка премии] Загружена линия специалиста: ${specialistLine}`);
     } catch (error) {
         console.error(`[${new Date().toLocaleTimeString()}] [Хелпер] - [Проверка премии] Ошибка при загрузке линии:`, error);
         document.getElementById("premium-select").selectedIndex = 0;

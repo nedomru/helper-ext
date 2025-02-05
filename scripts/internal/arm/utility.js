@@ -394,12 +394,7 @@ async function initFilterClientSessions() {
     }
 }
 
-// Автоматическое сворачивание СПАСа
-async function hideSPAS() {
-    // Своваричаем предвосхищение
-    let header = document.getElementById("collapse-top-3");
-    if (header) header.className = "collapse";
-}
+
 
 // Удаление вкладок с договора клиента
 async function deleteTabs(tabList) {

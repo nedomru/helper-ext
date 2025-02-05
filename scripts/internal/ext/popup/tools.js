@@ -486,7 +486,7 @@ async function handlePremiumSubmit() {
     const inputField = document.getElementById("premium-select").value;
     try {
         await browser.storage.sync.set({POPUP_userLine: inputField});
-        console.log(`[Хелпер] - [Проверка премии] Линия специалиста установлена: ${inputField}`);
+        console.info(`[Хелпер] - [Проверка премии] Линия специалиста установлена: ${inputField}`);
     } catch (error) {
         console.error(`[Хелпер] - [Проверка премии] Ошибка при сохранении линии:`, error);
     }
@@ -507,7 +507,7 @@ async function handlePremiumSubmit() {
             url = "https://okc.ertelecom.ru/stats/premium/ntp-nck2/get-premium-head-month"
             break;
         default:
-            console.log(`Sorry, we are out of ${expr}.`);
+            console.error(`[Хелпер] - [Проверка премии] Ошибка получения должности`);
     }
 
     const formattedDate = `01.${String(month).padStart(2, "0")}.${year}`;
@@ -670,7 +670,6 @@ async function handlePremiumSubmit() {
         `;
         } else {
             const result = data["premium"][0];
-            console.log(result)
             tableHTML = `
             <table class="table table-hover table-bordered table-responsive table-sm">
                 <thead>

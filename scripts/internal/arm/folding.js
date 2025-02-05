@@ -1,3 +1,9 @@
+// Автоматическое сворачивание СПАСа
+async function hideSPAS() {
+    let spas = document.getElementById("collapse-top-3");
+    if (spas) spas.className = "collapse";
+}
+
 // Скрытие строк на вкладке Инфо
 async function initInformationFold() {
     new MutationObserver(mutations => {
