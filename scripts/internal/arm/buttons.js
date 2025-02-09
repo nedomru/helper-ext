@@ -1816,7 +1816,7 @@ async function fastButtonsLeftFrame() {
         });
 
         waitForElement(".uni_load_main_reason", (substep) => {
-            substep.value = "4110";
+            substep.value = "22219";
             substep.dispatchEvent(changeEvent);
         });
     }
