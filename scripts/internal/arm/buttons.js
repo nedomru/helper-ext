@@ -627,7 +627,6 @@ async function fastButtonsLeftFrame() {
     const categories = {
         Открытое: [],
         Закрытое: [],
-        Самообслуживание: [],
         "Быстрый чат": [],
     };
 
@@ -636,20 +635,7 @@ async function fastButtonsLeftFrame() {
         "ARM_changeRequestFBLF_Open_VhodNRD",
         "ARM_changeRequestFBLF_Open_KCNCK2",
         "ARM_changeRequestFBLF_Open_KCNCK1",
-        "ARM_changeRequestFBLF_Self_Priost",
-        "ARM_changeRequestFBLF_Self_Activation",
-        "ARM_changeRequestFBLF_Self_SpeedBonus",
-        "ARM_changeRequestFBLF_Self_WiFiKey",
-        "ARM_changeRequestFBLF_Self_RouterSetup",
-        "ARM_changeRequestFBLF_Self_RiseAP",
-        "ARM_changeRequestFBLF_Self_KTV",
-        "ARM_changeRequestFBLF_Self_ActivateKey",
-        "ARM_changeRequestFBLF_Self_PIN",
-        "ARM_changeRequestFBLF_Self_Zvonok",
-        "ARM_changeRequestFBLF_Self_CameraVN",
-        "ARM_changeRequestFBLF_Self_Pult",
-        "ARM_changeRequestFBLF_Self_BadPult",
-        "ARM_changeRequestFBLF_Closed_NoPages", // тут новое
+        "ARM_changeRequestFBLF_Closed_NoPages",
         "ARM_changeRequestFBLF_Closed_NoSession",
         "ARM_changeRequestFBLF_Closed_LowSpeed",
         "ARM_changeRequestFBLF_Closed_Disconnections",
@@ -659,9 +645,6 @@ async function fastButtonsLeftFrame() {
         "ARM_changeRequestFBLF_Closed_CancelSZ",
         "ARM_changeRequestFBLF_FastChat_NoDiagnostic",
         "ARM_changeRequestFBLF_FastChat_DZ",
-        "ARM_changeRequestFBLF_Self_recoverLK",
-        "ARM_changeRequestFBLF_Self_Subscriptions",
-        "ARM_changeRequestFBLF_Self_ChangeWiFi",
         "ARM_changeRequestFBLF_Open_Abon"
     ];
 
@@ -711,123 +694,6 @@ async function fastButtonsLeftFrame() {
 
     if (settings[4][settingsKeys[4]]) {
         buttons.push({
-            value: "Приостановление",
-            class: "helper helper-button",
-            action: handleSS_Priost,
-            category: "Самообслуживание",
-        });
-    }
-
-    if (settings[5][settingsKeys[5]]) {
-        buttons.push({
-            value: "Активация ТП",
-            class: "helper helper-button",
-            action: handleSS_Activation,
-            category: "Самообслуживание",
-        });
-    }
-
-    if (settings[6][settingsKeys[6]]) {
-        buttons.push({
-            value: "Скорост. бонус",
-            class: "helper helper-button",
-            action: handleSS_SpeedBonus,
-            category: "Самообслуживание",
-        });
-    }
-
-    if (settings[7][settingsKeys[7]]) {
-        buttons.push({
-            value: "Ключ сети",
-            class: "helper helper-button",
-            action: handleSS_WiFiKey,
-            category: "Самообслуживание",
-        });
-    }
-
-    if (settings[8][settingsKeys[8]]) {
-        buttons.push({
-            value: "Настройка роутера",
-            class: "helper helper-button",
-            action: handleSS_RouterSetup,
-            category: "Самообслуживание",
-        });
-    }
-
-    if (settings[9][settingsKeys[9]]) {
-        buttons.push({
-            value: "Рост АП",
-            class: "helper helper-button",
-            action: handleSS_RiseAP,
-            category: "Самообслуживание",
-        });
-    }
-
-    if (settings[10][settingsKeys[10]]) {
-        buttons.push({
-            value: "КТВ",
-            class: "helper helper-button",
-            action: handleSS_KTV,
-            category: "Самообслуживание",
-        });
-    }
-
-    if (settings[11][settingsKeys[11]]) {
-        buttons.push({
-            value: "Актив. ключа",
-            class: "helper helper-button",
-            action: handleSS_ActivateKey,
-            category: "Самообслуживание",
-        });
-    }
-
-    if (settings[12][settingsKeys[12]]) {
-        buttons.push({
-            value: "Восст. пина",
-            class: "helper helper-button",
-            action: handleSS_PIN,
-            category: "Самообслуживание",
-        });
-    }
-
-    if (settings[13][settingsKeys[13]]) {
-        buttons.push({
-            value: "МП Звонок",
-            class: "helper helper-button",
-            action: handleSS_Zvonok,
-            category: "Самообслуживание",
-        });
-    }
-
-    if (settings[14][settingsKeys[14]]) {
-        buttons.push({
-            value: "Камера ВН",
-            class: "helper helper-button",
-            action: handleSS_CameraVN,
-            category: "Самообслуживание",
-        });
-    }
-
-    if (settings[15][settingsKeys[15]]) {
-        buttons.push({
-            value: "Привяз. пульта",
-            class: "helper helper-button",
-            action: handleSS_Pult,
-            category: "Самообслуживание",
-        });
-    }
-
-    if (settings[16][settingsKeys[16]]) {
-        buttons.push({
-            value: "Не раб пульт",
-            class: "helper helper-button",
-            action: handleSS_BadPult,
-            category: "Самообслуживание",
-        });
-    }
-
-    if (settings[17][settingsKeys[17]]) {
-        buttons.push({
             value: "Неоткрывашки",
             class: "helper helper-button",
             action: handleClosed_NoPages,
@@ -835,7 +701,7 @@ async function fastButtonsLeftFrame() {
         });
     }
 
-    if (settings[18][settingsKeys[18]]) {
+    if (settings[5][settingsKeys[5]]) {
         buttons.push({
             value: "Нет сессии",
             class: "helper helper-button",
@@ -844,7 +710,7 @@ async function fastButtonsLeftFrame() {
         });
     }
 
-    if (settings[19][settingsKeys[19]]) {
+    if (settings[6][settingsKeys[6]]) {
         buttons.push({
             value: "Низкая",
             class: "helper helper-button",
@@ -853,7 +719,7 @@ async function fastButtonsLeftFrame() {
         });
     }
 
-    if (settings[20][settingsKeys[20]]) {
+    if (settings[7][settingsKeys[7]]) {
         buttons.push({
             value: "Разрывы",
             class: "helper helper-button",
@@ -862,7 +728,7 @@ async function fastButtonsLeftFrame() {
         });
     }
 
-    if (settings[21][settingsKeys[21]]) {
+    if (settings[8][settingsKeys[8]]) {
         buttons.push({
             value: "Нет вещания",
             class: "helper helper-button",
@@ -871,7 +737,7 @@ async function fastButtonsLeftFrame() {
         });
     }
 
-    if (settings[22][settingsKeys[22]]) {
+    if (settings[9][settingsKeys[9]]) {
         buttons.push({
             value: "Тикет",
             class: "helper helper-button",
@@ -880,7 +746,7 @@ async function fastButtonsLeftFrame() {
         });
     }
 
-    if (settings[23][settingsKeys[23]]) {
+    if (settings[10][settingsKeys[10]]) {
         buttons.push({
             value: "Youtube",
             class: "helper helper-button",
@@ -889,7 +755,7 @@ async function fastButtonsLeftFrame() {
         });
     }
 
-    if (settings[24][settingsKeys[24]]) {
+    if (settings[11][settingsKeys[11]]) {
         buttons.push({
             value: "Отмена СЗ",
             class: "helper helper-button",
@@ -898,7 +764,7 @@ async function fastButtonsLeftFrame() {
         });
     }
 
-    if (settings[25][settingsKeys[25]]) {
+    if (settings[11][settingsKeys[11]]) {
         buttons.push({
             value: "Без диагностики",
             class: "helper helper-button",
@@ -907,7 +773,7 @@ async function fastButtonsLeftFrame() {
         });
     }
 
-    if (settings[26][settingsKeys[26]]) {
+    if (settings[12][settingsKeys[12]]) {
         buttons.push({
             value: "Отключ ДЗ",
             class: "helper helper-button",
@@ -916,34 +782,7 @@ async function fastButtonsLeftFrame() {
         });
     }
 
-    if (settings[27][settingsKeys[27]]) {
-        buttons.push({
-            value: "Восстановление ЛК",
-            class: "helper helper-button",
-            action: handleSS_recoverLK,
-            category: "Самообслуживание",
-        });
-    }
-
-    if (settings[28][settingsKeys[28]]) {
-        buttons.push({
-            value: "Управление подпиской/пакетом",
-            class: "helper helper-button",
-            action: handleSS_Subscriptions,
-            category: "Самообслуживание",
-        });
-    }
-
-    if (settings[29][settingsKeys[29]]) {
-        buttons.push({
-            value: "Изменение Wi-Fi",
-            class: "helper helper-button",
-            action: handleSS_ChangeWiFi,
-            category: "Самообслуживание",
-        });
-    }
-
-    if (settings[30][settingsKeys[30]]) {
+    if (settings[13][settingsKeys[13]]) {
         buttons.push({
             value: "На Абон",
             class: "helper helper-button",
@@ -1154,469 +993,6 @@ async function fastButtonsLeftFrame() {
 
         waitForElement(".uni_load_child_reason", (substep) => {
             substep.value = "18254";
-            substep.dispatchEvent(changeEvent);
-        });
-    }
-
-    async function handleSS_Priost() {
-        const step = document.querySelector(".uni_reas_step");
-        step.value = "2296";
-        step.dispatchEvent(changeEvent);
-
-        waitForElement(".uni_load_obj_reason", (substep) => {
-            substep.value = "1047";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_main_reason", (substep) => {
-            substep.value = "6089";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".comment_text", (substep) => {
-            substep.value = "БП Самообслуживание. Консультация по условиям приостановления";
-            substep.dispatchEvent(changeEvent);
-        });
-    }
-
-    async function handleSS_Activation() {
-        const step = document.querySelector(".uni_reas_step");
-        step.value = "2296";
-        step.dispatchEvent(changeEvent);
-
-        waitForElement(".uni_load_obj_reason", (substep) => {
-            substep.value = "1043";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_main_reason", (substep) => {
-            substep.value = "4152";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_child_reason", (substep) => {
-            substep.value = "4154";
-        });
-
-        waitForElement(".comment_text", (substep) => {
-            substep.value = "БП Самообслуживание. Активация ТП";
-            substep.dispatchEvent(changeEvent);
-        });
-    }
-
-    async function handleSS_SpeedBonus() {
-        const step = document.querySelector(".uni_reas_step");
-        step.value = "2296";
-        step.dispatchEvent(changeEvent);
-
-        waitForElement(".uni_load_obj_reason", (substep) => {
-            substep.value = "1047";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_main_reason", (substep) => {
-            substep.value = "18196";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_child_reason", (substep) => {
-            substep.value = "18199";
-        });
-
-        waitForElement(".comment_text", (substep) => {
-            substep.value = "БП Самообслуживание. Консультация по скоростному бонусу";
-            substep.dispatchEvent(changeEvent);
-        });
-    }
-
-    async function handleSS_WiFiKey() {
-        const product = document.querySelector(".uni_reas_prod");
-        if (product.value !== "70") {
-            product.value = "70";
-            product.dispatchEvent(changeEvent);
-        }
-
-        const step = document.querySelector(".uni_reas_step");
-        step.value = "2296";
-        step.dispatchEvent(changeEvent);
-
-        waitForElement(".uni_load_obj_reason", (substep) => {
-            substep.value = "1046";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_main_reason", (substep) => {
-            substep.value = "18298";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_child_reason", (substep) => {
-            substep.value = "18299";
-        });
-
-        waitForElement(".comment_text", (substep) => {
-            substep.value = "БП Самообслуживание. Ключ сети (пароль от Wi-Fi)";
-            substep.dispatchEvent(changeEvent);
-        });
-    }
-
-    async function handleSS_recoverLK() {
-        const step = document.querySelector(".uni_reas_step");
-        step.value = "2296";
-        step.dispatchEvent(changeEvent);
-
-        waitForElement(".uni_load_obj_reason", (substep) => {
-            substep.value = "1043";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_main_reason", (substep) => {
-            substep.value = "4144";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_child_reason", (substep) => {
-            substep.value = "19185";
-        });
-
-        waitForElement(".comment_text", (substep) => {
-            substep.value = "БП Самообслуживание. Восстановление данных (вход в ЛК)";
-            substep.dispatchEvent(changeEvent);
-        });
-    }
-
-    async function handleSS_RouterSetup() {
-        const product = document.querySelector(".uni_reas_prod");
-        if (product.value !== "70") {
-            product.value = "70";
-            product.dispatchEvent(changeEvent);
-        }
-
-        const step = document.querySelector(".uni_reas_step");
-        step.value = "2296";
-        step.dispatchEvent(changeEvent);
-
-        waitForElement(".uni_load_obj_reason", (substep) => {
-            substep.value = "1046";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_main_reason", (substep) => {
-            substep.value = "18298";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_child_reason", (substep) => {
-            substep.value = "18647";
-        });
-
-        waitForElement(".comment_text", (substep) => {
-            substep.value = "БП Самообслуживание. Настройка роутера";
-            substep.dispatchEvent(changeEvent);
-        });
-    }
-
-    async function handleSS_RiseAP() {
-        const step = document.querySelector(".uni_reas_step");
-        step.value = "2296";
-        step.dispatchEvent(changeEvent);
-
-        waitForElement(".uni_load_obj_reason", (substep) => {
-            substep.value = "1042";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_main_reason", (substep) => {
-            substep.value = "4119";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_child_reason", (substep) => {
-            substep.value = "4706";
-        });
-
-        waitForElement(".comment_text", (substep) => {
-            substep.value = "БП Самообслуживание. Повышение АП";
-            substep.dispatchEvent(changeEvent);
-        });
-    }
-
-    async function handleSS_KTV() {
-        const product = document.querySelector(".uni_reas_prod");
-        const values = Array.from(product.options).map(option => option.value);
-
-        if (values.includes("71")) {
-            product.value = "71";
-            product.dispatchEvent(changeEvent);
-        } else {
-            product.value = "101";
-            product.dispatchEvent(changeEvent);
-        }
-
-
-        const step = await document.querySelector(".uni_reas_step");
-        step.value = "2296";
-        step.dispatchEvent(changeEvent);
-
-        waitForElement(".uni_load_obj_reason", (substep) => {
-            substep.value = "1046";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_main_reason", (substep) => {
-            substep.value = "18369";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_child_reason", (substep) => {
-            substep.value = "18372";
-        });
-
-        waitForElement(".comment_text", (substep) => {
-            substep.value = "БП Самообслуживание. ТВ, нет вещания на всех каналах";
-            substep.dispatchEvent(changeEvent);
-        });
-    }
-
-    function handleSS_ActivateKey() {
-        const product = document.querySelector(".uni_reas_prod");
-        if (product.value !== "1451") {
-            product.value = "1451";
-            product.dispatchEvent(changeEvent);
-        }
-
-        const step = document.querySelector(".uni_reas_step");
-        step.value = "2296";
-        step.dispatchEvent(changeEvent);
-
-        waitForElement(".uni_load_obj_reason", (substep) => {
-            substep.value = "1046";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_main_reason", (substep) => {
-            substep.value = "18583";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_child_reason", (substep) => {
-            substep.value = "19712";
-        });
-
-        waitForElement(".comment_text", (substep) => {
-            substep.value = "БП Самообслуживание. Активация ключа в МП";
-            substep.dispatchEvent(changeEvent);
-        });
-    }
-
-    function handleSS_PIN() {
-        const product = document.querySelector(".uni_reas_prod");
-        if (product.value !== "101") {
-            product.value = "101";
-            product.dispatchEvent(changeEvent);
-        }
-
-        const step = document.querySelector(".uni_reas_step");
-        step.value = "2296";
-        step.dispatchEvent(changeEvent);
-
-        waitForElement(".uni_load_obj_reason", (substep) => {
-            substep.value = "1046";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_main_reason", (substep) => {
-            substep.value = "18229";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_child_reason", (substep) => {
-            substep.value = "18230";
-        });
-
-        waitForElement(".comment_text", (substep) => {
-            substep.value = "БП Самообслуживание. Восстановление пин-кода РК Movix";
-            substep.dispatchEvent(changeEvent);
-        });
-    }
-
-    function handleSS_Zvonok() {
-        const product = document.querySelector(".uni_reas_prod");
-        if (product.value !== "1451") {
-            product.value = "1451";
-            product.dispatchEvent(changeEvent);
-        }
-
-        const step = document.querySelector(".uni_reas_step");
-        step.value = "2296";
-        step.dispatchEvent(changeEvent);
-
-        waitForElement(".uni_load_obj_reason", (substep) => {
-            substep.value = "1046";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_main_reason", (substep) => {
-            substep.value = "18600";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_child_reason", (substep) => {
-            substep.value = "19732";
-        });
-
-        waitForElement(".comment_text", (substep) => {
-            substep.value = "БП Самообслуживание. Не проходит звонок в МП «Умный Дом.ru»";
-            substep.dispatchEvent(changeEvent);
-        });
-    }
-
-    function handleSS_CameraVN() {
-        const product = document.querySelector(".uni_reas_prod");
-        if (product.value !== "1762") {
-            product.value = "1762";
-            product.dispatchEvent(changeEvent);
-        }
-
-        const step = document.querySelector(".uni_reas_step");
-        step.value = "2296";
-        step.dispatchEvent(changeEvent);
-
-        waitForElement(".uni_load_obj_reason", (substep) => {
-            substep.value = "1046";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_main_reason", (substep) => {
-            substep.value = "18470";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_child_reason", (substep) => {
-            substep.value = "19243";
-        });
-
-        waitForElement(".comment_text", (substep) => {
-            substep.value = "БП Самообслуживание. ВН. Камера в статусе «недоступна»";
-            substep.dispatchEvent(changeEvent);
-        });
-    }
-
-    function handleSS_Pult() {
-        const product = document.querySelector(".uni_reas_prod");
-        if (product.value !== "101") {
-            product.value = "101";
-            product.dispatchEvent(changeEvent);
-        }
-
-        const step = document.querySelector(".uni_reas_step");
-        step.value = "2296";
-        step.dispatchEvent(changeEvent);
-
-        waitForElement(".uni_load_obj_reason", (substep) => {
-            substep.value = "1046";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_main_reason", (substep) => {
-            substep.value = "18384";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_child_reason", (substep) => {
-            substep.value = "18386";
-        });
-
-        waitForElement(".comment_text", (substep) => {
-            substep.value = "БП Самообслуживание. Привязка пульта к ТВ";
-            substep.dispatchEvent(changeEvent);
-        });
-    }
-
-    function handleSS_BadPult() {
-        const product = document.querySelector(".uni_reas_prod");
-        if (product.value !== "101") {
-            product.value = "101";
-            product.dispatchEvent(changeEvent);
-        }
-
-        const step = document.querySelector(".uni_reas_step");
-        step.value = "2296";
-        step.dispatchEvent(changeEvent);
-
-        waitForElement(".uni_load_obj_reason", (substep) => {
-            substep.value = "1046";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_main_reason", (substep) => {
-            substep.value = "18384";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_child_reason", (substep) => {
-            substep.value = "18386";
-        });
-
-        waitForElement(".comment_text", (substep) => {
-            substep.value = "БП Самообслуживание. Приставка не реагирует на пульт";
-            substep.dispatchEvent(changeEvent);
-        });
-    }
-
-    function handleSS_Subscriptions() {
-        const step = document.querySelector(".uni_reas_step");
-        step.value = "2296";
-        step.dispatchEvent(changeEvent);
-
-        waitForElement(".uni_load_obj_reason", (substep) => {
-            substep.value = "1047";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_main_reason", (substep) => {
-            substep.value = "18196";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_child_reason", (substep) => {
-            substep.value = "18199";
-        });
-
-        waitForElement(".comment_text", (substep) => {
-            substep.value = "БП Самообслуживание. Консультация по управлению подпиской/пакетом каналов";
-            substep.dispatchEvent(changeEvent);
-        });
-    }
-
-    function handleSS_ChangeWiFi() {
-        const product = document.querySelector(".uni_reas_prod");
-        if (product.value !== "70") {
-            product.value = "70";
-            product.dispatchEvent(changeEvent);
-        }
-
-        const step = document.querySelector(".uni_reas_step");
-        step.value = "2296";
-        step.dispatchEvent(changeEvent);
-
-
-        waitForElement(".uni_load_obj_reason", (substep) => {
-            substep.value = "1046";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_main_reason", (substep) => {
-            substep.value = "18298";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_child_reason", (substep) => {
-            substep.value = "18299";
-        });
-
-        waitForElement(".comment_text", (substep) => {
-            substep.value = "БП Самообслуживание. Консультация по смене имени/ключа сети Wi-Fi";
             substep.dispatchEvent(changeEvent);
         });
     }
