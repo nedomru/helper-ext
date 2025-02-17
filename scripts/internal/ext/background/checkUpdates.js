@@ -51,6 +51,7 @@ async function setDefaults() {
         ARM_changeRequestFBCR_Open_KCNCK1: true,
         ARM_changeRequestFBLF: true,
         ARM_changeRequestFBLF_Open_KCNCK1: true,
+        ARM_changeRequestFBLF_Closed_ServiceEng: true,
         ARM_checkForSpecialClient: true,
         ARM_hideNonActiveApps: true,
         ARM_hideInfoTabRows: true,

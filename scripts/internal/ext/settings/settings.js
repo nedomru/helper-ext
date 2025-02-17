@@ -118,6 +118,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         "ARM_changeRequestFBLF_FastChat_Accident",
         "ARM_changeRequestFBLF_FastChat_NoDiagnostic",
         "ARM_changeRequestFBLF_FastChat_DZ",
+        "ARM_changeRequestFBLF_Closed_ServiceEng",
         "ARM_checkForSpecialClient",
         "ARM_checkPaidHelp",
         "ARM_showAgreementOnChange",

@@ -645,7 +645,8 @@ async function fastButtonsLeftFrame() {
         "ARM_changeRequestFBLF_Closed_CancelSZ",
         "ARM_changeRequestFBLF_FastChat_NoDiagnostic",
         "ARM_changeRequestFBLF_FastChat_DZ",
-        "ARM_changeRequestFBLF_Open_Abon"
+        "ARM_changeRequestFBLF_Open_Abon",
+        "ARM_changeRequestFBLF_Closed_ServiceEng"
     ];
 
     // Получение значений всех настроек
@@ -764,7 +765,7 @@ async function fastButtonsLeftFrame() {
         });
     }
 
-    if (settings[11][settingsKeys[11]]) {
+    if (settings[12][settingsKeys[12]]) {
         buttons.push({
             value: "Без диагностики",
             class: "helper helper-button",
@@ -773,7 +774,7 @@ async function fastButtonsLeftFrame() {
         });
     }
 
-    if (settings[12][settingsKeys[12]]) {
+    if (settings[13][settingsKeys[13]]) {
         buttons.push({
             value: "Отключ ДЗ",
             class: "helper helper-button",
@@ -782,12 +783,21 @@ async function fastButtonsLeftFrame() {
         });
     }
 
-    if (settings[13][settingsKeys[13]]) {
+    if (settings[14][settingsKeys[14]]) {
         buttons.push({
             value: "На Абон",
             class: "helper helper-button",
             action: handle_naAbon,
             category: "Открытое",
+        });
+    }
+
+    if (settings[15][settingsKeys[15]]) {
+        buttons.push({
+            value: "СИ",
+            class: "helper helper-button",
+            action: handleClosed_ServiceEng,
+            category: "Закрытое",
         });
     }
 
@@ -1175,6 +1185,22 @@ async function fastButtonsLeftFrame() {
 
         waitForElement(".uni_load_main_reason", (substep) => {
             substep.value = "4665";
+            substep.dispatchEvent(changeEvent);
+        });
+    }
+
+    function handleClosed_ServiceEng() {
+        const step = document.querySelector(".uni_reas_step");
+        step.value = "-1";
+        step.dispatchEvent(changeEvent);
+
+        waitForElement(".uni_load_obj_reason", (substep) => {
+            substep.value = "2348";
+            substep.dispatchEvent(changeEvent);
+        });
+
+        waitForElement(".uni_load_main_reason", (substep) => {
+            substep.value = "4537";
             substep.dispatchEvent(changeEvent);
         });
     }
