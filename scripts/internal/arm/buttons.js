@@ -335,7 +335,7 @@ async function copyTimeSlots() {
                 let timeValue = option.value.split(" ")[1];
                 if (timeValue) {
                     const [hours] = timeValue.split(":");
-                    const endHour = (parseInt(hours) + 1).toString().padStart(2, "0");
+                    const endHour = (parseInt(hours) + 2).toString().padStart(2, "0");
                     return `${hours}-${endHour}`;
                 }
                 return null;
