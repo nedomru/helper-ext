@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         "ARM_changeRequestFBLF_Closed_LowSpeed",
         "ARM_changeRequestFBLF_Closed_Disconnections",
         "ARM_changeRequestFBLF_Closed_NoTV",
-        "ARM_changeRequestFBLF_Closed_Youtube",
+        "ARM_changeRequestFBLF_Open_Youtube",
         "ARM_changeRequestFBLF_FastChat_Accident",
         "ARM_changeRequestFBLF_FastChat_NoDiagnostic",
         "ARM_changeRequestFBLF_FastChat_DZ",

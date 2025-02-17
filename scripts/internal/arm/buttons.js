@@ -641,7 +641,7 @@ async function fastButtonsLeftFrame() {
         "ARM_changeRequestFBLF_Closed_Disconnections",
         "ARM_changeRequestFBLF_Closed_NoTV",
         "ARM_changeRequestFBLF_Open_Ticket",
-        "ARM_changeRequestFBLF_Closed_Youtube",
+        "ARM_changeRequestFBLF_Open_Youtube",
         "ARM_changeRequestFBLF_Closed_CancelSZ",
         "ARM_changeRequestFBLF_FastChat_NoDiagnostic",
         "ARM_changeRequestFBLF_FastChat_DZ",
@@ -750,8 +750,8 @@ async function fastButtonsLeftFrame() {
         buttons.push({
             value: "Youtube",
             class: "helper helper-button",
-            action: handleClosed_Youtube,
-            category: "Закрытое",
+            action: handleOpen_Youtube,
+            category: "Открытое",
         });
     }
 
@@ -993,7 +993,6 @@ async function fastButtonsLeftFrame() {
 
         waitForElement(".uni_load_child_reason", (substep) => {
             substep.value = "18254";
-            substep.dispatchEvent(changeEvent);
         });
     }
 
@@ -1020,7 +1019,6 @@ async function fastButtonsLeftFrame() {
 
         waitForElement(".uni_load_child_reason", (substep) => {
             substep.value = "18303";
-            substep.dispatchEvent(changeEvent);
         });
     }
 
@@ -1069,7 +1067,6 @@ async function fastButtonsLeftFrame() {
 
         waitForElement(".uni_load_child_reason", (substep) => {
             substep.value = "18363";
-            substep.dispatchEvent(changeEvent);
         });
     }
 
@@ -1096,7 +1093,6 @@ async function fastButtonsLeftFrame() {
 
         waitForElement(".uni_load_child_reason", (substep) => {
             substep.value = "18407";
-            substep.dispatchEvent(changeEvent);
         });
     }
 
@@ -1123,7 +1119,6 @@ async function fastButtonsLeftFrame() {
 
         waitForElement(".uni_load_child_reason", (substep) => {
             substep.value = "18372";
-            substep.dispatchEvent(changeEvent);
         });
     }
 
@@ -1138,7 +1133,7 @@ async function fastButtonsLeftFrame() {
         });
     }
 
-    function handleClosed_Youtube() {
+    function handleOpen_Youtube() {
         const product = document.querySelector(".uni_reas_prod");
         if (product.value !== "70") {
             product.value = "70";
@@ -1146,22 +1141,25 @@ async function fastButtonsLeftFrame() {
         }
 
         const step = document.querySelector(".uni_reas_step");
-        step.value = "-1";
+        step.value = "2296";
         step.dispatchEvent(changeEvent);
 
         waitForElement(".uni_load_obj_reason", (substep) => {
-            substep.value = "1046";
+            substep.value = "1125";
             substep.dispatchEvent(changeEvent);
         });
 
         waitForElement(".uni_load_main_reason", (substep) => {
-            substep.value = "18360";
+            substep.value = "22214";
             substep.dispatchEvent(changeEvent);
         });
 
         waitForElement(".uni_load_child_reason", (substep) => {
-            substep.value = "22187";
-            substep.dispatchEvent(changeEvent);
+            substep.value = "22216";
+        });
+
+        waitForElement(".comment_text", (substep) => {
+            substep.value = "Сложность с доступностью YouTube. Клиент проинформирован по ограничениям";
         });
     }
 
