@@ -1222,6 +1222,12 @@ async function fastButtonsLeftFrame() {
     }
 
     function fastChat_NoDiagnostic() {
+        const product = document.querySelector(".uni_reas_prod");
+        if (product.value !== "70") {
+            product.value = "70";
+            product.dispatchEvent(changeEvent);
+        }
+        
         const step = document.querySelector(".uni_reas_step");
         step.value = "-1";
         step.dispatchEvent(changeEvent);
