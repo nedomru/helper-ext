@@ -1155,17 +1155,17 @@ async function fastButtonsLeftFrame() {
         step.dispatchEvent(changeEvent);
 
         waitForElement(".uni_load_obj_reason", (substep) => {
-            substep.value = "1125";
+            substep.value = "1046";
             substep.dispatchEvent(changeEvent);
         });
 
         waitForElement(".uni_load_main_reason", (substep) => {
-            substep.value = "22214";
+            substep.value = "18360";
             substep.dispatchEvent(changeEvent);
         });
 
         waitForElement(".uni_load_child_reason", (substep) => {
-            substep.value = "22216";
+            substep.value = "22187";
         });
 
         waitForElement(".comment_text", (substep) => {
