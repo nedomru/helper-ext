@@ -1,192 +1,215 @@
 // Function to get the corresponding tab ID for a button
 function getTabId(buttonText) {
-    const tabMap = {
-        'Главная': 'Главная', 'MnA': 'MnA', 'Роутеры': 'Роутеры', 'РМы': 'РМы', 'Инструменты': 'Инструменты'
-    };
-    return tabMap[buttonText] || buttonText;
+  const tabMap = {
+    Главная: "Главная",
+    MnA: "MnA",
+    Роутеры: "Роутеры",
+    РМы: "РМы",
+    Инструменты: "Инструменты",
+  };
+  return tabMap[buttonText] || buttonText;
 }
 
-// Function to show a tab
+// Function to show a tab on click
 async function showTab(tabId) {
-    // Hide all tab contents
-    document.querySelectorAll('.tabcontent').forEach(tab => {
-        tab.style.display = 'none';
-    });
+  // Hide all tab contents
+  document.querySelectorAll(".tabcontent").forEach((tab) => {
+    tab.style.display = "none";
+  });
 
-    // Show the selected tab content
-    const selectedTab = document.getElementById(tabId);
-    if (selectedTab) {
-        selectedTab.style.display = 'block';
-        if (tabId === "MnA") {
-            await fetchMNA()
-        } else if (tabId === "Роутеры") {
-            await fetchRouters()
-        }
-        browser.storage.sync.set({lastTab: tabId});
-    } else {
-        console.warn(`Tab content for "${tabId}" not found.`);
+  // Show the selected tab content
+  const selectedTab = document.getElementById(tabId);
+  if (selectedTab) {
+    selectedTab.style.display = "block";
+    if (tabId === "MnA") {
+      await fetchMNA();
+    } else if (tabId === "Роутеры") {
+      await fetchRouters();
     }
+    browser.storage.sync.set({ lastTab: tabId });
+  } else {
+    console.warn(`Tab content for "${tabId}" not found.`);
+  }
 
-    document.querySelectorAll('.helper-tab-btn').forEach(button => {
-        button.classList.remove('active');
-        if (getTabId(button.textContent) === tabId) {
-            button.classList.add('active');
-        }
-    });
+  document.querySelectorAll(".helper-tab-btn").forEach((button) => {
+    button.classList.remove("active");
+    if (getTabId(button.textContent) === tabId) {
+      button.classList.add("active");
+    }
+  });
 }
 
 // Function to add click event listeners to buttons
 function addButtonListeners() {
-    document.querySelectorAll('.helper-tab-btn').forEach(button => {
-        button.addEventListener('click', (event) => {
-            const tabId = getTabId(button.textContent);
-            showTab(tabId);
-            event.preventDefault();
-        });
+  document.querySelectorAll(".helper-tab-btn").forEach((button) => {
+    button.addEventListener("click", (event) => {
+      const tabId = getTabId(button.textContent);
+      showTab(tabId);
+      event.preventDefault();
     });
+  });
 }
 
 // Function to initialize tabs
 async function initTabs() {
-    await browser.storage.sync.get('lastTab').then(result => {
-        const lastTab = result.lastTab || 'Главная';
-        showTab(lastTab);
-    }).catch(error => {
-        console.error('Error retrieving last tab:', error);
-        showTab('Главная');
+  await browser.storage.sync
+    .get("lastTab")
+    .then((result) => {
+      const lastTab = result.lastTab || "Главная";
+      showTab(lastTab);
+    })
+    .catch((error) => {
+      console.error("Error retrieving last tab:", error);
+      showTab("Главная");
     });
-    await fetchMNA(true)
-    await fetchRouters(true)
+  await fetchMNA(true);
+  await fetchRouters(true);
 }
 
+// Function to allow search by tables content
 function searchTable(inputId, tableId) {
-    const input = document.getElementById(inputId);
-    const filter = input.value.toUpperCase();
-    const table = document.getElementById(tableId);
-    const rows = table.getElementsByTagName("tr");
+  const input = document.getElementById(inputId);
+  const filter = input.value.toUpperCase();
+  const table = document.getElementById(tableId);
+  const rows = table.getElementsByTagName("tr");
 
-    for (let i = 1; i < rows.length; i++) {
-        const row = rows[i];
-        const cells = row.getElementsByTagName("td");
-        let rowMatchesSearch = false;
+  for (let i = 1; i < rows.length; i++) {
+    const row = rows[i];
+    const cells = row.getElementsByTagName("td");
+    let rowMatchesSearch = false;
 
-        for (let j = 0; j < cells.length; j++) {
-            const cell = cells[j];
-            if (cell) {
-                const txtValue = cell.textContent || cell.innerText;
-                if (txtValue.toUpperCase().includes(filter)) {
-                    rowMatchesSearch = true;
-                }
-            }
+    for (let j = 0; j < cells.length; j++) {
+      const cell = cells[j];
+      if (cell) {
+        const txtValue = cell.textContent || cell.innerText;
+        if (txtValue.toUpperCase().includes(filter)) {
+          rowMatchesSearch = true;
         }
-
-        row.style.display = rowMatchesSearch ? "" : "none";
+      }
     }
+
+    row.style.display = rowMatchesSearch ? "" : "none";
+  }
 }
 
+// Function to create link or text for certain API responses
 function createLinkOrText(value, text, isEmulator = false) {
-    if (value === "Нет") {
-        return "Нет";
-    }
-    if (isEmulator && Array.isArray(value)) {
-        return value
-            .map((link) => `<a href="${link}" target="_blank">${text}</a>`)
-            .join(", ");
-    }
-    return `<a href="${value}" target="_blank">${text}</a>`;
+  if (value === "Нет") {
+    return "Нет";
+  }
+  if (isEmulator && Array.isArray(value)) {
+    return value
+      .map((link) => `<a href="${link}" target="_blank">${text}</a>`)
+      .join(", ");
+  }
+  return `<a href="${value}" target="_blank">${text}</a>`;
 }
 
+// Function to properly fetch data from API
 async function fetchFromAPI(api_url) {
-    try {
-        const response = await fetch(api_url, {
-            method: 'GET', headers: {
-                'Accept': 'application/json', 'Content-Type': 'application/json'
-            }
-        });
+  try {
+    const response = await fetch(api_url, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error(`Error fetching from ${api_url}:`, error);
-        throw error;
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(`Error fetching from ${api_url}:`, error);
+    throw error;
+  }
 }
 
+// Function to get value from local browser storage
 async function getFromStorage(key) {
-    return new Promise((resolve) => {
-        browser.storage.local.get(key, (result) => {
-            resolve(result[key]);
-        });
+  return new Promise((resolve) => {
+    browser.storage.local.get(key, (result) => {
+      resolve(result[key]);
     });
+  });
 }
 
+// Function to save value to local browser storage
 async function saveToStorage(key, data) {
-    return new Promise((resolve) => {
-        browser.storage.local.set({[key]: data}, resolve);
-    });
+  return new Promise((resolve) => {
+    browser.storage.local.set({ [key]: data }, resolve);
+  });
 }
 
+// Function to fetch MNA data from API
 async function fetchMNA(cachedOnly = false) {
-    if (document.getElementById("providersTableContent")) return;
+  if (document.getElementById("providersTableContent")) return;
 
-    const providersTableElement = document.getElementById("providersTable");
-    providersTableElement.style.display = 'none';
+  const providersTableElement = document.getElementById("providersTable");
+  providersTableElement.style.display = "none";
 
-    try {
-        // Try to get data from cache first
-        let data = await getFromStorage("mnaData");
-        if (cachedOnly && data) {
-            displayMNAData(data);
-            return
-        }
-        let isDataUpdated = false;
-
-        if (data) {
-            displayMNAData(data);
-            console.info(`[Хелпер] - [Общее] - [Провайдеры] Список провайдеров загружен из кеша`)
-        }
-
-        // Fetch fresh data from API in the background
-        const providersApiData = await fetchFromAPI("https://helper.chrsnv.ru/api/mna.json");
-
-        // Compare API data with cached data
-        if (JSON.stringify(providersApiData) !== JSON.stringify(data)) {
-            // If data is different, update cache and display
-            await saveToStorage("mnaData", providersApiData);
-            console.info(`[Хелпер] - [Общее] - [Провайдеры] Загружены новые провайдеры из API`)
-            data = providersApiData;
-            isDataUpdated = true;
-        }
-
-        // If data wasn't in cache initially or has been updated, display it
-        if (!data || isDataUpdated) {
-            displayMNAData(data);
-        }
-
-    } catch (error) {
-        console.error("Error fetching MNA data:", error);
+  try {
+    // Try to get data from cache first
+    let data = await getFromStorage("mnaData");
+    if (cachedOnly && data) {
+      displayMNAData(data);
+      return;
     }
+    let isDataUpdated = false;
+
+    if (data) {
+      displayMNAData(data);
+      console.info(
+        `[Хелпер] - [Общее] - [Провайдеры] Список провайдеров загружен из кеша`,
+      );
+    }
+
+    // Fetch fresh data from API in the background
+    const providersApiData = await fetchFromAPI(
+      "https://helper.chrsnv.ru/api/mna.json",
+    );
+
+    // Compare API data with cached data
+    if (JSON.stringify(providersApiData) !== JSON.stringify(data)) {
+      // If data is different, update cache and display
+      await saveToStorage("mnaData", providersApiData);
+      console.info(
+        `[Хелпер] - [Общее] - [Провайдеры] Загружены новые провайдеры из API`,
+      );
+      data = providersApiData;
+      isDataUpdated = true;
+    }
+
+    // If data wasn't in cache initially or has been updated, display it
+    if (!data || isDataUpdated) {
+      displayMNAData(data);
+    }
+  } catch (error) {
+    console.error("Error fetching MNA data:", error);
+  }
 }
 
+// Function to show MNA data in table on browser popup window
 function displayMNAData(data) {
-    const providersTableElement = document.getElementById("providersTable");
+  const providersTableElement = document.getElementById("providersTable");
 
-    if (data || data.mna && Array.isArray(data.mna)) {
-        const rows = data.mna
-            .map((provider) => `
+  if (data || (data.mna && Array.isArray(data.mna))) {
+    const rows = data.mna
+      .map(
+        (provider) => `
       <tr>
         <td class="align-middle"><a href="${provider.link}" target="_blank">${provider.name}</a></td>
         <td class="align-middle">${provider.authorization}</td>
         <td class="align-middle">${provider.connection}</td>
       </tr>
-    `)
-            .join("");
+    `,
+      )
+      .join("");
 
-        const tableHTML = `
+    const tableHTML = `
     <table class="table table-hover table-bordered table-responsive table-sm" id="providersTableContent">
       <thead>
         <tr>
@@ -201,70 +224,77 @@ function displayMNAData(data) {
     </table>
   `;
 
-        providersTableElement.innerHTML = DOMPurify.sanitize(tableHTML);
+    providersTableElement.innerHTML = DOMPurify.sanitize(tableHTML);
 
-        providersTableElement.style.display = 'block';
-        providersTableElement.style.opacity = '0';
-        providersTableElement.style.transition = 'opacity 0.5s ease-in-out';
+    providersTableElement.style.display = "block";
+    providersTableElement.style.opacity = "0";
+    providersTableElement.style.transition = "opacity 0.5s ease-in-out";
 
-        // Trigger reflow to ensure the transition works
-        providersTableElement.offsetHeight;
+    // Trigger reflow to ensure the transition works
+    providersTableElement.offsetHeight;
 
-        providersTableElement.style.opacity = '1';
-    } else {
-        console.error('Key "mna" not found or is not an array:', data);
-    }
+    providersTableElement.style.opacity = "1";
+  } else {
+    console.error('Key "mna" not found or is not an array:', data);
+  }
 }
 
+// Function to fetch Routers data from API
 async function fetchRouters(cachedOnly = false) {
-    if (document.getElementById("routersTableContent")) return;
+  if (document.getElementById("routersTableContent")) return;
 
-    const routersTableElement = document.getElementById("routersTable");
-    routersTableElement.style.display = 'none';
+  const routersTableElement = document.getElementById("routersTable");
+  routersTableElement.style.display = "none";
 
-    try {
-        let data = await getFromStorage("routersData");
-        if (cachedOnly && data) {
-            displayRoutersData(data);
-            return
-        }
-        let isDataUpdated = false;
-
-        if (data) {
-            // If data exists in cache, display it immediately
-            displayRoutersData(data);
-            console.info(`[Хелпер] - [Общее] - [Роутеры] Список роутеров загружен из кеша`)
-        }
-
-        // Fetch fresh data from API in the background
-        const routersApiData = await fetchFromAPI("https://helper.chrsnv.ru/api/routers.json");
-
-        // Compare API data with cached data
-        if (JSON.stringify(routersApiData) !== JSON.stringify(data)) {
-            // If data is different, update cache and display
-            await saveToStorage("routersData", routersApiData);
-            console.info(`[Хелпер] - [Общее] - [Роутеры] Загружены новые роутеры из API`)
-            data = routersApiData;
-            isDataUpdated = true;
-        }
-
-        // If data wasn't in cache initially or has been updated, display it
-        if (!data || isDataUpdated) {
-            displayRoutersData(data);
-        }
-
-    } catch (error) {
-        console.error("Error fetching routers data:", error);
+  try {
+    let data = await getFromStorage("routersData");
+    if (cachedOnly && data) {
+      displayRoutersData(data);
+      return;
     }
+    let isDataUpdated = false;
+
+    if (data) {
+      // If data exists in cache, display it immediately
+      displayRoutersData(data);
+      console.info(
+        `[Хелпер] - [Общее] - [Роутеры] Список роутеров загружен из кеша`,
+      );
+    }
+
+    // Fetch fresh data from API in the background
+    const routersApiData = await fetchFromAPI(
+      "https://helper.chrsnv.ru/api/routers.json",
+    );
+
+    // Compare API data with cached data
+    if (JSON.stringify(routersApiData) !== JSON.stringify(data)) {
+      // If data is different, update cache and display
+      await saveToStorage("routersData", routersApiData);
+      console.info(
+        `[Хелпер] - [Общее] - [Роутеры] Загружены новые роутеры из API`,
+      );
+      data = routersApiData;
+      isDataUpdated = true;
+    }
+
+    // If data wasn't in cache initially or has been updated, display it
+    if (!data || isDataUpdated) {
+      displayRoutersData(data);
+    }
+  } catch (error) {
+    console.error("Error fetching routers data:", error);
+  }
 }
 
-// Функция для отображения данных роутеров
+// Function to show Routers data in table on browser popup window
 function displayRoutersData(data) {
-    const routersTableElement = document.getElementById("routersTable");
+  const routersTableElement = document.getElementById("routersTable");
 
-    if (data || data.routers && Array.isArray(data.routers)) {
-        const rows = data.routers
-            .map((router) => `
+  if (data || (data.routers && Array.isArray(data.routers))) {
+    const rows = data.routers
+      .map(
+        (router) => `
     <tr>
       <td class="align-middle">${router.Name}</td>
       <td class="align-middle">${createLinkOrText(router.PPPoE, "PPPoE")}</td>
@@ -275,10 +305,11 @@ function displayRoutersData(data) {
       <td class="align-middle">${createLinkOrText(router.BZ, "БЗ")}</td>
       <td class="align-middle">${createLinkOrText(router.Emulator, "Эмулятор", true)}</td>
     </tr>
-  `)
-            .join("");
+  `,
+      )
+      .join("");
 
-        const tableHTML = `
+    const tableHTML = `
     <table class="table table-hover table-bordered table-responsive table-sm" id="routersTableContent">
         <thead>
             <tr>
@@ -298,22 +329,22 @@ function displayRoutersData(data) {
     </table>
   `;
 
-        routersTableElement.innerHTML = DOMPurify.sanitize(tableHTML);
-        routersTableElement.style.display = 'block';
-        routersTableElement.style.opacity = '0';
-        routersTableElement.style.transition = 'opacity 0.5s ease-in-out';
+    routersTableElement.innerHTML = DOMPurify.sanitize(tableHTML);
+    routersTableElement.style.display = "block";
+    routersTableElement.style.opacity = "0";
+    routersTableElement.style.transition = "opacity 0.5s ease-in-out";
 
-        // Trigger reflow to ensure the transition works
-        routersTableElement.offsetHeight;
+    // Trigger reflow to ensure the transition works
+    routersTableElement.offsetHeight;
 
-        routersTableElement.style.opacity = '1';
-    } else {
-        console.error('Key "routers" not found or is not an array:', data);
-    }
+    routersTableElement.style.opacity = "1";
+  } else {
+    console.error('Key "routers" not found or is not an array:', data);
+  }
 }
 
 // Call initTabs and addButtonListeners when the page loads
-document.addEventListener('DOMContentLoaded', () => {
-    initTabs();
-    addButtonListeners();
+document.addEventListener("DOMContentLoaded", () => {
+  initTabs();
+  addButtonListeners();
 });

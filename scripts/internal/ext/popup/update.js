@@ -2,8 +2,8 @@ document.getElementById("close-button").onclick = function() {
   window.close();
 };
 
-const currentVersion = browser.runtime.getManifest().version;
-document.getElementById("current-version").textContent = currentVersion;
+const currentVersion = browser.runtime.getManifest().version; 
+document.getElementById("current-version").textContent = currentVersion; /* Get the current version of the extension */
 
 async function fetchReleaseInfo() {
   try {
