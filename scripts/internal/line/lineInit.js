@@ -1,6 +1,6 @@
 // Константы URL-адресов
 const LINE_URL = {
-  BASE: 'genesys-ntp'
+  BASE: "genesys-ntp",
 };
 
 // Конфигурация функций линии
@@ -8,25 +8,25 @@ const LINE_FEATURES = {
   core: {
     LINE_showFB: {
       handler: specialistButtons,
-      description: 'Быстрые кнопки'
+      description: "Быстрые кнопки",
     },
     LINE_highlightOperators: {
       handler: highlightOperators,
-      description: 'Подсветка операторов'
+      description: "Подсветка операторов",
     },
     LINE_countAppointments: {
       handler: countAppointments,
-      description: 'Подсчет назначений'
+      description: "Подсчет назначений",
     },
     LINE_highlightEndingAppointments: {
       handler: highlightEndingAppointments,
-      description: 'Подсветка завершающихся назначений'
+      description: "Подсветка завершающихся назначений",
     },
     LINE_dutyButtons: {
       handler: dutyButtons,
-      description: 'Кнопки дежурных'
+      description: "Кнопки дежурных",
     },
-  }
+  },
 };
 
 // Инициализация основных функций линии
@@ -37,7 +37,9 @@ async function initializeLineFeatures() {
 
   try {
     // Получаем все настройки одним запросом
-    const settings = await browser.storage.sync.get(Object.keys(LINE_FEATURES.core));
+    const settings = await browser.storage.sync.get(
+      Object.keys(LINE_FEATURES.core),
+    );
 
     // Инициализируем активированные функции
     for (const [feature, config] of Object.entries(LINE_FEATURES.core)) {
@@ -46,12 +48,16 @@ async function initializeLineFeatures() {
           await config.handler();
           Logger.info(`[Линия] - Активирован модуль: ${config.description}`);
         } catch (featureError) {
-          Logger.error(`[Линия] - Сбой модуля ${config.description}: ${featureError.message}`);
+          Logger.error(
+            `[Линия] - Сбой модуля ${config.description}: ${featureError.message}`,
+          );
         }
       }
     }
   } catch (error) {
-    Logger.error(`[Линия] - Ошибка инициализации основных функций: ${error.message}`);
+    Logger.error(
+      `[Линия] - Ошибка инициализации основных функций: ${error.message}`,
+    );
   }
 }
 

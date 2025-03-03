@@ -1,15 +1,16 @@
-document.getElementById("close-button").onclick = function() {
+document.getElementById("close-button").onclick = function () {
   window.close();
 };
 
-const currentVersion = browser.runtime.getManifest().version; 
-document.getElementById("current-version").textContent = currentVersion; /* Get the current version of the extension */
+const currentVersion = browser.runtime.getManifest().version;
+document.getElementById("current-version").textContent =
+  currentVersion; /* Get the current version of the extension */
 
 async function fetchReleaseInfo() {
   try {
     // Fetch latest release data
     const response = await fetch(
-        "https://api.github.com/repos/nedomru/helper-site/releases/latest"
+      "https://api.github.com/repos/nedomru/helper-site/releases/latest",
     );
 
     if (!response.ok) {
@@ -22,10 +23,25 @@ async function fetchReleaseInfo() {
     document.getElementById("latest-version").textContent = data.tag_name;
 
     // Parse and sanitize changelog
-    const parsedMarkdown = marked.parse(data.body || '');
+    const parsedMarkdown = marked.parse(data.body || "");
     const sanitizedHtml = DOMPurify.sanitize(parsedMarkdown, {
-      ALLOWED_TAGS: ['p', 'br', 'li', 'ul', 'ol', 'strong', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'a'],
-      ALLOWED_ATTR: ['href']
+      ALLOWED_TAGS: [
+        "p",
+        "br",
+        "li",
+        "ul",
+        "ol",
+        "strong",
+        "em",
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6",
+        "a",
+      ],
+      ALLOWED_ATTR: ["href"],
     });
 
     // Update changelog content
@@ -33,14 +49,17 @@ async function fetchReleaseInfo() {
     changeLogContainer.innerHTML = sanitizedHtml;
 
     // Add target="_blank" to all links
-    changeLogContainer.querySelectorAll('a').forEach(link => {
-      link.setAttribute('target', '_blank');
-      link.setAttribute('rel', 'noopener noreferrer');
+    changeLogContainer.querySelectorAll("a").forEach((link) => {
+      link.setAttribute("target", "_blank");
+      link.setAttribute("rel", "noopener noreferrer");
     });
 
     console.info(`[Хелпер] - Получено описание релиза`);
   } catch (error) {
-    console.error(`[Хелпер] - Ошибка при получении информации о релизе:`, error);
+    console.error(
+      `[Хелпер] - Ошибка при получении информации о релизе:`,
+      error,
+    );
 
     const changeLogContainer = document.getElementById("change-log");
     changeLogContainer.innerHTML = DOMPurify.sanitize(`
@@ -50,6 +69,6 @@ async function fetchReleaseInfo() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   fetchReleaseInfo();
 });

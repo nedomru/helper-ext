@@ -547,19 +547,19 @@ async function handlePremiumSubmit() {
   switch (inputField) {
     case "nck1":
       url =
-        "https://okc.ertelecom.ru/stats/premium/ntp-nck1/get-premium-spec-month";
+        "https://okc2.ertelecom.ru/yii/premium/ntp-nck1/get-premium-spec-month";
       break;
     case "nck2":
       url =
-        "https://okc.ertelecom.ru/stats/premium/ntp-nck2/get-premium-spec-month";
+        "https://okc2.ertelecom.ru/yii/premium/ntp-nck2/get-premium-spec-month";
       break;
     case "rg_nck1":
       url =
-        "https://okc.ertelecom.ru/stats/premium/ntp-nck1/get-premium-head-month";
+        "https://okc2.ertelecom.ru/yii/premium/ntp-nck1/get-premium-head-month";
       break;
     case "rg_nck2":
       url =
-        "https://okc.ertelecom.ru/stats/premium/ntp-nck2/get-premium-head-month";
+        "https://okc2.ertelecom.ru/yii/premium/ntp-nck2/get-premium-head-month";
       break;
     default:
       console.error(`[Хелпер] - [Проверка премии] Ошибка получения должности`);
@@ -635,7 +635,7 @@ async function handlePremiumSubmit() {
                             Всё сдано = 5%<br>
                             < Всё сдано = 0%<br><br>
 
-                            Кликни для открытия тестов"><a href="https://okc.ertelecom.ru/stats/testing/lk/profile" target="_blank" style="text-decoration:none; color:inherit;">${result.PERC_TESTING ? result.PERC_TESTING : "-"}%</a></td>
+                            Кликни для открытия тестов"><a href="https://okc2.ertelecom.ru/yii/testing/lk/profile" target="_blank" style="text-decoration:none; color:inherit;">${result.PERC_TESTING ? result.PERC_TESTING : "-"}%</a></td>
                     </tr>
                     <tr>
                         <th scope="row">Благодарности</th>
@@ -833,7 +833,7 @@ async function handlePremiumSubmit() {
   } catch (error) {
     loadingSpinner.style.display = "none";
     document.getElementById("result-container").innerText =
-      "Не удалось получить премию\nУбедись, что ты авторизован(а) на okc.ertelecom.ru";
+      "Не удалось получить премию\nУбедись, что ты авторизован(а) на okc2.ertelecom.ru/yii";
     console.error("Ошибка:", error);
   }
 }

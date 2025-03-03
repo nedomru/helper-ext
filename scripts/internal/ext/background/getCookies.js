@@ -1,4 +1,4 @@
-if (document.URL.indexOf("okc.ertelecom.ru") !== -1) {
+if (document.URL.indexOf("okc2.ertelecom.ru") !== -1) {
   function getCookie(cname) {
     /**
      * Get cookie from browser storage
@@ -39,7 +39,7 @@ async function getOKCSessionId() {
 
     // If not in storage, try to get from cookies
     const cookies = await browser.cookies.get({
-      url: "https://okc.ertelecom.ru",
+      url: "https://okc2.ertelecom.ru",
       name: "PHPSESSID",
     });
 
