@@ -1,5 +1,5 @@
-// Копирование MAC-адреса из сессии и сессий за период
 async function copyMAC() {
+  // Cache style creation check
   if (!document.getElementById("helper-button-styles")) {
     const style = document.createElement("style");
     style.id = "helper-button-styles";
@@ -66,143 +66,128 @@ async function copyMAC() {
     document.head.appendChild(style);
   }
 
-  const createMACButtons = (macAddressElement) => {
-    if (
-      macAddressElement.nextElementSibling?.classList.contains(
-        "helper-button-group",
-      )
-    ) {
-      return;
+  // Cache for MAC lookup results
+  const macLookupCache = new Map();
+
+  // Debounce function
+  const debounce = (fn, delay) => {
+    let timeoutId;
+    return (...args) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => fn(...args), delay);
+    };
+  };
+
+  async function lookupMAC(macAddress) {
+    if (macLookupCache.has(macAddress)) {
+      return macLookupCache.get(macAddress);
     }
 
-    const macAddress = macAddressElement.innerText;
+    try {
+      const response = await fetch(`https://api.maclookup.app/v2/macs/${macAddress}`);
+      if (!response.ok) throw new Error(response.status);
+      const result = await response.json();
+      macLookupCache.set(macAddress, result);
+      return result;
+    } catch (error) {
+      console.error("MAC lookup error:", error);
+      throw error;
+    }
+  }
 
+  function createButtonGroup(macAddress) {
+    const fragment = document.createDocumentFragment();
     const buttonGroup = document.createElement("div");
-    buttonGroup.classList.add("helper-button-group");
-    buttonGroup.style.position = "relative";
+    buttonGroup.className = "helper-button-group";
 
-    // Создание кнопки копирования
-    const copyButton = document.createElement("button");
-    copyButton.classList.add("helper-button", "helper-button-left");
-    copyButton.innerText = "📋";
-    copyButton.title = "Копировать MAC";
-    copyButton.onclick = async (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      try {
-        await copyText(macAddress);
-        console.info(`[Хелпер] - [Копирование] - MAC адрес успешно скопирован`);
-        $.notify("MAC-адрес скопирован", "success");
-      } catch (error) {
-        console.error("Copy error:", error);
-        $.notify("Ошибка при копировании MAC-адреса", "error");
-      }
-    };
-
-    // Создание кнопки копирования
-    const searchButton = document.createElement("button");
-    searchButton.classList.add("helper-button", "helper-button-right");
-    searchButton.innerText = "🔎";
-    searchButton.title = "Проверить MAC";
-    searchButton.onclick = async (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      try {
-        const response = await fetch(
-          `https://api.maclookup.app/v2/macs/${macAddress}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          },
-        );
-
-        if (response.status === 429) {
-          $.notify("Превышен лимит запросов (2 в сек)", "error");
-          return;
+    const buttons = [
+      {
+        class: "helper-button-left", text: "📋", title: "Копировать MAC",
+        onClick: async (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          try {
+            await navigator.clipboard.writeText(macAddress);
+            $.notify("MAC-адрес скопирован", "success");
+          } catch (error) {
+            $.notify("Ошибка при копировании MAC-адреса", "error");
+          }
         }
-
-        if (!response.ok) {
-          $.notify("Не удалось найти", "error");
-          return;
-        }
-
-        const result = await response.json();
-
-        if (!result.found) {
-          $.notify("Не удалось найти MAC в базе", "error");
-          return;
-        }
-
-        if (result.company) {
-          $.notify(result.company, "success");
-        }
-      } catch (error) {
-        console.error("MAC lookup error:", error);
-        $.notify("Ошибка при поиске информации о MAC", "error");
-      }
-    };
-
-    buttonGroup.appendChild(copyButton);
-    buttonGroup.appendChild(searchButton);
-
-    macAddressElement.parentElement.appendChild(buttonGroup);
-  };
-
-  // Добавляем кнопку ко всем мак-адресам на странице
-  const addCopyButtons = () => {
-    const macAddressElements = document.querySelectorAll(
-      ".mac, .js-get-vendor-by-mac",
-    );
-    macAddressElements.forEach(createMACButtons);
-  };
-
-  const setupObserver = () => {
-    const targetNode = document.getElementById("js-res-app");
-    if (!targetNode) return;
-
-    const config = {
-      childList: true,
-      subtree: true,
-    };
-
-    const callback = (mutationsList) => {
-      for (const mutation of mutationsList) {
-        if (mutation.type === "childList") {
-          const macElements = mutation.target.querySelectorAll(
-            ".mac, .js-get-vendor-by-mac",
-          );
-          macElements.forEach(createMACButtons);
+      },
+      {
+        class: "helper-button-right", text: "🔎", title: "Проверить MAC",
+        onClick: async (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          try {
+            const result = await lookupMAC(macAddress);
+            if (result.company) {
+              $.notify(result.company, "success");
+            } else {
+              $.notify("Не удалось найти MAC в базе", "error");
+            }
+          } catch (error) {
+            if (error.message === "429") {
+              $.notify("Превышен лимит запросов (2 в сек)", "error");
+            } else {
+              $.notify("Ошибка при поиске информации о MAC", "error");
+            }
+          }
         }
       }
-    };
+    ];
 
-    const observer = new MutationObserver(callback);
-    observer.observe(targetNode, config);
+    buttons.forEach(({ class: className, text, title, onClick }) => {
+      const button = document.createElement("button");
+      button.className = `helper-button ${className}`;
+      button.textContent = text;
+      button.title = title;
+      button.addEventListener("click", onClick);
+      buttonGroup.appendChild(button);
+    });
 
-    window._macObserver = observer;
-  };
+    fragment.appendChild(buttonGroup);
+    return fragment;
+  }
+
+  function processMACs(container) {
+    const fragment = document.createDocumentFragment();
+    const macElements = container.querySelectorAll(".mac, .js-get-vendor-by-mac");
+
+    macElements.forEach(elem => {
+      if (!elem.nextElementSibling?.classList.contains("helper-button-group")) {
+        const buttonGroup = createButtonGroup(elem.innerText);
+        elem.parentElement.appendChild(buttonGroup);
+      }
+    });
+  }
+
+  const debouncedProcess = debounce((mutations) => {
+    mutations.forEach(mutation => {
+      if (mutation.type === "childList") {
+        processMACs(mutation.target);
+      }
+    });
+  }, 100);
 
   if (window._macObserver) {
     window._macObserver.disconnect();
     window._macObserver = null;
   }
 
-  // Проверка паттерна URL-адреса
-  if (
-    document.URL.includes(
-      "db.ertelecom.ru/static_pages/private/wcc/client_session/?user_id",
-    )
-  ) {
-    setupObserver();
+  const targetNode = document.getElementById("js-res-app");
+  if (targetNode && document.URL.includes("db.ertelecom.ru/static_pages/private/wcc/client_session/?user_id")) {
+    window._macObserver = new MutationObserver(debouncedProcess);
+    window._macObserver.observe(targetNode, { childList: true, subtree: true });
   }
 
-  addCopyButtons();
+  // Initial processing
+  processMACs(document);
 }
 
-// Копирование IP-адреса из сессии
+
 async function copyIP() {
+
   /*document.querySelectorAll('a[title="Проверка ping"]').forEach(element => {
         element.remove();
     })*/
