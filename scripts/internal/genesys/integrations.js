@@ -250,24 +250,7 @@ async function handleSocketMessages(data) {
       className: 'info',
       autoHideDelay: 15000
     });
-
-    // Add custom CSS for notifications to page head
-    $("<style>")
-      .prop("type", "text/css")
-      .html(`
-        .notifyjs-bootstrap-base {
-          max-width: 400px !important;
-          white-space: normal !important;
-          word-wrap: break-word !important;
-        }
-        .notifyjs-bootstrap-base .notify-title {
-          font-weight: bold;
-          margin-bottom: 5px;
-          display: block;
-        }
-      `)
-      .appendTo("head");
-
+    
     $.notify({
       title: data.authorName,
       message: cleanMessage

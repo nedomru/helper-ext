@@ -79,6 +79,21 @@ async function initializeLineStatus() {
       await socketConnect(okc_phpSessionId);
       Logger.info("Статус линии - Активирован модуль статуса линии");
     }
+    $("<style>")
+      .prop("type", "text/css")
+      .html(`
+        .notifyjs-bootstrap-base {
+          max-width: 400px !important;
+          white-space: normal !important;
+          word-wrap: break-word !important;
+        }
+        .notifyjs-bootstrap-base .notify-title {
+          font-weight: bold;
+          margin-bottom: 5px;
+          display: block;
+        }
+      `)
+      .appendTo("head");
   } catch (error) {
     Logger.error(`Ошибка инициализации статуса линии: ${error.message}`);
   }
