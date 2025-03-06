@@ -141,6 +141,27 @@ class HighlightManager {
     });
   }
 
+  processWarrantyTable() {
+    const warrantyContainer = document.getElementById("lazy_content_801");
+    if (!warrantyContainer?.textContent) return;
+
+    warrantyContainer.querySelectorAll("table tr").forEach(row => {
+      if (row.hasAttribute("data-warranty-highlighted")) return;
+
+      const cells = row.querySelectorAll("td");
+      if (cells.length > 0) {
+        cells.forEach(cell => {
+          const text = cell.textContent.trim();
+          const newHTML = this.highlightWarrantyDate(text);
+          if (newHTML !== text) {
+            cell.innerHTML = newHTML;
+          }
+        });
+        row.setAttribute("data-warranty-highlighted", "true");
+      }
+    });
+  }
+
   highlightRequests() {
     const block = document.querySelector(".col-sm-9");
     if (block && this.colors["Контакт сорвался"]) {
@@ -184,23 +205,38 @@ async function initHighlighting() {
       try {
         highlighter.processTable();
         highlighter.highlightServiceStatus();
+        highlighter.processWarrantyTable();
       } finally {
         isProcessing = false;
       }
     }, 150); // Increased throttle time
   };
 
-  const observer = new MutationObserver(observerCallback);
+  // Create separate observers for different containers
+  const mainObserver = new MutationObserver(observerCallback);
+  const warrantyObserver = new MutationObserver(observerCallback);
 
-  observer.observe(document.body, { 
+  // Observe main content
+  mainObserver.observe(document.body, { 
     childList: true, 
     subtree: true, 
     characterData: true 
   });
+
+  // Observe warranty container specifically
+  const warrantyContainer = document.getElementById("lazy_content_801");
+  if (warrantyContainer) {
+    warrantyObserver.observe(warrantyContainer, {
+      childList: true,
+      subtree: true,
+      characterData: true
+    });
+  }
   
   // Initial processing
   highlighter.processTable();
   highlighter.highlightServiceStatus();
+  highlighter.processWarrantyTable();
 
   // Page-specific highlights
   if (document.URL.includes("wcc_request_appl_support.change_request_appl")) {
