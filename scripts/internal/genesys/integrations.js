@@ -40,7 +40,9 @@ async function attemptReconnect() {
     }
     reconnectAttempts++;
   } else {
-    $.notify("Не удалось переподключиться, достигнут максимум попыток", "error");
+    $.notify("Не удалось переподключиться, достигнут максимум попыток", "error", {
+      globalPosition: "bottom right"
+    });
     console.error(`[Хелпер] - [Генезис] - [Линия] Достигнуто максимальное количество попыток подключения к сокету`);
   }
 }
@@ -76,7 +78,9 @@ async function socketConnect(sessionID) {
     }
     if (data === '42/ts-line-genesys-okcdb-ws,["connected"]') {
       console.info(`[Хелпер] - [Генезис] - [Линия] Получен PHPSESSID: ${sessionID}`);
-      $.notify("Установлено соединение с линией", "success");
+      $.notify("Установлено соединение с линией", "success", {
+        globalPosition: "bottom right"
+      });
       socket.send(`42/ts-line-genesys-okcdb-ws,["id","${sessionID}"]`);
       return;
     }
@@ -88,7 +92,9 @@ async function socketConnect(sessionID) {
       socket.close();
       const lineStats = document.querySelector("#line-status-nck1") || document.querySelector("#line-status-nck2");
       if (lineStats) lineStats.innerText = "Нет авторизации";
-      $.notify("Статус линии не будет загружен. Авторизуйся на странице линии и обнови страницу Генезиса", "error");
+      $.notify("Статус линии не будет загружен. Авторизуйся на странице линии и обнови страницу Генезиса", "error", {
+        globalPosition: "bottom right"
+      });
       return;
     }
 
@@ -119,13 +125,17 @@ async function socketConnect(sessionID) {
       }
     });
 
-    $.notify(`Переподключение к линии...`, "warning");
+    $.notify(`Переподключение к линии...`, "warning", {
+      position: "bottom right"
+    });
     attemptReconnect();
   };
 
   socket.onerror = error => {
     console.error(`[Хелпер] - [Генезис] - [Линия] Ошибка WebSocket:`, error);
-    $.notify("Ошибка WebSocket<br/>Причина: " + error, "error");
+    $.notify("Ошибка WebSocket<br/>Причина: " + error, "error", {
+      globalPosition: "bottom right"
+    });
     socket.close();
   };
 }
@@ -203,11 +213,21 @@ async function addLineStatusDiv(id) {
 
 function stripHtml(html) {
   /**
-   * Strip HTML for better formatting in notifications
+   * Convert HTML to formatted text while preserving basic formatting
    */
-  const tmp = document.createElement('div');
-  tmp.innerHTML = html;
-  return tmp.textContent || tmp.innerText || '';
+  // Convert <br> and <p> to newlines
+  let formattedHtml = html
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/p>/gi, '\n')
+    .replace(/<p>/gi, '');
+
+  // Remove extra whitespace and &nbsp;
+  formattedHtml = formattedHtml
+    .replace(/&nbsp;/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  return formattedHtml;
 }
 
 
@@ -216,6 +236,7 @@ async function handleSocketMessages(data) {
    * Handling socket messages using socket jsonified data
    * @param data jsonified socket message data
    */
+  if (!data) return;
   const lineStatsNCK1 = document.querySelector("#line-status-nck1");
   const lineStatsNCK2 = document.querySelector("#line-status-nck2");
 
@@ -239,29 +260,48 @@ async function handleSocketMessages(data) {
   GENESYS_showLineStatus_nck2 && updateLineStats(lineStatsNCK2, 2);
 
   if (GENESYS_showLineMessages && data.messageText) {
-    const cleanMessage = stripHtml(data.messageText);
-    console.log(cleanMessage);
-    
-    // Configure notification styling
-    $.notify.defaults({
-      style: 'bootstrap',
-      elementPosition: 'right',
-      globalPosition: 'top right',
-      className: 'info',
-      autoHideDelay: 15000
-    });
-    
     $.notify({
-      title: data.authorName,
-      message: cleanMessage
+      title: `<strong>👮‍♂️ ${data.authorName}</strong>`,
+      message: stripHtml(data.messageText)
     }, {
-      template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
-        '<span class="notify-title">{1}</span>' +
-        '<span data-notify="message">{2}</span>' +
-        '</div>'
+      style: 'lineMessage',
+      globalPosition: 'bottom right',
+      autoHideDelay: 15000,
+      showAnimation: 'fadeIn',
+      hideAnimation: 'fadeOut',
+      html: true
     });
   }
 }
+
+$.notify.addStyle('lineMessage', {
+  html:
+    "<div class='clearfix'>" +
+    "<div class='title' data-notify-html='title'></div>" +
+    "<div class='message' data-notify-html='message'></div>" +
+    "</div>",
+  classes: {
+    base: {
+      "font-weight": "normal",
+      "font-size": "16px",
+      "padding": "8px 15px 8px 14px",
+      "text-shadow": "0 1px 0 rgba(255, 255, 255, 0.5)",
+      "background-color": "#D9EDF7",
+      "border": "1px solid #BCE8F1",
+      "border-radius": "4px",
+      "white-space": "pre-wrap",
+      "padding-left": "25px",
+      "background-repeat": "no-repeat",
+      "color": "#3A87AD",
+      "max-width": "400px",
+      "& .title": {
+        "font-weight": "bold",
+        "margin-bottom": "6px"
+      }
+    }
+  }
+});
+
 
 async function otpcLineStatus() {
   /**

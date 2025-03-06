@@ -83,14 +83,39 @@ async function initializeLineStatus() {
       .prop("type", "text/css")
       .html(`
         .notifyjs-bootstrap-base {
+          font-size: 14px !important;
+          padding: 15px 15px 15px 45px !important;
+          border-radius: 4px !important;
           max-width: 400px !important;
+          width: auto !important;
+          min-width: 250px !important;
+          box-sizing: border-box !important;
+          background-position: 12px center !important;
+          background-repeat: no-repeat !important;
+          display: block !important;
+          margin: 5px !important;
           white-space: normal !important;
-          word-wrap: break-word !important;
+          line-height: 1.4 !important;
+          position: relative !important;
         }
-        .notifyjs-bootstrap-base .notify-title {
-          font-weight: bold;
-          margin-bottom: 5px;
-          display: block;
+        [data-notify="title"] {
+          display: block !important;
+          font-weight: bold !important;
+          margin-bottom: 7px !important;
+          white-space: normal !important;
+        }
+        [data-notify="message"] {
+          display: block !important;
+          word-wrap: break-word !important;
+          white-space: normal !important;
+          overflow-wrap: anywhere !important;
+          line-height: 1.4 !important;
+        }
+        .notifyjs-bootstrap-base [data-notify="text"] {
+          display: block !important;
+          word-wrap: break-word !important;
+          white-space: normal !important;
+          overflow-wrap: anywhere !important;
         }
       `)
       .appendTo("head");
