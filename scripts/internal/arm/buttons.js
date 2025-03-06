@@ -107,7 +107,7 @@ async function copyMAC() {
           e.preventDefault();
           e.stopPropagation();
           try {
-            await navigator.clipboard.writeText(macAddress);
+            await copyText(macAddress);
             $.notify("MAC-адрес скопирован", "success");
           } catch (error) {
             $.notify("Ошибка при копировании MAC-адреса", "error");
@@ -187,65 +187,10 @@ async function copyMAC() {
 
 
 async function copyIP() {
-
-  /*document.querySelectorAll('a[title="Проверка ping"]').forEach(element => {
-        element.remove();
-    })*/
-
-  document.querySelectorAll(".ip").forEach((ipContainer) => {
-    const ipElement = ipContainer.querySelector("acronym");
-    if (!ipElement) return;
-
-    let ip_status;
-    const ip = ipElement.textContent;
-    if (ip.startsWith("100.")) {
-      ip_status = "За NAT";
-    } else if (ip.startsWith("10.")) {
-      ip_status = "Серый";
-    } else if (ip.startsWith("172.")) {
-      ip_status = "Без доступа";
-    } else {
-      ip_status = "Белый";
-    }
-
-    const buttonGroup = document.createElement("div");
-    buttonGroup.className = "helper-button-group";
-    buttonGroup.style.position = "relative";
-    buttonGroup.style.marginLeft = "5px";
-    buttonGroup.style.display = "inline-flex";
-
-    const copyButton = document.createElement("button");
-    copyButton.textContent = "📋";
-    copyButton.classList.add("helper-button", "helper-button-left");
-    copyButton.title = "Копировать IP";
-    copyButton.onclick = () => {
-      copyText(ip);
-      $.notify("IP-адрес скопирован", "success");
-    };
-
-    const checkButton = document.createElement("button");
-    checkButton.textContent = "🔎";
-    checkButton.classList.add("helper-button", "helper-button-right");
-    checkButton.title = "Проверить IP";
-    checkButton.onclick = async () => {
-      try {
-        const response = await fetch(
-          `https://api.ipquery.io/${ip}?format=yaml`,
-        );
-        if (!response.ok) throw new Error("Network response was not ok");
-
-        const data = await response.json();
-        $.notify(
-          `Город: ${data["location"]["city"] ? data["location"]["city"] : "Неизвестно"}\nТип IP: ${ip_status}`,
-          "success",
-        );
-      } catch (error) {
-        console.error("Error checking IP:", error);
-        $.notify("Failed to check IP location", "error");
-      }
-    };
-
-    const style = document.createElement("style");
+  // Add styles only once
+  if (!document.getElementById('helper-ip-styles')) {
+    const style = document.createElement('style');
+    style.id = 'helper-ip-styles';
     style.textContent = `
         .helper-button-group {
             display: inline-flex;
@@ -314,11 +259,111 @@ async function copyIP() {
         }
         `;
     document.head.appendChild(style);
+  }
 
-    buttonGroup.appendChild(copyButton);
-    buttonGroup.appendChild(checkButton);
-    ipElement.insertAdjacentElement("afterend", buttonGroup);
-  });
+  // Cache for IP lookups
+  const ipCache = new Map();
+  
+  // IP status determination
+  const getIPStatus = (ip) => {
+    switch (true) {
+      case ip.startsWith('100.'): return 'За NAT';
+      case ip.startsWith('10.'): return 'Серый';
+      case ip.startsWith('172.'): return 'Без доступа';
+      default: return 'Белый';
+    }
+  };
+
+  // Create buttons with optimized event handling
+  const createButtonGroup = (ip, ipStatus) => {
+    const buttonGroup = document.createElement('div');
+    buttonGroup.className = 'helper-button-group';
+    
+    const buttons = [
+      {
+        text: '📋',
+        className: 'helper-button-left',
+        title: 'Копировать IP',
+        onClick: async (e) => {
+          e.preventDefault();
+          try {
+            await copyText(ip);
+            $.notify('IP-адрес скопирован', 'success');
+          } catch (err) {
+            await copyText(ip);
+            $.notify('IP-адрес скопирован', 'success');
+          }
+        }
+      },
+      {
+        text: '🔎',
+        className: 'helper-button-right',
+        title: 'Проверить IP',
+        onClick: async (e) => {
+          e.preventDefault();
+          try {
+            let data;
+            if (ipCache.has(ip)) {
+              data = ipCache.get(ip);
+            } else {
+              const response = await fetch(`https://api.ipquery.io/${ip}?format=yaml`);
+              if (!response.ok) throw new Error('Network response was not ok');
+              data = await response.json();
+              ipCache.set(ip, data);
+            }
+            
+            $.notify(
+              `Город: ${data.location?.city || 'Неизвестно'}\nТип IP: ${ipStatus}`,
+              'success'
+            );
+          } catch (error) {
+            console.error('Error checking IP:', error);
+            $.notify('Не удалось проверить IP', 'error');
+          }
+        }
+      }
+    ];
+
+    buttons.forEach(({text, className, title, onClick}) => {
+      const button = document.createElement('button');
+      button.textContent = text;
+      button.className = `helper-button ${className}`;
+      button.title = title;
+      button.addEventListener('click', onClick);
+      buttonGroup.appendChild(button);
+    });
+
+    return buttonGroup;
+  };
+
+  // Process all IP elements in batches
+  const processIPElements = () => {
+    const fragment = document.createDocumentFragment();
+    const ipContainers = document.querySelectorAll('.ip');
+    
+    ipContainers.forEach(container => {
+      const ipElement = container.querySelector('acronym');
+      if (!ipElement || ipElement.nextElementSibling?.classList.contains('helper-button-group')) return;
+
+      const ip = ipElement.textContent;
+      const ipStatus = getIPStatus(ip);
+      const buttonGroup = createButtonGroup(ip, ipStatus);
+      ipElement.insertAdjacentElement('afterend', buttonGroup);
+    });
+  };
+
+  // Debounce function to prevent multiple rapid executions
+  const debounce = (fn, delay = 100) => {
+    let timeoutId;
+    return (...args) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => fn.apply(null, args), delay);
+    };
+  };
+
+  // Execute the main function with debouncing
+  const debouncedProcess = debounce(processIPElements);
+  debouncedProcess();
 }
 
 // Копирование слотов СЗ в изменении обращения
