@@ -4,148 +4,153 @@ const maxReconnectAttempts = 5;
 const baseReconnectDelay = 1000; // 1 second
 let socket;
 
-// Подключение к сокету линии НЦК
-async function socketConnect(sessionID) {
-  if (isActive) {
-    return;
-  }
+function getStorage(keys) {
+  return new Promise(resolve => browser.storage.sync.get(keys, resolve));
+}
 
+// Cache user settings at file scope
+let userSettings = {};
+
+
+async function initUserSettings() {
+  /**
+   * Initialize cached settings once
+   */
+  userSettings = await getStorage([
+    "GENESYS_showLineStatus_nck1",
+    "GENESYS_showLineStatus_nck2",
+    "GENESYS_showLineMessages"
+  ]);
+}
+initUserSettings();
+
+
+async function attemptReconnect() {
+  /**
+   * Automatic reconnection on connection drop
+   */
+  if (reconnectAttempts < maxReconnectAttempts) {
+    const delay = baseReconnectDelay * Math.pow(2, reconnectAttempts);
+    console.warn(`[Хелпер] - [Генезис] - [Линия] Пробуем переподключиться через ${delay / 1000} секунд...`);
+    await new Promise(r => setTimeout(r, delay));
+    const { phpSessionId } = await getStorage(["phpSessionId"]);
+    if (phpSessionId) {
+      reconnectAttempts = 0;
+      socketConnect(phpSessionId);
+    }
+    reconnectAttempts++;
+  } else {
+    $.notify("Не удалось переподключиться, достигнут максимум попыток", "error");
+    console.error(`[Хелпер] - [Генезис] - [Линия] Достигнуто максимальное количество попыток подключения к сокету`);
+  }
+}
+
+async function socketConnect(sessionID) {
+  /**
+   * Connect to line socket
+   * @param {string} sessionID - Users' session ID from okc
+   */
+  if (isActive) return;
   isActive = true;
   await getOKCSessionId();
 
   const url =
     "wss://okc2.ertelecom.ru/ts-line-genesys-okcdb-ws/?EIO=4&transport=websocket";
-  const socket = new WebSocket(url);
+  socket = new WebSocket(url);
 
-  socket.onopen = function () {
+  socket.onopen = () => {
     console.info(`[Хелпер] - [Генезис] - [Линия] Соединение установлено`);
     reconnectAttempts = 0;
-    browser.storage.sync.get(
-      ["GENESYS_showLineStatus_nck1", "GENESYS_showLineStatus_nck2"],
-      function (result) {
-        const showLineStatusNck1 = result.GENESYS_showLineStatus_nck1;
-        const showLineStatusNck2 = result.GENESYS_showLineStatus_nck2;
-
-        if (showLineStatusNck1) addLineStatusDiv("line-status-nck1");
-        if (showLineStatusNck2) addLineStatusDiv("line-status-nck2");
-      },
-    );
+    getStorage(["GENESYS_showLineStatus_nck1", "GENESYS_showLineStatus_nck2"])
+      .then(result => {
+        if (result.GENESYS_showLineStatus_nck1) addLineStatusDiv("line-status-nck1");
+        if (result.GENESYS_showLineStatus_nck2) addLineStatusDiv("line-status-nck2");
+      });
   };
 
-  socket.onmessage = function (event) {
-    if (event.data === "2") {
+  socket.onmessage = event => {
+    const data = event.data;
+    if (data === "2") {
       socket.send("3");
-    } else if (event.data === '42/ts-line-genesys-okcdb-ws,["connected"]') {
-      console.info(
-        `[Хелпер] - [Генезис] - [Линия] Получен PHPSESSID: ${sessionID}`,
-      );
+      return;
+    }
+    if (data === '42/ts-line-genesys-okcdb-ws,["connected"]') {
+      console.info(`[Хелпер] - [Генезис] - [Линия] Получен PHPSESSID: ${sessionID}`);
       $.notify("Установлено соединение с линией", "success");
       socket.send(`42/ts-line-genesys-okcdb-ws,["id","${sessionID}"]`);
-    } else if (event.data.startsWith("0{")) {
-      socket.send("40/ts-line-genesys-okcdb-ws,"); // Ответ на сообщение
-    } else if (
-      event.data.startsWith('42/ts-line-genesys-okcdb-ws,["notAuthorized"]')
-    ) {
-      socket.close();
-
-      let lineStats;
-      lineStats = document.querySelector("#line-status-nck1");
-      if (!lineStats) {
-        lineStats = document.querySelector("#line-status-nck2");
-      }
-      if (lineStats) lineStats.innerText = "Нет авторизации";
-      $.notify(
-        "Статус линии не будет загружен. Авторизуйся на странице линии и обнови страницу Генезиса",
-        "error",
-      );
-    } else {
-      const parts = event.data.split(/,\s*(.+)/);
-      const data = JSON.parse(parts[1])[1];
-      const date = new Date();
-      const offset = date.getTimezoneOffset() * 60 * 1000;
-      const ekbTime = new Date(date.getTime() + offset + 5 * 60 * 60 * 1000);
-      const timeString = ekbTime.toLocaleString("ru-RU", {
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-      });
-      handleSocketMessages(data, timeString);
+      return;
     }
+    if (data.startsWith("0{")) {
+      socket.send("40/ts-line-genesys-okcdb-ws,");
+      return;
+    }
+    if (data.startsWith('42/ts-line-genesys-okcdb-ws,["notAuthorized"]')) {
+      socket.close();
+      const lineStats = document.querySelector("#line-status-nck1") || document.querySelector("#line-status-nck2");
+      if (lineStats) lineStats.innerText = "Нет авторизации";
+      $.notify("Статус линии не будет загружен. Авторизуйся на странице линии и обнови страницу Генезиса", "error");
+      return;
+    }
+
+    // Default case: process socket message
+    const parts = data.split(/,\s*(.+)/);
+    const jsonData = JSON.parse(parts[1]);
+    const msgData = jsonData[1];
+    const date = new Date();
+    const offset = date.getTimezoneOffset() * 60 * 1000;
+    const ekbTime = new Date(date.getTime() + offset + 5 * 60 * 60 * 1000);
+    const timeString = ekbTime.toLocaleString("ru-RU", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    handleSocketMessages(msgData, timeString);
   };
 
-  socket.onclose = function (event) {
+  socket.onclose = event => {
     if (event.wasClean) {
       console.warn(
-        `[Хелпер] - [Генезис] - [Линия] Соединение закрыто чисто, код: ${
-          event.code
+        `[Хелпер] - [Генезис] - [Линия] Соединение закрыто чисто, код: ${event.code
         }, причина: ${event.reason}`,
       );
     } else {
       console.error(`[Хелпер] - [Генезис] - [Линия] Соединение прервано.`);
     }
 
-    let lineStats;
-    lineStats =
-      document.querySelector("#line-status-nck1") ||
-      document.querySelector("#line-status-nck2");
-    if (lineStats) {
-      lineStats.innerText = "Починить статус линии";
-      lineStats.parentElement.style.backgroundColor = "#635252"; // Error state background
-    }
+    [document.querySelector("#line-status-nck1"), document.querySelector("#line-status-nck2")].forEach(el => {
+      if (el) {
+        el.innerText = "Починить";
+      }
+    });
 
     $.notify(`Переподключение к линии...`, "warning");
-    if (reconnectAttempts < maxReconnectAttempts) {
-      const delay = baseReconnectDelay * Math.pow(2, reconnectAttempts);
-      console.warn(
-        `[Хелпер] - [Генезис] - [Линия] Пробуем переподключиться через ${delay / 1000} секунд...`,
-      );
-
-      setTimeout(() => {
-        browser.storage.sync.get(["phpSessionId"], function (result) {
-          let phpSessionId = result.phpSessionId;
-          if (phpSessionId) {
-            reconnectAttempts = 0;
-            socketConnect(phpSessionId);
-          }
-        });
-      }, delay);
-      reconnectAttempts++;
-    } else {
-      $.notify(
-        "Не удалось переподключиться, достигнут максимум попыток",
-        "error",
-      );
-      console.error(
-        `[Хелпер] - [Генезис] - [Линия] Достигнуто максимальное количество попыток подключения к сокету`,
-      );
-    }
+    attemptReconnect();
   };
 
-  socket.onerror = function (error) {
+  socket.onerror = error => {
     console.error(`[Хелпер] - [Генезис] - [Линия] Ошибка WebSocket:`, error);
     $.notify("Ошибка WebSocket<br/>Причина: " + error, "error");
     socket.close();
   };
 }
 
-// Ручной реконнект к сокету линии НЦК
+
 async function manualReconnect() {
-  if (socket) {
-    socket.close();
+  /**
+   * Manual reconnect to socket
+   */
+  if (socket) socket.close();
+  const { okc_phpSessionId } = await getStorage(["okc_phpSessionId"]);
+  if (okc_phpSessionId) {
+    reconnectAttempts = 0;
+    isActive = false;
+    $.notify("Переподключаемся к линии", "info");
+    await socketConnect(okc_phpSessionId);
   }
-  await browser.storage.sync.get(["okc_phpSessionId"], async function (result) {
-    let phpSessionId = result.okc_phpSessionId;
-    if (phpSessionId) {
-      reconnectAttempts = 0;
-      isActive = false;
-      $.notify("Переподключаемся к линии", "info");
-      await socketConnect(phpSessionId);
-    }
-  });
 }
 
-// Добавление DIV для отображения статуса линий
+
 async function addLineStatusDiv(id) {
+  /**
+   * Add DIV to show line status
+   * @param {int} id - Line number of showing status.
+   */
   if (document.querySelector(`#${id}`)) return;
 
   const observer = new MutationObserver(() => {
@@ -196,121 +201,90 @@ async function addLineStatusDiv(id) {
   });
 }
 
-// Обработка сообщений сокета линии НЦК
-async function handleSocketMessages(data) {
-  if (!data?.availQueues) return;
 
-  // Get all settings in parallel
-  const [nck1Setting, nck2Setting, messagesSetting] = await Promise.all([
-    browser.storage.sync.get("GENESYS_showLineStatus_nck1"),
-    browser.storage.sync.get("GENESYS_showLineStatus_nck2"),
-    browser.storage.sync.get("GENESYS_showLineMessages"),
-  ]);
-
-  const settings = {
-    showLineNCK1: nck1Setting.GENESYS_showLineStatus_nck1,
-    showLineNCK2: nck2Setting.GENESYS_showLineStatus_nck2,
-    showLineMessages: messagesSetting.GENESYS_showLineMessages,
-  };
-
-  if (settings.showLineNCK1) {
-    const lineStats = document.querySelector("#line-status-nck1");
-    const lineStatsDiv = document.querySelector(".helper-line-status");
-    if (!lineStats) return;
-
-    lineStats.style.color = data.waitingChats.nck1 > 0 ? "red" : "white";
-
-    let contentToShow = `<span style="display: inline-flex; justify-content: center; width: 20px; height: 20px; background-color: #666666; border-radius: 50%; margin-right: 5px; font-size: 12px;">1</span>Слоты: ${data.chatCapacity.nck1.available}/${data.chatCapacity.nck1.max} | SL: ${data.daySl.nck1}`;
-    if (data.waitingChats.nck1 > 0) {
-      contentToShow += ` | ОЧЕРЕДЬ: ${data.waitingChats.nck1}`;
-    }
-
-    const newContent = `<p>${contentToShow}</p>`;
-    if (lineStats.innerHTML !== newContent) {
-      lineStats.innerHTML = DOMPurify.sanitize(newContent);
-      lineStatsDiv.style.transition = "background-color 0.3s";
-      lineStatsDiv.style.backgroundColor = "#909ea6";
-      setTimeout(() => (lineStatsDiv.style.backgroundColor = "#4c5961"), 300);
-    }
-    // Тултип со статус линии
-    //         const tooltipMessage = `Статистика НЦК1 за день
-    //
-    // Чаты:
-    // Mobile: ${data.availQueues[0][0].currentWaitingCalls} / ${data.availQueues[0][0].totalEnteredCalls}
-    // Web: ${data.availQueues[0][1].currentWaitingCalls} / ${data.availQueues[0][1].totalEnteredCalls}
-    // SmartDom: ${data.availQueues[0][2].currentWaitingCalls} / ${data.availQueues[0][2].totalEnteredCalls}
-    // DHCP: ${data.availQueues[0][3].currentWaitingCalls} / ${data.availQueues[0][3].totalEnteredCalls}
-    // ---
-    // Тикеты:
-    // Email: ${data.availQueues[0][6].currentWaitingCalls} / ${data.availQueues[0][6].totalEnteredCalls}
-    // ---
-    // Переливы:
-    // Mobile: ${data.availQueues[1][0].currentWaitingCalls} / ${data.availQueues[1][0].totalEnteredCalls}
-    // Web: ${data.availQueues[1][1].currentWaitingCalls} / ${data.availQueues[1][1].totalEnteredCalls}
-    //
-    // Состояние на ${time} ПРМ`;
-    //         lineStats.setAttribute("title", tooltipMessage);
-  }
-
-  if (settings.showLineNCK2) {
-    const lineStats = document.querySelector("#line-status-nck2");
-    const lineStatsDiv = document.querySelector(".helper-line-status");
-    if (!lineStats) return;
-
-    lineStats.style.color = data.waitingChats.nck2 > 0 ? "red" : "white";
-
-    let contentToShow = `<span style="display: inline-flex; justify-content: center; width: 20px; height: 20px; background-color: #666666; border-radius: 50%; margin-right: 5px; font-size: 12px;">2</span>Слоты: ${data.chatCapacity.nck2.available}/${data.chatCapacity.nck2.max} | SL: ${data.daySl.nck2}`;
-    if (data.waitingChats.nck2 > 0) {
-      contentToShow += ` | ОЧЕРЕДЬ: ${data.waitingChats.nck2}`;
-    }
-
-    const newContent = `<p>${contentToShow}</p>`;
-    if (lineStats.innerHTML !== newContent) {
-      lineStats.innerHTML = DOMPurify.sanitize(newContent);
-      lineStatsDiv.style.transition = "background-color 0.3s";
-      lineStatsDiv.style.backgroundColor = "#909ea6";
-      setTimeout(() => (lineStatsDiv.style.backgroundColor = "#4c5961"), 300);
-    }
-    // Тултип со статус линии
-    //         const tooltipMessage = `Статистика НЦК2 за день
-    //
-    // Чаты:
-    // Mobile: ${data.availQueues[2][0].currentWaitingCalls} / ${data.availQueues[2][0].totalEnteredCalls}
-    // Web: ${data.availQueues[2][1].currentWaitingCalls} / ${data.availQueues[2][1].totalEnteredCalls}
-    // SmartDom: ${data.availQueues[2][2].currentWaitingCalls} / ${data.availQueues[2][2].totalEnteredCalls}
-    // ---
-    // Тикеты:
-    // Email: ${data.availQueues[2][6].currentWaitingCalls} / ${data.availQueues[2][6].totalEnteredCalls}
-    // ---
-    // Переливы:
-    // Mobile: ${data.availQueues[3][0].currentWaitingCalls} / ${data.availQueues[3][0].totalEnteredCalls}
-    // Web: ${data.availQueues[3][1].currentWaitingCalls} / ${data.availQueues[3][1].totalEnteredCalls}
-    //
-    // Состояние на ${time} ПРМ`;
-    //         lineStats.setAttribute("title", tooltipMessage);
-  }
-
-  // if (settings.showLineMessages) {
-  //   console.info(
-  //     `Сохраненное сообщение: ${await stripHtml(
-  //       lastDutyMessage
-  //     )}. Сообщение от сокета: ${await stripHtml(data.lastMessage.message)}`
-  //   );
-  //   if (lastDutyMessage == data.lastMessage.message) return;
-  //   lastDutyMessage = data.lastMessage.message;
-  //   lastDutyAuthor = data.lastMessage.author;
-  //   $(".container-fluid").notify(
-  //     `${lastDutyAuthor}: ${stripHtml(lastDutyMessage)}`,
-  //     "info",
-  //     {
-  //       position: "bottom center",
-  //     }
-  //   );
-  // }
+function stripHtml(html) {
+  /**
+   * Strip HTML for better formatting in notifications
+   */
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  return tmp.textContent || tmp.innerText || '';
 }
 
-// Отображение статуса линии НЦК2
+
+async function handleSocketMessages(data) {
+  /**
+   * Handling socket messages using socket jsonified data
+   * @param data jsonified socket message data
+   */
+  const lineStatsNCK1 = document.querySelector("#line-status-nck1");
+  const lineStatsNCK2 = document.querySelector("#line-status-nck2");
+
+  const { GENESYS_showLineStatus_nck1, GENESYS_showLineStatus_nck2, GENESYS_showLineMessages } = userSettings;
+
+  const updateLineStats = (el, lineNumber) => {
+    if (!el || !data.waitingChats) return;
+    el.style.color = data.waitingChats[`nck${lineNumber}`] > 0 ? "red" : "white";
+
+    let contentToShow = `<span style="display: inline-flex; justify-content: center; width: 20px; height: 20px; background-color: #666666; border-radius: 50%; margin-right: 5px; font-size: 12px;">${lineNumber}</span>Слоты: ${data.chatCapacity[`nck${lineNumber}`].available}/${data.chatCapacity[`nck${lineNumber}`].max} | SL: ${data.daySl[`nck${lineNumber}`]}`;
+    if (data.waitingChats[`nck${lineNumber}`] > 0) {
+      contentToShow += ` | ОЧЕРЕДЬ: ${data.waitingChats[`nck${lineNumber}`]}`;
+    }
+    const newContent = `<p>${contentToShow}</p>`;
+    if (el.innerHTML !== newContent) {
+      el.innerHTML = DOMPurify.sanitize(newContent);
+    }
+  };
+
+  GENESYS_showLineStatus_nck1 && updateLineStats(lineStatsNCK1, 1);
+  GENESYS_showLineStatus_nck2 && updateLineStats(lineStatsNCK2, 2);
+
+  if (GENESYS_showLineMessages && data.messageText) {
+    const cleanMessage = stripHtml(data.messageText);
+    console.log(cleanMessage);
+    
+    // Configure notification styling
+    $.notify.defaults({
+      style: 'bootstrap',
+      elementPosition: 'right',
+      globalPosition: 'top right',
+      className: 'info',
+      autoHideDelay: 15000
+    });
+
+    // Add custom CSS for notifications to page head
+    $("<style>")
+      .prop("type", "text/css")
+      .html(`
+        .notifyjs-bootstrap-base {
+          max-width: 400px !important;
+          white-space: normal !important;
+          word-wrap: break-word !important;
+        }
+        .notifyjs-bootstrap-base .notify-title {
+          font-weight: bold;
+          margin-bottom: 5px;
+          display: block;
+        }
+      `)
+      .appendTo("head");
+
+    $.notify({
+      title: data.authorName,
+      message: cleanMessage
+    }, {
+      template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+        '<span class="notify-title">{1}</span>' +
+        '<span data-notify="message">{2}</span>' +
+        '</div>'
+    });
+  }
+}
+
 async function otpcLineStatus() {
+  /**
+   * Showing line status for OCTP
+   */
   let lastStatus = ""; // Cache last status to prevent unnecessary DOM updates
 
   async function getLineUpdate() {

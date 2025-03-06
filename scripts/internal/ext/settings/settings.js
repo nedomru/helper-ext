@@ -99,6 +99,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     "GENESYS_allowChatResize",
     "GENESYS_allowImagePaste",
     "GENESYS_customEmoji",
+    "GENESYS_showLineMessages",
     "ARM_allowCopy",
     "ARM_sendClientCardExample",
     "ARM_hideSPAS",
