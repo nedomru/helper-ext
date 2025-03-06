@@ -2,6 +2,8 @@ class HighlightManager {
   constructor() {
     this.colors = {};
     this.isInitialized = false;
+    this.processedElements = new Set();
+    this.serviceStatusRegex = /(Услуга в (Domru|Домru) \w+)/;
   }
 
   async init() {
@@ -75,17 +77,44 @@ class HighlightManager {
     }
   }
 
-  highlightServiceStatus() {
-    const container = document.getElementById("lazy_content_2446");
-    if (!container?.textContent) return;
+  processServiceStatus(container) {
+    if (!container || 
+        container.hasAttribute('data-helper-processed') || 
+        !container.textContent) {
+      return;
+    }
 
     const statusText = container.textContent.trim();
-    if (statusText.includes("Услуга в Domru")) {
-      const color = statusText.includes("закрыта") ? "red" : "green";
-      container.innerHTML = container.innerHTML.replace(
-        /(Услуга в Domru \w+)/,
-        `<span style="color: ${color}; font-weight: bold;">$1</span>`
-      );
+    if (!statusText.includes('Услуга в')) {
+      container.setAttribute('data-helper-processed', 'true');
+      return;
+    }
+
+    // Preserve success message
+    const successPart = container.querySelector('font')?.outerHTML || '';
+    const textParts = container.innerHTML.split('<br>');
+    
+    if (textParts.length < 2) {
+      container.setAttribute('data-helper-processed', 'true');
+      return;
+    }
+
+    const statusPart = textParts[1];
+    const color = statusPart.includes("закрыта") ? "red" : "green";
+    
+    container.innerHTML = `${successPart}<br><span style="color: ${color}; font-weight: bold;">Услуга в Домru ${statusPart.includes("закрыта") ? "закрыта" : "активна"}</span>. Проверка у поставщика не требуется.`;
+    container.setAttribute('data-helper-processed', 'true');
+  }
+
+  highlightServiceStatus() {
+    const serviceStatuses = document.querySelectorAll('[id^="check_stat_"]:not([data-helper-processed])');
+    for (const container of serviceStatuses) {
+      try {
+        this.processServiceStatus(container);
+      } catch (error) {
+        console.error('[Хелпер] Ошибка подсветки статуса:', error);
+        container.setAttribute('data-helper-processed', 'true');
+      }
     }
   }
 
@@ -141,11 +170,27 @@ const highlighter = new HighlightManager();
 
 async function initHighlighting() {
   await highlighter.init();
-  
-  const observer = new MutationObserver(() => {
-    highlighter.processTable();
-    highlighter.highlightServiceStatus();
-  });
+
+  let isProcessing = false;
+  let timeout;
+
+  const observerCallback = () => {
+    if (timeout) clearTimeout(timeout);
+    
+    timeout = setTimeout(() => {
+      if (isProcessing) return;
+      
+      isProcessing = true;
+      try {
+        highlighter.processTable();
+        highlighter.highlightServiceStatus();
+      } finally {
+        isProcessing = false;
+      }
+    }, 150); // Increased throttle time
+  };
+
+  const observer = new MutationObserver(observerCallback);
 
   observer.observe(document.body, { 
     childList: true, 
