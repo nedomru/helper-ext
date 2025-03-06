@@ -140,7 +140,6 @@ async function manualReconnect() {
   if (okc_phpSessionId) {
     reconnectAttempts = 0;
     isActive = false;
-    $.notify("Переподключаемся к линии", "info");
     await socketConnect(okc_phpSessionId);
   }
 }
