@@ -436,7 +436,7 @@ async function checkForSpecialClient() {
 }
 
 // Автоматическое форматирование MAC-адресов в EQM
-async function autoFormatEQMMacs() {
+async function autoFormatEQM() {
   new MutationObserver((mutations) => {
     const container = document.getElementById("lazy_content_2507");
     if (!container?.textContent) return;
@@ -476,6 +476,7 @@ async function autoFormatEQMMacs() {
       const macInputs = container.querySelectorAll(
         'input[readonly][value*="-"]',
       );
+      document.querySelector(".start_eqm_diag").remove()
       macInputs.forEach((input) => {
         const macValue = input.value;
         if (macValue.includes("-")) {

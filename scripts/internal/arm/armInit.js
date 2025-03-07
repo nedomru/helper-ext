@@ -138,7 +138,7 @@ const initializeExtension = async () => {
     await searchByLog();
     await searchByFlag();
     await searchByAppeal();
-    await autoFormatEQMMacs();
+    await autoFormatEQM();
   }
 
   // Инициализация функций страницы изменения обращения
