@@ -943,28 +943,50 @@ async function fastButtonsLeftFrame() {
 
     function handleClosed_NoPages() {
         const product = document.querySelector(".uni_reas_prod");
+
         if (product.value !== "70") {
             product.value = "70";
             product.dispatchEvent(changeEvent);
+
+            waitForElement("td.uni_reas_obj_prob_class", () => {
+                waitForElement(".uni_reas_step", (element) => {
+                    element.value = "-1";
+                    element.dispatchEvent(changeEvent);
+
+                    waitForElement(".uni_load_obj_reason", (substep) => {
+                        substep.value = "1046";
+                        substep.dispatchEvent(changeEvent);
+                    });
+
+                    waitForElement(".uni_load_main_reason", (substep) => {
+                        substep.value = "4205";
+                        substep.dispatchEvent(changeEvent);
+                    });
+
+                    waitForElement(".uni_load_child_reason", (substep) => {
+                        substep.value = "18303";
+                    });
+                }, true);
+            });
+        } else {
+            const step = document.querySelector(".uni_reas_step");
+            step.value = "-1";
+            step.dispatchEvent(changeEvent);
+
+            waitForElement(".uni_load_obj_reason", (substep) => {
+                substep.value = "1046";
+                substep.dispatchEvent(changeEvent);
+            });
+
+            waitForElement(".uni_load_main_reason", (substep) => {
+                substep.value = "4205";
+                substep.dispatchEvent(changeEvent);
+            });
+
+            waitForElement(".uni_load_child_reason", (substep) => {
+                substep.value = "18303";
+            })
         }
-
-        const step = document.querySelector(".uni_reas_step");
-        step.value = "-1";
-        step.dispatchEvent(changeEvent);
-
-        waitForElement(".uni_load_obj_reason", (substep) => {
-            substep.value = "1046";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_main_reason", (substep) => {
-            substep.value = "4205";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_child_reason", (substep) => {
-            substep.value = "18303";
-        });
     }
 
     function handleClosed_NoSession() {
@@ -972,21 +994,39 @@ async function fastButtonsLeftFrame() {
         if (product.value !== "70") {
             product.value = "70";
             product.dispatchEvent(changeEvent);
+
+            waitForElement("td.uni_reas_obj_prob_class", () => {
+                waitForElement(".uni_reas_step", (element) => {
+                    element.value = "-1";
+                    element.dispatchEvent(changeEvent);
+
+                    waitForElement(".uni_load_obj_reason", (substep) => {
+                        substep.value = "1046";
+                        substep.dispatchEvent(changeEvent);
+                    });
+
+                    waitForElement(".uni_load_main_reason", (substep) => {
+                        substep.value = "18378";
+                        substep.dispatchEvent(changeEvent);
+                    });
+                }, true);
+            });
         }
+        else {
+            const step = document.querySelector(".uni_reas_step");
+            step.value = "-1";
+            step.dispatchEvent(changeEvent);
 
-        const step = document.querySelector(".uni_reas_step");
-        step.value = "-1";
-        step.dispatchEvent(changeEvent);
+            waitForElement(".uni_load_obj_reason", (substep) => {
+                substep.value = "1046";
+                substep.dispatchEvent(changeEvent);
+            });
 
-        waitForElement(".uni_load_obj_reason", (substep) => {
-            substep.value = "1046";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_main_reason", (substep) => {
-            substep.value = "18378";
-            substep.dispatchEvent(changeEvent);
-        });
+            waitForElement(".uni_load_main_reason", (substep) => {
+                substep.value = "18378";
+                substep.dispatchEvent(changeEvent);
+            });
+        }
     }
 
     function handleClosed_LowSpeed() {
@@ -994,25 +1034,47 @@ async function fastButtonsLeftFrame() {
         if (product.value !== "70") {
             product.value = "70";
             product.dispatchEvent(changeEvent);
+
+            waitForElement("td.uni_reas_obj_prob_class", () => {
+                waitForElement(".uni_reas_step", (element) => {
+                    element.value = "-1";
+                    element.dispatchEvent(changeEvent);
+
+                    waitForElement(".uni_load_obj_reason", (substep) => {
+                        substep.value = "1046";
+                        substep.dispatchEvent(changeEvent);
+                    });
+
+                    waitForElement(".uni_load_main_reason", (substep) => {
+                        substep.value = "18360";
+                        substep.dispatchEvent(changeEvent);
+                    });
+
+                    waitForElement(".uni_load_child_reason", (substep) => {
+                        substep.value = "18363";
+                    });
+                }, true);
+            });
         }
+        else {
+            const step = document.querySelector(".uni_reas_step");
+            step.value = "-1";
+            step.dispatchEvent(changeEvent);
 
-        const step = document.querySelector(".uni_reas_step");
-        step.value = "-1";
-        step.dispatchEvent(changeEvent);
+            waitForElement(".uni_load_obj_reason", (substep) => {
+                substep.value = "1046";
+                substep.dispatchEvent(changeEvent);
+            });
 
-        waitForElement(".uni_load_obj_reason", (substep) => {
-            substep.value = "1046";
-            substep.dispatchEvent(changeEvent);
-        });
+            waitForElement(".uni_load_main_reason", (substep) => {
+                substep.value = "18360";
+                substep.dispatchEvent(changeEvent);
+            });
 
-        waitForElement(".uni_load_main_reason", (substep) => {
-            substep.value = "18360";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_child_reason", (substep) => {
-            substep.value = "18363";
-        });
+            waitForElement(".uni_load_child_reason", (substep) => {
+                substep.value = "18363";
+            });
+        }
     }
 
     function handleClosed_Disconnections() {
@@ -1020,25 +1082,46 @@ async function fastButtonsLeftFrame() {
         if (product.value !== "70") {
             product.value = "70";
             product.dispatchEvent(changeEvent);
+
+            waitForElement("td.uni_reas_obj_prob_class", () => {
+                waitForElement(".uni_reas_step", (element) => {
+                    element.value = "-1";
+                    element.dispatchEvent(changeEvent);
+
+                    waitForElement(".uni_load_obj_reason", (substep) => {
+                        substep.value = "1046";
+                        substep.dispatchEvent(changeEvent);
+                    });
+
+                    waitForElement(".uni_load_main_reason", (substep) => {
+                        substep.value = "18405";
+                        substep.dispatchEvent(changeEvent);
+                    });
+
+                    waitForElement(".uni_load_child_reason", (substep) => {
+                        substep.value = "18407";
+                    });
+                }, true);
+            });
+        } else {
+            const step = document.querySelector(".uni_reas_step");
+            step.value = "-1";
+            step.dispatchEvent(changeEvent);
+
+            waitForElement(".uni_load_obj_reason", (substep) => {
+                substep.value = "1046";
+                substep.dispatchEvent(changeEvent);
+            });
+
+            waitForElement(".uni_load_main_reason", (substep) => {
+                substep.value = "18405";
+                substep.dispatchEvent(changeEvent);
+            });
+
+            waitForElement(".uni_load_child_reason", (substep) => {
+                substep.value = "18407";
+            });
         }
-
-        const step = document.querySelector(".uni_reas_step");
-        step.value = "-1";
-        step.dispatchEvent(changeEvent);
-
-        waitForElement(".uni_load_obj_reason", (substep) => {
-            substep.value = "1046";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_main_reason", (substep) => {
-            substep.value = "18405";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_child_reason", (substep) => {
-            substep.value = "18407";
-        });
     }
 
     function handleClosed_NoTV() {
@@ -1046,25 +1129,46 @@ async function fastButtonsLeftFrame() {
         if (product.value !== "101") {
             product.value = "101";
             product.dispatchEvent(changeEvent);
+
+            waitForElement("td.uni_reas_obj_prob_class", () => {
+                waitForElement(".uni_reas_step", (element) => {
+                    element.value = "-1";
+                    element.dispatchEvent(changeEvent);
+
+                    waitForElement(".uni_load_obj_reason", (substep) => {
+                        substep.value = "1046";
+                        substep.dispatchEvent(changeEvent);
+                    });
+
+                    waitForElement(".uni_load_main_reason", (substep) => {
+                        substep.value = "18369";
+                        substep.dispatchEvent(changeEvent);
+                    });
+
+                    waitForElement(".uni_load_child_reason", (substep) => {
+                        substep.value = "18372";
+                    });
+                }, true);
+            });
+        } else {
+            const step = document.querySelector(".uni_reas_step");
+            step.value = "-1";
+            step.dispatchEvent(changeEvent);
+
+            waitForElement(".uni_load_obj_reason", (substep) => {
+                substep.value = "1046";
+                substep.dispatchEvent(changeEvent);
+            });
+
+            waitForElement(".uni_load_main_reason", (substep) => {
+                substep.value = "18369";
+                substep.dispatchEvent(changeEvent);
+            });
+
+            waitForElement(".uni_load_child_reason", (substep) => {
+                substep.value = "18372";
+            });
         }
-
-        const step = document.querySelector(".uni_reas_step");
-        step.value = "-1";
-        step.dispatchEvent(changeEvent);
-
-        waitForElement(".uni_load_obj_reason", (substep) => {
-            substep.value = "1046";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_main_reason", (substep) => {
-            substep.value = "18369";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_child_reason", (substep) => {
-            substep.value = "18372";
-        });
     }
 
     function handleOpen_Ticket() {
@@ -1080,32 +1184,58 @@ async function fastButtonsLeftFrame() {
 
     function handleOpen_Youtube() {
         const product = document.querySelector(".uni_reas_prod");
+
         if (product.value !== "70") {
             product.value = "70";
             product.dispatchEvent(changeEvent);
+
+            waitForElement("td.uni_reas_obj_prob_class", () => {
+                waitForElement(".uni_reas_step", (element) => {
+                    element.value = "2296";
+                    element.dispatchEvent(changeEvent);
+
+                    waitForElement(".uni_load_obj_reason", (substep) => {
+                        substep.value = "1046";
+                        substep.dispatchEvent(changeEvent);
+                    });
+
+                    waitForElement(".uni_load_main_reason", (substep) => {
+                        substep.value = "18360";
+                        substep.dispatchEvent(changeEvent);
+                    });
+
+                    waitForElement(".uni_load_child_reason", (substep) => {
+                        substep.value = "22187";
+                    });
+
+                    waitForElement(".comment_text", (substep) => {
+                        substep.value = "Сложность с доступностью YouTube. Клиент проинформирован по ограничениям";
+                    });
+                }, true);
+            });
+        } else {
+            const step = document.querySelector(".uni_reas_step");
+            step.value = "2296";
+            step.dispatchEvent(changeEvent);
+
+            waitForElement(".uni_load_obj_reason", (substep) => {
+                substep.value = "1046";
+                substep.dispatchEvent(changeEvent);
+            });
+
+            waitForElement(".uni_load_main_reason", (substep) => {
+                substep.value = "18360";
+                substep.dispatchEvent(changeEvent);
+            });
+
+            waitForElement(".uni_load_child_reason", (substep) => {
+                substep.value = "22187";
+            });
+
+            waitForElement(".comment_text", (substep) => {
+                substep.value = "Сложность с доступностью YouTube. Клиент проинформирован по ограничениям";
+            });
         }
-
-        const step = document.querySelector(".uni_reas_step");
-        step.value = "2296";
-        step.dispatchEvent(changeEvent);
-
-        waitForElement(".uni_load_obj_reason", (substep) => {
-            substep.value = "1046";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_main_reason", (substep) => {
-            substep.value = "18360";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_child_reason", (substep) => {
-            substep.value = "22187";
-        });
-
-        waitForElement(".comment_text", (substep) => {
-            substep.value = "Сложность с доступностью YouTube. Клиент проинформирован по ограничениям";
-        });
     }
 
     function handleClosed_CancelSZ() {
@@ -1161,30 +1291,56 @@ async function fastButtonsLeftFrame() {
         if (product.value !== "70") {
             product.value = "70";
             product.dispatchEvent(changeEvent);
+
+            waitForElement("td.uni_reas_obj_prob_class", () => {
+                waitForElement(".uni_reas_step", (element) => {
+                    element.value = "-1";
+                    element.dispatchEvent(changeEvent);
+
+                    waitForElement(".uni_load_obj_reason", (substep) => {
+                        substep.value = "1046";
+                        substep.dispatchEvent(changeEvent);
+                    });
+
+                    waitForElement(".uni_load_main_reason", (substep) => {
+                        substep.value = "4205";
+                        substep.dispatchEvent(changeEvent);
+                    });
+
+                    waitForElement(".uni_load_child_reason", (substep) => {
+                        substep.value = "18303";
+                    });
+
+                    waitForElement(".comment_text", (substep) => {
+                        substep.value = "Вопрос клиента был решен до диагностики. Проинформирован о необходимости повторного обращения в случае возникновения сложностей #НЦКБЫСТРЫЙЧАТ";
+                        substep.dispatchEvent(changeEvent);
+                    });
+                }, true);
+            });
+        } else {
+            const step = document.querySelector(".uni_reas_step");
+            step.value = "-1";
+            step.dispatchEvent(changeEvent);
+
+            waitForElement(".uni_load_obj_reason", (substep) => {
+                substep.value = "1046";
+                substep.dispatchEvent(changeEvent);
+            });
+
+            waitForElement(".uni_load_main_reason", (substep) => {
+                substep.value = "4205";
+                substep.dispatchEvent(changeEvent);
+            });
+
+            waitForElement(".uni_load_child_reason", (substep) => {
+                substep.value = "18303";
+            });
+
+            waitForElement(".comment_text", (substep) => {
+                substep.value = "Вопрос клиента был решен до диагностики. Проинформирован о необходимости повторного обращения в случае возникновения сложностей #НЦКБЫСТРЫЙЧАТ";
+                substep.dispatchEvent(changeEvent);
+            });
         }
-
-        const step = document.querySelector(".uni_reas_step");
-        step.value = "-1";
-        step.dispatchEvent(changeEvent);
-
-        waitForElement(".uni_load_obj_reason", (substep) => {
-            substep.value = "1046";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_main_reason", (substep) => {
-            substep.value = "4205";
-            substep.dispatchEvent(changeEvent);
-        });
-
-        waitForElement(".uni_load_child_reason", (substep) => {
-            substep.value = "18303";
-        });
-
-        waitForElement(".comment_text", (substep) => {
-            substep.value = "Вопрос клиента был решен до диагностики. Проинформирован о необходимости повторного обращения в случае возникновения сложностей #НЦКБЫСТРЫЙЧАТ";
-            substep.dispatchEvent(changeEvent);
-        });
     }
 
     function fastChat_DZ() {
