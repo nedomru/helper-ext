@@ -372,17 +372,25 @@ async function copyTimeSlots() {
     return options
       .map((option) => {
         if (
-          !option.value ||
-          option.text.includes("Выберите время") ||
-          option.text.includes("«Абонент не может быть дома!»")
+            !option.value ||
+            option.text.includes("Выберите время") ||
+            option.text.includes("«Абонент не может быть дома!»")
         )
-          return null; // Пропускаем элемент "Выберите время"
-        let timeValue = option.value.split(" ")[1];
-        if (timeValue) {
-          const [hours] = timeValue.split(":");
-          const endHour = (parseInt(hours) + 2).toString().padStart(2, "0");
-          return `${hours}-${endHour}`;
+          return null; // Skip the "Выберите время" and "«Абонент не может быть дома!»" options
+
+        const parts = option.text.split(" - ");
+        if (parts.length >= 2) {
+          // Get start and end times
+          const startTime = parts[0].trim(); // "18:00"
+          const endTime = parts[1].trim().split(" ")[0]; // "20:00" (remove anything after potential space)
+
+          // Extract just the hours
+          const startHour = startTime.split(":")[0].padStart(2, "0");
+          const endHour = endTime.split(":")[0].padStart(2, "0");
+
+          return `${startHour}-${endHour}`;
         }
+
         return null;
       })
       .filter(Boolean)
