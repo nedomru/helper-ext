@@ -28,238 +28,110 @@ async function showClientAgreementOnChangeRequest() {
 // Замена предвосхищения Хелпером
 async function setHelperAnticipation() {
   const button = document.querySelector(".top_3_butt");
-  if (!button) return;
-  if (button.textContent.includes("Хелпер")) return;
+  if (!button || button.textContent.includes("Хелпер")) return;
+
   button.textContent = "Хелпер";
-
-  const observerSPAS = new MutationObserver((mutationsList) => {
-    for (const mutation of mutationsList) {
-      if (mutation.type === "childList") {
-        mutation.addedNodes.forEach(checkForSPAS);
-      }
-    }
-  });
-
-  const observerAccess = new MutationObserver((mutationsList) => {
-    for (const mutation of mutationsList) {
-      if (mutation.type === "childList") {
-        mutation.addedNodes.forEach(checkForAccess);
-      }
-    }
-  });
-
-  const observerAccident = new MutationObserver((mutationsList) => {
-    for (const mutation of mutationsList) {
-      if (mutation.type === "childList") {
-        mutation.addedNodes.forEach(checkForAccident);
-      }
-    }
-  });
-
-  const observerPPR = new MutationObserver((mutationsList) => {
-    for (const mutation of mutationsList) {
-      if (mutation.type === "childList") {
-        mutation.addedNodes.forEach(checkForPPR);
-      }
-    }
-  });
-
-  const observerSpecial = new MutationObserver((mutationsList) => {
-    for (const mutation of mutationsList) {
-      if (mutation.type === "childList") {
-        mutation.addedNodes.forEach(checkForSpecial);
-      }
-    }
-  });
-
   let problems = 0;
 
-  // СПАС
-  let spas = document.querySelector(".spas_body");
-  if (spas) {
-    button.innerHTML += " | СПАС";
+  // Define problem types to check for
+  const problemTypes = [
+    {
+      name: "СПАС",
+      selector: ".spas_body",
+      textCheck: null, // No text check needed
+      logMessage: "Найден СПАС"
+    },
+    {
+      name: "Доступ",
+      selector: ".bl_antic_head_w",
+      textCheck: "Доступ отсутствует",
+      logMessage: "Найден закрытый доступ"
+    },
+    {
+      name: "Авария",
+      selector: ".bl_antic_head_w",
+      textCheck: "Аварии на адресе",
+      logMessage: "Найдена авария"
+    },
+    {
+      name: "ППР",
+      selector: ".bl_antic_head_w",
+      textCheck: "ППР на адресе",
+      logMessage: "Найден ППР"
+    },
+    {
+      name: "Особый",
+      selector: ".bl_antic_head_w",
+      textCheck: "Особый Клиент",
+      logMessage: "Найден особый клиент"
+    }
+  ];
+
+  // Function to check and mark a problem
+  const markProblem = (type) => {
+    button.innerHTML += ` | ${type.name}`;
     button.style.backgroundColor = "#cc3300";
     problems++;
+    console.info(`[Хелпер] - [АРМ] - [Предвосхищение] ${type.logMessage}`);
+    return true;
+  };
 
-    console.info(`[Хелпер] - [АРМ] - [Предвосхищение] Найден СПАС`);
-  } else {
-    function checkForSPAS(node) {
-      if (
-        node.nodeType === Node.ELEMENT_NODE &&
-        node.classList.contains("spas_body")
-      ) {
-        button.innerHTML += " | СПАС";
-        button.style.backgroundColor = "#cc3300";
-        problems++;
-        observerSPAS.disconnect();
-        clearTimeout(timeout);
-
-        console.info(`[Хелпер] - [АРМ] - [Предвосхищение] Найден СПАС`);
+  // Check for existing elements first
+  problemTypes.forEach(type => {
+    const elements = document.querySelectorAll(type.selector);
+    if (elements && elements.length > 0) {
+      if (!type.textCheck) {
+        // For elements without text check (like СПАС)
+        markProblem(type);
+      } else {
+        // For elements that need text content verification
+        elements.forEach(element => {
+          if (element.textContent.trim() === type.textCheck) {
+            markProblem(type);
+          }
+        });
       }
     }
+  });
 
-    observerSPAS.observe(document.body, { childList: true, subtree: true });
-    const timeout = setTimeout(() => {
-      observerSPAS.disconnect();
-    }, 3000);
-  }
+  // Set up a single observer for all problem types
+  const observer = new MutationObserver(mutations => {
+    for (const mutation of mutations) {
+      if (mutation.type === "childList") {
+        mutation.addedNodes.forEach(node => {
+          if (node.nodeType !== Node.ELEMENT_NODE) return;
 
-  // Закрытый доступ
-  let access = document.querySelectorAll(".bl_antic_head_w");
-  if (access) {
-    access.forEach((element) => {
-      if (element.textContent.trim() === "Доступ отсутствует") {
-        button.innerHTML += " | Доступ";
-        button.style.backgroundColor = "#cc3300";
-        problems++;
-
-        console.info(
-          `[Хелпер] - [АРМ] - [Предвосхищение] Найден закрытый доступ`,
-        );
-      }
-    });
-  } else {
-    function checkForAccess(node) {
-      if (
-        node.nodeType === Node.ELEMENT_NODE &&
-        node.classList.contains("bl_antic_head_w")
-      ) {
-        if (node.textContent.trim() === "Доступ отсутствует") {
-          button.innerHTML += " | Доступ";
-          button.style.backgroundColor = "#cc3300";
-          problems++;
-          observerAccess.disconnect();
-          clearTimeout(timeout);
-
-          console.info(
-            `[Хелпер] - [АРМ] - [Предвосхищение] Найден закрытый доступ`,
-          );
-        }
+          // Check each node against all problem types
+          problemTypes.forEach(type => {
+            if (node.classList && node.classList.contains(type.selector.substring(1))) {
+              // For elements without text check
+              if (!type.textCheck) {
+                markProblem(type);
+              }
+              // For elements with text check
+              else if (node.textContent.trim() === type.textCheck) {
+                markProblem(type);
+              }
+            }
+          });
+        });
       }
     }
+  });
 
-    observerAccess.observe(document.body, { childList: true, subtree: true });
-    const timeout = setTimeout(() => {
-      observerAccess.disconnect();
-    }, 3000);
-  }
+  // Start observing with a single observer
+  observer.observe(document.body, { childList: true, subtree: true });
 
-  // Авария
-  let accident = document.querySelectorAll(".bl_antic_head_w");
-  if (accident) {
-    accident.forEach((element) => {
-      if (element.textContent.trim() === "Аварии на адресе") {
-        button.innerHTML += " | Авария";
-        button.style.backgroundColor = "#cc3300";
-        problems++;
+  // Set a single timeout to disconnect the observer
+  setTimeout(() => {
+    observer.disconnect();
+  }, 3000);
 
-        console.info(`[Хелпер] - [АРМ] - [Предвосхищение] Найдена авария`);
-      }
-    });
-  } else {
-    function checkForAccident(node) {
-      if (
-        node.nodeType === Node.ELEMENT_NODE &&
-        node.classList.contains("bl_antic_head_w")
-      ) {
-        if (node.textContent.trim() === "Аварии на адресе") {
-          button.innerHTML += " | Авария";
-          button.style.backgroundColor = "#cc3300";
-          problems++;
-          observerAccess.disconnect();
-          clearTimeout(timeout);
-
-          console.info(`[Хелпер] - [АРМ] - [Предвосхищение] Найдена авария`);
-        }
-      }
-    }
-
-    observerAccident.observe(document.body, { childList: true, subtree: true });
-    const timeout = setTimeout(() => {
-      observerAccident.disconnect();
-    }, 3000);
-  }
-
-  // ППР
-  let ppr = document.querySelectorAll(".bl_antic_head_w");
-  if (ppr) {
-    ppr.forEach((element) => {
-      if (element.textContent.trim() === "ППР на адресе") {
-        button.innerHTML += " | ППР";
-        button.style.backgroundColor = "#cc3300";
-        problems++;
-
-        console.info(`[Хелпер] - [АРМ] - [Предвосхищение] Найден ППР`);
-      }
-    });
-  } else {
-    function checkForPPR(node) {
-      if (
-        node.nodeType === Node.ELEMENT_NODE &&
-        node.classList.contains("bl_antic_head_w")
-      ) {
-        if (node.textContent.trim() === "ППР на адресе") {
-          button.innerHTML += " | ППР";
-          button.style.backgroundColor = "#cc3300";
-          problems++;
-          observerPPR.disconnect();
-          clearTimeout(timeout);
-
-          console.info(`[Хелпер] - [АРМ] - [Предвосхищение] Найден ППР`);
-        }
-      }
-    }
-
-    observerPPR.observe(document.body, { childList: true, subtree: true });
-    const timeout = setTimeout(() => {
-      observerPPR.disconnect();
-    }, 3000);
-  }
-
-  // Особый клиент
-  let special = document.querySelectorAll(".bl_antic_head_w");
-  if (special) {
-    special.forEach((element) => {
-      if (element.textContent.trim() === "Особый Клиент") {
-        button.innerHTML += " | Особый";
-        button.style.backgroundColor = "#cc3300";
-        problems++;
-
-        console.info(
-          `[Хелпер] - [АРМ] - [Предвосхищение] Найден особый клиент`,
-        );
-      }
-    });
-  } else {
-    function checkForSpecial(node) {
-      if (
-        node.nodeType === Node.ELEMENT_NODE &&
-        node.classList.contains("bl_antic_head_w")
-      ) {
-        if (node.textContent.trim() === "Особый Клиент") {
-          button.innerHTML += " | Особый";
-          button.style.backgroundColor = "#cc3300";
-          problems++;
-
-          observerSpecial.disconnect();
-          clearTimeout(timeout);
-
-          console.info(
-            `[Хелпер] - [АРМ] - [Предвосхищение] Найден особый клиент`,
-          );
-        }
-      }
-    }
-
-    observerSpecial.observe(document.body, { childList: true, subtree: true });
-    const timeout = setTimeout(() => {
-      observerSpecial.disconnect();
-    }, 3000);
-  }
-
+  // Set button color to green if no problems found
   if (problems === 0) {
     button.style.backgroundColor = "#008000";
   }
+
   console.info(`[Хелпер] - [АРМ] - [Предвосхищение] Предвосхищение загружено`);
 }
 
