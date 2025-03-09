@@ -2044,6 +2044,9 @@ async function agrTransCompensationButton() {
 
 // Кнопка компенсации за аварию за несколько дней // Предвосхищение
 async function infoCompensationButton() {
+  // Exit early if buttons already exist
+  if (document.querySelector(".helper-compensation")) return;
+
   const refreshBtn = document.querySelector(".refresh-frame");
   const top3Btn = document.querySelector(".top_3_butt");
   const container = document.getElementById("top-3-block");
