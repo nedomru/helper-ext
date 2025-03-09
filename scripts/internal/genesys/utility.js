@@ -63,7 +63,17 @@ window.genesys.wwe.configuration.set("chat.client.text-color", "${clientTextColo
 
         document.body.appendChild(colorScript);
 
-        $.notify("Загружены кастомные цвета чата", "success");
+        $.notify({
+          title: `<strong>🎨 Цвета</strong>`,
+          message: "Загружены кастомные цвета чата"
+        }, {
+          style: 'lineMessage',
+          globalPosition: 'bottom right',
+          autoHideDelay: 6000,
+          showAnimation: 'fadeIn',
+          hideAnimation: 'fadeOut',
+          html: true
+        });
         console.info(
           `[Хелпер] - [Генезис] - [Цвета чата] - Применены кастомные цвета чата`,
         );
@@ -119,7 +129,17 @@ window.genesys.wwe.configuration.set("chat.new-message-bell", "${newMessageSound
 
         document.body.appendChild(soundScript);
 
-        $.notify("Загружены кастомные звуки чата", "success");
+        $.notify({
+          title: `<strong>🔊 Звуки</strong>`,
+          message: "Загружены кастомные звуки чата"
+        }, {
+          style: 'lineMessage',
+          globalPosition: 'bottom right',
+          autoHideDelay: 6000,
+          showAnimation: 'fadeIn',
+          hideAnimation: 'fadeOut',
+          html: true
+        });
         console.info(
           `[Хелпер] - [Генезис] - [Цвета чата] - Применены кастомные звуки чата`,
         );

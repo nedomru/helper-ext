@@ -64,7 +64,6 @@ async function initializeLineStatus() {
       await browser.storage.sync.get("okc_phpSessionId");
 
     if (!okc_phpSessionId) {
-      $.notify("Не установлен PHPSESSID. Авторизуйся на линии", "error");
       return;
     }
 
