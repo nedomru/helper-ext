@@ -619,8 +619,8 @@ async function copyText(text) {
 /**
  * Left frame buttons to register requests
  */
-async function fastButtonsLeftFrame() {
-    if (document.querySelector(".helper") != null) {
+async function leftFrame_fastAppeals() {
+    if (document.querySelector(".helper-appeal-button") != null) {
         return;
     }
 
@@ -628,7 +628,7 @@ async function fastButtonsLeftFrame() {
     if (!container) return;
 
     const categories = {
-        Открытое: [], Закрытое: [], "Быстрый чат": [],
+        "Открытое": [], "Закрытое": [], "Быстрый чат": [],
     };
 
     const settingsKeys = ["ARM_changeRequestFBLF_FastChat_Accident", "ARM_changeRequestFBLF_Open_VhodNRD", "ARM_changeRequestFBLF_Open_KCNCK2", "ARM_changeRequestFBLF_Open_KCNCK1", "ARM_changeRequestFBLF_Closed_NoPages", "ARM_changeRequestFBLF_Closed_NoSession", "ARM_changeRequestFBLF_Closed_LowSpeed", "ARM_changeRequestFBLF_Closed_Disconnections", "ARM_changeRequestFBLF_Closed_NoTV", "ARM_changeRequestFBLF_Open_Ticket", "ARM_changeRequestFBLF_Open_Youtube", "ARM_changeRequestFBLF_Closed_CancelSZ", "ARM_changeRequestFBLF_FastChat_NoDiagnostic", "ARM_changeRequestFBLF_FastChat_DZ", "ARM_changeRequestFBLF_Open_Abon", "ARM_changeRequestFBLF_Closed_ServiceEng",];
@@ -638,83 +638,95 @@ async function fastButtonsLeftFrame() {
 
     const buttons = [];
 
-    // Check settings and add buttons to buttons array
+    // Check settings and add buttons to a button array
     if (settings[0][settingsKeys[0]]) {
         buttons.push({
-            value: "Авария", class: "helper helper-button", action: fastChat_Accident, category: "Быстрый чат",
+            value: "Авария", class: "helper helper-appeal-button", action: fastChat_Accident, category: "Быстрый чат",
         });
     }
 
     if (settings[1][settingsKeys[1]]) {
         buttons.push({
-            value: "ВХОД НРД", class: "helper helper-button", action: handleNRD, category: "Открытое",
+            value: "ВХОД НРД", class: "helper helper-appeal-button", action: handleNRD, category: "Открытое",
         });
     }
 
     if (settings[2][settingsKeys[2]]) {
         buttons.push({
-            value: "КС НЦК2", class: "helper helper-button", action: handleKCNCK2Click, category: "Открытое",
+            value: "КС НЦК2", class: "helper helper-appeal-button", action: handleKCNCK2Click, category: "Открытое",
         });
     }
 
     if (settings[3][settingsKeys[3]]) {
         buttons.push({
-            value: "КС НЦК1", class: "helper helper-button", action: handleKCNCK1Click, category: "Открытое",
+            value: "КС НЦК1", class: "helper helper-appeal-button", action: handleKCNCK1Click, category: "Открытое",
         });
     }
 
     if (settings[4][settingsKeys[4]]) {
         buttons.push({
-            value: "Неоткрывашки", class: "helper helper-button", action: handleClosed_NoPages, category: "Закрытое",
+            value: "Неоткрывашки",
+            class: "helper helper-appeal-button",
+            action: handleClosed_NoPages,
+            category: "Закрытое",
         });
     }
 
     if (settings[5][settingsKeys[5]]) {
         buttons.push({
-            value: "Нет сессии", class: "helper helper-button", action: handleClosed_NoSession, category: "Закрытое",
+            value: "Нет сессии",
+            class: "helper helper-appeal-button",
+            action: handleClosed_NoSession,
+            category: "Закрытое",
         });
     }
 
     if (settings[6][settingsKeys[6]]) {
         buttons.push({
-            value: "Низкая", class: "helper helper-button", action: handleClosed_LowSpeed, category: "Закрытое",
+            value: "Низкая", class: "helper helper-appeal-button", action: handleClosed_LowSpeed, category: "Закрытое",
         });
     }
 
     if (settings[7][settingsKeys[7]]) {
         buttons.push({
-            value: "Разрывы", class: "helper helper-button", action: handleClosed_Disconnections, category: "Закрытое",
+            value: "Разрывы",
+            class: "helper helper-appeal-button",
+            action: handleClosed_Disconnections,
+            category: "Закрытое",
         });
     }
 
     if (settings[8][settingsKeys[8]]) {
         buttons.push({
-            value: "Нет вещания", class: "helper helper-button", action: handleClosed_NoTV, category: "Закрытое",
+            value: "Нет вещания", class: "helper helper-appeal-button", action: handleClosed_NoTV, category: "Закрытое",
         });
     }
 
     if (settings[9][settingsKeys[9]]) {
         buttons.push({
-            value: "Тикет", class: "helper helper-button", action: handleOpen_Ticket, category: "Открытое",
+            value: "Тикет", class: "helper helper-appeal-button", action: handleOpen_Ticket, category: "Открытое",
         });
     }
 
     if (settings[10][settingsKeys[10]]) {
         buttons.push({
-            value: "Youtube", class: "helper helper-button", action: handleOpen_Youtube, category: "Открытое",
+            value: "Youtube", class: "helper helper-appeal-button", action: handleOpen_Youtube, category: "Открытое",
         });
     }
 
     if (settings[11][settingsKeys[11]]) {
         buttons.push({
-            value: "Отмена СЗ", class: "helper helper-button", action: handleClosed_CancelSZ, category: "Закрытое",
+            value: "Отмена СЗ",
+            class: "helper helper-appeal-button",
+            action: handleClosed_CancelSZ,
+            category: "Закрытое",
         });
     }
 
     if (settings[12][settingsKeys[12]]) {
         buttons.push({
             value: "Без диагностики",
-            class: "helper helper-button",
+            class: "helper helper-appeal-button",
             action: fastChat_NoDiagnostic,
             category: "Быстрый чат",
         });
@@ -722,19 +734,19 @@ async function fastButtonsLeftFrame() {
 
     if (settings[13][settingsKeys[13]]) {
         buttons.push({
-            value: "Отключ ДЗ", class: "helper helper-button", action: fastChat_DZ, category: "Быстрый чат",
+            value: "Отключ ДЗ", class: "helper helper-appeal-button", action: fastChat_DZ, category: "Быстрый чат",
         });
     }
 
     if (settings[14][settingsKeys[14]]) {
         buttons.push({
-            value: "На Абон", class: "helper helper-button", action: handle_naAbon, category: "Открытое",
+            value: "На Абон", class: "helper helper-appeal-button", action: handle_naAbon, category: "Открытое",
         });
     }
 
     if (settings[15][settingsKeys[15]]) {
         buttons.push({
-            value: "СИ", class: "helper helper-button", action: handleClosed_ServiceEng, category: "Закрытое",
+            value: "СИ", class: "helper helper-appeal-button", action: handleClosed_ServiceEng, category: "Закрытое",
         });
     }
 
@@ -746,18 +758,18 @@ async function fastButtonsLeftFrame() {
 
     const fragment = document.createDocumentFragment();
     const categoryButtonsDiv = document.createElement("div");
-    categoryButtonsDiv.className = "category-buttons";
+    categoryButtonsDiv.className = "category-appeal-buttons";
     fragment.appendChild(categoryButtonsDiv);
 
     Object.entries(categories).forEach(([categoryName, categoryButtons]) => {
         if (categoryButtons.length > 0) {
             const categoryButton = document.createElement("button");
             categoryButton.textContent = categoryName;
-            categoryButton.className = "category-toggle";
+            categoryButton.className = "category-appeal-toggle";
             categoryButtonsDiv.appendChild(categoryButton);
 
             const buttonContainer = document.createElement("div");
-            buttonContainer.className = "button-container";
+            buttonContainer.className = "button-appeal-container";
             buttonContainer.style.display = "none";
 
             categoryButtons.forEach((button) => {
@@ -791,31 +803,31 @@ async function fastButtonsLeftFrame() {
 
     const style = document.createElement("style");
     style.textContent = `
-          .category-buttons {
+          .category-appeal-buttons, .category-sr-buttons {
               display: flex;
               flex-wrap: wrap;
               gap: 2px;
               margin-bottom: 4px;
           }
-          .category-toggle {
+          .category-appeal-toggle, .category-sr-toggle {
               padding: 2px 5px;
               background-color: #f0f0f0;
               border: 1px solid #ccc;
               border-radius: 2px;
               cursor: pointer;
           }
-          .category-toggle:hover {
+          .category-appeal-toggle:hover, .category-sr-toggle:hover {
               background-color: #e0e0e0;
           }
-          .button-container {
+          .button-appeal-container, .button-sr-container {
               margin-bottom: 6px;
           }
-          .category-toggle.active {
+          .category-appeal-toggle.active, .category-sr-toggle.active {
               background-color: #d0d0d0;
               font-weight: bold;
               box-shadow: 0 0 5px rgba(0,0,0,0.2);
           }
-        .helper-button {
+        .helper-appeal-button, .helper-sr-button {
           appearance: none;
           background-color: #FAFBFC !important;
           border: 1px solid rgba(27, 31, 35, 0.15);
@@ -839,34 +851,34 @@ async function fastButtonsLeftFrame() {
           word-wrap: break-word;
         }
 
-        .helper-button:hover {
+        .helper-appeal-button:hover, .helper-sr-button:hover {
           background-color: #d6d6d6 !important;
           text-decoration: none;
           transition-duration: 0.1s;
         }
 
-        .helper-button:disabled {
+        .helper-appeal-button:disabled, .helper-sr-button:disabled {
           background-color: #FAFBFC;
           border-color: rgba(27, 31, 35, 0.15);
           color: #959DA5;
           cursor: default;
         }
 
-        .helper-button:active {
+        .helper-appeal-button:active, .helper-sr-button:active {
           background-color: #EDEFF2;
           box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
           transition: none 0s;
         }
 
-        .helper-button:focus {
+        .helper-appeal-button:focus, .helper-sr-button:focus {
           outline: 1px transparent;
         }
 
-        .helper-button:before {
+        .helper-appeal-button:before, .helper-sr-button:before {
           display: none;
         }
 
-        .helper-button:-webkit-details-marker {
+        .helper-appeal-button:-webkit-details-marker, .helper-sr-button:-webkit-details-marker {
           display: none;
         }
       `;
@@ -1011,8 +1023,7 @@ async function fastButtonsLeftFrame() {
                     });
                 }, true);
             });
-        }
-        else {
+        } else {
             const step = document.querySelector(".uni_reas_step");
             step.value = "-1";
             step.dispatchEvent(changeEvent);
@@ -1055,8 +1066,7 @@ async function fastButtonsLeftFrame() {
                     });
                 }, true);
             });
-        }
-        else {
+        } else {
             const step = document.querySelector(".uni_reas_step");
             step.value = "-1";
             step.dispatchEvent(changeEvent);
@@ -1369,9 +1379,241 @@ async function fastButtonsLeftFrame() {
     }
 }
 
+
+async function leftFrame_fastSR() {
+    if (document.querySelector(".helper-sr-button") != null) {
+        return;
+    }
+
+    const container = document.querySelector("#wizard-service-create");
+    if (!container) return;
+
+    const categories = {
+        "Интернет": [], "Телевидение": [], "Домофония": [],
+    };
+
+    const settingsKeys = ["ARM_leftFrame_fastSR_internet_noLink", "ARM_leftFrame_fastSR_internet_uncatalogedBreaks", "ARM_leftFrame_fastSR_internet_lowSpeed", "ARM_leftFrame_fastSR_tv_noSignal"];
+
+    // Getting user settings
+    const settings = await Promise.all(settingsKeys.map((key) => browser.storage.sync.get(key)),);
+
+    const buttons = [];
+
+    if (settings[0][settingsKeys[0]]) {
+        buttons.push({
+            value: "Нет линка", class: "helper helper-sr-button", action: internet_noLink, category: "Интернет",
+        });
+    }
+
+    if (settings[1][settingsKeys[1]]) {
+        buttons.push({
+            value: "Незалог разрывы",
+            class: "helper helper-sr-button",
+            action: internet_uncatalogedBreaks,
+            category: "Интернет",
+        });
+    }
+
+    if (settings[2][settingsKeys[2]]) {
+        buttons.push({
+            value: "Низкая скорость",
+            class: "helper helper-sr-button",
+            action: internet_lowSpeed,
+            category: "Интернет",
+        });
+    }
+
+    if (settings[3][settingsKeys[3]]) {
+        buttons.push({
+            value: "Нет вещания", class: "helper helper-sr-button", action: tv_noSignal, category: "Телевидение",
+        });
+    }
+
+    buttons.forEach((button) => {
+        if (categories[button.category]) {
+            categories[button.category].push(button);
+        }
+    });
+
+    const fragment = document.createDocumentFragment();
+    const categoryButtonsDiv = document.createElement("div");
+    categoryButtonsDiv.className = "category-sr-buttons";
+    fragment.appendChild(categoryButtonsDiv);
+
+    Object.entries(categories).forEach(([categoryName, categoryButtons]) => {
+        if (categoryButtons.length > 0) {
+            const categoryButton = document.createElement("button");
+            categoryButton.textContent = categoryName;
+            categoryButton.className = "category-sr-toggle";
+            categoryButton.type = "button";
+            categoryButtonsDiv.appendChild(categoryButton);
+
+            const buttonContainer = document.createElement("div");
+            buttonContainer.className = "button-sr-container";
+            buttonContainer.style.display = "none";
+
+            categoryButtons.forEach((button) => {
+                const btnElement = document.createElement("input");
+                btnElement.setAttribute("type", "button");
+                btnElement.setAttribute("class", button.class);
+                btnElement.setAttribute("value", button.value);
+                btnElement.addEventListener("click", button.action);
+                btnElement.style.backgroundColor = "#337ab7";
+                btnElement.style.color = "white";
+                btnElement.style.marginBottom = "3px";
+                buttonContainer.appendChild(btnElement);
+                buttonContainer.appendChild(document.createTextNode(" "));
+            });
+
+            fragment.appendChild(buttonContainer);
+
+            categoryButton.addEventListener("click", () => {
+                if (buttonContainer.style.display === "none") {
+                    buttonContainer.style.display = "block";
+                    categoryButton.classList.add("active");
+                } else {
+                    buttonContainer.style.display = "none";
+                    categoryButton.classList.remove("active");
+                }
+            });
+        }
+    });
+
+    container.insertBefore(fragment, container.firstChild);
+
+    const changeEvent = new Event("change", {
+        bubbles: true, cancelable: true,
+    });
+
+    function waitForElement(selector, callback) {
+        const observer = new MutationObserver((mutationsList, observer) => {
+            const element = document.querySelector(selector);
+            if (element) {
+                observer.disconnect();
+                callback(element);
+            }
+        });
+
+        observer.observe(document, {childList: true, subtree: true});
+    }
+
+    async function internet_noLink() {
+        const product = document.querySelector("#proc_id")
+        product.value = "5";
+        product.dispatchEvent(changeEvent);
+
+        waitForElement("#service-appeal-class-1", (substep) => {
+            substep.value = "1046";
+            substep.dispatchEvent(changeEvent);
+        });
+
+        waitForElement("#service-appeal-class-2", (substep) => {
+            substep.value = "18378";
+            substep.dispatchEvent(changeEvent);
+        });
+
+        waitForElement("#problem_class_id\\$i", (substep) => {
+            substep.value = "18383";
+            substep.dispatchEvent(changeEvent);
+        });
+
+        waitForElement("#req_step", (substep) => {
+            substep.value = "1053";
+            substep.dispatchEvent(changeEvent);
+        });
+
+        waitForElement("#com_ser", (substep) => {
+            substep.value = "Нет линка на устройстве клиента, кабель цел. Предупрежден о потенциально платных работах.";
+            substep.dispatchEvent(changeEvent);
+        });
+    }
+
+    async function internet_uncatalogedBreaks() {
+        const product = document.querySelector("#proc_id")
+        product.value = "5";
+        product.dispatchEvent(changeEvent);
+
+        waitForElement("#service-appeal-class-1", (substep) => {
+            substep.value = "1046";
+            substep.dispatchEvent(changeEvent);
+        });
+
+        waitForElement("#service-appeal-class-2", (substep) => {
+            substep.value = "18405";
+            substep.dispatchEvent(changeEvent);
+        });
+
+        waitForElement("#problem_class_id\\$i", (substep) => {
+            substep.value = "18407";
+            substep.dispatchEvent(changeEvent);
+        });
+
+        waitForElement("#req_step", (substep) => {
+            substep.value = "1053";
+            substep.dispatchEvent(changeEvent);
+        });
+
+        waitForElement("#com_ser", (substep) => {
+            substep.value = "Клиент жалуется на разрывы. Схема подключения проверена, повреждений в пределах помещения со слов клиента не имеется.\n" + "Перенастройка роутера не помогла.\n" + "Предупрежден о потенциально платных работах.";
+            substep.dispatchEvent(changeEvent);
+        });
+    }
+
+    async function internet_lowSpeed() {
+        const product = document.querySelector("#proc_id")
+        product.value = "5";
+        product.dispatchEvent(changeEvent);
+
+        waitForElement("#service-appeal-class-1", (substep) => {
+            substep.value = "1046";
+            substep.dispatchEvent(changeEvent);
+        });
+
+        waitForElement("#service-appeal-class-2", (substep) => {
+            substep.value = "18360";
+            substep.dispatchEvent(changeEvent);
+        });
+
+        waitForElement("#req_step", (substep) => {
+            substep.value = "1053";
+            substep.dispatchEvent(changeEvent);
+        });
+    }
+
+    async function tv_noSignal() {
+        const product = document.querySelector("#proc_id")
+        product.value = "40";
+        product.dispatchEvent(changeEvent);
+
+        waitForElement("#service-appeal-class-1", (substep) => {
+            substep.value = "1046";
+            substep.dispatchEvent(changeEvent);
+        });
+
+        waitForElement("#service-appeal-class-2", (substep) => {
+            substep.value = "18369";
+            substep.dispatchEvent(changeEvent);
+        });
+
+        waitForElement("#problem_class_id\\$i", (substep) => {
+            substep.value = "18372";
+            substep.dispatchEvent(changeEvent);
+        });
+
+        waitForElement("#req_step", (substep) => {
+            substep.value = "327";
+            substep.dispatchEvent(changeEvent);
+        });
+
+        waitForElement("#com_ser", (substep) => {
+            substep.value = "Нет вещания на всех каналах. Схема подключения проверена, повреждений в пределах помещения со слов клиента не имеется. Предупрежден о потенциально платных работах.";
+            substep.dispatchEvent(changeEvent);
+        });
+    }
+}
+
 /**
  * Service request edit buttons
- * @returns {Promise<void>}
  */
 async function fastButtonsChangeRequest() {
     if (document.querySelector(".helper") != null) {
@@ -1690,7 +1932,7 @@ async function fastButtonsChangeRequest() {
 
 /**
  * Fast SMS buttons
- * Allows to choose from predefined types of SMS
+ * Allows choosing from predefined types of SMS
  */
 async function smsButtons() {
     const changeEvent = new Event("change", {

@@ -1309,9 +1309,134 @@
                                         </div>
                                     </div>
                                 </div>
+                                <br/>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Быстрые заявки</h5>
+                                        <p class="card-text">Добавляет кнопки в левый фрейм для быстрой регистрации заявок
+                                        </p>
+                                    </div>
+                                    <div class="list-group">
+                                        <!-- Включить быстрые заявки в левом фрейме -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong>Включить быстрые заявки в левом фрейме</strong>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <label for="ARM_leftFrame_fastSR">
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_leftFrame_fastSR"
+                                                                   type="checkbox"/>
+                                                        </label>
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Интернет - Нет линка -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">
+                                                        Интернет - Нет линка</strong>
+                                                    <p class="mb-0">Продукт - <i>Интернет</i><br>Причина обращения
+                                                        -
+                                                        <i>Настройка и диагностика</i> - <i>Отсутствует подключение к Интернет</i> -
+                                                        <i>Сетевой кабель не подключен</i><br>Тип - Техники сервиса
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <label for="ARM_leftFrame_fastSR_internet_noLink">
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_leftFrame_fastSR_internet_noLink"
+                                                                   type="checkbox"/>
+                                                        </label>
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Интернет - Незалог разрывы -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">
+                                                        Интернет - Незалог разрывы</strong>
+                                                    <p class="mb-0">Продукт - <i>Интернет</i><br>Причина обращения
+                                                        -
+                                                        <i>Настройка и диагностика</i> - <i>Разрывы связи</i> -
+                                                        <i>Пропадает соединение с интернет</i><br>Тип - Техники сервиса<br>Текст - <i>Клиент жалуется на разрывы. Схема подключения проверена, повреждений в пределах помещения со слов клиента не имеется. Перенастройка роутера не помогла. Предупрежден о потенциально платных работах.</i>
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <label for="ARM_leftFrame_fastSR_internet_uncatalogedBreaks">
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_leftFrame_fastSR_internet_uncatalogedBreaks"
+                                                                   type="checkbox"/>
+                                                        </label>
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Интернет - Низкая скорость -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">
+                                                        Интернет - Низкая скорость</strong>
+                                                    <p class="mb-0">Продукт - <i>Интернет</i><br>Причина обращения
+                                                        -
+                                                        <i>Настройка и диагностика</i> - <i>Низкая скорость</i>
+                                                        <br>Тип - Техники сервиса
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <label for="ARM_leftFrame_fastSR_internet_lowSpeed">
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_leftFrame_fastSR_internet_lowSpeed"
+                                                                   type="checkbox"/>
+                                                        </label>
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Телевидение - Нет вещания -->
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <strong class="mb-0">
+                                                        Телевидение - Нет вещания</strong>
+                                                    <p class="mb-0">Продукт - <i>Телевидение</i><br>Причина обращения
+                                                        -
+                                                        <i>Настройка и диагностика</i> - <i>Отсутствие вещания на каналах</i> -
+                                                        <i>Нет вещания на всех каналах</i><br>Тип - Техники сервиса<br>Текст - <i>Нет вещания на всех каналах. Схема подключения проверена, повреждений в пределах помещения со слов клиента не имеется. Предупрежден о потенциально платных работах.</i>
+                                                    </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <label for="ARM_leftFrame_fastSR_tv_noSignal">
+                                                            <input class="custom-control-input"
+                                                                   id="ARM_leftFrame_fastSR_tv_noSignal"
+                                                                   type="checkbox"/>
+                                                        </label>
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
                             </div>
 
-                            <!-- Быстрые кнопки - Левый фрейм-->
+                            <!-- Быстрые обращения - Левый фрейм-->
                             <div class="tab-pane fade" role="tabpanel" id="arm-fb-leftframe"
                                  aria-labelledby="arm-fb-leftframe">
                                 <div class="list-group">
@@ -1803,7 +1928,7 @@
 
                             </div>
 
-                            <!-- Быстрые кнопки - Изменение обращения -->
+                            <!-- Быстрые обращения - Изменение обращения -->
                             <div class="tab-pane fade" role="tabpanel" id="arm-fb-changerequest"
                                  aria-labelledby="arm-fb-changerequest">
                                 <div class="list-group">

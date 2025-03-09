@@ -346,7 +346,7 @@ $.notify.addStyle('lineMessage', {
         base: {
             "font-weight": "normal",
             "font-size": "16px",
-            "padding": "8px 15px 8px 14px",
+            "padding": "8px 8px 8px 8px",
             "text-shadow": "0 1px 0 rgba(255, 255, 255, 0.5)",
             "background-color": "#D9EDF7",
             "border": "1px solid #BCE8F1",
@@ -358,6 +358,9 @@ $.notify.addStyle('lineMessage', {
             "max-width": "400px",
             "& .notify-title": {
                 "font-weight": "bold", "margin-bottom": "6px"
+            },
+            ".notify-message": {
+                "font-weight": "bold", "margin-top": "6px"
             }
         }
     }
