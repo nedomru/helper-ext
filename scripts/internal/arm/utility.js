@@ -27,18 +27,18 @@ function allowCopy() {
     });
 }
 
-// Отображение договора клиента при изменении обращения
+/**
+ * Get client agreement number from page code, and display it in the header
+ */
 async function showClientAgreementOnChangeRequest() {
     let headerText = document.querySelector(".text-primary");
     headerText.innerText = `Обращение по договору №${document.querySelector('input[name="agr_num"]').value}`;
 }
 
-
+/**
+ * Anticipation checker and replacement for arm top3 button
+ */
 async function setHelperAnticipation() {
-    /**
-     * Anticipation checker and replacement for arm top3 button
-     * @type {Element}
-     */
     const button = document.querySelector(".top_3_butt");
     if (!button || button.textContent.includes("Хелпер")) return;
 
@@ -130,7 +130,9 @@ async function setHelperAnticipation() {
     console.info(`[Хелпер] - [АРМ] - [Предвосхищение] Предвосхищение загружено`);
 }
 
-// Фильтр сессий клиента по типу разрывов
+/**
+ * Initialize the filter and count display for client sessions
+ */
 async function initFilterClientSessions() {
     const container = document.querySelector(".container");
     const targetNode = document.getElementById("js-res-app");
@@ -167,7 +169,7 @@ async function initFilterClientSessions() {
     const updateCountDisplay = (reasonCounts) => {
         if (!countDisplay) return;
 
-        // Сортируем по причине завершения сессии
+        // Sorting by date of session end
         const sortedReasons = Object.entries(reasonCounts).sort((a, b) => b[1] - a[1],);
 
         const totalCount = Object.values(reasonCounts).reduce((sum, count) => sum + count, 0,);
@@ -239,7 +241,10 @@ async function initFilterClientSessions() {
     }
 }
 
-// Удаление вкладок с договора клиента
+/**
+ * Removes tabs from agreement page
+ * @param tabList List of enabled to delete tabs from agreement
+ */
 async function deleteTabs(tabList) {
     const listItems = document.querySelectorAll(".tabs_new");
 
@@ -252,7 +257,9 @@ async function deleteTabs(tabList) {
     await Promise.all(removePromises);
 }
 
-// Проверка и уведомление об особом клиенте
+/**
+ * Checks for special client, send alert if found
+ */
 async function checkForSpecialClient() {
     const observerSpecial = new MutationObserver((mutationsList) => {
         for (const mutation of mutationsList) {
@@ -282,13 +289,16 @@ async function checkForSpecialClient() {
         setTimeout(() => {
             observerSpecial.disconnect();
         }, 3000);
-        // Подключение для вызывания для существующих дочерних элементов
         const existingNodes = document.body.querySelectorAll(".bl_antic_head_w");
         existingNodes.forEach(checkSpecialClient);
     }
 }
 
-// Автоматическое форматирование MAC-адресов в EQM
+/**
+ * Automatic formatting of EQM data.
+ * Reformat MAC address to XX:XX:XX:XX:XX:XX
+ * Removes EQM diag button
+ */
 async function autoFormatEQM() {
     new MutationObserver((mutations) => {
         const container = document.getElementById("lazy_content_2507");
@@ -330,7 +340,9 @@ async function autoFormatEQM() {
     });
 }
 
-// Автоматическое форматирование кнопок в компенсациях
+/**
+ * Format compensate button to be more visible
+ */
 async function autoFormatCompensateButtons() {
     const compensationLinks = document.querySelectorAll("a.compensation");
 
@@ -341,7 +353,9 @@ async function autoFormatCompensateButtons() {
     });
 }
 
-// Автоматическая смена продукта обращения на Интернет
+/**
+ * Change appeal item of left frame to "Интернет"
+ */
 async function changeAppealItemToInternet() {
     const changeEvent = new Event("change", {
         bubbles: true, cancelable: true,
