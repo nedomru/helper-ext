@@ -384,7 +384,7 @@ async function updateEmployees() {
    * Updates list of employees and saves them to local browser storage
    */
   const employees_response = await fetch(
-    `https://okc.ertelecom.ru/stats/dossier/api/get-employees`,
+    `https://okc2.ertelecom.ru/yii/dossier/api/get-employees`,
     {
       method: "POST",
       credentials: "include",
@@ -411,7 +411,7 @@ async function updateEmployees() {
 
 async function selectEmployee(employeeId) {
   /**
-   * Get data about selected employee with it's ID
+   * Get data about selected employee with its ID
    * @param {number} employeeId - ID of the employee to get data about
    */
   const loadingSpinner = document.getElementById("loadingResultsSpinner");
@@ -425,7 +425,7 @@ async function selectEmployee(employeeId) {
   };
 
   const employee_data = await fetch(
-    `https://okc.ertelecom.ru/stats/dossier/api/get-dossier`,
+    `https://okc2.ertelecom.ru/yii/dossier/api/get-dossier`,
     {
       method: "POST",
       credentials: "include",
