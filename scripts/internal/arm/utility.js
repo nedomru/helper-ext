@@ -304,6 +304,12 @@ async function autoFormatEQM() {
         const container = document.getElementById("lazy_content_2507");
         if (!container?.textContent) return;
 
+        let manualSearchBtn = document.querySelector("#btnHandStartCalc")
+        if (manualSearchBtn) manualSearchBtn.remove()
+
+        let startEqmDiag = document.querySelector(".start_eqm_diag")
+        if (startEqmDiag) startEqmDiag.remove()
+
         try {
             const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, {
                 acceptNode: (node) => {
@@ -325,7 +331,6 @@ async function autoFormatEQM() {
             }
 
             const macInputs = container.querySelectorAll('input[readonly][value*="-"]',);
-            document.querySelector(".start_eqm_diag").remove()
             macInputs.forEach((input) => {
                 const macValue = input.value;
                 if (macValue.includes("-")) {
