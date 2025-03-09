@@ -4,6 +4,25 @@
 async function hideSPAS() {
     let spas = document.getElementById("collapse-top-3");
     if (spas) spas.className = "collapse";
+
+    let cvm = document.getElementById("anticipation_cvm")
+    if (!cvm) return;
+
+    const observer = new MutationObserver(() => {
+        if (cvm.contentDocument.getElementById("anticipationCvmWiz")) {
+            cvm.style.removeProperty("height");
+            observer.disconnect();
+        }
+    });
+
+    observer.observe(cvm.contentDocument, {
+        childList: true, subtree: true
+    });
+
+    // if no element appears after 6 seconds, stop observing
+    setTimeout(() => {
+        observer.disconnect();
+    }, 6000);
 }
 
 /**
