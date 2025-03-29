@@ -87,7 +87,7 @@ async function socketConnect(sessionID) {
 
         if (!successNotificationShown && data.startsWith('42/ts-line-genesys-okcdb-ws,')) {
             successNotificationShown = true;
-            showNotification("🚀 Успешное подключение", "Соединение установлено");
+            showNotification("🚀 Успешное подключение", "Соединение с линией установлено");
         }
 
         if (data.startsWith("0{")) {
@@ -141,7 +141,7 @@ function handleAuthorizationFailure() {
     const lineStats = document.querySelector("#line-status-nck1") || document.querySelector("#line-status-nck2");
     if (lineStats) lineStats.innerText = "Нет авторизации";
 
-    showNotification("⚠️ Ошибка", "Требуется авторизация. Обновите страницу.");
+    showNotification("⚠️ Ошибка", "Требуется авторизация. Обнови страницу");
 
     socket.close();
     isActive = false;
@@ -244,7 +244,7 @@ async function handleSocketMessages(data) {
 
     const {GENESYS_showLineStatus_nck1, GENESYS_showLineStatus_nck2, GENESYS_showLineMessages} = userSettings;
 
-    const updateLineStats = (el, lineNumber) => {
+    const updateLineStats = (el, lineNumber, addEmoji = false) => {
         if (!el || !data.waitingChats) return;
         el.style.color = data.waitingChats[`nck${lineNumber}`] > 0 ? "red" : "white";
 
@@ -252,14 +252,17 @@ async function handleSocketMessages(data) {
         if (data.waitingChats[`nck${lineNumber}`] > 0) {
             contentToShow += ` | ОЧЕРЕДЬ: ${data.waitingChats[`nck${lineNumber}`]}`;
         }
+        if (addEmoji) {
+            contentToShow += data.serviceScheme === 1 ? ' ⛱️' : ' 🔥';
+        }
         const newContent = `<p>${contentToShow}</p>`;
         if (el.innerHTML !== newContent) {
             el.innerHTML = DOMPurify.sanitize(newContent);
         }
     };
 
-    GENESYS_showLineStatus_nck1 && updateLineStats(lineStatsNCK1, 1);
-    GENESYS_showLineStatus_nck2 && updateLineStats(lineStatsNCK2, 2);
+    GENESYS_showLineStatus_nck1 && updateLineStats(lineStatsNCK1, 1, true); // Emojis for NCK1 only
+    GENESYS_showLineStatus_nck2 && updateLineStats(lineStatsNCK2, 2, false); // No emojis for NCK2
 
     if (GENESYS_showLineMessages && data.messageText) {
         $.notify({
@@ -274,6 +277,7 @@ async function handleSocketMessages(data) {
         });
     }
 }
+
 
 $.notify.addStyle('lineMessage', {
     html: "<div class='clearfix'>" + "<div class='notify-title' data-notify-html='title'></div>" + "<div class='notify-message' data-notify-html='message'></div>" + "</div>",
