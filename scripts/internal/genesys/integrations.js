@@ -2,6 +2,8 @@ let isActive = false;
 let reconnectAttempts = 0;
 const maxReconnectAttempts = 5;
 const baseReconnectDelay = 1000; // 1 second
+let successNotificationShown = false;
+let reconnecting = false; // Prevent multiple reconnections at the same time
 let socket;
 
 function getStorage(keys) {
@@ -23,161 +25,87 @@ initUserSettings();
 
 
 async function attemptReconnect() {
-    /**
-     * Automatic reconnection on connection drop
-     */
-    if (reconnectAttempts < maxReconnectAttempts) {
-        const delay = baseReconnectDelay * Math.pow(2, reconnectAttempts);
-        console.warn(`[Хелпер] - [Генезис] - [Линия] Пробуем переподключиться через ${delay / 1000} секунд...`);
-        await new Promise(r => setTimeout(r, delay));
-        const {phpSessionId} = await getStorage(["phpSessionId"]);
-        if (phpSessionId) {
-            reconnectAttempts = 0;
-            await socketConnect(phpSessionId);
-        }
-        reconnectAttempts++;
-    } else {
-        $.notify({
-            title: `<strong>⚠️ Ошибка</strong>`, message: "Не удалось переподключиться, достигнут максимум попыток"
-        }, {
-            style: 'lineMessage',
-            globalPosition: 'bottom right',
-            autoHideDelay: 6000,
-            showAnimation: 'fadeIn',
-            hideAnimation: 'fadeOut',
-            html: true
-        });
-        console.error(`[Хелпер] - [Генезис] - [Линия] Достигнуто максимальное количество попыток подключения к сокету`);
+    if (reconnecting || reconnectAttempts >= maxReconnectAttempts) {
+        return; // Prevent unnecessary attempts
     }
+
+    reconnecting = true;
+    reconnectAttempts++;
+
+    const delay = baseReconnectDelay * Math.pow(2, reconnectAttempts);
+    console.warn(`[Генезис] Переподключение через ${delay / 1000} сек...`);
+
+    await new Promise(r => setTimeout(r, delay));
+
+    const {phpSessionId} = await getStorage(["phpSessionId"]);
+    if (phpSessionId) {
+        reconnectAttempts = 0;
+        await socketConnect(phpSessionId);
+    }
+
+    reconnecting = false;
 }
 
 async function socketConnect(sessionID) {
-    /**
-     * Connect to line socket
-     * @param {string} sessionID - Users' session ID from okc
-     */
     if (isActive) return;
     isActive = true;
-    let isAuthorized = true; // Track authorization state
-    let successNotificationShown = false; // Track if success notification has been shown
+    reconnecting = false;
+
     await getOKCSessionId();
 
     const url = "wss://okc2.ertelecom.ru/ts-line-genesys-okcdb-ws/?EIO=4&transport=websocket";
     socket = new WebSocket(url);
 
-    socket.onopen = () => {
+    socket.onopen = async () => {
+        console.log("[Генезис] WebSocket открыт.");
         reconnectAttempts = 0;
-        getStorage(["GENESYS_showLineStatus_nck1", "GENESYS_showLineStatus_nck2"])
-            .then(result => {
-                if (result.GENESYS_showLineStatus_nck1) addLineStatusDiv("line-status-nck1");
-                if (result.GENESYS_showLineStatus_nck2) addLineStatusDiv("line-status-nck2");
-            });
+
+        const settings = await getStorage(["GENESYS_showLineStatus_nck1", "GENESYS_showLineStatus_nck2"]);
+        if (settings.GENESYS_showLineStatus_nck1) addLineStatusDiv("line-status-nck1");
+        if (settings.GENESYS_showLineStatus_nck2) addLineStatusDiv("line-status-nck2");
+
+        socket.send(`42/ts-line-genesys-okcdb-ws,["id","${sessionID}"]`);
     };
 
     socket.onmessage = event => {
         const data = event.data;
 
-        // Handle ping/pong
         if (data === "2") {
-            socket.send("3");
+            socket.send("3"); // Respond to keep-alive ping
             return;
         }
 
-        // Handle not authorized case - show notification and stop
         if (data.startsWith('42/ts-line-genesys-okcdb-ws,["notAuthorized"]')) {
-            isAuthorized = false; // Mark as unauthorized
-            const lineStats = document.querySelector("#line-status-nck1") || document.querySelector("#line-status-nck2");
-            if (lineStats) lineStats.innerText = "Нет авторизации";
-
-            $.notify({
-                title: `<strong>⚠️ Ошибка</strong>`,
-                message: "Статус линии не будет загружен. Авторизуйся на странице линии и обнови страницу Генезиса"
-            }, {
-                style: 'lineMessage',
-                globalPosition: 'bottom right',
-                autoHideDelay: 6000,
-                showAnimation: 'fadeIn',
-                hideAnimation: 'fadeOut',
-                html: true
-            });
-
-            socket.close();
-            isActive = false;
+            handleAuthorizationFailure();
             return;
         }
 
-        // Handle successful connection
-        if (data === '42/ts-line-genesys-okcdb-ws,["connected"]') {
-            console.info(`[Хелпер] - [Генезис] - [Линия] Получен PHPSESSID: ${sessionID}`);
-
-            // Only send ID, don't show success notification yet
-            // We'll wait to confirm authorization before showing success
-            socket.send(`42/ts-line-genesys-okcdb-ws,["id","${sessionID}"]`);
+        if (data.startsWith('42/ts-line-genesys-okcdb-ws,["connected"]')) {
+            console.info(`[Генезис] Подключено к WebSocket.`);
             return;
         }
 
-        // Check if we've received any message after sending ID (and we're still authorized)
-        // This indicates successful authorization
-        if (isAuthorized && !successNotificationShown && data.startsWith('42/ts-line-genesys-okcdb-ws,') && !data.startsWith('42/ts-line-genesys-okcdb-ws,["connected"]') && !data.startsWith('42/ts-line-genesys-okcdb-ws,["notAuthorized"]')) {
-
-            // Show success notification only once
+        if (!successNotificationShown && data.startsWith('42/ts-line-genesys-okcdb-ws,')) {
             successNotificationShown = true;
-
-            $.notify({
-                title: `<strong>🚀 Успешное подключение</strong>`,
-                message: "Соединение между линией и генезисом успешно установлено"
-            }, {
-                style: 'lineMessage',
-                globalPosition: 'bottom right',
-                autoHideDelay: 3000,
-                showAnimation: 'fadeIn',
-                hideAnimation: 'fadeOut',
-                html: true
-            });
+            showNotification("🚀 Успешное подключение", "Соединение установлено");
         }
 
-        // Handle socket initialization
         if (data.startsWith("0{")) {
             socket.send("40/ts-line-genesys-okcdb-ws,");
             return;
         }
 
-        // Process regular socket messages
         try {
-            const parts = data.split(/,\s*(.+)/);
-            const jsonData = JSON.parse(parts[1]);
-            const msgData = jsonData[1];
-            const date = new Date();
-            const offset = date.getTimezoneOffset() * 60 * 1000;
-            const ekbTime = new Date(date.getTime() + offset + 5 * 60 * 60 * 1000);
-            const timeString = ekbTime.toLocaleString("ru-RU", {hour: "2-digit", minute: "2-digit", second: "2-digit"});
-            handleSocketMessages(msgData, timeString);
+            const jsonData = JSON.parse(data.split(/,\s*(.+)/)[1]);
+            handleSocketMessages(jsonData[1]);
         } catch (err) {
-            console.error(`[Хелпер] - [Генезис] - [Линия] Ошибка обработки сообщения:`, err);
+            console.error(`[Генезис] Ошибка обработки сообщения:`, err);
         }
     };
 
     socket.onclose = event => {
         isActive = false;
-
-        // Only show notification if it wasn't already closed due to an error
-        if (event.wasClean) {
-            console.warn(`[Хелпер] - [Генезис] - [Линия] Соединение закрыто чисто, код: ${event.code}, причина: ${event.reason}`);
-        } else {
-            console.error(`[Хелпер] - [Генезис] - [Линия] Соединение прервано.`);
-
-            $.notify({
-                title: `<strong>⏳ Переподключение</strong>`,
-                message: "Соединение с линией потеряно. Пытаемся переподключиться..."
-            }, {
-                style: 'lineMessage',
-                globalPosition: 'bottom right',
-                autoHideDelay: 3000,
-                showAnimation: 'fadeIn',
-                hideAnimation: 'fadeOut',
-                html: true
-            });
-        }
+        console.warn(`[Генезис] WebSocket закрыт. Код: ${event.code}, Причина: ${event.reason}`);
 
         [document.querySelector("#line-status-nck1"), document.querySelector("#line-status-nck2")].forEach(el => {
             if (el) {
@@ -185,34 +113,21 @@ async function socketConnect(sessionID) {
             }
         });
 
-        attemptReconnect();
+        if (!event.wasClean) {
+            showNotification("⏳ Переподключение", "Соединение потеряно, пытаемся восстановить...");
+            attemptReconnect();
+        }
     };
 
     socket.onerror = error => {
-        console.error(`[Хелпер] - [Генезис] - [Линия] Ошибка WebSocket:`, error.message);
-
-        $.notify({
-            title: `<strong>⚠️ Ошибка линии</strong>`,
-            message: "Соединение с линией потеряно: " + (error.message || "неизвестная ошибка")
-        }, {
-            style: 'lineMessage',
-            globalPosition: 'bottom right',
-            autoHideDelay: 3000,
-            showAnimation: 'fadeIn',
-            hideAnimation: 'fadeOut',
-            html: true
-        });
-
+        console.error(`[Генезис] WebSocket ошибка:`, error.message);
+        showNotification("⚠️ Ошибка линии", `Соединение потеряно: ${error.message || "Неизвестная ошибка"}`);
         socket.close();
         isActive = false;
     };
 }
 
-
 async function manualReconnect() {
-    /**
-     * Manual reconnect to socket
-     */
     if (socket) socket.close();
     const {okc_phpSessionId} = await getStorage(["okc_phpSessionId"]);
     if (okc_phpSessionId) {
@@ -222,6 +137,26 @@ async function manualReconnect() {
     }
 }
 
+function handleAuthorizationFailure() {
+    const lineStats = document.querySelector("#line-status-nck1") || document.querySelector("#line-status-nck2");
+    if (lineStats) lineStats.innerText = "Нет авторизации";
+
+    showNotification("⚠️ Ошибка", "Требуется авторизация. Обновите страницу.");
+
+    socket.close();
+    isActive = false;
+}
+
+function showNotification(title, message) {
+    $.notify({title: `<strong>${title}</strong>`, message}, {
+        style: 'lineMessage',
+        globalPosition: 'bottom right',
+        autoHideDelay: 3000,
+        showAnimation: 'fadeIn',
+        hideAnimation: 'fadeOut',
+        html: true
+    });
+}
 
 async function addLineStatusDiv(id) {
     /**
