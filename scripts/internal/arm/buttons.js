@@ -1270,12 +1270,12 @@ async function leftFrame_fastAppeals() {
         step.dispatchEvent(changeEvent);
 
         waitForElement(".uni_load_obj_reason", (substep) => {
-            substep.value = "2348";
+            substep.value = "1435";
             substep.dispatchEvent(changeEvent);
         });
 
         waitForElement(".uni_load_main_reason", (substep) => {
-            substep.value = "4537";
+            substep.value = "22233";
             substep.dispatchEvent(changeEvent);
         });
     }
