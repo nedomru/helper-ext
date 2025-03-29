@@ -215,7 +215,7 @@ async function handleLinkSubmit() {
 async function handleSpecialistSubmit() {
   /**
    * Specialist check from Dossier API
-   * Uses API https://okc.ertelecom.ru/stats/dossier/api/get-dossier
+   * Uses API https://okc2.ertelecom.ru/yii/dossier/api/get-dossier
    */
   const inputField = document.getElementById("input-specialist");
   const resultsDiv = document.getElementById("specialist-results");
@@ -257,9 +257,11 @@ async function handleSpecialistSubmit() {
       const requestBody = {
         employee: filteredEmployees[0].id,
       };
+      console.info(requestBody)
+
 
       const employee_data = await fetch(
-        `https://okc.ertelecom.ru/stats/dossier/api/get-dossier`,
+        `https://okc2.ertelecom.ru/yii/dossier/api/get-dossier`,
         {
           method: "POST",
           credentials: "include",
@@ -424,6 +426,7 @@ async function selectEmployee(employeeId) {
   const requestBody = {
     employee: employeeId,
   };
+  console.info(requestBody)
 
   const employee_data = await fetch(
     `https://okc2.ertelecom.ru/yii/dossier/api/get-dossier`,
