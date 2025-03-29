@@ -238,7 +238,7 @@ async function handleSpecialistSubmit() {
       resultsDiv.style.display = "block";
       await updateEmployees();
     } else {
-      await updateEmployees();
+      employees_data = await updateEmployees();
     }
 
     // Filter employees based on search term
@@ -381,7 +381,7 @@ async function handleSpecialistSubmit() {
 
 async function updateEmployees() {
   /**
-   * Updates list of employees and saves them to local browser storage
+   * Updates the list of employees and saves them to local browser storage
    */
   const employees_response = await fetch(
     `https://okc2.ertelecom.ru/yii/dossier/api/get-employees`,
@@ -407,6 +407,7 @@ async function updateEmployees() {
 
   const employees = await employees_response.json();
   await saveToStorage("employeesData", employees);
+  return employees
 }
 
 async function selectEmployee(employeeId) {
