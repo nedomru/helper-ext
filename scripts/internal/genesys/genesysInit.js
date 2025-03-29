@@ -21,6 +21,7 @@ const GENESYS_FEATURES = {
   lineStatus: {
     GENESYS_showLineStatus_nck1: "nck1",
     GENESYS_showLineStatus_nck2: "nck2",
+    GENESYS_showLineMessages: "GENESYS_showLineMessages"
   },
 };
 
