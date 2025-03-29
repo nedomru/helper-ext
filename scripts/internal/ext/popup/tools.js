@@ -257,7 +257,6 @@ async function handleSpecialistSubmit() {
       const requestBody = {
         employee: filteredEmployees[0].id,
       };
-      console.info(requestBody)
 
 
       const employee_data = await fetch(
@@ -426,7 +425,6 @@ async function selectEmployee(employeeId) {
   const requestBody = {
     employee: employeeId,
   };
-  console.info(requestBody)
 
   const employee_data = await fetch(
     `https://okc2.ertelecom.ru/yii/dossier/api/get-dossier`,
