@@ -174,7 +174,7 @@ class HighlightManager {
 
   highlightCompensation() {
     document.querySelectorAll("th").forEach(cell => {
-      if (cell.innerText === "Компенсация за аварию") {
+      if (cell.innerHTML.includes("Компенсация за аварию")) { // Используем includes()
         [cell, cell.parentElement?.querySelector("td")].forEach(element => {
           if (element) {
             element.style.color = "black";
