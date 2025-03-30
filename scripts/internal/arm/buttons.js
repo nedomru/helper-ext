@@ -1581,14 +1581,21 @@ async function leftFrame_fastSR() {
     }
 
     async function tv_noSignal() {
-        const product = document.querySelector("#proc_id")
-        product.value = "40";
-        product.dispatchEvent(changeEvent);
+        const product = document.querySelector("#proc_id");
 
-        waitForElement("#service-appeal-class-1", (substep) => {
-            substep.value = "1046";
-            substep.dispatchEvent(changeEvent);
-        });
+        const option7Exists = Array.from(product.options).some(option => option.value === "7");
+
+        const option40Exists = Array.from(product.options).some(option => option.value === "40");
+
+        if (option7Exists) {
+            product.value = "7";
+            const changeEvent = new Event('change', { bubbles: true, cancelable: true });
+            product.dispatchEvent(changeEvent);
+        } else if (option40Exists) {
+            product.value = "40";
+            const changeEvent = new Event('change', { bubbles: true, cancelable: true });
+            product.dispatchEvent(changeEvent);
+        }
 
         waitForElement("#service-appeal-class-2", (substep) => {
             substep.value = "18369";
