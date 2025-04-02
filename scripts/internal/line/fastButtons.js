@@ -180,8 +180,7 @@ async function specialistButtons() {
     "LINE_showFB_OKC",
     "LINE_showFB_BZ",
     "LINE_showFB_ARM",
-    "LINE_showFB_BreakNCK1",
-    "LINE_showFB_BreakNCK2",
+    "LINE_showFB_BreakNCK",
     "LINE_showFB_JIRA",
     "LINE_showFB_NTP1",
     "LINE_showFB_NTP2",
@@ -218,29 +217,24 @@ async function specialistButtons() {
       show: settings[4].LINE_showFB_ARM,
     },
     {
-      text: "Перики НЦК1",
-      link: "https://okc2.ertelecom.ru/yii/breaks/ntp-nck-one",
-      show: settings[5].LINE_showFB_BreakNCK1,
-    },
-    {
-      text: "Перики НЦК2",
-      link: "https://okc2.ertelecom.ru/yii/breaks/ntp-nck-two",
-      show: settings[6].LINE_showFB_BreakNCK2,
+      text: "Перики",
+      link: "https://okc2.ertelecom.ru/yii/breaks/ntp-nck",
+      show: settings[5].LINE_showFB_BreakNCK,
     },
     {
       text: "JIRA",
       link: "https://ticket.ertelecom.ru",
-      show: settings[7].LINE_showFB_JIRA,
+      show: settings[6].LINE_showFB_JIRA,
     },
     {
       text: "NTP1",
       link: "https://okc2.ertelecom.ru/yii/line_ts/ntp1/index",
-      show: settings[8].LINE_showFB_NTP1,
+      show: settings[7].LINE_showFB_NTP1,
     },
     {
       text: "NTP2",
       link: "https://okc2.ertelecom.ru/yii/line_ts/ntp2/index",
-      show: settings[9].LINE_showFB_NTP2,
+      show: settings[8].LINE_showFB_NTP2,
     },
   ];
 
