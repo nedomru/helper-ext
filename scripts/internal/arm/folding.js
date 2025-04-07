@@ -126,9 +126,9 @@ async function initInformationFold() {
 
             // Mark table as processed
             table.setAttribute("processed-by-helper", "true");
-            console.info(`[Хелпер] - [АРМ] - [Клиентская информация] Обработано скрытых строк: ${totalHidden}`,);
+            info(`[Хелпер] - [АРМ] - [Клиентская информация] Обработано скрытых строк: ${totalHidden}`,);
         } catch (error) {
-            console.error(`[Хелпер] - [АРМ] - [Клиентская информация] Ошибка:`, error,);
+            error(`[Хелпер] - [АРМ] - [Клиентская информация] Ошибка:`, error,);
         }
     }).observe(document.body, {childList: true, subtree: true});
 }
@@ -159,7 +159,7 @@ async function initApplicationsFold() {
                             totalHidden++;
                         }
                     } catch (rowError) {
-                        console.error(`[Хелпер] - [АРМ] - [Приложения] Ошибка обработки строки:`, rowError,);
+                        error(`[Хелпер] - [АРМ] - [Приложения] Ошибка обработки строки:`, rowError,);
                     }
                 });
 
@@ -210,9 +210,9 @@ async function initApplicationsFold() {
 
             // Mark table as processed
             table.setAttribute("processed-by-helper", "true");
-            console.info(`[Хелпер] - [АРМ] - [Приложения] Обработано скрытых строк: ${totalHidden}`,);
+            info(`[Хелпер] - [АРМ] - [Приложения] Обработано скрытых строк: ${totalHidden}`,);
         } catch (error) {
-            console.error(`[Хелпер] - [АРМ] - [Приложения] Ошибка:`, error);
+            error(`[Хелпер] - [АРМ] - [Приложения] Ошибка:`, error);
         }
     }).observe(document.body, {childList: true, subtree: true});
 }
@@ -357,9 +357,9 @@ async function initAppealsFold() {
             }
 
             table.setAttribute("processed-by-helper", "true");
-            console.info(`[Хелпер] - [АРМ] - [Обращения] Обработано скрытых шагов: ${totalHidden}`,);
+            info(`[Хелпер] - [АРМ] - [Обращения] Обработано скрытых шагов: ${totalHidden}`,);
         } catch (error) {
-            console.error(`[Хелпер] - [АРМ] - [Обращения] Ошибка:`, error);
+            error(`[Хелпер] - [АРМ] - [Обращения] Ошибка:`, error);
         }
     }).observe(document.body, {childList: true, subtree: true});
 }
@@ -494,9 +494,9 @@ async function initServiceRequestsFold() {
             }
 
             requestsContainer.setAttribute("processed-by-helper", "true");
-            console.info(`[Хелпер] - [АРМ] - [Сервисные заявки] Обработано скрытых шагов: ${totalHidden}`,);
+            info(`[Хелпер] - [АРМ] - [Сервисные заявки] Обработано скрытых шагов: ${totalHidden}`,);
         } catch (error) {
-            console.error(`[Хелпер] - [АРМ] - [Сервисные заявки] Ошибка:`, error);
+            error(`[Хелпер] - [АРМ] - [Сервисные заявки] Ошибка:`, error);
         }
     }).observe(document.body, {childList: true, subtree: true});
 }
@@ -622,9 +622,9 @@ async function initConnectionRequestsFold() {
             }
 
             requestsContainer.setAttribute("processed-by-helper", "true");
-            console.info(`[Хелпер] - [АРМ] - [Заявки] Обработано скрытых шагов: ${totalHidden}`,);
+            info(`[Хелпер] - [АРМ] - [Заявки] Обработано скрытых шагов: ${totalHidden}`,);
         } catch (error) {
-            console.error(`[Хелпер] - [АРМ] - [Заявки] Ошибка:`, error);
+            error(`[Хелпер] - [АРМ] - [Заявки] Ошибка:`, error);
         }
     }).observe(document.body, {childList: true, subtree: true});
 }
@@ -645,7 +645,7 @@ async function removeDiagnosticTabs() {
             $('a[href="#diagIptv"]').remove();
             $('a[href*="novotelecom"][href*="aboncard"]').remove();
         } catch (error) {
-            console.error(`[Хелпер] - [АРМ] - [Обращения] Ошибка:`, error);
+            error(`[Хелпер] - [АРМ] - [Обращения] Ошибка:`, error);
         }
     }).observe(document.body, {childList: true, subtree: true});
 }
@@ -704,7 +704,7 @@ async function removeAppealsColumns() {
                 });
             });
         } catch (error) {
-            console.error(`[Хелпер] - [АРМ] - [Обращения] Ошибка:`, error);
+            error(`[Хелпер] - [АРМ] - [Обращения] Ошибка:`, error);
         }
     }).observe(document.body, {childList: true, subtree: true});
 }

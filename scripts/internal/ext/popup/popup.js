@@ -24,11 +24,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     );
     selectElement.selectedIndex = optionIndex >= 0 ? optionIndex : 0;
 
-    console.info(
+    info(
       `[${new Date().toLocaleTimeString()}] [Хелпер] - [Проверка премии] Загружена линия специалиста: ${specialistLine}`,
     );
   } catch (error) {
-    console.error(
+    error(
       `[${new Date().toLocaleTimeString()}] [Хелпер] - [Проверка премии] Ошибка при загрузке линии:`,
       error,
     );

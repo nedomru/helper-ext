@@ -28,7 +28,7 @@ async function showTab(tabId) {
     }
     browser.storage.sync.set({ lastTab: tabId });
   } else {
-    console.warn(`Tab content for "${tabId}" not found.`);
+    warn(`Tab content for "${tabId}" not found.`);
   }
 
   document.querySelectorAll(".helper-tab-btn").forEach((button) => {
@@ -59,7 +59,7 @@ async function initTabs() {
       showTab(lastTab);
     })
     .catch((error) => {
-      console.error("Error retrieving last tab:", error);
+      error("Error retrieving last tab:", error);
       showTab("Главная");
     });
   await fetchMNA(true);
@@ -123,7 +123,7 @@ async function fetchFromAPI(api_url) {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error(`Error fetching from ${api_url}:`, error);
+    error(`Error fetching from ${api_url}:`, error);
     throw error;
   }
 }
@@ -162,7 +162,7 @@ async function fetchMNA(cachedOnly = false) {
 
     if (data) {
       displayMNAData(data);
-      console.info(
+      info(
         `[Хелпер] - [Общее] - [Провайдеры] Список провайдеров загружен из кеша`,
       );
     }
@@ -176,7 +176,7 @@ async function fetchMNA(cachedOnly = false) {
     if (JSON.stringify(providersApiData) !== JSON.stringify(data)) {
       // If data is different, update cache and display
       await saveToStorage("mnaData", providersApiData);
-      console.info(
+      info(
         `[Хелпер] - [Общее] - [Провайдеры] Загружены новые провайдеры из API`,
       );
       data = providersApiData;
@@ -188,7 +188,7 @@ async function fetchMNA(cachedOnly = false) {
       displayMNAData(data);
     }
   } catch (error) {
-    console.error("Error fetching MNA data:", error);
+    error("Error fetching MNA data:", error);
   }
 }
 
@@ -235,7 +235,7 @@ function displayMNAData(data) {
 
     providersTableElement.style.opacity = "1";
   } else {
-    console.error('Key "mna" not found or is not an array:', data);
+    error('Key "mna" not found or is not an array:', data);
   }
 }
 
@@ -257,7 +257,7 @@ async function fetchRouters(cachedOnly = false) {
     if (data) {
       // If data exists in cache, display it immediately
       displayRoutersData(data);
-      console.info(
+      info(
         `[Хелпер] - [Общее] - [Роутеры] Список роутеров загружен из кеша`,
       );
     }
@@ -271,7 +271,7 @@ async function fetchRouters(cachedOnly = false) {
     if (JSON.stringify(routersApiData) !== JSON.stringify(data)) {
       // If data is different, update cache and display
       await saveToStorage("routersData", routersApiData);
-      console.info(
+      info(
         `[Хелпер] - [Общее] - [Роутеры] Загружены новые роутеры из API`,
       );
       data = routersApiData;
@@ -283,7 +283,7 @@ async function fetchRouters(cachedOnly = false) {
       displayRoutersData(data);
     }
   } catch (error) {
-    console.error("Error fetching routers data:", error);
+    error("Error fetching routers data:", error);
   }
 }
 
@@ -339,7 +339,7 @@ function displayRoutersData(data) {
 
     routersTableElement.style.opacity = "1";
   } else {
-    console.error('Key "routers" not found or is not an array:', data);
+    error('Key "routers" not found or is not an array:', data);
   }
 }
 

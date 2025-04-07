@@ -12,7 +12,7 @@ class HighlightManager {
       this.settings = await browser.storage.sync.get("ARM_removeUselessAppealsColumns");
       this.isInitialized = true;
     } catch (error) {
-      console.error("[Хелпер] - [Подсветка] Ошибка инициализации:", error);
+      error("[Хелпер] - [Подсветка] Ошибка инициализации:", error);
     }
   }
 
@@ -32,7 +32,7 @@ class HighlightManager {
         "Компенсация за аварию": settings.HIGHLIGHTER_COMPENSATION || "#66CDAA"
       };
     } catch (error) {
-      console.error("[Хелпер] - [Подсветка] Ошибка при получении цветов:", error);
+      error("[Хелпер] - [Подсветка] Ошибка при получении цветов:", error);
       return {};
     }
   }
@@ -112,7 +112,7 @@ class HighlightManager {
       try {
         this.processServiceStatus(container);
       } catch (error) {
-        console.error('[Хелпер] Ошибка подсветки статуса:', error);
+        error('[Хелпер] Ошибка подсветки статуса:', error);
         container.setAttribute('data-helper-processed', 'true');
       }
     }

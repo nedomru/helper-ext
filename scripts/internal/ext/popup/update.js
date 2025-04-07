@@ -54,9 +54,9 @@ async function fetchReleaseInfo() {
       link.setAttribute("rel", "noopener noreferrer");
     });
 
-    console.info(`[Хелпер] - Получено описание релиза`);
+    info(`[Хелпер] - Получено описание релиза`);
   } catch (error) {
-    console.error(
+    error(
       `[Хелпер] - Ошибка при получении информации о релизе:`,
       error,
     );

@@ -91,7 +91,7 @@ async function searchByAppeal() {
         });
       }
     } catch (error) {
-      console.error(`[Хелпер] - [АРМ] - [Обращения] Ошибка:`, error);
+      error(`[Хелпер] - [АРМ] - [Обращения] Ошибка:`, error);
     }
   }).observe(document.getElementById("lazy_content_2448") || document.body, {
     childList: true,
@@ -140,7 +140,7 @@ async function searchByLog() {
         });
       }
     } catch (error) {
-      console.error(`[Хелпер] - [АРМ] - [Обращения] Ошибка:`, error);
+      error(`[Хелпер] - [АРМ] - [Обращения] Ошибка:`, error);
     }
   }).observe(document.body, { childList: true, subtree: true });
 }
@@ -199,7 +199,7 @@ async function searchByFlag() {
         observer.disconnect();
       }
     } catch (error) {
-      console.error(`[Хелпер] - [АРМ] - [Признаки] Ошибка:`, error);
+      error(`[Хелпер] - [АРМ] - [Признаки] Ошибка:`, error);
     }
   });
 

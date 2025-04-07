@@ -23,7 +23,7 @@ async function hideUselessButtons() {
       document.querySelector(".rebranding-logo").remove();
 
       observerOther.disconnect();
-      console.info(
+      info(
         `[Хелпер] - [Генезис] - [Бесполезные кнопки] Все бесполезные кнопки удалены`,
       );
     }
@@ -74,7 +74,7 @@ window.genesys.wwe.configuration.set("chat.client.text-color", "${clientTextColo
           hideAnimation: 'fadeOut',
           html: true
         });
-        console.info(
+        info(
           `[Хелпер] - [Генезис] - [Цвета чата] - Применены кастомные цвета чата`,
         );
       },
@@ -140,7 +140,7 @@ window.genesys.wwe.configuration.set("chat.new-message-bell", "${newMessageSound
           hideAnimation: 'fadeOut',
           html: true
         });
-        console.info(
+        info(
           `[Хелпер] - [Генезис] - [Цвета чата] - Применены кастомные звуки чата`,
         );
       },
@@ -544,7 +544,7 @@ async function allowImagePaste() {
           $(".wwe-button-send-file-show").css("display", "none");
           $(".wwe-button-send-file-hide").css("display", "inline-block");
         } catch (error) {
-          console.error("[Хелпер] - Ошибка вставки картинки из буфера:", error);
+          error("[Хелпер] - Ошибка вставки картинки из буфера:", error);
         }
         break;
       }

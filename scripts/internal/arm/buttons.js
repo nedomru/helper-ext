@@ -94,7 +94,7 @@ async function copyMAC() {
             macLookupCache.set(macAddress, result);
             return result;
         } catch (error) {
-            console.error("MAC lookup error:", error);
+            error("MAC lookup error:", error);
             throw error;
         }
     }
@@ -311,7 +311,7 @@ async function copyIP() {
 
                     $.notify(`Город: ${data.location?.city || 'Неизвестно'}\nТип IP: ${ipStatus}`, 'success');
                 } catch (error) {
-                    console.error('Error checking IP:', error);
+                    error('Error checking IP:', error);
                     $.notify('Не удалось проверить IP', 'error');
                 }
             }
@@ -411,7 +411,7 @@ function copyClientCard() {
         // Opening card to trigger generation of card text
         clientCardShowButton.click();
     } catch (e) {
-        console.warn(`[Хелпер] - [АРМ] - [Копирование карточки] Не найдена карточка клиента`,);
+        warn(`[Хелпер] - [АРМ] - [Копирование карточки] Не найдена карточка клиента`,);
         return;
     }
 
@@ -437,7 +437,7 @@ function copyClientCard() {
     clientCard.appendChild(lineBreak);
     clientCard.appendChild(copyButton);
 
-    console.info(`[Хелпер] - [АРМ] - [Копирование] Добавлена кнопка копирования карточки`,);
+    info(`[Хелпер] - [АРМ] - [Копирование] Добавлена кнопка копирования карточки`,);
 }
 
 /**
@@ -453,7 +453,7 @@ async function sendClientCardExample() {
         // Opening card to trigger generation of card text
         clientCardShowButton.click();
     } catch (e) {
-        console.warn(`[Хелпер] - [АРМ] - [Отправка примеров] Не найдена карточка клиента`,);
+        warn(`[Хелпер] - [АРМ] - [Отправка примеров] Не найдена карточка клиента`,);
         return;
     }
 
@@ -492,20 +492,20 @@ async function sendClientCardExample() {
 
             if (responseData.success === true) {
                 $.notify("Пример успешно отправлен", "success");
-                console.info(`[Хелпер] - [Пример договора] Пример успешно отправлен`);
+                info(`[Хелпер] - [Пример договора] Пример успешно отправлен`);
             } else {
                 $.notify("Не удалось отправить пример");
-                console.error(`[Хелпер] - [Пример договора] Ошибка отправки: ${JSON.stringify(responseData)}`,);
+                error(`[Хелпер] - [Пример договора] Ошибка отправки: ${JSON.stringify(responseData)}`,);
             }
         } catch (error) {
             $.notify("Не удалось отправить пример");
-            console.error(`[Хелпер] - [Пример договора] Произошла ошибка: ${error}`);
+            error(`[Хелпер] - [Пример договора] Произошла ошибка: ${error}`);
         }
     });
     clientCard.appendChild(lineBreak);
     clientCard.appendChild(sendExampleButton);
 
-    console.info(`[Хелпер] - [АРМ] - [Пример договора] Добавлена кнопка отправки примера`,);
+    info(`[Хелпер] - [АРМ] - [Пример договора] Добавлена кнопка отправки примера`,);
 }
 
 /**
@@ -536,7 +536,7 @@ async function copyClientAgreement() {
     agreementBeforeTab.appendChild(lineBreak);
     agreementBeforeTab.appendChild(copyButton);
 
-    console.info(`[Хелпер] - [АРМ] - [Копирование] Добавлена кнопка копирования договора`,);
+    info(`[Хелпер] - [АРМ] - [Копирование] Добавлена кнопка копирования договора`,);
 }
 
 /**
@@ -552,7 +552,7 @@ async function copyClientAddress() {
     try {
         address_text = document.getElementById("dr").innerText;
     } catch (e) {
-        console.warn(`[Хелпер] - [АРМ] - [Копирование адреса] Не найден адрес клиента`,);
+        warn(`[Хелпер] - [АРМ] - [Копирование адреса] Не найден адрес клиента`,);
         return;
     }
     if (!address_text) {
@@ -596,7 +596,7 @@ async function copyClientAddress() {
     address.appendChild(lineBreak);
     address.appendChild(copyButton);
 
-    console.info(`[Хелпер] - [АРМ] - [Копирование адреса] Добавлена кнопка копирования адреса`,);
+    info(`[Хелпер] - [АРМ] - [Копирование адреса] Добавлена кнопка копирования адреса`,);
 }
 
 /**
@@ -611,7 +611,7 @@ async function copyText(text) {
     try {
         document.execCommand("copy");
     } catch (err) {
-        console.error("[Хелпер] - [Копирование текста] Не удалось скопировать текст, ошибка: ", err,);
+        error("[Хелпер] - [Копирование текста] Не удалось скопировать текст, ошибка: ", err,);
     }
     document.body.removeChild(textarea);
 }
@@ -1737,7 +1737,7 @@ async function fastButtonsChangeRequest() {
         });
         observer.observe(document.body, {childList: true, subtree: true});
 
-        console.info(`[Хелпер] - [АРМ] - [Обращения] Обращение изменено на Онлайн вход - КС`,);
+        info(`[Хелпер] - [АРМ] - [Обращения] Обращение изменено на Онлайн вход - КС`,);
 
         $.notify("Обращение изменено: Онлайн вход - КС", "success");
     }
@@ -1780,7 +1780,7 @@ async function fastButtonsChangeRequest() {
 
         observer.observe(document.body, {childList: true, subtree: true});
 
-        console.info(`[Хелпер] - [АРМ] - [Обращения] Обращение изменено на ОЦТП Исход - КС`,);
+        info(`[Хелпер] - [АРМ] - [Обращения] Обращение изменено на ОЦТП Исход - КС`,);
         $.notify("Обращение изменено на ОЦТП Исход - КС", "success");
     }
 
@@ -1821,7 +1821,7 @@ async function fastButtonsChangeRequest() {
 
         observer.observe(document.body, {childList: true, subtree: true});
 
-        console.info(`[Хелпер] - [АРМ] - [Обращения] Обращение изменено на ТС/ААО`);
+        info(`[Хелпер] - [АРМ] - [Обращения] Обращение изменено на ТС/ААО`);
         $.notify("Обращение изменено на ТС/ААО", "success");
     }
 
@@ -1862,7 +1862,7 @@ async function fastButtonsChangeRequest() {
 
         observer.observe(document.body, {childList: true, subtree: true});
 
-        console.info(`[Хелпер] - [АРМ] - [Обращения] Обращение изменено на НРД - Исход`,);
+        info(`[Хелпер] - [АРМ] - [Обращения] Обращение изменено на НРД - Исход`,);
         $.notify("Обращение изменено на НРД - Исход", "success");
     }
 
@@ -1904,7 +1904,7 @@ async function fastButtonsChangeRequest() {
 
         observer.observe(document.body, {childList: true, subtree: true});
 
-        console.info(`[Хелпер] - [АРМ] - [Обращения] Обращение изменено на НТП - Исход`,);
+        info(`[Хелпер] - [АРМ] - [Обращения] Обращение изменено на НТП - Исход`,);
         $.notify("Обращение изменено на НТП - Исход", "success");
     }
 
@@ -1932,7 +1932,7 @@ async function fastButtonsChangeRequest() {
         step.value = "616";
         step.dispatchEvent(changeEvent);
 
-        console.info(`[Хелпер] - [АРМ] - [Обращения] Обращение изменено на Абон - Исход`,);
+        info(`[Хелпер] - [АРМ] - [Обращения] Обращение изменено на Абон - Исход`,);
         $.notify("Обращение изменено на Абон - Исход", "success");
     }
 }
@@ -2209,7 +2209,7 @@ async function agrTransCompensationButton() {
                             // Add small delay between requests
                             await new Promise((resolve) => setTimeout(resolve, 100));
                         } catch (error) {
-                            console.error("Error processing compensation:", error);
+                            error("Error processing compensation:", error);
                             errorCount++;
                         }
                     }
@@ -2222,7 +2222,7 @@ async function agrTransCompensationButton() {
                         $.notify(`Ошибок при добавлении: ${errorCount}`, "error");
                     }
                 } catch (error) {
-                    console.error("Failed to process compensations:", error);
+                    error("Failed to process compensations:", error);
                     $.notify("Произошла ошибка при обработке компенсаций", "error");
                 }
             };
@@ -2391,7 +2391,7 @@ async function infoCompensationButton() {
                 $.notify(`${date} - АРМ не дает компенсировать. Попробуй вручную`, "error",);
             }
         } catch (error) {
-            console.error("Ошибка компенсации:", error);
+            error("Ошибка компенсации:", error);
             throw error;
         }
     }

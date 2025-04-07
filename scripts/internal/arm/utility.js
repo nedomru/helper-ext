@@ -67,7 +67,7 @@ async function setHelperAnticipation() {
         button.innerHTML += ` | ${type.name}`;
         button.style.backgroundColor = "#cc3300";
         problems++;
-        console.info(`[Хелпер] - [АРМ] - [Предвосхищение] ${type.logMessage}`);
+        info(`[Хелпер] - [АРМ] - [Предвосхищение] ${type.logMessage}`);
         return true;
     };
 
@@ -127,7 +127,7 @@ async function setHelperAnticipation() {
         button.style.backgroundColor = "#008000";
     }
 
-    console.info(`[Хелпер] - [АРМ] - [Предвосхищение] Предвосхищение загружено`);
+    info(`[Хелпер] - [АРМ] - [Предвосхищение] Предвосхищение загружено`);
 }
 
 /**
@@ -276,7 +276,7 @@ async function checkForSpecialClient() {
     const checkSpecialClient = (element) => {
         if (element.textContent.trim() === "Особый Клиент") {
             alert("Внимание! Особый клиент!");
-            console.info(`[Хелпер] - [АРМ] - [Особый клиент] Найден особый клиент`);
+            info(`[Хелпер] - [АРМ] - [Особый клиент] Найден особый клиент`);
             observerSpecial.disconnect();
         }
     };
@@ -338,7 +338,7 @@ async function autoFormatEQM() {
                 }
             });
         } catch (error) {
-            console.error(`[Хелпер] - [АРМ] - [Обращения] Ошибка:`, error);
+            error(`[Хелпер] - [АРМ] - [Обращения] Ошибка:`, error);
         }
     }).observe(document.body, {
         childList: true, subtree: true, characterData: true, attributeFilter: ["value"],

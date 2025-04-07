@@ -72,7 +72,7 @@ async function handleMacSubmit() {
     loadingSpinner.style.display = "none";
     document.getElementById("result-container").innerText =
       "Не удалось проверить MAC-адрес";
-    console.error("Ошибка:", error);
+    error("Ошибка:", error);
   }
 }
 
@@ -180,7 +180,7 @@ async function handleIPSubmit() {
     loadingSpinner.style.display = "none";
     document.getElementById("result-container").innerText =
       "Не удалось проверить Whois домена";
-    console.error("Ошибка:", error);
+    error("Ошибка:", error);
   }
 }
 
@@ -208,7 +208,7 @@ async function handleLinkSubmit() {
       document.getElementById("input-link").value = result;
     }
   } catch (error) {
-    console.error("Fetch error:", error);
+    error("Fetch error:", error);
   }
 }
 
@@ -232,7 +232,7 @@ async function handleSpecialistSubmit() {
     let employees_data = await getFromStorage("employeesData");
 
     if (employees_data) {
-      console.info(
+      info(
         `[Хелпер] - [Общее] - [Специалисты] Список специалистов загружен из кеша`,
       );
       resultsDiv.style.display = "block";
@@ -376,7 +376,7 @@ async function handleSpecialistSubmit() {
     });
   } catch (error) {
     $.notify("Произошла ошибка", "error");
-    console.error(error);
+    error(error);
   }
 }
 
@@ -534,11 +534,11 @@ async function handlePremiumSubmit() {
   const inputField = document.getElementById("premium-select").value;
   try {
     await browser.storage.sync.set({ POPUP_userLine: inputField });
-    console.info(
+    info(
       `[Хелпер] - [Проверка премии] Линия специалиста установлена: ${inputField}`,
     );
   } catch (error) {
-    console.error(
+    error(
       `[Хелпер] - [Проверка премии] Ошибка при сохранении линии:`,
       error,
     );
@@ -564,7 +564,7 @@ async function handlePremiumSubmit() {
         "https://okc2.ertelecom.ru/yii/premium/ntp-nck2/get-premium-head-month";
       break;
     default:
-      console.error(`[Хелпер] - [Проверка премии] Ошибка получения должности`);
+      error(`[Хелпер] - [Проверка премии] Ошибка получения должности`);
   }
 
   const formattedDate = `01.${String(month).padStart(2, "0")}.${year}`;
@@ -962,7 +962,7 @@ async function handlePremiumSubmit() {
     loadingSpinner.style.display = "none";
     document.getElementById("result-container").innerText =
       "Не удалось получить премию\nУбедись, что ты авторизован(а) на okc2.ertelecom.ru/yii";
-    console.error("Ошибка:", error);
+    error("Ошибка:", error);
   }
 }
 

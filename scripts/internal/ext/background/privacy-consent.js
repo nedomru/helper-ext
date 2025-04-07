@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
         await browser.storage.sync.clear();
         await browser.management.uninstallSelf();
       } catch (error) {
-        console.error("Ошибка при удалении:", error);
+        error("Ошибка при удалении:", error);
         alert(
           "Пожалуйста, удали расширение самостоятельно на странице about:addons",
         );

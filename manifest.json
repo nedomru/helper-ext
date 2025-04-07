@@ -29,6 +29,7 @@
         "scripts/external/notify.js",
         "scripts/external/dompurify.min.js",
 
+        "scripts/internal/ext/settings/logger.js",
         "scripts/internal/ext/background/getCookies.js",
         "scripts/internal/ext/popup/tools.js",
         "scripts/internal/ext/popup/sections.js",

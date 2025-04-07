@@ -24,7 +24,7 @@ async function highlightOperators() {
 
   const appointmentsTable = document.getElementsByClassName("bottom-row")[0];
   if (!appointmentsTable) {
-    console.error("[Хелпер] - [Линия] Таблица не найдена");
+    error("[Хелпер] - [Линия] Таблица не найдена");
     return;
   }
 
@@ -95,7 +95,7 @@ async function highlightEndingAppointments() {
 
   const appointmentsTable = document.getElementsByClassName("bottom-row")[0];
   if (!appointmentsTable) {
-    console.error("[Хелпер] - [Линия] Таблица не найдена");
+    error("[Хелпер] - [Линия] Таблица не найдена");
     return;
   }
 

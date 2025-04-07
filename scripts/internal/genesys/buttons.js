@@ -185,7 +185,7 @@ async function initGenesysButtons() {
         navMenu.insertBefore(dropdownContainer, navMenu.firstChild);
         navMenu.insertBefore(divider, dropdownContainer);
         observer.disconnect();
-        console.info(
+        info(
           "[Хелпер] - [Генезис] - [Быстрые кнопки] Добавлено выпадающее меню",
         );
       }
@@ -193,7 +193,7 @@ async function initGenesysButtons() {
 
     observer.observe(document.body, { childList: true, subtree: true });
   } catch (error) {
-    console.error(
+    error(
       "[Хелпер] - [Генезис] - [Быстрые кнопки] Ошибка инициализации:",
       error,
     );

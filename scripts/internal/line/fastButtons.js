@@ -133,11 +133,11 @@ async function dutyButtons() {
     const buttons = linksData.map(createLinkTab);
     buttons.forEach((button) => containerList.appendChild(button));
 
-    console.info(
+    info(
       "[Хелпер] - [Линия] - [Кнопки дежурных] Добавлены кнопки дежурного",
     );
   } catch (error) {
-    console.error(
+    error(
       "[Хелпер] - [Линия] - [Кнопки дежурных] Ошибка при добавлении кнопок:",
       error,
     );

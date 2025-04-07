@@ -82,7 +82,7 @@ async function wrongTransferFalse() {
         radioButton.removeAttribute("disabled");
         radioButton.click();
 
-        console.info(`[Хелпер] - [АРМ] - [Обращения] Отмечено как не ошибочное`);
+        info(`[Хелпер] - [АРМ] - [Обращения] Отмечено как не ошибочное`);
     }
 }
 
@@ -94,5 +94,5 @@ async function removeSetForMe() {
     checkbox.removeAttribute("disabled");
     checkbox.checked = false;
 
-    console.info(`[Хелпер] - [АРМ] - [Обращения] Убрано назначение обращения на себя`,);
+    info(`[Хелпер] - [АРМ] - [Обращения] Убрано назначение обращения на себя`,);
 }

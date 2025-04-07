@@ -7,9 +7,38 @@
     <script src="../scripts/external/jquery.min.js"></script>
     <script src="../scripts/external/notify.js"></script>
     <script src="../scripts/external/bootstrap.bundle.min.js"></script>
+    <script src="../scripts/internal/ext/settings/logger.js"></script>
     <script src="../scripts/internal/ext/settings/settings.js"></script>
     <link href="../styles/internal/settings.css" rel="stylesheet" type="text/css">
     <link href="../styles/external/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <style>
+        .log-viewer {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .log-viewer pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: monospace;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .settings-item {
+            margin-bottom: 15px;
+        }
+
+        .settings-item button {
+            margin-right: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -96,6 +125,22 @@
                                         Импортированные вкладки будут открыты в новых вкладках, сохраняя состояние
                                         закрепления.
                                     </small>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <!-- Логи -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Логи</h5>
+                                <div class="settings-item">
+                                    <button id="downloadLogs" class="btn btn-primary">Скачать логи</button>
+                                    <button id="clearLogs" class="btn btn-danger">Очистить логи</button>
+                                </div>
+                                <div class="settings-item">
+                                    <div id="logViewer" class="log-viewer">
+                                        <pre id="logContent"></pre>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -3271,6 +3316,7 @@
         </div>
     </div>
 </div>
+
 </body>
 
 </html>

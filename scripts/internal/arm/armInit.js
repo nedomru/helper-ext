@@ -71,7 +71,7 @@ const initializeFeatures = async (features) => {
             }
         });
     } catch (error) {
-        console.error("[Хелпер] - Ошибка инициализации:", error);
+        error("[Хелпер] - Ошибка инициализации:", error);
     }
 };
 
@@ -128,7 +128,7 @@ const initializeExtension = async () => {
 
         if (tabsToDelete.length) {
             await deleteTabs(tabsToDelete);
-            console.info("[Хелпер] - [АРМ] - [Удаление вкладок] Вкладки удалены");
+            info("[Хелпер] - [АРМ] - [Удаление вкладок] Вкладки удалены");
         }
 
         // Инициализация функций АРМа
@@ -150,5 +150,5 @@ const initializeExtension = async () => {
 
 // Инициализация расширения
 initializeExtension().catch((error) => {
-    console.error("[Хелпер] - Ошибка инициализации расширения:", error);
+    error("[Хелпер] - Ошибка инициализации расширения:", error);
 });

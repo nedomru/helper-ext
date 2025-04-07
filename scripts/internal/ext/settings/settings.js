@@ -46,12 +46,12 @@ document.addEventListener("DOMContentLoaded", async function () {
         browser.storage.sync
             .set({GENESYS_chatSound_newChatSound: selectedSound})
             .then(() => {
-                console.info(
+                info(
                     `[Хелпер] - [Настройки] Настройка выбранного звука изменена на ${selectedSound}`,
                 );
             })
             .catch((error) => {
-                console.error(
+                error(
                     `[Хелпер] - [Настройки] Ошибка при сохранении выбранного звука: ${error}`,
                 );
             });
@@ -64,12 +64,12 @@ document.addEventListener("DOMContentLoaded", async function () {
         browser.storage.sync
             .set({GENESYS_chatSound_newMessageSound: selectedSound})
             .then(() => {
-                console.info(
+                info(
                     `[Хелпер] - Настройка выбранного звука изменена на ${selectedSound}`,
                 );
             })
             .catch((error) => {
-                console.error("Ошибка при сохранении выбранного звука:", error);
+                error("Ошибка при сохранении выбранного звука:", error);
             });
     }
 
@@ -211,7 +211,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             checkbox.checked = result[id] || false;
         });
     } catch (error) {
-        console.error(`Ошибка при загрузке настроек: ${error}`);
+        error(`Ошибка при загрузке настроек: ${error}`);
     }
 
     try {
@@ -221,7 +221,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             colorPicker.value = colorResults[id] || "#007bff";
         });
     } catch (error) {
-        console.error(`Ошибка при загрузке цветов: ${error}`);
+        error(`Ошибка при загрузке цветов: ${error}`);
     }
 
     try {
@@ -231,7 +231,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         document.getElementById("messageSoundSelect").value =
             soundSelects.GENESYS_chatSound_newMessageSound;
     } catch (error) {
-        console.error(`Ошибка при загрузке звуков: ${error}`);
+        error(`Ошибка при загрузке звуков: ${error}`);
     }
 
     function handleCheckboxChange(event) {
@@ -240,7 +240,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         browser.storage.sync
             .set({[setting]: isChecked})
             .then(() => {
-                console.info(
+                info(
                     `[Хелпер] - [Настройки] Настройка ${setting} изменена на ${isChecked}`,
                 );
             })
@@ -253,7 +253,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         browser.storage.sync
             .set({[colorSetting]: colorValue})
             .then(() => {
-                console.info(
+                info(
                     `[Хелпер] - [Настройки] Цвет ${colorSetting} изменён на ${colorValue}`,
                 );
             })
@@ -298,7 +298,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             "ARM_hideTabLoans",
         ];
         toggleCheckboxes(moneyCheckboxIds);
-        console.info(`[Хелпер] - [Настройки] Скрыты вкладки начислений`);
+        info(`[Хелпер] - [Настройки] Скрыты вкладки начислений`);
     });
 
     // Обработчик для кнопки "toggleOtherButton"
@@ -314,7 +314,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             "ARM_hideTabDiagnosticNew",
         ];
         toggleCheckboxes(otherCheckboxIds);
-        console.info(`[Хелпер] - [Настройки] Скрыты побочные вкладки`);
+        info(`[Хелпер] - [Настройки] Скрыты побочные вкладки`);
     });
 
     // Экспорт настроек
@@ -349,7 +349,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         reader.onload = function (event) {
             const settings = JSON.parse(event.target.result);
             browser.storage.sync.set(settings, function () {
-                console.info(
+                info(
                     `[Хелпер] - [Настройки] - Настройки успешно экспортированы`,
                 );
                 $.notify("Настройки успешно импортированы", "success");
@@ -384,7 +384,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 URL.revokeObjectURL(url);
             })
             .catch((error) => {
-                console.error(
+                error(
                     `[Хелпер] - [Настройки] Ошибка при экспорте вкладок:`,
                     error,
                 );
@@ -427,14 +427,14 @@ document.addEventListener("DOMContentLoaded", async function () {
                         $.notify("Вкладки успешно импортированы", "success");
                     })
                     .catch((error) => {
-                        console.error(
+                        error(
                             `[Хелпер] - [Настройки] Ошибка при импорте вкладок:`,
                             error,
                         );
                         $.notify("Ошибка при импорте вкладок", "error");
                     });
             } catch (error) {
-                console.error(
+                error(
                     `[Хелпер] - [Настройки] Ошибка при парсинге файла вкладок:`,
                     error,
                 );
@@ -443,6 +443,46 @@ document.addEventListener("DOMContentLoaded", async function () {
         };
         reader.readAsText(file);
     }
+
+    // Add log management functionality
+    const downloadLogsBtn = document.getElementById('downloadLogs');
+    const clearLogsBtn = document.getElementById('clearLogs');
+    const logContent = document.getElementById('logContent');
+
+    // Function to update log viewer
+    async function updateLogViewer() {
+        try {
+            const logs = await getLogs();
+            const logText = logs.map(log => 
+                `[${log.timestamp}] [${log.level}]${log.module ? ` [${log.module}]` : ''} ${log.message}`
+            ).join('\n');
+            logContent.textContent = logText;
+        } catch (error) {
+            error('Error updating log viewer:', error);
+        }
+    }
+
+    // Download logs button handler
+    downloadLogsBtn.addEventListener('click', async () => {
+        try {
+            await downloadLogs();
+        } catch (error) {
+            error('Error downloading logs:', error);
+        }
+    });
+
+    // Clear logs button handler
+    clearLogsBtn.addEventListener('click', async () => {
+        try {
+            await clearLogs();
+            await updateLogViewer();
+        } catch (error) {
+            error('Error clearing logs:', error);
+        }
+    });
+
+    // Initial log viewer update
+    await updateLogViewer();
 });
 
 async function checkForUpdates() {
@@ -477,7 +517,7 @@ async function checkForUpdates() {
 }
 
 function onError(error) {
-    console.error(`[Хелпер] - [Настройки] Произошла ошибка: ${error}`);
+    error(`[Хелпер] - [Настройки] Произошла ошибка: ${error}`);
 }
 
 $(document).ready(function () {

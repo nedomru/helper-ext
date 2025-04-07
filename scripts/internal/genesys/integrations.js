@@ -33,7 +33,7 @@ async function attemptReconnect() {
     reconnectAttempts++;
 
     const delay = baseReconnectDelay * Math.pow(2, reconnectAttempts);
-    console.warn(`[Генезис] Переподключение через ${delay / 1000} сек...`);
+    warn(`[Генезис] Переподключение через ${delay / 1000} сек...`);
 
     await new Promise(r => setTimeout(r, delay));
 
@@ -57,7 +57,7 @@ async function socketConnect(sessionID) {
     socket = new WebSocket(url);
 
     socket.onopen = async () => {
-        console.log("[Генезис] WebSocket открыт.");
+        info("[Генезис] WebSocket открыт.");
         reconnectAttempts = 0;
 
         const settings = await getStorage(["GENESYS_showLineStatus_nck1", "GENESYS_showLineStatus_nck2"]);
@@ -81,7 +81,7 @@ async function socketConnect(sessionID) {
         }
 
         if (data.startsWith('42/ts-line-genesys-okcdb-ws,["connected"]')) {
-            console.info(`[Генезис] Подключено к WebSocket.`);
+            info(`[Генезис] Подключено к WebSocket.`);
             return;
         }
 
@@ -99,13 +99,13 @@ async function socketConnect(sessionID) {
             const jsonData = JSON.parse(data.split(/,\s*(.+)/)[1]);
             handleSocketMessages(jsonData[1]);
         } catch (err) {
-            console.error(`[Генезис] Ошибка обработки сообщения:`, err);
+            error(`[Генезис] Ошибка обработки сообщения:`, err);
         }
     };
 
     socket.onclose = event => {
         isActive = false;
-        console.warn(`[Генезис] WebSocket закрыт. Код: ${event.code}, Причина: ${event.reason}`);
+        warn(`[Генезис] WebSocket закрыт. Код: ${event.code}, Причина: ${event.reason}`);
 
         [document.querySelector("#line-status-nck1"), document.querySelector("#line-status-nck2")].forEach(el => {
             if (el) {
@@ -120,7 +120,7 @@ async function socketConnect(sessionID) {
     };
 
     socket.onerror = error => {
-        console.error(`[Генезис] WebSocket ошибка:`, error.message);
+        error(`[Генезис] WebSocket ошибка:`, error.message);
         showNotification("⚠️ Ошибка линии", `Соединение потеряно: ${error.message || "Неизвестная ошибка"}`);
         socket.close();
         isActive = false;
@@ -324,7 +324,7 @@ async function otpcLineStatus() {
                 if (lastStatus !== "нет апдейтов") {
                     genesysTitle.textContent = "НЦК2: нет апдейтов";
                     lastStatus = "нет апдейтов";
-                    console.warn(`[Хелпер] - [Генезис] - [Аварийность] Изменений аварийности не найдено`,);
+                    warn(`[Хелпер] - [Генезис] - [Аварийность] Изменений аварийности не найдено`,);
                 }
                 return;
             }
@@ -346,7 +346,7 @@ async function otpcLineStatus() {
                 genesysTitle.style.color = isActive ? "#FF0000" : "#00FF00";
             }
         } catch (error) {
-            console.error(`[Хелпер] - [Генезис] - [Аварийность] Ошибка:`, error);
+            error(`[Хелпер] - [Генезис] - [Аварийность] Ошибка:`, error);
         }
     }
 
@@ -364,5 +364,5 @@ async function otpcLineStatus() {
     // Regular updates every second
     setInterval(getLineUpdate, 1000);
 
-    console.info(`[Хелпер] - [Генезис] - [Аварийность] Загружена аварийность НЦК2`,);
+    info(`[Хелпер] - [Генезис] - [Аварийность] Загружена аварийность НЦК2`,);
 }

@@ -15,7 +15,7 @@ if (document.URL.indexOf("okc2.ertelecom.ru") !== -1) {
 
   const PHPSESSID = getCookie("PHPSESSID");
   browser.storage.sync.set({ okc_phpSessionId: PHPSESSID }, function () {
-    console.info(
+    info(
       `[Хелпер] - [Настройки] - Обновлен актуальный PHPSESSID :`,
       PHPSESSID,
     );
@@ -30,7 +30,7 @@ async function getOKCSessionId() {
     // First try to get from storage
     const result = await browser.storage.sync.get("okc_phpSessionId");
     if (result.okc_phpSessionId) {
-      console.info(
+      info(
         "[Хелпер] - [Настройки] - Получен PHPSESSID из storage:",
         result.okc_phpSessionId,
       );
@@ -47,19 +47,19 @@ async function getOKCSessionId() {
       const PHPSESSID = cookies.value;
       // Save to storage for future use
       await browser.storage.sync.set({ okc_phpSessionId: PHPSESSID });
-      console.info(
+      info(
         "[Хелпер] - [Настройки] - Получен и сохранен PHPSESSID из cookies:",
         PHPSESSID,
       );
       return PHPSESSID;
     }
 
-    console.warn(
+    warn(
       "[Хелпер] - [Настройки] - PHPSESSID не найден ни в storage, ни в cookies",
     );
     return null;
   } catch (error) {
-    console.error(
+    error(
       "[Хелпер] - [Настройки] - Ошибка при получении PHPSESSID:",
       error,
     );

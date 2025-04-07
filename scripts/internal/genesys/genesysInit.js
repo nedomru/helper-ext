@@ -27,9 +27,9 @@ const GENESYS_FEATURES = {
 
 // Инициализация логгера
 const Logger = {
-  info: (message) => console.info(`[Хелпер] - [Генезис] - ${message}`),
+  info: (message) => info(`[Хелпер] - [Генезис] - ${message}`),
   error: (message) =>
-    console.error(`[Хелпер] - [Генезис] - Ошибка: ${message}`),
+    error(`[Хелпер] - [Генезис] - Ошибка: ${message}`),
 };
 
 // Инициализация основных функций

@@ -10,7 +10,7 @@ async function countAppointments() {
 
   const appointmentsTable = document.getElementsByClassName("bottom-row")[0];
   if (!appointmentsTable) {
-    console.error("[Хелпер] - [Линия] Таблица не найдена");
+    error("[Хелпер] - [Линия] Таблица не найдена");
     return;
   }
 
@@ -50,7 +50,7 @@ async function countAppointments() {
       ).singleNodeValue;
 
       if (!button) {
-        console.error(
+        error(
           "[Хелпер] - [Линия] Кнопка для отображения счетчиков не найдена",
         );
         return;
