@@ -345,7 +345,7 @@ async function handleSpecialistSubmit() {
         });
     } catch (error) {
         $.notify("Произошла ошибка", "error");
-        error(error);
+        console.error(error);
     }
 }
 
@@ -487,7 +487,7 @@ async function handlePremiumSubmit() {
         await browser.storage.sync.set({POPUP_userLine: inputField});
         info(`[Хелпер] - [Проверка премии] Линия специалиста установлена: ${inputField}`,);
     } catch (error) {
-        error(`[Хелпер] - [Проверка премии] Ошибка при сохранении линии:`, error,);
+        console.error(`[Хелпер] - [Проверка премии] Ошибка при сохранении линии:`, error,);
     }
 
     // Determine URL based on selection
@@ -500,7 +500,7 @@ async function handlePremiumSubmit() {
             url = "https://okc2.ertelecom.ru/yii/premium/ntp-nck/get-premium-head-month";
             break;
         default:
-            error(`[Хелпер] - [Проверка премии] Ошибка получения должности`);
+            console.error(`[Хелпер] - [Проверка премии] Ошибка получения должности`);
     }
 
     const formattedDate = `01.${String(month).padStart(2, "0")}.${year}`;
@@ -882,7 +882,7 @@ async function handlePremiumSubmit() {
     } catch (error) {
         loadingSpinner.style.display = "none";
         document.getElementById("result-container").innerText = "Не удалось получить премию\nУбедись, что ты авторизован(а) на okc2.ertelecom.ru/yii";
-        error("Ошибка:", error);
+        console.error("Ошибка:", error);
     }
 }
 
