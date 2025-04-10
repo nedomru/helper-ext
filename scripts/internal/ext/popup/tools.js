@@ -493,17 +493,11 @@ async function handlePremiumSubmit() {
     // Determine URL based on selection
     let url;
     switch (inputField) {
-        case "nck1":
-            url = "https://okc2.ertelecom.ru/yii/premium/ntp-nck1/get-premium-spec-month";
+        case "specialist":
+            url = "https://okc2.ertelecom.ru/yii/premium/ntp-nck/spec_month";
             break;
-        case "nck2":
-            url = "https://okc2.ertelecom.ru/yii/premium/ntp-nck2/get-premium-spec-month";
-            break;
-        case "rg_nck1":
+        case "head":
             url = "https://okc2.ertelecom.ru/yii/premium/ntp-nck1/get-premium-head-month";
-            break;
-        case "rg_nck2":
-            url = "https://okc2.ertelecom.ru/yii/premium/ntp-nck2/get-premium-head-month";
             break;
         default:
             error(`[Хелпер] - [Проверка премии] Ошибка получения должности`);
