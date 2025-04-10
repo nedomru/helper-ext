@@ -1,44 +1,40 @@
 /*global browser*/
 
 async function handleMacSubmit() {
-  /**
-   * Handle MAC-address submission.
-   * Validates the MAC address format and fetches information from an API.
-   * Uses API https://api.maclookup.app/v2/macs/{mac_address}
-   * MAC regex: ^([0-9A-Fa-f]{2}[:-]?){5}([0-9A-Fa-f]{2})$
-   */
-  document.getElementById("result-container").innerHTML = "";
-  const loadingSpinner = document.getElementById("loadingResultsSpinner");
+    /**
+     * Handle MAC-address submission.
+     * Validates the MAC address format and fetches information from an API.
+     * Uses API https://api.maclookup.app/v2/macs/{mac_address}
+     * MAC regex: ^([0-9A-Fa-f]{2}[:-]?){5}([0-9A-Fa-f]{2})$
+     */
+    document.getElementById("result-container").innerHTML = "";
+    const loadingSpinner = document.getElementById("loadingResultsSpinner");
 
-  const inputField = document.getElementById("input-mac");
-  let mac_address = inputField.value.trim();
-  const mac_regex = new RegExp("^([0-9A-Fa-f]{2}[:-]?){5}([0-9A-Fa-f]{2})$");
+    const inputField = document.getElementById("input-mac");
+    let mac_address = inputField.value.trim();
+    const mac_regex = new RegExp("^([0-9A-Fa-f]{2}[:-]?){5}([0-9A-Fa-f]{2})$");
 
-  if (mac_regex.test(mac_address) === false) {
-    $.notify("MAC некорректный", "error");
-    return;
-  }
-
-  loadingSpinner.style.display = "block";
-
-  try {
-    const response = await fetch(
-      `https://api.maclookup.app/v2/macs/${mac_address}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    );
-    if (response.status !== 200) {
-      $.notify("Не удалось найти", "error");
-      return;
+    if (mac_regex.test(mac_address) === false) {
+        $.notify("MAC некорректный", "error");
+        return;
     }
 
-    const result = await response.json();
+    loadingSpinner.style.display = "block";
 
-    const tableHTML = `
+    try {
+        const response = await fetch(`https://api.maclookup.app/v2/macs/${mac_address}`, {
+            method: "GET", headers: {
+                "Content-Type": "application/json",
+            },
+        },);
+        if (response.status !== 200) {
+            $.notify("Не удалось найти", "error");
+            return;
+        }
+
+        const result = await response.json();
+
+        const tableHTML = `
             <hr class="hr" />
             <h5>Результаты проверки MAC-адреса</h5>
             <a href="https://api.maclookup.app/v2/macs/${mac_address}"><i>Полные результаты</i></a>
@@ -64,59 +60,51 @@ async function handleMacSubmit() {
             </table>
         `;
 
-    loadingSpinner.style.display = "none";
-    document.getElementById("result-container").innerHTML =
-      DOMPurify.sanitize(tableHTML);
-    inputField.value = "";
-  } catch (error) {
-    loadingSpinner.style.display = "none";
-    document.getElementById("result-container").innerText =
-      "Не удалось проверить MAC-адрес";
-    error("Ошибка:", error);
-  }
+        loadingSpinner.style.display = "none";
+        document.getElementById("result-container").innerHTML = DOMPurify.sanitize(tableHTML);
+        inputField.value = "";
+    } catch (error) {
+        loadingSpinner.style.display = "none";
+        document.getElementById("result-container").innerText = "Не удалось проверить MAC-адрес";
+        error("Ошибка:", error);
+    }
 }
 
 async function handleIPSubmit() {
-  /**
-   * Handle IP-address submission.
-   * Validates the IP address format and fetches information from an API.
-   * Uses API https://api.ipquery.io/{ip_address}?format=yaml
-   * IP regex: ^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$
-   */
-  document.getElementById("result-container").innerHTML = "";
-  const loadingSpinner = document.getElementById("loadingResultsSpinner");
+    /**
+     * Handle IP-address submission.
+     * Validates the IP address format and fetches information from an API.
+     * Uses API https://api.ipquery.io/{ip_address}?format=yaml
+     * IP regex: ^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$
+     */
+    document.getElementById("result-container").innerHTML = "";
+    const loadingSpinner = document.getElementById("loadingResultsSpinner");
 
-  const inputField = document.getElementById("input-ip");
-  let ip_address = inputField.value.trim();
-  const ip_regex = new RegExp(
-    "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",
-  );
+    const inputField = document.getElementById("input-ip");
+    let ip_address = inputField.value.trim();
+    const ip_regex = new RegExp("^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",);
 
-  if (ip_regex.test(ip_address) === false) {
-    $.notify("IP некорректный", "error");
-    return;
-  }
-
-  loadingSpinner.style.display = "block";
-
-  try {
-    const response = await fetch(
-      `https://api.ipquery.io/${ip_address}?format=yaml`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    );
-    if (response.status !== 200) {
-      $.notify("Не удалось найти", "error");
-      return;
+    if (ip_regex.test(ip_address) === false) {
+        $.notify("IP некорректный", "error");
+        return;
     }
 
-    const result = await response.json();
+    loadingSpinner.style.display = "block";
 
-    const tableHTML = `
+    try {
+        const response = await fetch(`https://api.ipquery.io/${ip_address}?format=yaml`, {
+            method: "GET", headers: {
+                "Content-Type": "application/json",
+            },
+        },);
+        if (response.status !== 200) {
+            $.notify("Не удалось найти", "error");
+            return;
+        }
+
+        const result = await response.json();
+
+        const tableHTML = `
             <hr class="hr" />
             <h5>Результаты проверки IP</h5>
             <a href="https://api.ipquery.io/${ip_address}?format=yaml"><i>Полные результаты</i></a>
@@ -172,134 +160,118 @@ async function handleIPSubmit() {
 </div>
         `;
 
-    loadingSpinner.style.display = "none";
-    document.getElementById("result-container").innerHTML =
-      DOMPurify.sanitize(tableHTML);
-    inputField.value = "";
-  } catch (error) {
-    loadingSpinner.style.display = "none";
-    document.getElementById("result-container").innerText =
-      "Не удалось проверить Whois домена";
-    error("Ошибка:", error);
-  }
+        loadingSpinner.style.display = "none";
+        document.getElementById("result-container").innerHTML = DOMPurify.sanitize(tableHTML);
+        inputField.value = "";
+    } catch (error) {
+        loadingSpinner.style.display = "none";
+        document.getElementById("result-container").innerText = "Не удалось проверить Whois домена";
+        error("Ошибка:", error);
+    }
 }
 
 async function handleLinkSubmit() {
-  /*
-   * Shortening links with clck.ru API
-   * Default use API https://clck.ru/--?url=
-   */
-  const inputField = document.getElementById("input-link").value.trim();
+    /*
+     * Shortening links with clck.ru API
+     * Default use API https://clck.ru/--?url=
+     */
+    const inputField = document.getElementById("input-link").value.trim();
 
-  try {
-    const response = await fetch(`https://clck.ru/--?url=${inputField}`, {
-      method: "GET",
-    });
-    if (response.status !== 200) {
-      $.notify("Ошибка", "error");
-      return;
+    try {
+        const response = await fetch(`https://clck.ru/--?url=${inputField}`, {
+            method: "GET",
+        });
+        if (response.status !== 200) {
+            $.notify("Ошибка", "error");
+            return;
+        }
+
+        const result = await response.text();
+
+        if (result) {
+            await navigator.clipboard.writeText(result);
+            $.notify("Скопировано", "success");
+            document.getElementById("input-link").value = result;
+        }
+    } catch (error) {
+        error("Fetch error:", error);
     }
-
-    const result = await response.text();
-
-    if (result) {
-      await navigator.clipboard.writeText(result);
-      $.notify("Скопировано", "success");
-      document.getElementById("input-link").value = result;
-    }
-  } catch (error) {
-    error("Fetch error:", error);
-  }
 }
 
 async function handleSpecialistSubmit() {
-  /**
-   * Specialist check from Dossier API
-   * Uses API https://okc2.ertelecom.ru/yii/dossier/api/get-dossier
-   */
-  const inputField = document.getElementById("input-specialist");
-  const resultsDiv = document.getElementById("specialist-results");
-  const loadingSpinner = document.getElementById("loadingResultsSpinner");
-  const searchTerm = inputField.value.trim().toLowerCase();
+    /**
+     * Specialist check from Dossier API
+     * Uses API https://okc2.ertelecom.ru/yii/dossier/api/get-dossier
+     */
+    const inputField = document.getElementById("input-specialist");
+    const resultsDiv = document.getElementById("specialist-results");
+    const loadingSpinner = document.getElementById("loadingResultsSpinner");
+    const searchTerm = inputField.value.trim().toLowerCase();
 
-  document.getElementById("result-container").innerHTML = "";
-  resultsDiv.innerHTML = "";
-  loadingSpinner.style.display = "block";
+    document.getElementById("result-container").innerHTML = "";
+    resultsDiv.innerHTML = "";
+    loadingSpinner.style.display = "block";
 
-  if (!searchTerm) return;
+    if (!searchTerm) return;
 
-  try {
-    let employees_data = await getFromStorage("employeesData");
+    try {
+        let employees_data = await getFromStorage("employeesData");
 
-    if (employees_data) {
-      info(
-        `[Хелпер] - [Общее] - [Специалисты] Список специалистов загружен из кеша`,
-      );
-      resultsDiv.style.display = "block";
-      await updateEmployees();
-    } else {
-      employees_data = await updateEmployees();
-    }
+        if (employees_data) {
+            info(`[Хелпер] - [Общее] - [Специалисты] Список специалистов загружен из кеша`,);
+            resultsDiv.style.display = "block";
+            await updateEmployees();
+        } else {
+            employees_data = await updateEmployees();
+        }
 
-    // Filter employees based on search term
-    const filteredEmployees = employees_data.filter((emp) =>
-      emp.name.toLowerCase().includes(searchTerm),
-    );
+        // Filter employees based on search term
+        const filteredEmployees = employees_data.filter((emp) => emp.name.toLowerCase().includes(searchTerm),);
 
-    if (filteredEmployees.length === 0) {
-      $.notify("Сотрудник не найден", "warning");
-      resultsDiv.style.display = "none";
-      loadingSpinner.style.display = "none";
-      return;
-    }
+        if (filteredEmployees.length === 0) {
+            $.notify("Сотрудник не найден", "warning");
+            resultsDiv.style.display = "none";
+            loadingSpinner.style.display = "none";
+            return;
+        }
 
-    if (filteredEmployees.length === 1) {
-      const requestBody = {
-        employee: filteredEmployees[0].id,
-      };
+        if (filteredEmployees.length === 1) {
+            const requestBody = {
+                employee: filteredEmployees[0].id,
+            };
 
 
-      const employee_data = await fetch(
-        `https://okc2.ertelecom.ru/yii/dossier/api/get-dossier`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            accept: "application/json, text/plain, */*",
-            "content-type": "application/json",
-            "sec-fetch-dest": "empty",
-            "sec-fetch-mode": "cors",
-            "sec-fetch-site": "same-origin",
-          },
-          referrerPolicy: "strict-origin-when-cross-origin",
-          body: JSON.stringify(requestBody),
-          mode: "cors",
-        },
-      );
+            const employee_data = await fetch(`https://okc2.ertelecom.ru/yii/dossier/api/get-dossier`, {
+                method: "POST", credentials: "include", headers: {
+                    accept: "application/json, text/plain, */*",
+                    "content-type": "application/json",
+                    "sec-fetch-dest": "empty",
+                    "sec-fetch-mode": "cors",
+                    "sec-fetch-site": "same-origin",
+                }, referrerPolicy: "strict-origin-when-cross-origin", body: JSON.stringify(requestBody), mode: "cors",
+            },);
 
-      if (employee_data.status !== 200) {
-        $.notify("Ошибка", "error");
-        return;
-      }
+            if (employee_data.status !== 200) {
+                $.notify("Ошибка", "error");
+                return;
+            }
 
-      const employee = await employee_data.json();
+            const employee = await employee_data.json();
 
-      loadingSpinner.style.display = "none";
+            loadingSpinner.style.display = "none";
 
-      const fillPostsHistory = (postsHistory) => {
-        return postsHistory
-          .map(
-            (post) => `
+            const fillPostsHistory = (postsHistory) => {
+                return postsHistory
+                    .map((post) => `
     <tr>
       <th>${post.TRANSFER_DATE}</th>
       <td class="align-middle">${post.POST_NAME}</td>
     </tr>
-  `,
-          )
-          .join("");
-      };
+  `,)
+                    .join("");
+            };
 
-      const tableHTML = `
+            const tableHTML = `
             <hr class="hr" />
             <h5>Результаты проверки специалиста</h5>
             <table class="table table-hover table-bordered table-responsive table-sm">
@@ -342,128 +314,108 @@ async function handleSpecialistSubmit() {
                 </tbody>
             </table>
         `;
-      document.getElementById("result-container").innerHTML =
-        DOMPurify.sanitize(tableHTML);
-      inputField.value = "";
-      return;
-    }
+            document.getElementById("result-container").innerHTML = DOMPurify.sanitize(tableHTML);
+            inputField.value = "";
+            return;
+        }
 
-    // If multiple employees found, show selection UI
-    resultsDiv.innerHTML = `
+        // If multiple employees found, show selection UI
+        resultsDiv.innerHTML = `
             <div class="list-group">
                 ${filteredEmployees
-                  .map(
-                    (emp) => `
+            .map((emp) => `
                     <button type="button"
         class="list-group-item list-group-item-action"
         data-employee-id="${emp.id}">
     ${emp.name}
 </button>
-                `,
-                  )
-                  .join("")}
+                `,)
+            .join("")}
             </div>
         `;
 
-    resultsDiv.style.display = "block";
-    loadingSpinner.style.display = "none";
+        resultsDiv.style.display = "block";
+        loadingSpinner.style.display = "none";
 
-    document.querySelectorAll(".list-group-item").forEach((button) => {
-      button.addEventListener("click", (e) => {
-        const employeeId = e.currentTarget.dataset.employeeId;
-        selectEmployee(employeeId);
-      });
-    });
-  } catch (error) {
-    $.notify("Произошла ошибка", "error");
-    error(error);
-  }
+        document.querySelectorAll(".list-group-item").forEach((button) => {
+            button.addEventListener("click", (e) => {
+                const employeeId = e.currentTarget.dataset.employeeId;
+                selectEmployee(employeeId);
+            });
+        });
+    } catch (error) {
+        $.notify("Произошла ошибка", "error");
+        error(error);
+    }
 }
 
 async function updateEmployees() {
-  /**
-   * Updates the list of employees and saves them to local browser storage
-   */
-  const employees_response = await fetch(
-    `https://okc2.ertelecom.ru/yii/dossier/api/get-employees`,
-    {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        accept: "application/json, text/plain, */*",
-        "content-type": "application/json",
-        "sec-fetch-dest": "empty",
-        "sec-fetch-mode": "cors",
-        "sec-fetch-site": "same-origin",
-      },
-      referrerPolicy: "strict-origin-when-cross-origin",
-      mode: "cors",
-    },
-  );
+    /**
+     * Updates the list of employees and saves them to local browser storage
+     */
+    const employees_response = await fetch(`https://okc2.ertelecom.ru/yii/dossier/api/get-employees`, {
+        method: "POST", credentials: "include", headers: {
+            accept: "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-origin",
+        }, referrerPolicy: "strict-origin-when-cross-origin", mode: "cors",
+    },);
 
-  if (employees_response.status !== 200) {
-    $.notify("Ошибка", "error");
-    return;
-  }
+    if (employees_response.status !== 200) {
+        $.notify("Ошибка", "error");
+        return;
+    }
 
-  const employees = await employees_response.json();
-  await saveToStorage("employeesData", employees);
-  return employees
+    const employees = await employees_response.json();
+    await saveToStorage("employeesData", employees);
+    return employees
 }
 
 async function selectEmployee(employeeId) {
-  /**
-   * Get data about selected employee with its ID
-   * @param {number} employeeId - ID of the employee to get data about
-   */
-  const loadingSpinner = document.getElementById("loadingResultsSpinner");
-  loadingSpinner.style.display = "block";
+    /**
+     * Get data about selected employee with its ID
+     * @param {number} employeeId - ID of the employee to get data about
+     */
+    const loadingSpinner = document.getElementById("loadingResultsSpinner");
+    loadingSpinner.style.display = "block";
 
-  const inputField = document.getElementById("input-specialist");
-  document.getElementById("specialist-results").style.display = "none";
+    const inputField = document.getElementById("input-specialist");
+    document.getElementById("specialist-results").style.display = "none";
 
-  const requestBody = {
-    employee: employeeId,
-  };
+    const requestBody = {
+        employee: employeeId,
+    };
 
-  const employee_data = await fetch(
-    `https://okc2.ertelecom.ru/yii/dossier/api/get-dossier`,
-    {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        accept: "application/json, text/plain, */*",
-        "content-type": "application/json",
-        "sec-fetch-dest": "empty",
-        "sec-fetch-mode": "cors",
-        "sec-fetch-site": "same-origin",
-      },
-      referrerPolicy: "strict-origin-when-cross-origin",
-      body: JSON.stringify(requestBody),
-      mode: "cors",
-    },
-  );
+    const employee_data = await fetch(`https://okc2.ertelecom.ru/yii/dossier/api/get-dossier`, {
+        method: "POST", credentials: "include", headers: {
+            accept: "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-origin",
+        }, referrerPolicy: "strict-origin-when-cross-origin", body: JSON.stringify(requestBody), mode: "cors",
+    },);
 
-  if (employee_data.status !== 200) {
-    $.notify("Ошибка", "error");
-    return;
-  }
+    if (employee_data.status !== 200) {
+        $.notify("Ошибка", "error");
+        return;
+    }
 
-  const fillPostsHistory = (postsHistory) => {
-    return postsHistory
-      .map(
-        (post) => `
+    const fillPostsHistory = (postsHistory) => {
+        return postsHistory
+            .map((post) => `
     <tr>
       <th>${post.TRANSFER_DATE}</th>
       <td class="align-middle">${post.POST_NAME}</td>
     </tr>
-  `,
-      )
-      .join("");
-  };
+  `,)
+            .join("");
+    };
 
-  const employee = await employee_data.json();
-  const tableHTML = `
+    const employee = await employee_data.json();
+    const tableHTML = `
             <hr class="hr" />
             <h5>Результаты проверки специалиста</h5>
             <table class="table table-hover table-bordered table-responsive table-sm">
@@ -506,103 +458,85 @@ async function selectEmployee(employeeId) {
                 </tbody>
             </table>
         `;
-  document.getElementById("result-container").innerHTML =
-    DOMPurify.sanitize(tableHTML);
-  inputField.value = "";
-  loadingSpinner.style.display = "none";
+    document.getElementById("result-container").innerHTML = DOMPurify.sanitize(tableHTML);
+    inputField.value = "";
+    loadingSpinner.style.display = "none";
 }
 
 async function handlePremiumSubmit() {
-  /**
-   * Handle premium submit
-   * Uses premium-select value to get specialist line
-   * Uses month and year values to get premium data from API
-   * Uses API https://okc.ertelecom.ru/stats/premium/{specialistLine}/get-premium-{line}-month
-   */
-  document.getElementById("result-container").innerHTML = "";
-  const monthSelector = document.getElementById("monthSelect");
+    /**
+     * Handle premium submit
+     * Uses premium-select value to get specialist line
+     * Uses month and year values to get premium data from API
+     * Uses API https://okc.ertelecom.ru/stats/premium/{specialistLine}/get-premium-{line}-month
+     */
+    document.getElementById("result-container").innerHTML = "";
+    const monthSelector = document.getElementById("monthSelect");
 
-  const monthValue = monthSelector.options[monthSelector.selectedIndex].value;
-  const monthName = monthSelector.options[monthSelector.selectedIndex].text;
-  const yearValue = document.getElementById("yearSelect").value;
+    const monthValue = monthSelector.options[monthSelector.selectedIndex].value;
+    const monthName = monthSelector.options[monthSelector.selectedIndex].text;
+    const yearValue = document.getElementById("yearSelect").value;
 
-  const month = parseInt(monthValue, 10);
-  const year = parseInt(yearValue, 10);
-  const loadingSpinner = document.getElementById("loadingResultsSpinner");
-  loadingSpinner.style.display = "block";
+    const month = parseInt(monthValue, 10);
+    const year = parseInt(yearValue, 10);
+    const loadingSpinner = document.getElementById("loadingResultsSpinner");
+    loadingSpinner.style.display = "block";
 
-  const inputField = document.getElementById("premium-select").value;
-  try {
-    await browser.storage.sync.set({ POPUP_userLine: inputField });
-    info(
-      `[Хелпер] - [Проверка премии] Линия специалиста установлена: ${inputField}`,
-    );
-  } catch (error) {
-    error(
-      `[Хелпер] - [Проверка премии] Ошибка при сохранении линии:`,
-      error,
-    );
-  }
-
-  // Determine URL based on selection
-  let url;
-  switch (inputField) {
-    case "nck1":
-      url =
-        "https://okc2.ertelecom.ru/yii/premium/ntp-nck1/get-premium-spec-month";
-      break;
-    case "nck2":
-      url =
-        "https://okc2.ertelecom.ru/yii/premium/ntp-nck2/get-premium-spec-month";
-      break;
-    case "rg_nck1":
-      url =
-        "https://okc2.ertelecom.ru/yii/premium/ntp-nck1/get-premium-head-month";
-      break;
-    case "rg_nck2":
-      url =
-        "https://okc2.ertelecom.ru/yii/premium/ntp-nck2/get-premium-head-month";
-      break;
-    default:
-      error(`[Хелпер] - [Проверка премии] Ошибка получения должности`);
-  }
-
-  const formattedDate = `01.${String(month).padStart(2, "0")}.${year}`;
-
-  // Create request body
-  const requestBody = {
-    period: formattedDate,
-    subdivisionId: [],
-    headsId: [],
-    employeesId: [],
-  };
-
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        accept: "application/json, text/plain, */*",
-        "content-type": "application/json",
-        "sec-fetch-dest": "empty",
-        "sec-fetch-mode": "cors",
-        "sec-fetch-site": "same-origin",
-      },
-      referrerPolicy: "strict-origin-when-cross-origin",
-      body: JSON.stringify(requestBody),
-      mode: "cors",
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+    const inputField = document.getElementById("premium-select").value;
+    try {
+        await browser.storage.sync.set({POPUP_userLine: inputField});
+        info(`[Хелпер] - [Проверка премии] Линия специалиста установлена: ${inputField}`,);
+    } catch (error) {
+        error(`[Хелпер] - [Проверка премии] Ошибка при сохранении линии:`, error,);
     }
 
-    const data = await response.json();
+    // Determine URL based on selection
+    let url;
+    switch (inputField) {
+        case "nck1":
+            url = "https://okc2.ertelecom.ru/yii/premium/ntp-nck1/get-premium-spec-month";
+            break;
+        case "nck2":
+            url = "https://okc2.ertelecom.ru/yii/premium/ntp-nck2/get-premium-spec-month";
+            break;
+        case "rg_nck1":
+            url = "https://okc2.ertelecom.ru/yii/premium/ntp-nck1/get-premium-head-month";
+            break;
+        case "rg_nck2":
+            url = "https://okc2.ertelecom.ru/yii/premium/ntp-nck2/get-premium-head-month";
+            break;
+        default:
+            error(`[Хелпер] - [Проверка премии] Ошибка получения должности`);
+    }
 
-    let tableHTML;
-    if (inputField === "nck1") {
-      const result = data[0];
-      tableHTML = `
+    const formattedDate = `01.${String(month).padStart(2, "0")}.${year}`;
+
+    // Create request body
+    const requestBody = {
+        period: formattedDate, subdivisionId: [], headsId: [], employeesId: [],
+    };
+
+    try {
+        const response = await fetch(url, {
+            method: "POST", credentials: "include", headers: {
+                accept: "application/json, text/plain, */*",
+                "content-type": "application/json",
+                "sec-fetch-dest": "empty",
+                "sec-fetch-mode": "cors",
+                "sec-fetch-site": "same-origin",
+            }, referrerPolicy: "strict-origin-when-cross-origin", body: JSON.stringify(requestBody), mode: "cors",
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        let tableHTML;
+        if (inputField === "nck1") {
+            const result = data[0];
+            tableHTML = `
             <table class="table table-hover table-bordered table-responsive table-sm">
                 <thead>
                     <tr>
@@ -725,9 +659,9 @@ async function handlePremiumSubmit() {
                 </tbody>
             </table>
         `;
-    } else if (inputField === "nck2") {
-      const result = data[0];
-      tableHTML = `
+        } else if (inputField === "nck2") {
+            const result = data[0];
+            tableHTML = `
             <table class="table table-hover table-bordered table-responsive table-sm">
                 <thead>
                     <tr>
@@ -850,10 +784,9 @@ async function handlePremiumSubmit() {
                 </tbody>
             </table>
         `;
-    }
-    else {
-      const result = data["premium"][0];
-      tableHTML = `
+        } else {
+            const result = data["premium"][0];
+            tableHTML = `
             <table class="table table-hover table-bordered table-responsive table-sm">
                 <thead>
                     <tr>
@@ -942,53 +875,172 @@ async function handlePremiumSubmit() {
                 </tbody>
             </table>
         `;
+        }
+
+        loadingSpinner.style.display = "none";
+        document.getElementById("result-container").innerHTML = DOMPurify.sanitize(tableHTML);
+
+        // Initialize tooltips
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]',);
+        const tooltipList = [...tooltipTriggerList].map((tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl, {
+            placement: "right",
+        }),);
+    } catch (error) {
+        loadingSpinner.style.display = "none";
+        document.getElementById("result-container").innerText = "Не удалось получить премию\nУбедись, что ты авторизован(а) на okc2.ertelecom.ru/yii";
+        error("Ошибка:", error);
     }
-
-    loadingSpinner.style.display = "none";
-    document.getElementById("result-container").innerHTML =
-      DOMPurify.sanitize(tableHTML);
-
-    // Initialize tooltips
-    const tooltipTriggerList = document.querySelectorAll(
-      '[data-bs-toggle="tooltip"]',
-    );
-    const tooltipList = [...tooltipTriggerList].map(
-      (tooltipTriggerEl) =>
-        new bootstrap.Tooltip(tooltipTriggerEl, {
-          placement: "right",
-        }),
-    );
-  } catch (error) {
-    loadingSpinner.style.display = "none";
-    document.getElementById("result-container").innerText =
-      "Не удалось получить премию\nУбедись, что ты авторизован(а) на okc2.ertelecom.ru/yii";
-    error("Ошибка:", error);
-  }
 }
 
+async function handleGPTSubmit() {
+    /**
+     * Handle GPT request submit
+     * Uses user input message and model to call our API
+     */
+    document.getElementById("result-container").innerHTML = ""; // Clear previous results
+    const modelSelector = document.getElementById("model-select"); // Get selected model
+    const message = document.getElementById("gpt-text").value; // Get user message input
+
+    const loadingSpinner = document.getElementById("loadingResultsSpinner");
+    loadingSpinner.style.display = "block"; // Show loading spinner
+
+    // Get the model chosen by the user
+    const model = modelSelector.value;
+
+    // Ensure we have a valid message and model
+    if (!message || !model) {
+        alert("Please provide both a message and select a model.");
+        loadingSpinner.style.display = "none"; // Hide loading spinner
+        return;
+    }
+
+    let modelToUse;
+    switch (model) {
+        case "quasar-alpha":
+            modelToUse = "quasar-alpha"
+            break
+        case "gemini-2.5-pro":
+            modelToUse = "google/gemini-2.5-pro-exp-03-25:free"
+            break
+        case "deepseek-v3":
+            modelToUse = "deepseek/deepseek-chat:free"
+            break
+        case "deepseek-r1":
+            modelToUse = "deepseek/deepseek-r1:free"
+            break
+        case "gemini-2.0-flash":
+            modelToUse = "google/gemini-2.0-flash-exp:free"
+            break
+    }
+
+    // Create the request body for our API
+    const requestBody = {
+        message: message, model: modelToUse,
+    };
+
+    const url = "https://helper.chrsnv.ru/api/gpt.json";
+
+    try {
+        // Send the request to the API
+        const response = await fetch(url, {
+            method: "POST", headers: {
+                "Content-Type": "application/json",
+            }, body: JSON.stringify(requestBody),
+        });
+
+        // Check for a successful response
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        // Parse the response data
+        const data = await response.json();
+        await info(data)
+
+        // Extract the answer text from the response
+        const answerText = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content || "-";
+
+        // Function to copy the answer text to clipboard and highlight it
+        function copyToClipboard(button) {
+            const textElement = button.previousElementSibling; // Get the text element (td with the answer)
+            const originalColor = textElement.style.backgroundColor;
+
+            navigator.clipboard.writeText(answerText).then(() => {
+                textElement.style.backgroundColor = "#fffae6"; // Highlight color (light yellow)
+                textElement.classList.add("highlight-animation"); // Trigger the animation class
+                setTimeout(() => {
+                    textElement.style.backgroundColor = originalColor; // Reset background color
+                    textElement.classList.remove("highlight-animation"); // Remove animation class after 1 second
+                }, 1000);
+            }).catch(err => {
+                console.error('Error copying text: ', err);
+            });
+        }
+
+        // Process and display the data in a table
+        let tableHTML = `
+            <table class="table table-hover table-bordered table-responsive table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">Параметр</th>
+                        <th scope="col">Значение</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr>
+                        <th scope="row">Модель</th>
+                        <td class="align-middle">${data.model || "-"}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Запрос</th>
+                        <td class="align-middle">${message}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Ответ</th>
+                        <td class="align-middle">
+                            ${answerText}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        `;
+
+        // Hide loading spinner and update the result container with the new table
+        loadingSpinner.style.display = "none";
+        document.getElementById("result-container").innerHTML = DOMPurify.sanitize(tableHTML);
+
+    } catch (error) {
+        // Handle any errors (e.g., network or API errors)
+        console.error("Error:", error);
+        loadingSpinner.style.display = "none"; // Hide the loading spinner
+        alert("An error occurred while fetching data. Please try again.");
+    }
+}
+
+
 function populatePremiumDropdown() {
-  /**
-   * Sets available data values in premium dropdown
-   */
-  const yearSelect = document.getElementById("yearSelect");
-  const monthSelect = document.getElementById("monthSelect");
-  const currentDate = new Date();
-  const currentYear = currentDate.getFullYear();
-  const currentMonth = currentDate.getMonth(); // 0-11
+    /**
+     * Sets available data values in premium dropdown
+     */
+    const yearSelect = document.getElementById("yearSelect");
+    const monthSelect = document.getElementById("monthSelect");
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth(); // 0-11
 
-  // Clear any existing options
-  yearSelect.innerHTML = "";
+    // Clear any existing options
+    yearSelect.innerHTML = "";
 
-  // Populate the dropdown with the current year and the last five years
-  for (let year = currentYear; year >= currentYear - 5; year--) {
-    // From current year to 5 years ago
-    const option = document.createElement("option");
-    option.value = year;
-    option.textContent = year;
-    yearSelect.appendChild(option);
-  }
+    // Populate the dropdown with the current year and the last five years
+    for (let year = currentYear; year >= currentYear - 5; year--) {
+        // From current year to 5 years ago
+        const option = document.createElement("option");
+        option.value = year;
+        option.textContent = year;
+        yearSelect.appendChild(option);
+    }
 
-  // Set the default values to the current year and month
-  yearSelect.value = currentYear;
-  monthSelect.selectedIndex = currentMonth;
+    // Set the default values to the current year and month
+    yearSelect.value = currentYear;
+    monthSelect.selectedIndex = currentMonth;
 }

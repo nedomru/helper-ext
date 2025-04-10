@@ -207,7 +207,8 @@
         </div>
         <div class="input-group mb-2">
             <span class="input-group-text col-sm-3">Проверка спеца</span>
-            <input type="text" class="form-control" id="input-specialist" placeholder="Введи фамилию и имя" aria-label="ФИО">
+ау            <input type="text" class="form-control" id="input-specialist" placeholder="Введи фамилию и имя"
+                   aria-label="ФИО">
             <button class="btn btn-outline-secondary" type="button" id="submit-specialist">Проверить</button>
         </div>
         <div class="input-group">
@@ -243,11 +244,28 @@
             <button class="btn btn-outline-secondary" type="button" id="submit-premium">Проверить</button>
         </div>
 
-        <div id="specialist-results"></div>
-        <div id="result-container"></div>
-        <div id="loadingResultsSpinner" class="spinner-border" style="display: none" role="status">
-            <span class="visually-hidden">Загрузка...</span>
+        <div class="input-group">
+            <span class="input-group-text col-sm-2">GPT</span>
+
+            <select class="form-select" id="model-select" aria-label="Выбор модели">
+                <option value="quasar-alpha" selected>Quasar Alpha</option>
+                <option value="gemini-2.5-pro" selected>Gemini 2.5 Pro</option>
+                <option value="deepseek-v3">DeepSeek V3</option>
+                <option value="deepseek-r1">DeepSeek R1</option>
+                <option value="gemini-2.0-flash" selected>Gemini 2.0 Flash</option>
+            </select>
+
+            <label for="gpt-text">
+                <input type="text" class="form-control" id="gpt-text" aria-describedby="gpt-text">
+            </label>
+            <button class="btn btn-outline-secondary" type="button" id="submit-gpt">Отправить</button>
         </div>
+    </div>
+
+    <div id="specialist-results"></div>
+    <div id="result-container"></div>
+    <div id="loadingResultsSpinner" class="spinner-border" style="display: none" role="status">
+        <span class="visually-hidden">Загрузка...</span>
     </div>
 </div>
 </body>
