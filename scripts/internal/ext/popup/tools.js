@@ -92,7 +92,7 @@ async function handleIPSubmit() {
     loadingSpinner.style.display = "block";
 
     try {
-        const response = await fetch(`https://api.ipquery.io/${ip_address}?format=yaml`, {
+        const response = await fetch(`https://api.ipquery.io/${ip_address}`, {
             method: "GET", headers: {
                 "Content-Type": "application/json",
             },
@@ -165,7 +165,7 @@ async function handleIPSubmit() {
         inputField.value = "";
     } catch (error) {
         loadingSpinner.style.display = "none";
-        document.getElementById("result-container").innerText = "Не удалось проверить Whois домена";
+        document.getElementById("result-container").innerText = "Не удалось проверить IP адрес";
         error("Ошибка:", error);
     }
 }
