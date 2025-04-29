@@ -546,6 +546,10 @@ async function handlePremiumSubmit() {
                         <td colspan="3" class="align-middle">${result.USER_FIO}</td>
                     </tr>
                     <tr>
+                        <th scope="row">Должность</th>
+                        <td colspan="3" class="align-middle">${result.POST_NAME}</td>
+                    </tr>
+                    <tr>
                         <th scope="row">Месяц</th>
                         <td colspan="3" class="align-middle">${monthName}, ${yearValue}</td>
                     </tr>
