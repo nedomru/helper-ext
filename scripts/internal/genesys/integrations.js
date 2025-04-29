@@ -105,7 +105,7 @@ async function socketConnect(sessionID) {
 
     socket.onclose = event => {
         isActive = false;
-        warn(`[Генезис] WebSocket закрыт. Код: ${event.code}, Причина: ${event.reason}`);
+        warn(`[Генезис] WebSocket закрыт. Код: ${event.code}`);
 
         [document.querySelector("#line-status-nck1"), document.querySelector("#line-status-nck2")].forEach(el => {
             if (el) {
