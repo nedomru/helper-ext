@@ -1011,7 +1011,6 @@ async function handleGPTSubmit() {
     }
 }
 
-
 function populatePremiumDropdown() {
     /**
      * Sets available data values in premium dropdown
