@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     selectElement.selectedIndex = optionIndex >= 0 ? optionIndex : 0;
 
     info(
-      `[${new Date().toLocaleTimeString()}] [Хелпер] - [Проверка премии] Загружена линия специалиста: ${specialistLine}`,
+      `[${new Date().toLocaleTimeString()}] [Хелпер] - [Проверка премии] Дожность сотрудника загружена: ${specialistLine}`,
     );
   } catch (error) {
     error(

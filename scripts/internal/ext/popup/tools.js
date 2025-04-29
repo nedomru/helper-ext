@@ -485,7 +485,7 @@ async function handlePremiumSubmit() {
     const inputField = document.getElementById("premium-select").value;
     try {
         await browser.storage.sync.set({POPUP_userLine: inputField});
-        info(`[Хелпер] - [Проверка премии] Линия специалиста установлена: ${inputField}`,);
+        info(`[Хелпер] - [Проверка премии] Должность сотрудника установлена: ${inputField}`,);
     } catch (error) {
         console.error(`[Хелпер] - [Проверка премии] Ошибка при сохранении линии:`, error,);
     }
