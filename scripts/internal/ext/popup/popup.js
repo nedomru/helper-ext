@@ -4,14 +4,14 @@ document.addEventListener("DOMContentLoaded", async function () {
   const submitLink = document.getElementById("submit-link");
   const submitSpecialist = document.getElementById("submit-specialist");
   const submitPremium = document.getElementById("submit-premium");
-  const submitGPT = document.getElementById("submit-gpt");
+  // const submitGPT = document.getElementById("submit-gpt");
 
   submitMac.addEventListener("click", handleMacSubmit);
   submitIP.addEventListener("click", handleIPSubmit);
   submitLink.addEventListener("click", handleLinkSubmit);
   submitSpecialist.addEventListener("click", handleSpecialistSubmit);
   submitPremium.addEventListener("click", handlePremiumSubmit);
-  submitGPT.addEventListener("click", handleGPTSubmit);
+  // submitGPT.addEventListener("click", handleGPTSubmit);
 
   populatePremiumDropdown(); // Fill premium dropdown with updated values
 
