@@ -14,12 +14,11 @@ if (document.URL.indexOf("okc2.ertelecom.ru") !== -1) {
   }
 
   const PHPSESSID = getCookie("PHPSESSID");
-  browser.storage.sync.set({ okc_phpSessionId: PHPSESSID }, function () {
-    info(
+  browser.storage.sync.set({ okc_phpSessionId: PHPSESSID });
+  info(
       `[Хелпер] - [Настройки] - Обновлен актуальный PHPSESSID :`,
       PHPSESSID,
-    );
-  });
+  );
 }
 
 async function getOKCSessionId() {
