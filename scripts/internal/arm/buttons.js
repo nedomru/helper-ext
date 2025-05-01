@@ -303,7 +303,7 @@ async function copyIP() {
                     if (ipCache.has(ip)) {
                         data = ipCache.get(ip);
                     } else {
-                        const response = await fetch(`https://api.ipquery.io/${ip}?format=yaml`);
+                        const response = await fetch(`https://api.ipquery.io/${ip}`);
                         if (!response.ok) throw new Error('Network response was not ok');
                         data = await response.json();
                         ipCache.set(ip, data);

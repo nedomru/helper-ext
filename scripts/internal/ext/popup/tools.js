@@ -74,7 +74,7 @@ async function handleIPSubmit() {
     /**
      * Handle IP-address submission.
      * Validates the IP address format and fetches information from an API.
-     * Uses API https://api.ipquery.io/{ip_address}?format=yaml
+     * Uses API https://api.ipquery.io/{ip_address}
      * IP regex: ^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$
      */
     document.getElementById("result-container").innerHTML = "";
@@ -107,7 +107,7 @@ async function handleIPSubmit() {
         const tableHTML = `
             <hr class="hr" />
             <h5>Результаты проверки IP</h5>
-            <a href="https://api.ipquery.io/${ip_address}?format=yaml"><i>Полные результаты</i></a>
+            <a href="https://api.ipquery.io/${ip_address}"><i>Полные результаты</i></a>
             <div class="table-responsive">
                 <table class="table table-hover table-bordered">
                     <tbody>
