@@ -531,13 +531,11 @@ async function handlePremiumSubmit() {
 
         const data = await response.json();
 
-        // Calculate base salary if hours are provided
-        const baseSalary = isValidHours ? workingHours * hourlyRate : 0;
 
         let tableHTML;
+        let hourlyRate
         if (inputField === "specialist") {
             const result = data[0];
-            let hourlyRate
             switch (result.POST_NAME) {
                 case "Специалист":
                     hourlyRate = 156.7
@@ -548,10 +546,10 @@ async function handlePremiumSubmit() {
                 case "Эксперт":
                     hourlyRate = 195.9
                     break
-                case "Руководитель группы":
-                    hourlyRate = 225.3
-                    break
             }
+
+            // Calculate base salary if hours are provided
+            const baseSalary = isValidHours ? workingHours * hourlyRate : 0;
 
 
             // Calculate premium amounts if hours are valid
@@ -702,16 +700,22 @@ async function handlePremiumSubmit() {
                         <td colspan="${isValidHours ? '3' : '3'}" class="align-middle">${result.TOTAL_PREMIUM ? result.TOTAL_PREMIUM : "-"}%</td>
                         ${isValidHours ? `<td class="align-middle">${totalPremiumAmount} ₽</td>` : ''}
                     </tr>
+                    ${isValidHours ? `
                     <tr>
                         <th scope="row">Оклад + Премия</th>
                         <td colspan="${isValidHours ? '3' : '4'}" class="align-middle"></td>
                         ${isValidHours ? `<td class="align-middle">${baseSalary + totalPremiumAmount} ₽</td>` : ''}
                     </tr>
+                    ` : ''}
                 </tbody>
             </table>
         `;
         } else {
             const result = data["premium"][0];
+            hourlyRate = 225.3
+
+            // Calculate base salary if hours are provided
+            const baseSalary = isValidHours ? workingHours * hourlyRate : 0;
 
             // Calculate premium amounts for head if hours are valid
             const totalPremiumAmount = isValidHours && result.TOTAL_PREMIUM ? Math.round(baseSalary * (result.TOTAL_PREMIUM / 100)) : "-";
