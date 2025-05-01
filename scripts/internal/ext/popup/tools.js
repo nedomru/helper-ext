@@ -477,6 +477,13 @@ async function handlePremiumSubmit() {
     const monthName = monthSelector.options[monthSelector.selectedIndex].text;
     const yearValue = document.getElementById("yearSelect").value;
 
+    // Get working hours from the input field
+    const workingHours = parseInt(document.getElementById("workingHours").value, 10);
+    const isValidHours = !isNaN(workingHours) && workingHours > 0;
+
+    // Hourly rate based on role
+    const hourlyRate = 200; // 200 rubles per hour for Эксперт
+
     const month = parseInt(monthValue, 10);
     const year = parseInt(yearValue, 10);
     const loadingSpinner = document.getElementById("loadingResultsSpinner");
@@ -527,9 +534,22 @@ async function handlePremiumSubmit() {
 
         const data = await response.json();
 
+        // Calculate base salary if hours are provided
+        const baseSalary = isValidHours ? workingHours * hourlyRate : 0;
+
         let tableHTML;
         if (inputField === "specialist") {
             const result = data[0];
+
+            // Calculate premium amounts if hours are valid
+            const totalPremiumAmount = isValidHours && result.TOTAL_PREMIUM ? Math.round(baseSalary * (result.TOTAL_PREMIUM / 100)) : "-";
+            const testingAmount = isValidHours && result.PERC_TESTING ? Math.round(baseSalary * (result.PERC_TESTING / 100)) : "-";
+            const thanksAmount = isValidHours && result.PERC_THANKS ? Math.round(baseSalary * (result.PERC_THANKS / 100)) : "-";
+            const csiAmount = isValidHours && result.PERC_CSI ? Math.round(baseSalary * (result.PERC_CSI / 100)) : "-";
+            const flrAmount = isValidHours && result.PERC_FLR ? Math.round(baseSalary * (result.PERC_FLR / 100)) : "-";
+            const gokAmount = isValidHours && result.PERC_GOK ? Math.round(baseSalary * (result.PERC_GOK / 100)) : "-";
+            const persAmount = isValidHours && result.PERS_PERCENT ? Math.round(baseSalary * (result.PERS_PERCENT / 100)) : "-";
+
             tableHTML = `
             <table class="table table-hover table-bordered table-responsive table-sm">
                 <thead>
@@ -538,52 +558,62 @@ async function handlePremiumSubmit() {
                         <th scope="col">Факт</th>
                         <th scope="col">Норматив</th>
                         <th scope="col">Процент</th>
+                        ${isValidHours ? '<th scope="col">Сумма (₽)</th>' : ''}
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
                     <tr>
                         <th scope="row">Специалист</th>
-                        <td colspan="3" class="align-middle">${result.USER_FIO}</td>
+                        <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${result.USER_FIO}</td>
                     </tr>
                     <tr>
                         <th scope="row">Должность</th>
-                        <td colspan="3" class="align-middle">${result.POST_NAME}</td>
+                        <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${result.POST_NAME}</td>
                     </tr>
                     <tr>
                         <th scope="row">Месяц</th>
-                        <td colspan="3" class="align-middle">${monthName}, ${yearValue}</td>
+                        <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${monthName}, ${yearValue}</td>
                     </tr>
+                    ${isValidHours ? `
+                    <tr>
+                        <th scope="row">Оклад</th>
+                        <td colspan="4" class="align-middle">${baseSalary} ₽ (${workingHours} ч × ${hourlyRate} ₽/ч)</td>
+                    </tr>
+                    ` : ''}
                     <tr>
                         <th scope="row">Общая премия</th>
-                        <td colspan="3" class="align-middle">${result.TOTAL_PREMIUM ? result.TOTAL_PREMIUM : "-"}%</td>
+                        <td colspan="${isValidHours ? '3' : '3'}" class="align-middle">${result.TOTAL_PREMIUM ? result.TOTAL_PREMIUM : "-"}%</td>
+                        ${isValidHours ? `<td class="align-middle">${totalPremiumAmount} ₽</td>` : ''}
                     </tr>
                     <tr>
                         <th scope="row">Кол-во чатов</th>
-                        <td colspan="3" class="align-middle">${result.TOTAL_CHATS ? result.TOTAL_CHATS : "-"}</td>
+                        <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${result.TOTAL_CHATS ? result.TOTAL_CHATS : "-"}</td>
                     </tr>
                     <tr>
                         <th scope="row">Тесты</th>
-                        <td colspan="3" class="align-middle" style="text-decoration: underline; cursor: pointer;" data-bs-toggle="tooltip"
+                        <td colspan="${isValidHours ? '3' : '3'}" class="align-middle" style="text-decoration: underline; cursor: pointer;" data-bs-toggle="tooltip"
                             data-bs-html="true"
                             data-bs-title="Для премии за тесты:<br>
                             Всё сдано = 5%<br>
                             < Всё сдано = 0%<br><br>
 
                             Кликни для открытия тестов"><a href="https://okc2.ertelecom.ru/yii/testing/lk/profile" target="_blank" style="text-decoration:none; color:inherit;">${result.PERC_TESTING ? result.PERC_TESTING : "-"}%</a></td>
+                        ${isValidHours ? `<td class="align-middle">${testingAmount} ₽</td>` : ''}
                     </tr>
                     <tr>
                         <th scope="row">Благодарности</th>
-                        <td colspan="3" class="align-middle" style="text-decoration: underline;" data-bs-toggle="tooltip"
+                        <td colspan="${isValidHours ? '3' : '3'}" class="align-middle" style="text-decoration: underline;" data-bs-toggle="tooltip"
                             data-bs-html="true"
                             data-bs-title="Для премии за благи:<br>
                             >= 2 благи = 6%<br>
                             1 блага = 3%<br>
                             < 1 благи = 0%"
                         >${result.PERC_THANKS ? result.PERC_THANKS : "-"}%</td>
+                        ${isValidHours ? `<td class="align-middle">${thanksAmount} ₽</td>` : ''}
                     </tr>
                     <tr>
                         <th scope="row">Ручная правка</th>
-                        <td colspan="3" class="align-middle">${result.HEAD_ADJUST ? result.HEAD_ADJUST : "-"}</td>
+                        <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${result.HEAD_ADJUST ? result.HEAD_ADJUST : "-"}</td>
                     </tr>
                     <tr>
                         <th scope="row">Оценка</th>
@@ -600,6 +630,7 @@ async function handlePremiumSubmit() {
                             Текущий % выполнения: ${result.NORM_CSI ? result.NORM_CSI : "-"}%"
                         >${result.CSI_NORMATIVE ? result.CSI_NORMATIVE : "-"}</td>
                         <td class="align-middle">${result.PERC_CSI ? result.PERC_CSI : "-"}%</td>
+                        ${isValidHours ? `<td class="align-middle">${csiAmount} ₽</td>` : ''}
                     </tr>
                     <tr>
                         <th scope="row">Отклик</th>
@@ -613,6 +644,7 @@ async function handlePremiumSubmit() {
                             Текущий % выполнения: ${result.NORM_CSI_RESPONSE ? result.NORM_CSI_RESPONSE : "-"}%"
                         >${result.CSI_RESPONSE_NORMATIVE ? result.CSI_RESPONSE_NORMATIVE : "-"}</td>
                         <td class="align-middle">-</td>
+                        ${isValidHours ? `<td class="align-middle">-</td>` : ''}
                     </tr>
                     <tr>
                         <th scope="row">FLR</th>
@@ -630,6 +662,7 @@ async function handlePremiumSubmit() {
                             Текущий % выполнения: ${result.NORM_FLR ? result.NORM_FLR : "-"}%"
                         >${result.FLR_NORMATIVE ? result.FLR_NORMATIVE : "-"}</td>
                         <td class="align-middle">${result.PERC_FLR ? result.PERC_FLR : "-"}%</td>
+                        ${isValidHours ? `<td class="align-middle">${flrAmount} ₽</td>` : ''}
                     </tr>
                     <tr>
                         <th scope="row">ГОК</th>
@@ -647,18 +680,28 @@ async function handlePremiumSubmit() {
                             Текущий % выполнения: ${result.NORM_GOK ? result.NORM_GOK : "-"}%"
                         >${result.GOK_NORMATIVE ? result.GOK_NORMATIVE : "-"}</td>
                         <td class="align-middle">${result.PERC_GOK ? result.PERC_GOK : "-"}%</td>
+                        ${isValidHours ? `<td class="align-middle">${gokAmount} ₽</td>` : ''}
                     </tr>
                     <tr>
                         <th scope="row">СЦ</th>
                         <td class="align-middle">${result.PERS_FACT ? result.PERS_FACT : "-"}</td>
                         <td class="align-middle">${result.PERS_PLAN_1 ? `${result.PERS_PLAN_1} / ${result.PERS_PLAN_2}` : "-"}</td>
                         <td class="align-middle">${result.PERS_PERCENT ? result.PERS_PERCENT : "-"}%</td>
+                        ${isValidHours ? `<td class="align-middle">${persAmount} ₽</td>` : ''}
                     </tr>
                 </tbody>
             </table>
         `;
         } else {
             const result = data["premium"][0];
+
+            // Calculate premium amounts for head if hours are valid
+            const totalPremiumAmount = isValidHours && result.TOTAL_PREMIUM ? Math.round(baseSalary * (result.TOTAL_PREMIUM / 100)) : "-";
+            const gokAmount = isValidHours && result.PERC_GOK ? Math.round(baseSalary * (result.PERC_GOK / 100)) : "-";
+            const flrAmount = isValidHours && result.PERC_FLR ? Math.round(baseSalary * (result.PERC_FLR / 100)) : "-";
+            const persAmount = isValidHours && result.PERS_PERCENT ? Math.round(baseSalary * (result.PERS_PERCENT / 100)) : "-";
+            const slAmount = isValidHours && result.SL_PERCENT ? Math.round(baseSalary * (result.SL_PERCENT / 100)) : "-";
+
             tableHTML = `
             <table class="table table-hover table-bordered table-responsive table-sm">
                 <thead>
@@ -667,24 +710,32 @@ async function handlePremiumSubmit() {
                         <th scope="col">Факт</th>
                         <th scope="col">Норматив</th>
                         <th scope="col">Процент</th>
+                        ${isValidHours ? '<th scope="col">Сумма (₽)</th>' : ''}
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
                     <tr>
                         <th scope="row">Руководитель</th>
-                        <td colspan="3" class="align-middle">${result.USER_FIO}</td>
+                        <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${result.USER_FIO}</td>
                     </tr>
                     <tr>
                         <th scope="row">Месяц</th>
-                        <td colspan="3" class="align-middle">${monthName}, ${yearValue}</td>
+                        <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${monthName}, ${yearValue}</td>
                     </tr>
+                    ${isValidHours ? `
+                    <tr>
+                        <th scope="row">Оклад</th>
+                        <td colspan="4" class="align-middle">${baseSalary} ₽ (${workingHours} ч × ${hourlyRate} ₽/ч)</td>
+                    </tr>
+                    ` : ''}
                     <tr>
                         <th scope="row">Общая премия</th>
-                        <td colspan="3" class="align-middle">${result.TOTAL_PREMIUM ? result.TOTAL_PREMIUM : "-"}%</td>
+                        <td colspan="${isValidHours ? '3' : '3'}" class="align-middle">${result.TOTAL_PREMIUM ? result.TOTAL_PREMIUM : "-"}%</td>
+                        ${isValidHours ? `<td class="align-middle">${totalPremiumAmount} ₽</td>` : ''}
                     </tr>
                     <tr>
                         <th scope="row">Ручная правка</th>
-                        <td colspan="3" class="align-middle">${result.HEAD_ADJUST ? result.HEAD_ADJUST : "-"}</td>
+                        <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${result.HEAD_ADJUST ? result.HEAD_ADJUST : "-"}</td>
                     </tr>
                     <tr>
                         <th scope="row">ГОК</th>
@@ -703,6 +754,7 @@ async function handlePremiumSubmit() {
                             Текущий % выполнения: ${result.NORM_GOK ? result.NORM_GOK : "-"}%"
                         >${result.GOK_NORMATIVE ? result.GOK_NORMATIVE : "-"}</td>
                         <td class="align-middle">${result.PERC_GOK ? result.PERC_GOK : "-"}%</td>
+                        ${isValidHours ? `<td class="align-middle">${gokAmount} ₽</td>` : ''}
                     </tr>
                     <tr>
                         <th scope="row">FLR</th>
@@ -720,6 +772,7 @@ async function handlePremiumSubmit() {
                             Текущий % выполнения: ${result.NORM_FLR ? result.NORM_FLR : "-"}%"
                         >${result.FLR_NORMATIVE ? result.FLR_NORMATIVE : "-"}</td>
                         <td class="align-middle">${result.PERC_FLR ? result.PERC_FLR : "-"}%</td>
+                        ${isValidHours ? `<td class="align-middle">${flrAmount} ₽</td>` : ''}
                     </tr>
                     <tr>
                         <th scope="row">СЦ</th>
@@ -732,6 +785,7 @@ async function handlePremiumSubmit() {
                             < 1 норматива = 0%"
                         >${result.PERS_PLAN_1 ? result.PERS_PLAN_1 : "-"}/${result.PERS_PLAN_2 ? result.PERS_PLAN_2 : "-"}</td>
                         <td class="align-middle">${result.PERS_PERCENT ? result.PERS_PERCENT : "-"}%</td>
+                        ${isValidHours ? `<td class="align-middle">${persAmount} ₽</td>` : ''}
                     </tr>
                     <tr>
                         <th scope="row">SL</th>
@@ -744,6 +798,7 @@ async function handlePremiumSubmit() {
                             < 1 норматива = 0%"
                         >${result.SL_PLAN_1 ? result.SL_PLAN_1 : "-"}/${result.SL_PLAN_2 ? result.SL_PLAN_2 : "-"}</td>
                         <td class="align-middle">${result.SL_PERCENT ? result.SL_PERCENT : "-"}%</td>
+                        ${isValidHours ? `<td class="align-middle">${slAmount} ₽</td>` : ''}
                     </tr>
                 </tbody>
             </table>
