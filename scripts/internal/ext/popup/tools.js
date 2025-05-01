@@ -692,7 +692,7 @@ async function handlePremiumSubmit() {
                     ${isValidHours ? `
                     <tr>
                         <th scope="row">Оклад</th>
-                        <td colspan="4" class="align-middle">${baseSalary} ₽ (${workingHours} ч × ${hourlyRate} ₽/ч)</td>
+                        <td colspan="4" class="align-middle">${baseSalary.toFixed(2)} ₽ (${workingHours} ч × ${hourlyRate} ₽/ч)</td>
                     </tr>
                     ` : ''}
                     <tr>
@@ -703,8 +703,8 @@ async function handlePremiumSubmit() {
                     ${isValidHours ? `
                     <tr>
                         <th scope="row">Оклад + Премия</th>
-                        <td colspan="${isValidHours ? '3' : '4'}" class="align-middle"></td>
-                        ${isValidHours ? `<td class="align-middle">${baseSalary + totalPremiumAmount} ₽</td>` : ''}
+                        <td colspan="4" class="align-middle"></td>
+                        ${isValidHours ? `<td class="align-middle">${(baseSalary + totalPremiumAmount).toFixed(2)} ₽</td>` : ''}
                     </tr>
                     ` : ''}
                 </tbody>
