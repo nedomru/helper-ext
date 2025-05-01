@@ -631,7 +631,7 @@ async function leftFrame_fastAppeals() {
         "Открытое": [], "Закрытое": [], "Быстрый чат": [],
     };
 
-    const settingsKeys = ["ARM_changeRequestFBLF_FastChat_Accident", "ARM_changeRequestFBLF_Open_VhodNRD", "ARM_changeRequestFBLF_Open_KCNCK2", "ARM_changeRequestFBLF_Open_KCNCK1", "ARM_changeRequestFBLF_Closed_NoPages", "ARM_changeRequestFBLF_Closed_NoSession", "ARM_changeRequestFBLF_Closed_LowSpeed", "ARM_changeRequestFBLF_Closed_Disconnections", "ARM_changeRequestFBLF_Closed_NoTV", "ARM_changeRequestFBLF_Open_Ticket", "ARM_changeRequestFBLF_Open_Youtube", "ARM_changeRequestFBLF_Closed_CancelSZ", "ARM_changeRequestFBLF_FastChat_NoDiagnostic", "ARM_changeRequestFBLF_FastChat_DZ", "ARM_changeRequestFBLF_Open_Abon", "ARM_changeRequestFBLF_Closed_ServiceEng",];
+    const settingsKeys = ["ARM_changeRequestFBLF_FastChat_Accident", "ARM_changeRequestFBLF_Open_VhodNRD", "ARM_changeRequestFBLF_Open_KCNCK2", "ARM_changeRequestFBLF_Open_KCNCK1", "ARM_changeRequestFBLF_Closed_NoPages", "ARM_changeRequestFBLF_Closed_NoSession", "ARM_changeRequestFBLF_Closed_LowSpeed", "ARM_changeRequestFBLF_Closed_Disconnections", "ARM_changeRequestFBLF_Closed_NoTV", "ARM_changeRequestFBLF_Open_Ticket", "ARM_changeRequestFBLF_Open_Youtube", "ARM_changeRequestFBLF_Closed_CancelSZ", "ARM_changeRequestFBLF_FastChat_NoDiagnostic", "ARM_changeRequestFBLF_FastChat_DZ", "ARM_changeRequestFBLF_Open_Abon", "ARM_changeRequestFBLF_Open_AbonPriost", "ARM_changeRequestFBLF_Closed_ServiceEng",];
 
     // Getting user settings
     const settings = await Promise.all(settingsKeys.map((key) => browser.storage.sync.get(key)),);
@@ -740,11 +740,17 @@ async function leftFrame_fastAppeals() {
 
     if (settings[14][settingsKeys[14]]) {
         buttons.push({
-            value: "На Абон", class: "helper helper-appeal-button", action: handle_naAbon, category: "Открытое",
+            value: "Абон Деньги", class: "helper helper-appeal-button", action: handle_naAbon, category: "Открытое",
         });
     }
 
     if (settings[15][settingsKeys[15]]) {
+        buttons.push({
+            value: "Абон Приост", class: "helper helper-appeal-button", action: handle_naAbonPriost, category: "Открытое",
+        });
+    }
+
+    if (settings[16][settingsKeys[16]]) {
         buttons.push({
             value: "СИ", class: "helper helper-appeal-button", action: handleClosed_ServiceEng, category: "Закрытое",
         });
@@ -950,6 +956,22 @@ async function leftFrame_fastAppeals() {
 
         waitForElement(".uni_load_child_reason", (substep) => {
             substep.value = "18254";
+        });
+    }
+
+    async function handle_naAbonPriost() {
+        const step = document.querySelector(".uni_reas_step");
+        step.value = "2296";
+        step.dispatchEvent(changeEvent);
+
+        waitForElement(".uni_load_obj_reason", (substep) => {
+            substep.value = "1043";
+            substep.dispatchEvent(changeEvent);
+        });
+
+        waitForElement(".uni_load_main_reason", (substep) => {
+            substep.value = "4135";
+            substep.dispatchEvent(changeEvent);
         });
     }
 
