@@ -641,25 +641,35 @@ async function leftFrame_fastAppeals() {
     // Check settings and add buttons to a button array
     if (settings[0][settingsKeys[0]]) {
         buttons.push({
-            value: "Авария", class: "helper helper-appeal-button", action: fastChat_Accident, category: "Быстрый чат",
+            value: "Авария",
+            class: "helper helper-appeal-button",
+            action: fastChat_Accident,
+            category: "Быстрый чат",
+            tooltip: "Продукт - не изменяется. Авария/ППР > Авария"
         });
     }
 
     if (settings[1][settingsKeys[1]]) {
         buttons.push({
-            value: "ВХОД НРД", class: "helper helper-appeal-button", action: handleNRD, category: "Открытое",
+            value: "ВХОД НРД",
+            class: "helper helper-appeal-button",
+            action: handleNRD,
+            category: "Открытое",
+            tooltip: "Продукт не изменяется. НСК Вход > Намерение расторгнуть договор > ..."
         });
     }
 
     if (settings[2][settingsKeys[2]]) {
         buttons.push({
             value: "КС НЦК2", class: "helper helper-appeal-button", action: handleKCNCK2Click, category: "Открытое",
+            tooltip: "Продукт не изменяется. ОЦТП Исход > Контакт сорвался > ..."
         });
     }
 
     if (settings[3][settingsKeys[3]]) {
         buttons.push({
             value: "КС НЦК1", class: "helper helper-appeal-button", action: handleKCNCK1Click, category: "Открытое",
+            tooltip: "Продукт не изменяется. Онлайн Вход > Контакт сорвался > ..."
         });
     }
 
@@ -669,6 +679,7 @@ async function leftFrame_fastAppeals() {
             class: "helper helper-appeal-button",
             action: handleClosed_NoPages,
             category: "Закрытое",
+            tooltip: "Интернет. Настройка и диагностика > Не открываются страницы > Не открываются все страницы"
         });
     }
 
@@ -678,12 +689,14 @@ async function leftFrame_fastAppeals() {
             class: "helper helper-appeal-button",
             action: handleClosed_NoSession,
             category: "Закрытое",
+            tooltip: "Интернет. Настройка и диагностика > Отсутствует подключение к интернету > ..."
         });
     }
 
     if (settings[6][settingsKeys[6]]) {
         buttons.push({
             value: "Низкая", class: "helper helper-appeal-button", action: handleClosed_LowSpeed, category: "Закрытое",
+            tooltip: "Продукт не изменяется. Настройка и диагностика > Низкая скорость > Низкая скорость открытия страниц"
         });
     }
 
@@ -693,24 +706,28 @@ async function leftFrame_fastAppeals() {
             class: "helper helper-appeal-button",
             action: handleClosed_Disconnections,
             category: "Закрытое",
+            tooltip: "Интернет. Настройка и диагностика > Разрывы связи > Пропадает соединение с интернет"
         });
     }
 
     if (settings[8][settingsKeys[8]]) {
         buttons.push({
             value: "Нет вещания", class: "helper helper-appeal-button", action: handleClosed_NoTV, category: "Закрытое",
+            tooltip: "Телевидение. Настройка и диагностика > Отсутствие вещания на каналах > Нет вещания на всех каналах"
         });
     }
 
     if (settings[9][settingsKeys[9]]) {
         buttons.push({
             value: "Тикет", class: "helper helper-appeal-button", action: handleOpen_Ticket, category: "Открытое",
+            tooltip: "Продукт не изменяется. Онлайн - Входящая связь > Обращение из Email > ..."
         });
     }
 
     if (settings[10][settingsKeys[10]]) {
         buttons.push({
             value: "Youtube", class: "helper helper-appeal-button", action: handleOpen_Youtube, category: "Открытое",
+            tooltip: "Интернет. Настройка и диагностика > Низкая скорость > Низкая скорость YouTube"
         });
     }
 
@@ -720,6 +737,7 @@ async function leftFrame_fastAppeals() {
             class: "helper helper-appeal-button",
             action: handleClosed_CancelSZ,
             category: "Закрытое",
+            tooltip: "Продукт не изменяется. Технический сервис > Отмена СЗ"
         });
     }
 
@@ -729,30 +747,38 @@ async function leftFrame_fastAppeals() {
             class: "helper helper-appeal-button",
             action: fastChat_NoDiagnostic,
             category: "Быстрый чат",
+            tooltip: "Продукт не изменяется. Настройка и диагностика > Не открываются страницы > Не открываются все страницы"
         });
     }
 
     if (settings[13][settingsKeys[13]]) {
         buttons.push({
             value: "Отключ ДЗ", class: "helper helper-appeal-button", action: fastChat_DZ, category: "Быстрый чат",
+            tooltip: "Продукт не изменяется. Начисления и платежи > Начисления или баланс > Закрыт доступ по причине ДЗ"
         });
     }
 
     if (settings[14][settingsKeys[14]]) {
         buttons.push({
             value: "Абон Деньги", class: "helper helper-appeal-button", action: handle_naAbon, category: "Открытое",
+            tooltip: "Продукт не изменяется. Онлайн - Входящая связь > Начисления и платежи > Начисления или баланс > Запрос баланса"
         });
     }
 
     if (settings[15][settingsKeys[15]]) {
         buttons.push({
-            value: "Абон Приост", class: "helper helper-appeal-button", action: handle_naAbonPriost, category: "Открытое",
+            value: "Абон Приост",
+            class: "helper helper-appeal-button",
+            action: handle_naAbonPriost,
+            category: "Открытое",
+            tooltip: "Продукт не изменяется. Онлайн - Входящая связь > Операции с договором > Приостановление договора > ..."
         });
     }
 
     if (settings[16][settingsKeys[16]]) {
         buttons.push({
             value: "СИ", class: "helper helper-appeal-button", action: handleClosed_ServiceEng, category: "Закрытое",
+            tooltip: "Продукт не изменяется. Технологический класс > Обращение сервисного инженера > ..."
         });
     }
 
@@ -783,6 +809,13 @@ async function leftFrame_fastAppeals() {
                 btnElement.setAttribute("type", "button");
                 btnElement.setAttribute("class", button.class);
                 btnElement.setAttribute("value", button.value);
+
+                // Add tooltip as title attribute
+                if (button.tooltip) {
+                    btnElement.setAttribute("title", button.tooltip);
+                    btnElement.setAttribute("data-tooltip", button.tooltip);
+                }
+
                 btnElement.addEventListener("click", button.action);
                 btnElement.style.backgroundColor = "#337ab7";
                 btnElement.style.color = "white";
@@ -861,6 +894,55 @@ async function leftFrame_fastAppeals() {
           background-color: #d6d6d6 !important;
           text-decoration: none;
           transition-duration: 0.1s;
+        }
+
+        /* Tooltip styles - Option 1: Using native title attribute */
+        [title] {
+          position: relative;
+          cursor: help;
+        }
+
+        /* Custom tooltip styles - Option 2: Enhanced custom tooltips */
+        [data-tooltip] {
+          position: relative;
+        }
+
+        [data-tooltip]:hover::after {
+          content: attr(data-tooltip);
+          position: absolute;
+          z-index: 1000;
+          background-color: #333;
+          color: white;
+          padding: 5px 10px;
+          border-radius: 4px;
+          font-size: 12px;
+          white-space: nowrap;
+          bottom: 120%;
+          left: 50%;
+          transform: translateX(-50%);
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+          pointer-events: none;
+          opacity: 0;
+          animation: fadeIn 0.3s forwards;
+        }
+
+        @keyframes fadeIn {
+          to {
+            opacity: 1;
+          }
+        }
+
+        [data-tooltip]:hover::before {
+          content: '';
+          position: absolute;
+          border: 5px solid transparent;
+          border-top-color: #333;
+          top: -10px;
+          left: 50%;
+          transform: translateX(-50%);
+          pointer-events: none;
+          opacity: 0;
+          animation: fadeIn 0.3s forwards;
         }
 
         .helper-appeal-button:disabled, .helper-sr-button:disabled {
@@ -1438,10 +1520,7 @@ async function leftFrame_fastSR() {
 
     if (settings[2][settingsKeys[2]]) {
         buttons.push({
-            value: "Низкая скорость",
-            class: "helper helper-sr-button",
-            action: internet_lowSpeed,
-            category: "Интернет",
+            value: "Низкая скорость", class: "helper helper-sr-button", action: internet_lowSpeed, category: "Интернет",
         });
     }
 
@@ -1611,11 +1690,11 @@ async function leftFrame_fastSR() {
 
         if (option7Exists) {
             product.value = "7";
-            const changeEvent = new Event('change', { bubbles: true, cancelable: true });
+            const changeEvent = new Event('change', {bubbles: true, cancelable: true});
             product.dispatchEvent(changeEvent);
         } else if (option40Exists) {
             product.value = "40";
-            const changeEvent = new Event('change', { bubbles: true, cancelable: true });
+            const changeEvent = new Event('change', {bubbles: true, cancelable: true});
             product.dispatchEvent(changeEvent);
         }
 
