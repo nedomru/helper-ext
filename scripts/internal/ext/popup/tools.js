@@ -481,9 +481,6 @@ async function handlePremiumSubmit() {
     const workingHours = parseInt(document.getElementById("workingHours").value, 10);
     const isValidHours = !isNaN(workingHours) && workingHours > 0;
 
-    // Hourly rate based on role
-    const hourlyRate = 200; // 200 rubles per hour for Эксперт
-
     const month = parseInt(monthValue, 10);
     const year = parseInt(yearValue, 10);
     const loadingSpinner = document.getElementById("loadingResultsSpinner");
@@ -540,6 +537,22 @@ async function handlePremiumSubmit() {
         let tableHTML;
         if (inputField === "specialist") {
             const result = data[0];
+            let hourlyRate
+            switch (result.POST_NAME) {
+                case "Специалист":
+                    hourlyRate = 156.7
+                    break
+                case "Ведущий специалист":
+                    hourlyRate = 164.2
+                    break
+                case "Эксперт":
+                    hourlyRate = 195.9
+                    break
+                case "Руководитель группы":
+                    hourlyRate = 225.3
+                    break
+            }
+
 
             // Calculate premium amounts if hours are valid
             const totalPremiumAmount = isValidHours && result.TOTAL_PREMIUM ? Math.round(baseSalary * (result.TOTAL_PREMIUM / 100)) : "-";
@@ -574,20 +587,13 @@ async function handlePremiumSubmit() {
                         <th scope="row">Месяц</th>
                         <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${monthName}, ${yearValue}</td>
                     </tr>
-                    ${isValidHours ? `
-                    <tr>
-                        <th scope="row">Оклад</th>
-                        <td colspan="4" class="align-middle">${baseSalary} ₽ (${workingHours} ч × ${hourlyRate} ₽/ч)</td>
-                    </tr>
-                    ` : ''}
-                    <tr>
-                        <th scope="row">Общая премия</th>
-                        <td colspan="${isValidHours ? '3' : '3'}" class="align-middle">${result.TOTAL_PREMIUM ? result.TOTAL_PREMIUM : "-"}%</td>
-                        ${isValidHours ? `<td class="align-middle">${totalPremiumAmount} ₽</td>` : ''}
-                    </tr>
                     <tr>
                         <th scope="row">Кол-во чатов</th>
                         <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${result.TOTAL_CHATS ? result.TOTAL_CHATS : "-"}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Ручная правка</th>
+                        <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${result.HEAD_ADJUST ? result.HEAD_ADJUST : "-"}</td>
                     </tr>
                     <tr>
                         <th scope="row">Тесты</th>
@@ -610,10 +616,6 @@ async function handlePremiumSubmit() {
                             < 1 благи = 0%"
                         >${result.PERC_THANKS ? result.PERC_THANKS : "-"}%</td>
                         ${isValidHours ? `<td class="align-middle">${thanksAmount} ₽</td>` : ''}
-                    </tr>
-                    <tr>
-                        <th scope="row">Ручная правка</th>
-                        <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${result.HEAD_ADJUST ? result.HEAD_ADJUST : "-"}</td>
                     </tr>
                     <tr>
                         <th scope="row">Оценка</th>
@@ -688,6 +690,22 @@ async function handlePremiumSubmit() {
                         <td class="align-middle">${result.PERS_PLAN_1 ? `${result.PERS_PLAN_1} / ${result.PERS_PLAN_2}` : "-"}</td>
                         <td class="align-middle">${result.PERS_PERCENT ? result.PERS_PERCENT : "-"}%</td>
                         ${isValidHours ? `<td class="align-middle">${persAmount} ₽</td>` : ''}
+                    </tr>
+                    ${isValidHours ? `
+                    <tr>
+                        <th scope="row">Оклад</th>
+                        <td colspan="4" class="align-middle">${baseSalary} ₽ (${workingHours} ч × ${hourlyRate} ₽/ч)</td>
+                    </tr>
+                    ` : ''}
+                    <tr>
+                        <th scope="row">Общая премия</th>
+                        <td colspan="${isValidHours ? '3' : '3'}" class="align-middle">${result.TOTAL_PREMIUM ? result.TOTAL_PREMIUM : "-"}%</td>
+                        ${isValidHours ? `<td class="align-middle">${totalPremiumAmount} ₽</td>` : ''}
+                    </tr>
+                    <tr>
+                        <th scope="row">Оклад + Премия</th>
+                        <td colspan="${isValidHours ? '3' : '4'}" class="align-middle"></td>
+                        ${isValidHours ? `<td class="align-middle">${baseSalary + totalPremiumAmount} ₽</td>` : ''}
                     </tr>
                 </tbody>
             </table>
