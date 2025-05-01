@@ -13,6 +13,26 @@ document.addEventListener("DOMContentLoaded", async function () {
   submitPremium.addEventListener("click", handlePremiumSubmit);
   // submitGPT.addEventListener("click", handleGPTSubmit);
 
+  const mappings = {
+    "input-link": "submit-link",
+    "input-mac": "submit-mac",
+    "input-ip": "submit-ip",
+    "input-specialist": "submit-specialist"
+  };
+
+  Object.keys(mappings).forEach(inputId => {
+    const input = document.getElementById(inputId);
+    const buttonId = mappings[inputId];
+    const button = document.getElementById(buttonId);
+
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        button.click();
+      }
+    });
+  });
+
   populatePremiumDropdown(); // Fill premium dropdown with updated values
 
   // Set specialist line in premium check
