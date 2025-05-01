@@ -724,6 +724,7 @@ async function handlePremiumSubmit() {
 
             // Calculate premium amounts for head if hours are valid
             const totalPremiumAmount = isValidHours && result.TOTAL_PREMIUM ? Math.round(baseSalary * (result.TOTAL_PREMIUM / 100)) : "-";
+            const headAdjustAmount = isValidHours && result.HEAD_ADJUST ? Math.round(baseSalary * (result.HEAD_ADJUST / 100)) : "-";
             const gokAmount = isValidHours && result.PERC_GOK ? Math.round(baseSalary * (result.PERC_GOK / 100)) : "-";
             const flrAmount = isValidHours && result.PERC_FLR ? Math.round(baseSalary * (result.PERC_FLR / 100)) : "-";
             const persAmount = isValidHours && result.PERS_PERCENT ? Math.round(baseSalary * (result.PERS_PERCENT / 100)) : "-";
@@ -752,6 +753,8 @@ async function handlePremiumSubmit() {
                     <tr>
                         <th scope="row">Ручная правка</th>
                         <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${result.HEAD_ADJUST ? result.HEAD_ADJUST : "-"}</td>
+                                        ${isValidHours ? `<td class="align-middle">${headAdjustAmount} ₽</td>` : ''}
+
                     </tr>
                     <tr>
                         <th scope="row">ГОК</th>
@@ -821,6 +824,16 @@ async function handlePremiumSubmit() {
                         <td colspan="${isValidHours ? '3' : '3'}" class="align-middle">${result.TOTAL_PREMIUM ? result.TOTAL_PREMIUM : "-"}%</td>
                         ${isValidHours ? `<td class="align-middle">${totalPremiumAmount} ₽</td>` : ''}
                     </tr>
+                    ${isValidHours ? `
+            <tr>
+                <th scope="row">Оклад</th>
+                <td colspan="4" class="align-middle">${baseSalary.toFixed(2)} ₽ (${workingHours} ч × ${hourlyRate} ₽/ч)</td>
+            </tr>
+            <tr>
+                <th scope="row">Оклад + Премия</th>
+                <td colspan="4" class="align-middle">${(baseSalary + totalPremiumAmount).toFixed(2)} ₽</td>
+            </tr>
+            ` : ''}
                 </tbody>
             </table>
         `;
