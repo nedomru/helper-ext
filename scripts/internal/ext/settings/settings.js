@@ -454,10 +454,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     async function updateLogViewer() {
         try {
             const logs = await getLogs();
-            const logText = logs.map(log => 
+            logContent.textContent = logs.map(log =>
                 `[${log.timestamp}] [${log.level}]${log.module ? ` [${log.module}]` : ''} ${log.message}`
             ).join('\n');
-            logContent.textContent = logText;
         } catch (error) {
             error('Error updating log viewer:', error);
         }

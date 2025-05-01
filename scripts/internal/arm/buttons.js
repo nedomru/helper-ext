@@ -150,7 +150,7 @@ async function copyMAC() {
     }
 
     function processMACs(container) {
-        const fragment = document.createDocumentFragment();
+        document.createDocumentFragment();
         const macElements = container.querySelectorAll(".mac, .js-get-vendor-by-mac");
 
         macElements.forEach(elem => {
@@ -331,7 +331,7 @@ async function copyIP() {
 
     // Process all IP elements in batches
     const processIPElements = () => {
-        const fragment = document.createDocumentFragment();
+        document.createDocumentFragment();
         const ipContainers = document.querySelectorAll('.ip');
 
         ipContainers.forEach(container => {
@@ -2307,7 +2307,7 @@ async function infoCompensationButton() {
         return dates;
     }
 
-    compensateBtn.addEventListener("click", async (event) => {
+    compensateBtn.addEventListener("click", async () => {
         let ssn = document.querySelector('input[class="js-ssn-prn"]')?.value;
         let user_id = document.querySelector('input[class="js-user-id-prn"]',)?.value;
         let agr_id = document.querySelector('input[class="js-agr-id-prn"]')?.value;
