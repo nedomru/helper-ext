@@ -552,7 +552,6 @@ async function copyClientAddress() {
     try {
         address_text = document.getElementById("dr").innerText;
     } catch (e) {
-        warn(`[Хелпер] - [АРМ] - [Копирование адреса] Не найден адрес клиента`,);
         return;
     }
     if (!address_text) {
