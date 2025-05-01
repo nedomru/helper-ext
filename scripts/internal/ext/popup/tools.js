@@ -556,6 +556,8 @@ async function handlePremiumSubmit() {
             const totalPremiumAmount = isValidHours && result.TOTAL_PREMIUM ? Math.round(baseSalary * (result.TOTAL_PREMIUM / 100)) : "-";
             const testingAmount = isValidHours && result.PERC_TESTING ? Math.round(baseSalary * (result.PERC_TESTING / 100)) : "-";
             const thanksAmount = isValidHours && result.PERC_THANKS ? Math.round(baseSalary * (result.PERC_THANKS / 100)) : "-";
+            const tutorAmount = isValidHours && result.TUTOR_THANKS ? Math.round(baseSalary * (result.TUTOR_THANKS / 100)) : "-";
+            const headAdjustAmount = isValidHours && result.HEAD_ADJUST ? Math.round(baseSalary * (result.HEAD_ADJUST / 100)) : "-";
             const csiAmount = isValidHours && result.PERC_CSI ? Math.round(baseSalary * (result.PERC_CSI / 100)) : "-";
             const flrAmount = isValidHours && result.PERC_FLR ? Math.round(baseSalary * (result.PERC_FLR / 100)) : "-";
             const gokAmount = isValidHours && result.PERC_GOK ? Math.round(baseSalary * (result.PERC_GOK / 100)) : "-";
@@ -592,6 +594,12 @@ async function handlePremiumSubmit() {
             <tr>
                 <th scope="row">Ручная правка</th>
                 <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${result.HEAD_ADJUST ? result.HEAD_ADJUST : "-"}</td>
+                ${isValidHours ? `<td class="align-middle">${headAdjustAmount} ₽</td>` : ''}
+            </tr>
+            <tr>
+                <th scope="row">Наставничество</th>
+                <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${result.PERC_TUTOR ? result.PERC_TUTOR : "-"}</td>
+                ${isValidHours ? `<td class="align-middle">${tutorAmount} ₽</td>` : ''}
             </tr>
             <tr>
                 <th scope="row">Тесты</th>
@@ -741,17 +749,6 @@ async function handlePremiumSubmit() {
                         <th scope="row">Месяц</th>
                         <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${monthName}, ${yearValue}</td>
                     </tr>
-                    ${isValidHours ? `
-                    <tr>
-                        <th scope="row">Оклад</th>
-                        <td colspan="4" class="align-middle">${baseSalary} ₽ (${workingHours} ч × ${hourlyRate} ₽/ч)</td>
-                    </tr>
-                    ` : ''}
-                    <tr>
-                        <th scope="row">Общая премия</th>
-                        <td colspan="${isValidHours ? '3' : '3'}" class="align-middle">${result.TOTAL_PREMIUM ? result.TOTAL_PREMIUM : "-"}%</td>
-                        ${isValidHours ? `<td class="align-middle">${totalPremiumAmount} ₽</td>` : ''}
-                    </tr>
                     <tr>
                         <th scope="row">Ручная правка</th>
                         <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${result.HEAD_ADJUST ? result.HEAD_ADJUST : "-"}</td>
@@ -818,6 +815,11 @@ async function handlePremiumSubmit() {
                         >${result.SL_PLAN_1 ? result.SL_PLAN_1 : "-"}/${result.SL_PLAN_2 ? result.SL_PLAN_2 : "-"}</td>
                         <td class="align-middle">${result.SL_PERCENT ? result.SL_PERCENT : "-"}%</td>
                         ${isValidHours ? `<td class="align-middle">${slAmount} ₽</td>` : ''}
+                    </tr>
+                    <tr>
+                        <th scope="row">Общая премия</th>
+                        <td colspan="${isValidHours ? '3' : '3'}" class="align-middle">${result.TOTAL_PREMIUM ? result.TOTAL_PREMIUM : "-"}%</td>
+                        ${isValidHours ? `<td class="align-middle">${totalPremiumAmount} ₽</td>` : ''}
                     </tr>
                 </tbody>
             </table>
