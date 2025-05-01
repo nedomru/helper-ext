@@ -563,152 +563,149 @@ async function handlePremiumSubmit() {
 
             tableHTML = `
             <table class="table table-hover table-bordered table-responsive table-sm">
-                <thead>
-                    <tr>
-                        <th scope="col">Параметр</th>
-                        <th scope="col">Факт</th>
-                        <th scope="col">Норматив</th>
-                        <th scope="col">Процент</th>
-                        ${isValidHours ? '<th scope="col">Сумма (₽)</th>' : ''}
-                    </tr>
-                </thead>
-                <tbody class="table-group-divider">
-                    <tr>
-                        <th scope="row">Специалист</th>
-                        <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${result.USER_FIO}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Должность</th>
-                        <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${result.POST_NAME}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Месяц</th>
-                        <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${monthName}, ${yearValue}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Кол-во чатов</th>
-                        <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${result.TOTAL_CHATS ? result.TOTAL_CHATS : "-"}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Ручная правка</th>
-                        <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${result.HEAD_ADJUST ? result.HEAD_ADJUST : "-"}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Тесты</th>
-                        <td colspan="${isValidHours ? '3' : '3'}" class="align-middle" style="text-decoration: underline; cursor: pointer;" data-bs-toggle="tooltip"
-                            data-bs-html="true"
-                            data-bs-title="Для премии за тесты:<br>
-                            Всё сдано = 5%<br>
-                            < Всё сдано = 0%<br><br>
+        <thead>
+            <tr>
+                <th scope="col">Параметр</th>
+                <th scope="col">Факт</th>
+                <th scope="col">Норматив</th>
+                <th scope="col">Процент</th>
+                ${isValidHours ? '<th scope="col">Сумма (₽)</th>' : ''}
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            <tr>
+                <th scope="row">Специалист</th>
+                <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${result.USER_FIO}</td>
+            </tr>
+            <tr>
+                <th scope="row">Должность</th>
+                <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${result.POST_NAME}</td>
+            </tr>
+            <tr>
+                <th scope="row">Месяц</th>
+                <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${monthName}, ${yearValue}</td>
+            </tr>
+            <tr>
+                <th scope="row">Кол-во чатов</th>
+                <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${result.TOTAL_CHATS ? result.TOTAL_CHATS : "-"}</td>
+            </tr>
+            <tr>
+                <th scope="row">Ручная правка</th>
+                <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${result.HEAD_ADJUST ? result.HEAD_ADJUST : "-"}</td>
+            </tr>
+            <tr>
+                <th scope="row">Тесты</th>
+                <td colspan="${isValidHours ? '3' : '3'}" class="align-middle" style="text-decoration: underline; cursor: pointer;" data-bs-toggle="tooltip"
+                    data-bs-html="true"
+                    data-bs-title="Для премии за тесты:<br>
+                    Всё сдано = 5%<br>
+                    < Всё сдано = 0%<br><br>
 
-                            Кликни для открытия тестов"><a href="https://okc2.ertelecom.ru/yii/testing/lk/profile" target="_blank" style="text-decoration:none; color:inherit;">${result.PERC_TESTING ? result.PERC_TESTING : "-"}%</a></td>
-                        ${isValidHours ? `<td class="align-middle">${testingAmount} ₽</td>` : ''}
-                    </tr>
-                    <tr>
-                        <th scope="row">Благодарности</th>
-                        <td colspan="${isValidHours ? '3' : '3'}" class="align-middle" style="text-decoration: underline;" data-bs-toggle="tooltip"
-                            data-bs-html="true"
-                            data-bs-title="Для премии за благи:<br>
-                            >= 2 благи = 6%<br>
-                            1 блага = 3%<br>
-                            < 1 благи = 0%"
-                        >${result.PERC_THANKS ? result.PERC_THANKS : "-"}%</td>
-                        ${isValidHours ? `<td class="align-middle">${thanksAmount} ₽</td>` : ''}
-                    </tr>
-                    <tr>
-                        <th scope="row">Оценка</th>
-                        <td class="align-middle">${result.CSI ? result.CSI : "-"}</td>
-                        <td class="align-middle" style="text-decoration: underline;"
-                            data-bs-toggle="tooltip"
-                            data-bs-html="true"
-                            data-bs-title="Для премии за оценку:<br>
-                            ${(result.CSI_NORMATIVE * 1.01).toFixed(2)} = 20%<br>
-                            ${(result.CSI_NORMATIVE * 1.005).toFixed(2)} = 15%<br>
-                            ${(result.CSI_NORMATIVE * 1).toFixed(2)} = 10%<br>
-                            ${(result.CSI_NORMATIVE * 0.98).toFixed(2)} = 5%<br>
-                            < ${(result.CSI_NORMATIVE * 0.98).toFixed(2)} = 0%<br><br>
-                            Текущий % выполнения: ${result.NORM_CSI ? result.NORM_CSI : "-"}%"
-                        >${result.CSI_NORMATIVE ? result.CSI_NORMATIVE : "-"}</td>
-                        <td class="align-middle">${result.PERC_CSI ? result.PERC_CSI : "-"}%</td>
-                        ${isValidHours ? `<td class="align-middle">${csiAmount} ₽</td>` : ''}
-                    </tr>
-                    <tr>
-                        <th scope="row">Отклик</th>
-                        <td class="align-middle">${result.CSI_RESPONSE ? result.CSI_RESPONSE : "-"}</td>
-                        <td class="align-middle" style="text-decoration: underline;"
-                            data-bs-toggle="tooltip"
-                            data-bs-html="true"
-                            data-bs-title="Для премии за оценку:<br>
-                            ${result.CSI_RESPONSE_NORMATIVE} = Премия есть<br>
-                            < ${result.CSI_RESPONSE_NORMATIVE} = Премии нет<br><br>
-                            Текущий % выполнения: ${result.NORM_CSI_RESPONSE ? result.NORM_CSI_RESPONSE : "-"}%"
-                        >${result.CSI_RESPONSE_NORMATIVE ? result.CSI_RESPONSE_NORMATIVE : "-"}</td>
-                        <td class="align-middle">-</td>
-                        ${isValidHours ? `<td class="align-middle">-</td>` : ''}
-                    </tr>
-                    <tr>
-                        <th scope="row">FLR</th>
-                        <td class="align-middle">${result.FLR ? result.FLR : "-"}</td>
-                        <td class="align-middle" style="text-decoration: underline;"
-                            data-bs-toggle="tooltip"
-                            data-bs-html="true"
-                            data-bs-title="Для премии за FLR:<br>
-                            ${(result.FLR_NORMATIVE * 1.03).toFixed(2)} = 30%<br>
-                            ${(result.FLR_NORMATIVE * 1.02).toFixed(2)} = 25%<br>
-                            ${(result.FLR_NORMATIVE * 1.01).toFixed(2)} = 21%<br>
-                            ${(result.FLR_NORMATIVE * 1).toFixed(2)} = 18%<br>
-                            ${(result.FLR_NORMATIVE * 0.95).toFixed(2)} = 13%<br>
-                            < ${(result.FLR_NORMATIVE * 0.95).toFixed(2)} = 8%<br><br>
-                            Текущий % выполнения: ${result.NORM_FLR ? result.NORM_FLR : "-"}%"
-                        >${result.FLR_NORMATIVE ? result.FLR_NORMATIVE : "-"}</td>
-                        <td class="align-middle">${result.PERC_FLR ? result.PERC_FLR : "-"}%</td>
-                        ${isValidHours ? `<td class="align-middle">${flrAmount} ₽</td>` : ''}
-                    </tr>
-                    <tr>
-                        <th scope="row">ГОК</th>
-                        <td class="align-middle">${result.GOK ? result.GOK : "-"}</td>
-                        <td class="align-middle" style="text-decoration: underline;"
-                            data-bs-toggle="tooltip"
-                            data-bs-html="true"
-                            data-bs-title="Для премии за ГОК:<br>
-                            >= ${(result.GOK_NORMATIVE * 1).toFixed(2)} = 17%<br>
-                            ${(result.GOK_NORMATIVE * 0.95).toFixed(2)} = 15%<br>
-                            ${(result.GOK_NORMATIVE * 0.9).toFixed(2)} = 12%<br>
-                            ${(result.GOK_NORMATIVE * 0.85).toFixed(2)} = 9%<br>
-                            ${(result.GOK_NORMATIVE * 0.8).toFixed(2)} = 5%<br>
-                            < ${(result.GOK_NORMATIVE * 0.8).toFixed(2)} = 0%<br><br>
-                            Текущий % выполнения: ${result.NORM_GOK ? result.NORM_GOK : "-"}%"
-                        >${result.GOK_NORMATIVE ? result.GOK_NORMATIVE : "-"}</td>
-                        <td class="align-middle">${result.PERC_GOK ? result.PERC_GOK : "-"}%</td>
-                        ${isValidHours ? `<td class="align-middle">${gokAmount} ₽</td>` : ''}
-                    </tr>
-                    <tr>
-                        <th scope="row">СЦ</th>
-                        <td class="align-middle">${result.PERS_FACT ? result.PERS_FACT : "-"}</td>
-                        <td class="align-middle">${result.PERS_PLAN_1 ? `${result.PERS_PLAN_1} / ${result.PERS_PLAN_2}` : "-"}</td>
-                        <td class="align-middle">${result.PERS_PERCENT ? result.PERS_PERCENT : "-"}%</td>
-                        ${isValidHours ? `<td class="align-middle">${persAmount} ₽</td>` : ''}
-                    </tr>
-                    ${isValidHours ? `
-                    <tr>
-                        <th scope="row">Оклад</th>
-                        <td colspan="4" class="align-middle">${baseSalary.toFixed(2)} ₽ (${workingHours} ч × ${hourlyRate} ₽/ч)</td>
-                    </tr>
-                    ` : ''}
-                    <tr>
-                        <th scope="row">Общая премия</th>
-                        <td colspan="${isValidHours ? '3' : '3'}" class="align-middle">${result.TOTAL_PREMIUM ? result.TOTAL_PREMIUM : "-"}%</td>
-                        ${isValidHours ? `<td class="align-middle">${totalPremiumAmount} ₽</td>` : ''}
-                    </tr>
-                    ${isValidHours ? `
-                    <tr>
-                        <th scope="row">Оклад + Премия</th>
-                        <td colspan="4" class="align-middle"></td>
-                        ${isValidHours ? `<td class="align-middle">${(baseSalary + totalPremiumAmount).toFixed(2)} ₽</td>` : ''}
-                    </tr>
-                    ` : ''}
-                </tbody>
-            </table>
+                    Кликни для открытия тестов"><a href="https://okc2.ertelecom.ru/yii/testing/lk/profile" target="_blank" style="text-decoration:none; color:inherit;">${result.PERC_TESTING ? result.PERC_TESTING : "-"}%</a></td>
+                ${isValidHours ? `<td class="align-middle">${testingAmount} ₽</td>` : ''}
+            </tr>
+            <tr>
+                <th scope="row">Благодарности</th>
+                <td colspan="${isValidHours ? '3' : '3'}" class="align-middle" style="text-decoration: underline;" data-bs-toggle="tooltip"
+                    data-bs-html="true"
+                    data-bs-title="Для премии за благи:<br>
+                    >= 2 благи = 6%<br>
+                    1 блага = 3%<br>
+                    < 1 благи = 0%"
+                >${result.PERC_THANKS ? result.PERC_THANKS : "-"}%</td>
+                ${isValidHours ? `<td class="align-middle">${thanksAmount} ₽</td>` : ''}
+            </tr>
+            <tr>
+                <th scope="row">Оценка</th>
+                <td class="align-middle">${result.CSI ? result.CSI : "-"}</td>
+                <td class="align-middle" style="text-decoration: underline;"
+                    data-bs-toggle="tooltip"
+                    data-bs-html="true"
+                    data-bs-title="Для премии за оценку:<br>
+                    ${(result.CSI_NORMATIVE * 1.01).toFixed(2)} = 20%<br>
+                    ${(result.CSI_NORMATIVE * 1.005).toFixed(2)} = 15%<br>
+                    ${(result.CSI_NORMATIVE * 1).toFixed(2)} = 10%<br>
+                    ${(result.CSI_NORMATIVE * 0.98).toFixed(2)} = 5%<br>
+                    < ${(result.CSI_NORMATIVE * 0.98).toFixed(2)} = 0%<br><br>
+                    Текущий % выполнения: ${result.NORM_CSI ? result.NORM_CSI : "-"}%"
+                >${result.CSI_NORMATIVE ? result.CSI_NORMATIVE : "-"}</td>
+                <td class="align-middle">${result.PERC_CSI ? result.PERC_CSI : "-"}%</td>
+                ${isValidHours ? `<td class="align-middle">${csiAmount} ₽</td>` : ''}
+            </tr>
+            <tr>
+                <th scope="row">Отклик</th>
+                <td class="align-middle">${result.CSI_RESPONSE ? result.CSI_RESPONSE : "-"}</td>
+                <td class="align-middle" style="text-decoration: underline;"
+                    data-bs-toggle="tooltip"
+                    data-bs-html="true"
+                    data-bs-title="Для премии за оценку:<br>
+                    ${result.CSI_RESPONSE_NORMATIVE} = Премия есть<br>
+                    < ${result.CSI_RESPONSE_NORMATIVE} = Премии нет<br><br>
+                    Текущий % выполнения: ${result.NORM_CSI_RESPONSE ? result.NORM_CSI_RESPONSE : "-"}%"
+                >${result.CSI_RESPONSE_NORMATIVE ? result.CSI_RESPONSE_NORMATIVE : "-"}</td>
+                <td class="align-middle">-</td>
+                ${isValidHours ? `<td class="align-middle">-</td>` : ''}
+            </tr>
+            <tr>
+                <th scope="row">FLR</th>
+                <td class="align-middle">${result.FLR ? result.FLR : "-"}</td>
+                <td class="align-middle" style="text-decoration: underline;"
+                    data-bs-toggle="tooltip"
+                    data-bs-html="true"
+                    data-bs-title="Для премии за FLR:<br>
+                    ${(result.FLR_NORMATIVE * 1.03).toFixed(2)} = 30%<br>
+                    ${(result.FLR_NORMATIVE * 1.02).toFixed(2)} = 25%<br>
+                    ${(result.FLR_NORMATIVE * 1.01).toFixed(2)} = 21%<br>
+                    ${(result.FLR_NORMATIVE * 1).toFixed(2)} = 18%<br>
+                    ${(result.FLR_NORMATIVE * 0.95).toFixed(2)} = 13%<br>
+                    < ${(result.FLR_NORMATIVE * 0.95).toFixed(2)} = 8%<br><br>
+                    Текущий % выполнения: ${result.NORM_FLR ? result.NORM_FLR : "-"}%"
+                >${result.FLR_NORMATIVE ? result.FLR_NORMATIVE : "-"}</td>
+                <td class="align-middle">${result.PERC_FLR ? result.PERC_FLR : "-"}%</td>
+                ${isValidHours ? `<td class="align-middle">${flrAmount} ₽</td>` : ''}
+            </tr>
+            <tr>
+                <th scope="row">ГОК</th>
+                <td class="align-middle">${result.GOK ? result.GOK : "-"}</td>
+                <td class="align-middle" style="text-decoration: underline;"
+                    data-bs-toggle="tooltip"
+                    data-bs-html="true"
+                    data-bs-title="Для премии за ГОК:<br>
+                    >= ${(result.GOK_NORMATIVE * 1).toFixed(2)} = 17%<br>
+                    ${(result.GOK_NORMATIVE * 0.95).toFixed(2)} = 15%<br>
+                    ${(result.GOK_NORMATIVE * 0.9).toFixed(2)} = 12%<br>
+                    ${(result.GOK_NORMATIVE * 0.85).toFixed(2)} = 9%<br>
+                    ${(result.GOK_NORMATIVE * 0.8).toFixed(2)} = 5%<br>
+                    < ${(result.GOK_NORMATIVE * 0.8).toFixed(2)} = 0%<br><br>
+                    Текущий % выполнения: ${result.NORM_GOK ? result.NORM_GOK : "-"}%"
+                >${result.GOK_NORMATIVE ? result.GOK_NORMATIVE : "-"}</td>
+                <td class="align-middle">${result.PERC_GOK ? result.PERC_GOK : "-"}%</td>
+                ${isValidHours ? `<td class="align-middle">${gokAmount} ₽</td>` : ''}
+            </tr>
+            <tr>
+                <th scope="row">СЦ</th>
+                <td class="align-middle">${result.PERS_FACT ? result.PERS_FACT : "-"}</td>
+                <td class="align-middle">${result.PERS_PLAN_1 ? `${result.PERS_PLAN_1} / ${result.PERS_PLAN_2}` : "-"}</td>
+                <td class="align-middle">${result.PERS_PERCENT ? result.PERS_PERCENT : "-"}%</td>
+                ${isValidHours ? `<td class="align-middle">${persAmount} ₽</td>` : ''}
+            </tr>
+            <tr>
+                <th scope="row">Общая премия</th>
+                <td colspan="${isValidHours ? '3' : '3'}" class="align-middle">${result.TOTAL_PREMIUM ? result.TOTAL_PREMIUM : "-"}%</td>
+                ${isValidHours ? `<td class="align-middle">${totalPremiumAmount} ₽</td>` : ''}
+            </tr>
+            ${isValidHours ? `
+            <tr>
+                <th scope="row">Оклад</th>
+                <td colspan="4" class="align-middle">${baseSalary.toFixed(2)} ₽ (${workingHours} ч × ${hourlyRate} ₽/ч)</td>
+            </tr>
+            <tr>
+                <th scope="row">Оклад + Премия</th>
+                <td colspan="4" class="align-middle">${(baseSalary + totalPremiumAmount).toFixed(2)} ₽</td>
+            </tr>
+            ` : ''}
+        </tbody>
+    </table>
         `;
         } else {
             const result = data["premium"][0];
