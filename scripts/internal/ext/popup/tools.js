@@ -535,7 +535,10 @@ async function handlePremiumSubmit() {
         let tableHTML;
         let hourlyRate
         if (inputField === "specialist") {
-            const result = data[0];
+            // Create a deep copy of the result to avoid modifying the original data
+            const result = JSON.parse(JSON.stringify(data[0]));
+            const originalResult = JSON.parse(JSON.stringify(data[0]));
+
             switch (result.POST_NAME) {
                 case "Специалист":
                     hourlyRate = 156.7
@@ -551,17 +554,27 @@ async function handlePremiumSubmit() {
             // Calculate base salary if hours are provided
             const baseSalary = isValidHours ? workingHours * hourlyRate : 0;
 
+            // Function to recalculate premium amounts
+            const calculatePremium = () => {
+                // Calculate premium amounts if hours are valid
+                const totalPremiumAmount = isValidHours && result.TOTAL_PREMIUM ? Math.round(baseSalary * (result.TOTAL_PREMIUM / 100)) : "-";
+                const testingAmount = isValidHours && result.PERC_TESTING ? Math.round(baseSalary * (result.PERC_TESTING / 100)) : "-";
+                const thanksAmount = isValidHours && result.PERC_THANKS ? Math.round(baseSalary * (result.PERC_THANKS / 100)) : "-";
+                const tutorAmount = isValidHours && result.TUTOR_THANKS ? Math.round(baseSalary * (result.TUTOR_THANKS / 100)) : "-";
+                const headAdjustAmount = isValidHours && result.HEAD_ADJUST ? Math.round(baseSalary * (result.HEAD_ADJUST / 100)) : "-";
+                const csiAmount = isValidHours && result.PERC_CSI ? Math.round(baseSalary * (result.PERC_CSI / 100)) : "-";
+                const flrAmount = isValidHours && result.PERC_FLR ? Math.round(baseSalary * (result.PERC_FLR / 100)) : "-";
+                const gokAmount = isValidHours && result.PERC_GOK ? Math.round(baseSalary * (result.PERC_GOK / 100)) : "-";
+                const persAmount = isValidHours && result.PERS_PERCENT ? Math.round(baseSalary * (result.PERS_PERCENT / 100)) : "-";
 
-            // Calculate premium amounts if hours are valid
-            const totalPremiumAmount = isValidHours && result.TOTAL_PREMIUM ? Math.round(baseSalary * (result.TOTAL_PREMIUM / 100)) : "-";
-            const testingAmount = isValidHours && result.PERC_TESTING ? Math.round(baseSalary * (result.PERC_TESTING / 100)) : "-";
-            const thanksAmount = isValidHours && result.PERC_THANKS ? Math.round(baseSalary * (result.PERC_THANKS / 100)) : "-";
-            const tutorAmount = isValidHours && result.TUTOR_THANKS ? Math.round(baseSalary * (result.TUTOR_THANKS / 100)) : "-";
-            const headAdjustAmount = isValidHours && result.HEAD_ADJUST ? Math.round(baseSalary * (result.HEAD_ADJUST / 100)) : "-";
-            const csiAmount = isValidHours && result.PERC_CSI ? Math.round(baseSalary * (result.PERC_CSI / 100)) : "-";
-            const flrAmount = isValidHours && result.PERC_FLR ? Math.round(baseSalary * (result.PERC_FLR / 100)) : "-";
-            const gokAmount = isValidHours && result.PERC_GOK ? Math.round(baseSalary * (result.PERC_GOK / 100)) : "-";
-            const persAmount = isValidHours && result.PERS_PERCENT ? Math.round(baseSalary * (result.PERS_PERCENT / 100)) : "-";
+                return {
+                    totalPremiumAmount, testingAmount, thanksAmount, tutorAmount, headAdjustAmount,
+                    csiAmount, flrAmount, gokAmount, persAmount
+                };
+            };
+
+            // Initial calculation
+            const premiumAmounts = calculatePremium();
 
             tableHTML = `
             <table class="table table-hover table-bordered table-responsive table-sm">
@@ -594,12 +607,12 @@ async function handlePremiumSubmit() {
             <tr>
                 <th scope="row">Ручная правка</th>
                 <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${result.HEAD_ADJUST ? result.HEAD_ADJUST : "-"}</td>
-                ${isValidHours ? `<td class="align-middle">${headAdjustAmount} ₽</td>` : ''}
+                ${isValidHours ? `<td class="align-middle head-adjust-amount">${premiumAmounts.headAdjustAmount} ₽</td>` : ''}
             </tr>
             <tr>
                 <th scope="row">Наставничество</th>
                 <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${result.PERC_TUTOR ? result.PERC_TUTOR : "-"}</td>
-                ${isValidHours ? `<td class="align-middle">${tutorAmount} ₽</td>` : ''}
+                ${isValidHours ? `<td class="align-middle tutor-amount">${premiumAmounts.tutorAmount} ₽</td>` : ''}
             </tr>
             <tr>
                 <th scope="row">Тесты</th>
@@ -610,7 +623,7 @@ async function handlePremiumSubmit() {
                     < Всё сдано = 0%<br><br>
 
                     Кликни для открытия тестов"><a href="https://okc2.ertelecom.ru/yii/testing/lk/profile" target="_blank" style="text-decoration:none; color:inherit;">${result.PERC_TESTING ? result.PERC_TESTING : "-"}%</a></td>
-                ${isValidHours ? `<td class="align-middle">${testingAmount} ₽</td>` : ''}
+                ${isValidHours ? `<td class="align-middle testing-amount">${premiumAmounts.testingAmount} ₽</td>` : ''}
             </tr>
             <tr>
                 <th scope="row">Благодарности</th>
@@ -621,11 +634,11 @@ async function handlePremiumSubmit() {
                     1 блага = 3%<br>
                     < 1 благи = 0%"
                 >${result.PERC_THANKS ? result.PERC_THANKS : "-"}%</td>
-                ${isValidHours ? `<td class="align-middle">${thanksAmount} ₽</td>` : ''}
+                ${isValidHours ? `<td class="align-middle thanks-amount">${premiumAmounts.thanksAmount} ₽</td>` : ''}
             </tr>
             <tr>
                 <th scope="row">Оценка</th>
-                <td class="align-middle">${result.CSI ? result.CSI : "-"}</td>
+                <td class="align-middle editable-cell" data-field="CSI" data-original="${result.CSI}">${result.CSI ? result.CSI : "-"}</td>
                 <td class="align-middle" style="text-decoration: underline;"
                     data-bs-toggle="tooltip"
                     data-bs-html="true"
@@ -637,12 +650,12 @@ async function handlePremiumSubmit() {
                     < ${(result.CSI_NORMATIVE * 0.98).toFixed(2)} = 0%<br><br>
                     Текущий % выполнения: ${result.NORM_CSI ? result.NORM_CSI : "-"}%"
                 >${result.CSI_NORMATIVE ? result.CSI_NORMATIVE : "-"}</td>
-                <td class="align-middle">${result.PERC_CSI ? result.PERC_CSI : "-"}%</td>
-                ${isValidHours ? `<td class="align-middle">${csiAmount} ₽</td>` : ''}
+                <td class="align-middle csi-percent">${result.PERC_CSI ? result.PERC_CSI : "-"}%</td>
+                ${isValidHours ? `<td class="align-middle csi-amount">${premiumAmounts.csiAmount} ₽</td>` : ''}
             </tr>
             <tr>
                 <th scope="row">Отклик</th>
-                <td class="align-middle">${result.CSI_RESPONSE ? result.CSI_RESPONSE : "-"}</td>
+                <td class="align-middle editable-cell" data-field="CSI_RESPONSE" data-original="${result.CSI_RESPONSE}">${result.CSI_RESPONSE ? result.CSI_RESPONSE : "-"}</td>
                 <td class="align-middle" style="text-decoration: underline;"
                     data-bs-toggle="tooltip"
                     data-bs-html="true"
@@ -651,12 +664,12 @@ async function handlePremiumSubmit() {
                     < ${result.CSI_RESPONSE_NORMATIVE} = Премии нет<br><br>
                     Текущий % выполнения: ${result.NORM_CSI_RESPONSE ? result.NORM_CSI_RESPONSE : "-"}%"
                 >${result.CSI_RESPONSE_NORMATIVE ? result.CSI_RESPONSE_NORMATIVE : "-"}</td>
-                <td class="align-middle">-</td>
+                <td class="align-middle response-percent">-</td>
                 ${isValidHours ? `<td class="align-middle">-</td>` : ''}
             </tr>
             <tr>
                 <th scope="row">FLR</th>
-                <td class="align-middle">${result.FLR ? result.FLR : "-"}</td>
+                <td class="align-middle editable-cell" data-field="FLR" data-original="${result.FLR}">${result.FLR ? result.FLR : "-"}</td>
                 <td class="align-middle" style="text-decoration: underline;"
                     data-bs-toggle="tooltip"
                     data-bs-html="true"
@@ -669,12 +682,12 @@ async function handlePremiumSubmit() {
                     < ${(result.FLR_NORMATIVE * 0.95).toFixed(2)} = 8%<br><br>
                     Текущий % выполнения: ${result.NORM_FLR ? result.NORM_FLR : "-"}%"
                 >${result.FLR_NORMATIVE ? result.FLR_NORMATIVE : "-"}</td>
-                <td class="align-middle">${result.PERC_FLR ? result.PERC_FLR : "-"}%</td>
-                ${isValidHours ? `<td class="align-middle">${flrAmount} ₽</td>` : ''}
+                <td class="align-middle flr-percent">${result.PERC_FLR ? result.PERC_FLR : "-"}%</td>
+                ${isValidHours ? `<td class="align-middle flr-amount">${premiumAmounts.flrAmount} ₽</td>` : ''}
             </tr>
             <tr>
                 <th scope="row">ГОК</th>
-                <td class="align-middle">${result.GOK ? result.GOK : "-"}</td>
+                <td class="align-middle editable-cell" data-field="GOK" data-original="${result.GOK}">${result.GOK ? result.GOK : "-"}</td>
                 <td class="align-middle" style="text-decoration: underline;"
                     data-bs-toggle="tooltip"
                     data-bs-html="true"
@@ -687,20 +700,20 @@ async function handlePremiumSubmit() {
                     < ${(result.GOK_NORMATIVE * 0.8).toFixed(2)} = 0%<br><br>
                     Текущий % выполнения: ${result.NORM_GOK ? result.NORM_GOK : "-"}%"
                 >${result.GOK_NORMATIVE ? result.GOK_NORMATIVE : "-"}</td>
-                <td class="align-middle">${result.PERC_GOK ? result.PERC_GOK : "-"}%</td>
-                ${isValidHours ? `<td class="align-middle">${gokAmount} ₽</td>` : ''}
+                <td class="align-middle gok-percent">${result.PERC_GOK ? result.PERC_GOK : "-"}%</td>
+                ${isValidHours ? `<td class="align-middle gok-amount">${premiumAmounts.gokAmount} ₽</td>` : ''}
             </tr>
             <tr>
                 <th scope="row">СЦ</th>
-                <td class="align-middle">${result.PERS_FACT ? result.PERS_FACT : "-"}</td>
+                <td class="align-middle editable-cell" data-field="PERS_FACT" data-original="${result.PERS_FACT}">${result.PERS_FACT ? result.PERS_FACT : "-"}</td>
                 <td class="align-middle">${result.PERS_PLAN_1 ? `${result.PERS_PLAN_1} / ${result.PERS_PLAN_2}` : "-"}</td>
-                <td class="align-middle">${result.PERS_PERCENT ? result.PERS_PERCENT : "-"}%</td>
-                ${isValidHours ? `<td class="align-middle">${persAmount} ₽</td>` : ''}
+                <td class="align-middle pers-percent">${result.PERS_PERCENT ? result.PERS_PERCENT : "-"}%</td>
+                ${isValidHours ? `<td class="align-middle pers-amount">${premiumAmounts.persAmount} ₽</td>` : ''}
             </tr>
             <tr>
                 <th scope="row">Общая премия</th>
-                <td colspan="${isValidHours ? '3' : '3'}" class="align-middle">${result.TOTAL_PREMIUM ? result.TOTAL_PREMIUM : "-"}%</td>
-                ${isValidHours ? `<td class="align-middle">${totalPremiumAmount} ₽</td>` : ''}
+                <td colspan="${isValidHours ? '3' : '3'}" class="align-middle total-premium">${result.TOTAL_PREMIUM ? result.TOTAL_PREMIUM : "-"}%</td>
+                ${isValidHours ? `<td class="align-middle total-premium-amount">${premiumAmounts.totalPremiumAmount} ₽</td>` : ''}
             </tr>
             ${isValidHours ? `
             <tr>
@@ -709,7 +722,7 @@ async function handlePremiumSubmit() {
             </tr>
             <tr>
                 <th scope="row">Оклад + Премия</th>
-                <td colspan="4" class="align-middle">${(baseSalary + totalPremiumAmount).toFixed(2)} ₽</td>
+                <td colspan="4" class="align-middle total-salary">${(baseSalary + parseInt(premiumAmounts.totalPremiumAmount)).toFixed(2)} ₽</td>
             </tr>
             ` : ''}
         </tbody>
@@ -842,11 +855,186 @@ async function handlePremiumSubmit() {
         loadingSpinner.style.display = "none";
         document.getElementById("result-container").innerHTML = DOMPurify.sanitize(tableHTML);
 
+        // Add event listeners to editable cells
+        document.querySelectorAll('.editable-cell').forEach(cell => {
+            cell.addEventListener('click', function() {
+                // If already in edit mode, don't do anything
+                if (this.querySelector('input')) return;
+
+                const currentValue = this.textContent !== "-" ? this.textContent : "";
+                const field = this.getAttribute('data-field');
+                const originalValue = this.getAttribute('data-original');
+
+                // Create input element
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.value = currentValue;
+                input.style.width = '100%';
+                input.style.boxSizing = 'border-box';
+                input.style.border = 'none';
+                input.style.outline = 'none';
+                input.style.background = 'transparent';
+
+                // Clear cell content and append input
+                this.textContent = '';
+                this.appendChild(input);
+                input.focus();
+
+                // Handle input blur (save changes)
+                input.addEventListener('blur', function() {
+                    const newValue = this.value.trim() === "" ? "-" : this.value.trim();
+                    const numericValue = parseFloat(newValue);
+
+                    // Update cell content
+                    cell.textContent = newValue;
+
+                    // Check if value has changed from original
+                    if (newValue !== originalValue) {
+                        cell.style.backgroundColor = '#e3f2fd'; // Light blue highlight
+                    } else {
+                        cell.style.backgroundColor = '';
+                    }
+
+                    // Update result object with new value if it's a valid number
+                    if (!isNaN(numericValue)) {
+                        result[field] = numericValue;
+
+                        // Recalculate percentages based on the new value
+                        if (field === 'CSI') {
+                            // Calculate CSI percentage based on normative
+                            const normCSI = (numericValue / result.CSI_NORMATIVE) * 100;
+                            result.NORM_CSI = normCSI;
+
+                            // Update CSI percentage based on rules
+                            if (numericValue >= result.CSI_NORMATIVE * 1.01) {
+                                result.PERC_CSI = 20;
+                            } else if (numericValue >= result.CSI_NORMATIVE * 1.005) {
+                                result.PERC_CSI = 15;
+                            } else if (numericValue >= result.CSI_NORMATIVE) {
+                                result.PERC_CSI = 10;
+                            } else if (numericValue >= result.CSI_NORMATIVE * 0.98) {
+                                result.PERC_CSI = 5;
+                            } else {
+                                result.PERC_CSI = 0;
+                            }
+
+                            // Update displayed percentage
+                            document.querySelector('.csi-percent').textContent = `${result.PERC_CSI}%`;
+                        }
+                        else if (field === 'FLR') {
+                            // Calculate FLR percentage based on normative
+                            const normFLR = (numericValue / result.FLR_NORMATIVE) * 100;
+                            result.NORM_FLR = normFLR;
+
+                            // Update FLR percentage based on rules
+                            if (numericValue >= result.FLR_NORMATIVE * 1.03) {
+                                result.PERC_FLR = 30;
+                            } else if (numericValue >= result.FLR_NORMATIVE * 1.02) {
+                                result.PERC_FLR = 25;
+                            } else if (numericValue >= result.FLR_NORMATIVE * 1.01) {
+                                result.PERC_FLR = 21;
+                            } else if (numericValue >= result.FLR_NORMATIVE) {
+                                result.PERC_FLR = 18;
+                            } else if (numericValue >= result.FLR_NORMATIVE * 0.95) {
+                                result.PERC_FLR = 13;
+                            } else {
+                                result.PERC_FLR = 8;
+                            }
+
+                            // Update displayed percentage
+                            document.querySelector('.flr-percent').textContent = `${result.PERC_FLR}%`;
+                        }
+                        else if (field === 'GOK') {
+                            // Calculate GOK percentage based on normative
+                            const normGOK = (numericValue / result.GOK_NORMATIVE) * 100;
+                            result.NORM_GOK = normGOK;
+
+                            // Update GOK percentage based on rules
+                            if (numericValue >= result.GOK_NORMATIVE) {
+                                result.PERC_GOK = 17;
+                            } else if (numericValue >= result.GOK_NORMATIVE * 0.95) {
+                                result.PERC_GOK = 15;
+                            } else if (numericValue >= result.GOK_NORMATIVE * 0.9) {
+                                result.PERC_GOK = 12;
+                            } else if (numericValue >= result.GOK_NORMATIVE * 0.85) {
+                                result.PERC_GOK = 9;
+                            } else if (numericValue >= result.GOK_NORMATIVE * 0.8) {
+                                result.PERC_GOK = 5;
+                            } else {
+                                result.PERC_GOK = 0;
+                            }
+
+                            // Update displayed percentage
+                            document.querySelector('.gok-percent').textContent = `${result.PERC_GOK}%`;
+                        }
+                        else if (field === 'PERS_FACT') {
+                            // Calculate percentage based on PERS_PLAN (simplified logic)
+                            const planValue = (result.PERS_PLAN_1 + result.PERS_PLAN_2) / 2;
+                            const normPERS = (numericValue / planValue) * 100;
+
+                            // Simplified percentage assignment based on achievement
+                            if (normPERS >= 100) {
+                                result.PERS_PERCENT = 10;
+                            } else if (normPERS >= 95) {
+                                result.PERS_PERCENT = 8;
+                            } else if (normPERS >= 90) {
+                                result.PERS_PERCENT = 5;
+                            } else {
+                                result.PERS_PERCENT = 0;
+                            }
+
+                            // Update displayed percentage
+                            document.querySelector('.pers-percent').textContent = `${result.PERS_PERCENT}%`;
+                        }
+
+                        // Recalculate total premium percentage
+                        result.TOTAL_PREMIUM = (
+                            (result.PERC_CSI || 0) +
+                            (result.PERC_FLR || 0) +
+                            (result.PERC_GOK || 0) +
+                            (result.PERC_TESTING || 0) +
+                            (result.PERC_THANKS || 0) +
+                            (result.PERS_PERCENT || 0) +
+                            (result.HEAD_ADJUST || 0) +
+                            (result.PERC_TUTOR || 0)
+                        );
+
+                        // Update total premium display
+                        document.querySelector('.total-premium').textContent = `${result.TOTAL_PREMIUM}%`;
+
+                        // Recalculate all premium amounts
+                        const updatedPremiumAmounts = calculatePremium();
+
+                        // Update all amount displays
+                        if (isValidHours) {
+                            document.querySelector('.csi-amount').textContent = `${updatedPremiumAmounts.csiAmount} ₽`;
+                            document.querySelector('.flr-amount').textContent = `${updatedPremiumAmounts.flrAmount} ₽`;
+                            document.querySelector('.gok-amount').textContent = `${updatedPremiumAmounts.gokAmount} ₽`;
+                            document.querySelector('.pers-amount').textContent = `${updatedPremiumAmounts.persAmount} ₽`;
+                            document.querySelector('.total-premium-amount').textContent = `${updatedPremiumAmounts.totalPremiumAmount} ₽`;
+
+                            // Update total salary
+                            const totalSalary = baseSalary + parseInt(updatedPremiumAmounts.totalPremiumAmount);
+                            document.querySelector('.total-salary').textContent = `${totalSalary.toFixed(2)} ₽`;
+                        }
+                    }
+                });
+
+                // Handle Enter key
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        this.blur();
+                    }
+                });
+            });
+        });
+
         // Initialize tooltips
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]',);
         const tooltipList = [...tooltipTriggerList].map((tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl, {
             placement: "right",
         }),);
+
     } catch (error) {
         loadingSpinner.style.display = "none";
         document.getElementById("result-container").innerText = "Не удалось получить премию\nУбедись, что ты авторизован(а) на okc2.ertelecom.ru/yii";
