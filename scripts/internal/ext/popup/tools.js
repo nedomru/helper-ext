@@ -865,15 +865,23 @@ async function handlePremiumSubmit() {
                 const field = this.getAttribute('data-field');
                 const originalValue = this.getAttribute('data-original');
 
+                // Store the original cell width before changing content
+                const originalWidth = this.offsetWidth;
+
                 // Create input element
                 const input = document.createElement('input');
                 input.type = 'text';
                 input.value = currentValue;
-                input.style.width = '100%';
+                input.style.width = (originalWidth - 10) + 'px'; // Account for padding
+                input.style.maxWidth = '100%';
                 input.style.boxSizing = 'border-box';
                 input.style.border = 'none';
                 input.style.outline = 'none';
                 input.style.background = 'transparent';
+
+                // Set cell width explicitly to prevent resizing
+                this.style.width = originalWidth + 'px';
+                this.style.maxWidth = originalWidth + 'px';
 
                 // Clear cell content and append input
                 this.textContent = '';
