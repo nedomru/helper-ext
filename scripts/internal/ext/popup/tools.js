@@ -606,12 +606,12 @@ async function handlePremiumSubmit() {
             </tr>
             <tr>
                 <th scope="row">Ручная правка</th>
-                <td colspan="${isValidHours ? '3' : '3'}" class="align-middle">${result.HEAD_ADJUST ? result.HEAD_ADJUST : "0"}</td>
+                <td colspan="${isValidHours ? '3' : '3'}" class="align-middle">${result.HEAD_ADJUST ? result.HEAD_ADJUST : 0}</td>
                 ${isValidHours ? `<td class="align-middle head-adjust-amount">${premiumAmounts.headAdjustAmount} ₽</td>` : ''}
             </tr>
             <tr>
                 <th scope="row">Наставничество</th>
-                <td colspan="${isValidHours ? '3' : '3'}" class="align-middle">${result.PERC_TUTOR ? result.PERC_TUTOR : "0"}</td>
+                <td colspan="${isValidHours ? '3' : '3'}" class="align-middle">${result.PERC_TUTOR ? result.PERC_TUTOR : 0}</td>
                 ${isValidHours ? `<td class="align-middle tutor-amount">${premiumAmounts.tutorAmount} ₽</td>` : ''}
             </tr>
             <tr>
