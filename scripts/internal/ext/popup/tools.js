@@ -558,18 +558,19 @@ async function handlePremiumSubmit() {
             const calculatePremium = () => {
                 // Calculate premium amounts if hours are valid
                 const totalPremiumAmount = isValidHours && result.TOTAL_PREMIUM ? Math.round(baseSalary * (result.TOTAL_PREMIUM / 100)) : "-";
-                const testingAmount = isValidHours && result.PERC_TESTING ? Math.round(baseSalary * (result.PERC_TESTING / 100)) : "-";
-                const thanksAmount = isValidHours && result.PERC_THANKS ? Math.round(baseSalary * (result.PERC_THANKS / 100)) : "-";
-                const tutorAmount = isValidHours && result.TUTOR_THANKS ? Math.round(baseSalary * (result.TUTOR_THANKS / 100)) : "-";
                 const headAdjustAmount = isValidHours && result.HEAD_ADJUST ? Math.round(baseSalary * (result.HEAD_ADJUST / 100)) : "-";
-                const csiAmount = isValidHours && result.PERC_CSI ? Math.round(baseSalary * (result.PERC_CSI / 100)) : "-";
-                const flrAmount = isValidHours && result.PERC_FLR ? Math.round(baseSalary * (result.PERC_FLR / 100)) : "-";
                 const gokAmount = isValidHours && result.PERC_GOK ? Math.round(baseSalary * (result.PERC_GOK / 100)) : "-";
+                const flrAmount = isValidHours && result.PERC_FLR ? Math.round(baseSalary * (result.PERC_FLR / 100)) : "-";
                 const persAmount = isValidHours && result.PERS_PERCENT ? Math.round(baseSalary * (result.PERS_PERCENT / 100)) : "-";
+                const slAmount = isValidHours && result.SL_PERCENT ? Math.round(baseSalary * (result.SL_PERCENT / 100)) : "-";
+
+                // Add CSI calculation for specialists
+                const csiAmount = position === "specialist" && isValidHours && result.PERC_CSI ?
+                    Math.round(baseSalary * (result.PERC_CSI / 100)) : "-";
 
                 return {
-                    totalPremiumAmount, testingAmount, thanksAmount, tutorAmount, headAdjustAmount,
-                    csiAmount, flrAmount, gokAmount, persAmount
+                    totalPremiumAmount, headAdjustAmount, gokAmount, flrAmount, persAmount, slAmount,
+                    ...(position === "specialist" ? { csiAmount } : {})
                 };
             };
 
@@ -729,19 +730,30 @@ async function handlePremiumSubmit() {
     </table>
         `;
         } else {
-            const result = data["premium"][0];
+            const result = JSON.parse(JSON.stringify(data["premium"][0]));
+            const originalResult = JSON.parse(JSON.stringify(data["premium"][0]));
             hourlyRate = 225.3
 
             // Calculate base salary if hours are provided
             const baseSalary = isValidHours ? workingHours * hourlyRate : 0;
 
-            // Calculate premium amounts for head if hours are valid
-            const totalPremiumAmount = isValidHours && result.TOTAL_PREMIUM ? Math.round(baseSalary * (result.TOTAL_PREMIUM / 100)) : "-";
-            const headAdjustAmount = isValidHours && result.HEAD_ADJUST ? Math.round(baseSalary * (result.HEAD_ADJUST / 100)) : "-";
-            const gokAmount = isValidHours && result.PERC_GOK ? Math.round(baseSalary * (result.PERC_GOK / 100)) : "-";
-            const flrAmount = isValidHours && result.PERC_FLR ? Math.round(baseSalary * (result.PERC_FLR / 100)) : "-";
-            const persAmount = isValidHours && result.PERS_PERCENT ? Math.round(baseSalary * (result.PERS_PERCENT / 100)) : "-";
-            const slAmount = isValidHours && result.SL_PERCENT ? Math.round(baseSalary * (result.SL_PERCENT / 100)) : "-";
+            // Function to recalculate premium amounts for head
+            const calculatePremium = () => {
+                // Calculate premium amounts if hours are valid
+                const totalPremiumAmount = isValidHours && result.TOTAL_PREMIUM ? Math.round(baseSalary * (result.TOTAL_PREMIUM / 100)) : "-";
+                const headAdjustAmount = isValidHours && result.HEAD_ADJUST ? Math.round(baseSalary * (result.HEAD_ADJUST / 100)) : "-";
+                const gokAmount = isValidHours && result.PERC_GOK ? Math.round(baseSalary * (result.PERC_GOK / 100)) : "-";
+                const flrAmount = isValidHours && result.PERC_FLR ? Math.round(baseSalary * (result.PERC_FLR / 100)) : "-";
+                const persAmount = isValidHours && result.PERS_PERCENT ? Math.round(baseSalary * (result.PERS_PERCENT / 100)) : "-";
+                const slAmount = isValidHours && result.SL_PERCENT ? Math.round(baseSalary * (result.SL_PERCENT / 100)) : "-";
+
+                return {
+                    totalPremiumAmount, headAdjustAmount, gokAmount, flrAmount, persAmount, slAmount
+                };
+            };
+
+            // Initial calculation
+            const premiumAmounts = calculatePremium();
 
             tableHTML = `
             <table class="table table-hover table-bordered table-responsive table-sm">
@@ -765,13 +777,12 @@ async function handlePremiumSubmit() {
                     </tr>
                     <tr>
                         <th scope="row">Ручная правка</th>
-                        <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${result.HEAD_ADJUST ? result.HEAD_ADJUST : "-"}</td>
-                                        ${isValidHours ? `<td class="align-middle">${headAdjustAmount} ₽</td>` : ''}
-
+                        <td colspan="${isValidHours ? '3' : '3'}" class="align-middle">${result.HEAD_ADJUST ? result.HEAD_ADJUST : "-"}</td>
+                        ${isValidHours ? `<td class="align-middle head-adjust-amount">${premiumAmounts.headAdjustAmount} ₽</td>` : ''}
                     </tr>
                     <tr>
                         <th scope="row">ГОК</th>
-                        <td class="align-middle">${result.GOK ? result.GOK : "-"}</td>
+                        <td class="align-middle editable-cell" data-field="GOK" data-original="${result.GOK}">${result.GOK ? result.GOK : "-"}</td>
                         <td class="align-middle" style="text-decoration: underline;"
                             data-bs-toggle="tooltip"
                             data-bs-html="true"
@@ -785,12 +796,12 @@ async function handlePremiumSubmit() {
                             < ${(result.GOK_NORMATIVE * 0.8).toFixed(2)} = 0%<br><br>
                             Текущий % выполнения: ${result.NORM_GOK ? result.NORM_GOK : "-"}%"
                         >${result.GOK_NORMATIVE ? result.GOK_NORMATIVE : "-"}</td>
-                        <td class="align-middle">${result.PERC_GOK ? result.PERC_GOK : "-"}%</td>
-                        ${isValidHours ? `<td class="align-middle">${gokAmount} ₽</td>` : ''}
+                        <td class="align-middle gok-percent">${result.PERC_GOK ? result.PERC_GOK : "-"}%</td>
+                        ${isValidHours ? `<td class="align-middle gok-amount">${premiumAmounts.gokAmount} ₽</td>` : ''}
                     </tr>
                     <tr>
                         <th scope="row">FLR</th>
-                        <td class="align-middle">${result.FLR ? result.FLR : "-"}</td>
+                        <td class="align-middle editable-cell" data-field="FLR" data-original="${result.FLR}">${result.FLR ? result.FLR : "-"}</td>
                         <td class="align-middle" style="text-decoration: underline;"
                             data-bs-toggle="tooltip"
                             data-bs-html="true"
@@ -803,12 +814,12 @@ async function handlePremiumSubmit() {
                             < ${(result.FLR_NORMATIVE * 0.96).toFixed(2)} = 10%<br><br>
                             Текущий % выполнения: ${result.NORM_FLR ? result.NORM_FLR : "-"}%"
                         >${result.FLR_NORMATIVE ? result.FLR_NORMATIVE : "-"}</td>
-                        <td class="align-middle">${result.PERC_FLR ? result.PERC_FLR : "-"}%</td>
-                        ${isValidHours ? `<td class="align-middle">${flrAmount} ₽</td>` : ''}
+                        <td class="align-middle flr-percent">${result.PERC_FLR ? result.PERC_FLR : "-"}%</td>
+                        ${isValidHours ? `<td class="align-middle flr-amount">${premiumAmounts.flrAmount} ₽</td>` : ''}
                     </tr>
                     <tr>
                         <th scope="row">СЦ</th>
-                        <td class="align-middle">${result.PERS_FACT ? result.PERS_FACT : "-"}</td>
+                        <td class="align-middle editable-cell" data-field="PERS_FACT" data-original="${result.PERS_FACT}">${result.PERS_FACT ? result.PERS_FACT : "-"}</td>
                         <td style="text-decoration: underline;" data-bs-toggle="tooltip"
                             data-bs-html="true"
                             data-bs-title="Для премии за СЦ:<br>
@@ -816,12 +827,12 @@ async function handlePremiumSubmit() {
                             1 норматив = 16%<br>
                             < 1 норматива = 0%"
                         >${result.PERS_PLAN_1 ? result.PERS_PLAN_1 : "-"}/${result.PERS_PLAN_2 ? result.PERS_PLAN_2 : "-"}</td>
-                        <td class="align-middle">${result.PERS_PERCENT ? result.PERS_PERCENT : "-"}%</td>
-                        ${isValidHours ? `<td class="align-middle">${persAmount} ₽</td>` : ''}
+                        <td class="align-middle pers-percent">${result.PERS_PERCENT ? result.PERS_PERCENT : "-"}%</td>
+                        ${isValidHours ? `<td class="align-middle pers-amount">${premiumAmounts.persAmount} ₽</td>` : ''}
                     </tr>
                     <tr>
                         <th scope="row">SL</th>
-                        <td class="align-middle">${result.SL_FACT ? result.SL_FACT : "-"}</td>
+                        <td class="align-middle editable-cell" data-field="SL_FACT" data-original="${result.SL_FACT}">${result.SL_FACT ? result.SL_FACT : "-"}</td>
                         <td style="text-decoration: underline;" data-bs-toggle="tooltip"
                             data-bs-html="true"
                             data-bs-title="Для премии за SL:<br>
@@ -829,24 +840,24 @@ async function handlePremiumSubmit() {
                             1 норматив = 5%<br>
                             < 1 норматива = 0%"
                         >${result.SL_PLAN_1 ? result.SL_PLAN_1 : "-"}/${result.SL_PLAN_2 ? result.SL_PLAN_2 : "-"}</td>
-                        <td class="align-middle">${result.SL_PERCENT ? result.SL_PERCENT : "-"}%</td>
-                        ${isValidHours ? `<td class="align-middle">${slAmount} ₽</td>` : ''}
+                        <td class="align-middle sl-percent">${result.SL_PERCENT ? result.SL_PERCENT : "-"}%</td>
+                        ${isValidHours ? `<td class="align-middle sl-amount">${premiumAmounts.slAmount} ₽</td>` : ''}
                     </tr>
                     <tr>
                         <th scope="row">Общая премия</th>
-                        <td colspan="${isValidHours ? '3' : '3'}" class="align-middle">${result.TOTAL_PREMIUM ? result.TOTAL_PREMIUM : "-"}%</td>
-                        ${isValidHours ? `<td class="align-middle">${totalPremiumAmount} ₽</td>` : ''}
+                        <td colspan="${isValidHours ? '3' : '3'}" class="align-middle total-premium">${result.TOTAL_PREMIUM ? result.TOTAL_PREMIUM : "-"}%</td>
+                        ${isValidHours ? `<td class="align-middle total-premium-amount">${premiumAmounts.totalPremiumAmount} ₽</td>` : ''}
                     </tr>
                     ${isValidHours ? `
-            <tr>
-                <th scope="row">Оклад</th>
-                <td colspan="4" class="align-middle">${baseSalary.toFixed(2)} ₽ (${workingHours} ч × ${hourlyRate} ₽/ч)</td>
-            </tr>
-            <tr>
-                <th scope="row">Оклад + Премия</th>
-                <td colspan="4" class="align-middle">${(baseSalary + totalPremiumAmount).toFixed(2)} ₽</td>
-            </tr>
-            ` : ''}
+                    <tr>
+                        <th scope="row">Оклад</th>
+                        <td colspan="4" class="align-middle">${baseSalary.toFixed(2)} ₽ (${workingHours} ч × ${hourlyRate} ₽/ч)</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Оклад + Премия</th>
+                        <td colspan="4" class="align-middle total-salary">${(baseSalary + parseInt(premiumAmounts.totalPremiumAmount)).toFixed(2)} ₽</td>
+                    </tr>
+                    ` : ''}
                 </tbody>
             </table>
         `;
@@ -908,12 +919,143 @@ async function handlePremiumSubmit() {
                         result[field] = numericValue;
 
                         // Recalculate percentages based on the new value
-                        if (field === 'CSI') {
-                            // Calculate CSI percentage based on normative
+                        if (field === 'GOK') {
+                            // Calculate GOK normative percentage
+                            const normGOK = (numericValue / result.GOK_NORMATIVE) * 100;
+                            result.NORM_GOK = normGOK;
+
+                            if (position === "specialist") {
+                                // Specialist GOK percentage rules (from second snippet)
+                                if (numericValue >= result.GOK_NORMATIVE) {
+                                    result.PERC_GOK = 17;
+                                } else if (numericValue >= result.GOK_NORMATIVE * 0.95) {
+                                    result.PERC_GOK = 15;
+                                } else if (numericValue >= result.GOK_NORMATIVE * 0.9) {
+                                    result.PERC_GOK = 12;
+                                } else if (numericValue >= result.GOK_NORMATIVE * 0.85) {
+                                    result.PERC_GOK = 9;
+                                } else if (numericValue >= result.GOK_NORMATIVE * 0.8) {
+                                    result.PERC_GOK = 5;
+                                } else {
+                                    result.PERC_GOK = 0;
+                                }
+                            } else {
+                                // Head GOK percentage rules (from first snippet tooltip)
+                                if (numericValue >= result.GOK_NORMATIVE * 1.04) {
+                                    result.PERC_GOK = 20;
+                                } else if (numericValue >= result.GOK_NORMATIVE * 1.02) {
+                                    result.PERC_GOK = 18;
+                                } else if (numericValue >= result.GOK_NORMATIVE * 1.0) {
+                                    result.PERC_GOK = 16;
+                                } else if (numericValue >= result.GOK_NORMATIVE * 0.96) {
+                                    result.PERC_GOK = 14;
+                                } else if (numericValue >= result.GOK_NORMATIVE * 0.91) {
+                                    result.PERC_GOK = 12;
+                                } else if (numericValue >= result.GOK_NORMATIVE * 0.8) {
+                                    result.PERC_GOK = 10;
+                                } else {
+                                    result.PERC_GOK = 0;
+                                }
+                            }
+
+                            // Update displayed percentage
+                            document.querySelector('.gok-percent').textContent = `${result.PERC_GOK}%`;
+                        }
+                        else if (field === 'FLR') {
+                            // Calculate FLR normative percentage
+                            const normFLR = (numericValue / result.FLR_NORMATIVE) * 100;
+                            result.NORM_FLR = normFLR;
+
+                            if (position === "specialist") {
+                                // Specialist FLR percentage rules (from second snippet)
+                                if (numericValue >= result.FLR_NORMATIVE * 1.03) {
+                                    result.PERC_FLR = 30;
+                                } else if (numericValue >= result.FLR_NORMATIVE * 1.02) {
+                                    result.PERC_FLR = 25;
+                                } else if (numericValue >= result.FLR_NORMATIVE * 1.01) {
+                                    result.PERC_FLR = 21;
+                                } else if (numericValue >= result.FLR_NORMATIVE) {
+                                    result.PERC_FLR = 18;
+                                } else if (numericValue >= result.FLR_NORMATIVE * 0.95) {
+                                    result.PERC_FLR = 13;
+                                } else {
+                                    result.PERC_FLR = 8;
+                                }
+                            } else {
+                                // Head FLR percentage rules (from first snippet tooltip)
+                                if (numericValue >= result.FLR_NORMATIVE * 1.2) {
+                                    result.PERC_FLR = 25;
+                                } else if (numericValue >= result.FLR_NORMATIVE * 1.14) {
+                                    result.PERC_FLR = 23;
+                                } else if (numericValue >= result.FLR_NORMATIVE * 1.07) {
+                                    result.PERC_FLR = 18;
+                                } else if (numericValue >= result.FLR_NORMATIVE * 1.0) {
+                                    result.PERC_FLR = 16;
+                                } else if (numericValue >= result.FLR_NORMATIVE * 0.96) {
+                                    result.PERC_FLR = 14;
+                                } else {
+                                    result.PERC_FLR = 10;
+                                }
+                            }
+
+                            // Update displayed percentage
+                            document.querySelector('.flr-percent').textContent = `${result.PERC_FLR}%`;
+                        }
+                        else if (field === 'PERS_FACT') {
+                            if (position === "specialist") {
+                                // Specialist PERS percentage rules (from second snippet)
+                                const planValue = (result.PERS_PLAN_1 + result.PERS_PLAN_2) / 2;
+                                const normPERS = (numericValue / planValue) * 100;
+
+                                // Simplified percentage assignment based on achievement
+                                if (normPERS >= 100) {
+                                    result.PERS_PERCENT = 10;
+                                } else if (normPERS >= 95) {
+                                    result.PERS_PERCENT = 8;
+                                } else if (normPERS >= 90) {
+                                    result.PERS_PERCENT = 5;
+                                } else {
+                                    result.PERS_PERCENT = 0;
+                                }
+                            } else {
+                                // Head PERS percentage rules (from first snippet tooltip)
+                                // The logic appears to be based on hitting 1 or 2 normatives
+                                const normative1Met = numericValue >= result.PERS_PLAN_1;
+                                const normative2Met = numericValue >= result.PERS_PLAN_2;
+
+                                if (normative1Met && normative2Met) {
+                                    result.PERS_PERCENT = 25; // 2 normatives
+                                } else if (normative1Met) {
+                                    result.PERS_PERCENT = 16; // 1 normative
+                                } else {
+                                    result.PERS_PERCENT = 0; // < 1 normative
+                                }
+                            }
+
+                            // Update displayed percentage
+                            document.querySelector('.pers-percent').textContent = `${result.PERS_PERCENT}%`;
+                        }
+                        else if (field === 'SL_FACT') {
+                            // We don't have specialist rules for SL in the second snippet, so using head rules for both
+                            const normative1Met = numericValue >= result.SL_PLAN_1;
+                            const normative2Met = numericValue >= result.SL_PLAN_2;
+
+                            if (normative1Met && normative2Met) {
+                                result.SL_PERCENT = 10; // 2 normatives
+                            } else if (normative1Met) {
+                                result.SL_PERCENT = 5; // 1 normative
+                            } else {
+                                result.SL_PERCENT = 0; // < 1 normative
+                            }
+
+                            // Update displayed percentage
+                            document.querySelector('.sl-percent').textContent = `${result.SL_PERCENT}%`;
+                        }
+                        else if (field === 'CSI' && position === "specialist") {
+                            // Only for specialist position - CSI rules (from second snippet)
                             const normCSI = (numericValue / result.CSI_NORMATIVE) * 100;
                             result.NORM_CSI = normCSI;
 
-                            // Update CSI percentage based on rules
                             if (numericValue >= result.CSI_NORMATIVE * 1.01) {
                                 result.PERC_CSI = 20;
                             } else if (numericValue >= result.CSI_NORMATIVE * 1.005) {
@@ -929,71 +1071,6 @@ async function handlePremiumSubmit() {
                             // Update displayed percentage
                             document.querySelector('.csi-percent').textContent = `${result.PERC_CSI}%`;
                         }
-                        else if (field === 'FLR') {
-                            // Calculate FLR percentage based on normative
-                            const normFLR = (numericValue / result.FLR_NORMATIVE) * 100;
-                            result.NORM_FLR = normFLR;
-
-                            // Update FLR percentage based on rules
-                            if (numericValue >= result.FLR_NORMATIVE * 1.03) {
-                                result.PERC_FLR = 30;
-                            } else if (numericValue >= result.FLR_NORMATIVE * 1.02) {
-                                result.PERC_FLR = 25;
-                            } else if (numericValue >= result.FLR_NORMATIVE * 1.01) {
-                                result.PERC_FLR = 21;
-                            } else if (numericValue >= result.FLR_NORMATIVE) {
-                                result.PERC_FLR = 18;
-                            } else if (numericValue >= result.FLR_NORMATIVE * 0.95) {
-                                result.PERC_FLR = 13;
-                            } else {
-                                result.PERC_FLR = 8;
-                            }
-
-                            // Update displayed percentage
-                            document.querySelector('.flr-percent').textContent = `${result.PERC_FLR}%`;
-                        }
-                        else if (field === 'GOK') {
-                            // Calculate GOK percentage based on normative
-                            const normGOK = (numericValue / result.GOK_NORMATIVE) * 100;
-                            result.NORM_GOK = normGOK;
-
-                            // Update GOK percentage based on rules
-                            if (numericValue >= result.GOK_NORMATIVE) {
-                                result.PERC_GOK = 17;
-                            } else if (numericValue >= result.GOK_NORMATIVE * 0.95) {
-                                result.PERC_GOK = 15;
-                            } else if (numericValue >= result.GOK_NORMATIVE * 0.9) {
-                                result.PERC_GOK = 12;
-                            } else if (numericValue >= result.GOK_NORMATIVE * 0.85) {
-                                result.PERC_GOK = 9;
-                            } else if (numericValue >= result.GOK_NORMATIVE * 0.8) {
-                                result.PERC_GOK = 5;
-                            } else {
-                                result.PERC_GOK = 0;
-                            }
-
-                            // Update displayed percentage
-                            document.querySelector('.gok-percent').textContent = `${result.PERC_GOK}%`;
-                        }
-                        else if (field === 'PERS_FACT') {
-                            // Calculate percentage based on PERS_PLAN (simplified logic)
-                            const planValue = (result.PERS_PLAN_1 + result.PERS_PLAN_2) / 2;
-                            const normPERS = (numericValue / planValue) * 100;
-
-                            // Simplified percentage assignment based on achievement
-                            if (normPERS >= 100) {
-                                result.PERS_PERCENT = 10;
-                            } else if (normPERS >= 95) {
-                                result.PERS_PERCENT = 8;
-                            } else if (normPERS >= 90) {
-                                result.PERS_PERCENT = 5;
-                            } else {
-                                result.PERS_PERCENT = 0;
-                            }
-
-                            // Update displayed percentage
-                            document.querySelector('.pers-percent').textContent = `${result.PERS_PERCENT}%`;
-                        }
 
                         // Recalculate total premium percentage
                         result.TOTAL_PREMIUM = (
@@ -1004,7 +1081,8 @@ async function handlePremiumSubmit() {
                             (result.PERC_THANKS || 0) +
                             (result.PERS_PERCENT || 0) +
                             (result.HEAD_ADJUST || 0) +
-                            (result.PERC_TUTOR || 0)
+                            (result.PERC_TUTOR || 0) +
+                            (result.SL_PERCENT || 0)
                         );
 
                         // Update total premium display
@@ -1015,10 +1093,14 @@ async function handlePremiumSubmit() {
 
                         // Update all amount displays
                         if (isValidHours) {
-                            document.querySelector('.csi-amount').textContent = `${updatedPremiumAmounts.csiAmount} ₽`;
+                            if (position === "specialist" && document.querySelector('.csi-amount')) {
+                                document.querySelector('.csi-amount').textContent = `${updatedPremiumAmounts.csiAmount} ₽`;
+                            }
                             document.querySelector('.flr-amount').textContent = `${updatedPremiumAmounts.flrAmount} ₽`;
                             document.querySelector('.gok-amount').textContent = `${updatedPremiumAmounts.gokAmount} ₽`;
                             document.querySelector('.pers-amount').textContent = `${updatedPremiumAmounts.persAmount} ₽`;
+                            document.querySelector('.sl-amount').textContent = `${updatedPremiumAmounts.slAmount} ₽`;
+                            document.querySelector('.head-adjust-amount').textContent = `${updatedPremiumAmounts.headAdjustAmount} ₽`;
                             document.querySelector('.total-premium-amount').textContent = `${updatedPremiumAmounts.totalPremiumAmount} ₽`;
 
                             // Update total salary
