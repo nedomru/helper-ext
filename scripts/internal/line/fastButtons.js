@@ -19,7 +19,7 @@ async function dutyButtons() {
     },
     {
       id: "list-item-offers",
-      url: "https://okc2.ertelecom.ru/wfm/offers/duty/nsk_stp",
+      url: "https://okc2.ertelecom.ru/wfm/offers/duty/ntp_nck",
       icon: "mdi mdi-account-multiple-outline",
       text: "Предложка",
     },
