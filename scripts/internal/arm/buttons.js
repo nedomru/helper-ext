@@ -458,7 +458,11 @@ async function sendClientCardExample() {
     }
 
     const clientCardText = $("#to_copy").val();
-    let formattedClientCardText = clientCardText.split("\n").join("<br>");
+
+    let formattedClientCardText = clientCardText
+        .replace(/&nbsp;/g, ' ')
+        .split("\n")
+        .join("<br>");
 
     // Close card
     clientCardShowButton.click();
@@ -660,14 +664,20 @@ async function leftFrame_fastAppeals() {
 
     if (settings[2][settingsKeys[2]]) {
         buttons.push({
-            value: "КС НЦК2", class: "helper helper-appeal-button", action: handleKCNCK2Click, category: "Открытое",
+            value: "КС НЦК2",
+            class: "helper helper-appeal-button",
+            action: handleKCNCK2Click,
+            category: "Открытое",
             tooltip: "Продукт не изменяется. ОЦТП Исход > Контакт сорвался > ..."
         });
     }
 
     if (settings[3][settingsKeys[3]]) {
         buttons.push({
-            value: "КС НЦК1", class: "helper helper-appeal-button", action: handleKCNCK1Click, category: "Открытое",
+            value: "КС НЦК1",
+            class: "helper helper-appeal-button",
+            action: handleKCNCK1Click,
+            category: "Открытое",
             tooltip: "Продукт не изменяется. Онлайн Вход > Контакт сорвался > ..."
         });
     }
@@ -694,7 +704,10 @@ async function leftFrame_fastAppeals() {
 
     if (settings[6][settingsKeys[6]]) {
         buttons.push({
-            value: "Низкая", class: "helper helper-appeal-button", action: handleClosed_LowSpeed, category: "Закрытое",
+            value: "Низкая",
+            class: "helper helper-appeal-button",
+            action: handleClosed_LowSpeed,
+            category: "Закрытое",
             tooltip: "Продукт не изменяется. Настройка и диагностика > Низкая скорость > Низкая скорость открытия страниц"
         });
     }
@@ -711,21 +724,30 @@ async function leftFrame_fastAppeals() {
 
     if (settings[8][settingsKeys[8]]) {
         buttons.push({
-            value: "Нет вещания", class: "helper helper-appeal-button", action: handleClosed_NoTV, category: "Закрытое",
+            value: "Нет вещания",
+            class: "helper helper-appeal-button",
+            action: handleClosed_NoTV,
+            category: "Закрытое",
             tooltip: "Телевидение. Настройка и диагностика > Отсутствие вещания на каналах > Нет вещания на всех каналах"
         });
     }
 
     if (settings[9][settingsKeys[9]]) {
         buttons.push({
-            value: "Тикет", class: "helper helper-appeal-button", action: handleOpen_Ticket, category: "Открытое",
+            value: "Тикет",
+            class: "helper helper-appeal-button",
+            action: handleOpen_Ticket,
+            category: "Открытое",
             tooltip: "Продукт не изменяется. Онлайн - Входящая связь > Обращение из Email > ..."
         });
     }
 
     if (settings[10][settingsKeys[10]]) {
         buttons.push({
-            value: "Youtube", class: "helper helper-appeal-button", action: handleOpen_Youtube, category: "Открытое",
+            value: "Youtube",
+            class: "helper helper-appeal-button",
+            action: handleOpen_Youtube,
+            category: "Открытое",
             tooltip: "Интернет. Настройка и диагностика > Низкая скорость > Низкая скорость YouTube"
         });
     }
@@ -752,14 +774,20 @@ async function leftFrame_fastAppeals() {
 
     if (settings[13][settingsKeys[13]]) {
         buttons.push({
-            value: "Отключ ДЗ", class: "helper helper-appeal-button", action: fastChat_DZ, category: "Быстрый чат",
+            value: "Отключ ДЗ",
+            class: "helper helper-appeal-button",
+            action: fastChat_DZ,
+            category: "Быстрый чат",
             tooltip: "Продукт не изменяется. Начисления и платежи > Начисления или баланс > Закрыт доступ по причине ДЗ"
         });
     }
 
     if (settings[14][settingsKeys[14]]) {
         buttons.push({
-            value: "Абон Деньги", class: "helper helper-appeal-button", action: handle_naAbon, category: "Открытое",
+            value: "Абон Деньги",
+            class: "helper helper-appeal-button",
+            action: handle_naAbon,
+            category: "Открытое",
             tooltip: "Продукт не изменяется. Онлайн - Входящая связь > Начисления и платежи > Начисления или баланс > Запрос баланса"
         });
     }
@@ -776,7 +804,10 @@ async function leftFrame_fastAppeals() {
 
     if (settings[16][settingsKeys[16]]) {
         buttons.push({
-            value: "СИ", class: "helper helper-appeal-button", action: handleClosed_ServiceEng, category: "Закрытое",
+            value: "СИ",
+            class: "helper helper-appeal-button",
+            action: handleClosed_ServiceEng,
+            category: "Закрытое",
             tooltip: "Продукт не изменяется. Технологический класс > Обращение сервисного инженера > ..."
         });
     }
