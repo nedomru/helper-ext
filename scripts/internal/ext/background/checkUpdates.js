@@ -112,21 +112,21 @@ async function setDefaults() {
             return browser.storage.sync.set(settingsToSet);
         })
         .then(() => {
-            console.info(`[Хелпер] - [Настройки] Базовые настройки установлены`);
+            console.info(`[Хелпер] - [Запуск] Базовые настройки установлены`);
         })
         .catch((error) => {
             console.error(
-                `[Хелпер] - [Настройки] Ошибка установки настроек: ` + error,
+                `[Хелпер] - [Запуск] Ошибка установки настроек: ` + error,
             );
         });
 }
 
 browser.runtime.onInstalled.addListener(async () => {
     checkForUpdates().then(async (details) => {
-        console.info("Хелпер - Проверка обновлений");
+        console.info("[Хелпер] - [Запуск] Хелпер - Проверка обновлений");
     });
     setDefaults().then(() => {
-        console.info("Хелпер - Установка стандартных настроек");
+        console.info("[Хелпер] - [Запуск] Установка стандартных настроек");
     });
     const consentUrl = browser.runtime.getURL("pages/privacy-consent.html");
     const { privacyConsents } = await browser.storage.local.get("privacyConsents");
