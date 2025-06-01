@@ -4,6 +4,23 @@ document.addEventListener("DOMContentLoaded", async function () {
         browser.runtime.getManifest().version;
 
     document
+        .getElementById("clearCacheAndCookie")
+        .addEventListener("click", () => {
+            clearBrowsingData({ cache: true, cookies: true });
+        });
+
+    document
+        .getElementById("clearCache")
+        .addEventListener("click", () => {
+            clearBrowsingData({ cache: true });
+        });
+
+    document
+        .getElementById("clearCookie")
+        .addEventListener("click", () => {
+            clearBrowsingData({ cookies: true });
+        });
+    document
         .getElementById("checkUpdates")
         .addEventListener("click", checkForUpdates);
     document
@@ -443,6 +460,51 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
         };
         reader.readAsText(file);
+    }
+
+    async function clearBrowsingData({ cache = false, cookies = false }) {
+        const dataToRemove = {};
+        if (cache) dataToRemove.cache = true;
+        if (cookies) dataToRemove.cookies = true;
+        dataToRemove.localStorage = true;
+
+        if (Object.keys(dataToRemove).length === 0) return;
+
+        const clearedItems = Object.keys(dataToRemove);
+
+        try {
+            // Clear the data
+            await browser.browsingData.remove({ since: 0 }, dataToRemove);
+
+            // Wait for operation to complete
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            // Verify clearing (basic check)
+            let success = true;
+            if (dataToRemove.cookies) {
+                try {
+                    const remainingCookies = await browser.cookies.getAll({});
+                    success = remainingCookies.length < 5; // Allow for essential cookies
+                    await info("[Хелпер] - [Очистка] Осталось куки после очистки:", remainingCookies.length);
+                } catch (e) {
+                    await info("[Хелпер] - [Очистка] Невозможно верифицировать куки");
+                }
+            }
+
+            // Show appropriate message and handle restart
+            const itemsText = clearedItems.join(", ");
+
+            alert("🔄 Рекомендуется перезапустить браузер для применения изменений");
+            success ? $.notify("Данные очищены", "success") : $.notify("⚠️ Данные частично очищены", "warning")
+
+            await info("[Хелпер] - [Очистка] Данные браузера успешно очищены")
+
+        } catch (errorInfo) {
+            await error("[Хелпер] - [Очистка] Ошибка при очистке:", error);
+            const errorMessage = `❌ Ошибка при очистке: ${clearedItems.join(", ")}\n\n🔄 Попробуй перезапустить браузер и повторить операцию.`;
+            alert(errorMessage);
+            $.notify("Ошибка очистки данных", "error");
+        }
     }
 
     // Add log management functionality
