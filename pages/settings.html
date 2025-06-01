@@ -83,14 +83,19 @@
                         </div>
                         <br>
 
-                        <!-- Проверка обновлений -->
+                        <!-- Очистка данных -->
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Очистка данных</h5>
-                                <label for="checkUpdates">Выбери какие данные нужно удалить. Данные удаляются за все время, функция идентична настройкам браузера</label>
+                                <label for="checkUpdates">Данные удаляются за все время, функция идентична настройкам браузера</label>
                                 <br>
-                                <label for="checkUpdates"><i>После очистки важно закрыть браузер полностью и открыть его заново</i></label>
+                                <label for="checkUpdates">После очистки важно закрыть браузер полностью и открыть его заново</label>
+                                <br>
+                                <input class="form-check-input me-1" type="checkbox" value="" id="automaticDataClearing">
+                                <label class="form-check-label" for="automaticDataClearing">Очищать данные автоматически при запуске браузера</label>
                                 <br><br>
+                                <label>Выбери какие данные нужно удалить:</label>
+                                <br>
                                 <button id="clearCacheAndCookie" class="btn btn-primary">Кеш и куки</button>
                                 <button id="clearCache" class="btn btn-primary">Только кеш</button>
                                 <button id="clearCookie" class="btn btn-primary">Только куки</button>

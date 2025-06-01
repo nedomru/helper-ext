@@ -202,6 +202,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         "LINE_showFB_NTP2",
         "LINE_countAppointments",
         "LINE_highlightEndingAppointments",
+        "automaticDataClearing"
     ];
 
     const colorPickerIds = [
@@ -220,7 +221,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         "GENESYS_chatSound_newMessageSound",
     ];
 
-    const other = ["POPUP_userLine"];
+    const other = ["POPUP_userLine", "automaticDataClearing"];
 
     const result = await browser.storage.sync.get(checkboxIds);
     try {

@@ -81,7 +81,7 @@ async function setDefaults() {
         LINE_showFB_Lunch: true,
         LINE_countAppointments: true,
         LINE_highlightEndingAppointments: true,
-        POPUP_userLine: "nck1",
+        POPUP_userLine: "specialist",
 
         // Default colors
         HIGHLIGHTER_CS: "#ff0000",
@@ -134,4 +134,13 @@ browser.runtime.onInstalled.addListener(async () => {
         await browser.tabs.create({ url: consentUrl });
     }
 });
-browser.runtime.onStartup.addListener(checkForUpdates);
+
+browser.runtime.onStartup.addListener(async () => {
+    // Check for automatic data clearing setting on every startup
+    const { automaticDataClearing } = await browser.storage.sync.get("automaticDataClearing");
+    if (automaticDataClearing) {
+        await clearBrowsingData();
+    }
+
+    checkForUpdates();
+});
