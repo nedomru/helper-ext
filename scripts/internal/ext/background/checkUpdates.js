@@ -122,7 +122,7 @@ async function setDefaults() {
 }
 
 browser.runtime.onInstalled.addListener(async () => {
-    checkForUpdates().then(async (details) => {
+    checkForUpdates().then(async () => {
         console.info("[Хелпер] - [Запуск] Хелпер - Проверка обновлений");
     });
     setDefaults().then(() => {

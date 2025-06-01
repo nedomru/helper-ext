@@ -493,8 +493,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
 
             // Show appropriate message and handle restart
-            const itemsText = clearedItems.join(", ");
-
+            clearedItems.join(", ");
             alert("🔄 Рекомендуется перезапустить браузер для применения изменений");
             success ? $.notify("Данные очищены", "success") : $.notify("⚠️ Данные частично очищены", "warning")
 
