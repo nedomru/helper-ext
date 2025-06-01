@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   // Set specialist line in premium check
   try {
     const result = await browser.storage.sync.get("POPUP_userLine");
-    const specialistLine = result.POPUP_userLine || "nck1";
+    const specialistLine = result.POPUP_userLine || "specialist";
     const selectElement = document.getElementById("premium-select");
 
     const optionIndex = Array.from(selectElement.options).findIndex(
@@ -47,11 +47,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     selectElement.selectedIndex = optionIndex >= 0 ? optionIndex : 0;
 
     info(
-      `[${new Date().toLocaleTimeString()}] [Хелпер] - [Проверка премии] Дожность сотрудника загружена: ${specialistLine}`,
+      `[Хелпер] - [Проверка премии] Дожность сотрудника загружена: ${specialistLine}`,
     );
   } catch (error) {
     error(
-      `[${new Date().toLocaleTimeString()}] [Хелпер] - [Проверка премии] Ошибка при загрузке линии:`,
+      `[Хелпер] - [Проверка премии] Ошибка при загрузке линии:`,
       error,
     );
     document.getElementById("premium-select").selectedIndex = 0;
