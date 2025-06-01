@@ -798,7 +798,7 @@ async function leftFrame_fastAppeals() {
             class: "helper helper-appeal-button",
             action: handle_naAbonPriost,
             category: "Открытое",
-            tooltip: "Продукт не изменяется. Онлайн - Входящая связь > Операции с договором > Приостановление договора > ..."
+            tooltip: "Продукт не изменяется. Онлайн - Входящая связь > Консультация по сервисам и услугам > Консультация по условиям приостановления"
         });
     }
 
@@ -1077,13 +1077,17 @@ async function leftFrame_fastAppeals() {
         step.dispatchEvent(changeEvent);
 
         waitForElement(".uni_load_obj_reason", (substep) => {
-            substep.value = "1043";
+            substep.value = "1047";
             substep.dispatchEvent(changeEvent);
         });
 
         waitForElement(".uni_load_main_reason", (substep) => {
-            substep.value = "4135";
+            substep.value = "6089";
             substep.dispatchEvent(changeEvent);
+        });
+
+        waitForElement(".comment_text", (substep) => {
+            substep.value = "Требуется консультация по условиям приостановления, просьба помочь";
         });
     }
 
