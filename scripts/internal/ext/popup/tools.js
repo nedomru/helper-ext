@@ -565,12 +565,12 @@ async function handlePremiumSubmit() {
                 const slAmount = isValidHours && result.SL_PERCENT ? Math.round(baseSalary * (result.SL_PERCENT / 100)) : "-";
 
                 // Add CSI calculation for specialists
-                const csiAmount = position === "specialist" && isValidHours && result.PERC_CSI ?
+                const csiAmount = inputField === "specialist" && isValidHours && result.PERC_CSI ?
                     Math.round(baseSalary * (result.PERC_CSI / 100)) : "-";
 
                 return {
                     totalPremiumAmount, headAdjustAmount, gokAmount, flrAmount, persAmount, slAmount,
-                    ...(position === "specialist" ? { csiAmount } : {})
+                    ...(inputField === "specialist" ? { csiAmount } : {})
                 };
             };
 
@@ -928,7 +928,7 @@ async function handlePremiumSubmit() {
                             const normGOK = (numericValue / result.GOK_NORMATIVE) * 100;
                             result.NORM_GOK = normGOK;
 
-                            if (position === "specialist") {
+                            if (inputField === "specialist") {
                                 // Specialist GOK percentage rules (from second snippet)
                                 if (numericValue >= result.GOK_NORMATIVE) {
                                     result.PERC_GOK = 17;
@@ -970,7 +970,7 @@ async function handlePremiumSubmit() {
                             const normFLR = (numericValue / result.FLR_NORMATIVE) * 100;
                             result.NORM_FLR = normFLR;
 
-                            if (position === "specialist") {
+                            if (inputField === "specialist") {
                                 // Specialist FLR percentage rules (from second snippet)
                                 if (numericValue >= result.FLR_NORMATIVE * 1.03) {
                                     result.PERC_FLR = 30;
@@ -1006,7 +1006,7 @@ async function handlePremiumSubmit() {
                             document.querySelector('.flr-percent').textContent = `${result.PERC_FLR}%`;
                         }
                         else if (field === 'PERS_FACT') {
-                            if (position === "specialist") {
+                            if (inputField === "specialist") {
                                 // Specialist PERS percentage rules (from second snippet)
                                 const planValue = (result.PERS_PLAN_1 + result.PERS_PLAN_2) / 2;
                                 const normPERS = (numericValue / planValue) * 100;
@@ -1055,7 +1055,7 @@ async function handlePremiumSubmit() {
                             // Update displayed percentage
                             document.querySelector('.sl-percent').textContent = `${result.SL_PERCENT}%`;
                         }
-                        else if (field === 'CSI' && position === "specialist") {
+                        else if (field === 'CSI' && inputField === "specialist") {
                             // Only for specialist position - CSI rules (from second snippet)
                             const normCSI = (numericValue / result.CSI_NORMATIVE) * 100;
                             result.NORM_CSI = normCSI;
@@ -1097,7 +1097,7 @@ async function handlePremiumSubmit() {
 
                         // Update all amount displays
                         if (isValidHours) {
-                            if (position === "specialist" && document.querySelector('.csi-amount')) {
+                            if (inputField === "specialist" && document.querySelector('.csi-amount')) {
                                 document.querySelector('.csi-amount').textContent = `${updatedPremiumAmounts.csiAmount} ₽`;
                             }
                             document.querySelector('.flr-amount').textContent = `${updatedPremiumAmounts.flrAmount} ₽`;
