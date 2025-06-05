@@ -1517,7 +1517,9 @@ async function leftFrame_fastAppeals() {
     }
 }
 
-
+/**
+ *  Left frame fast service requests
+ */
 async function leftFrame_fastSR() {
     if (document.querySelector(".helper-sr-button") != null) {
         return;
@@ -2530,4 +2532,231 @@ async function infoCompensationButton() {
             throw error;
         }
     }
+}
+
+
+function addAppealIframeButtons() {
+    // Find all anchor elements with the specific pattern
+    const appealLinks = document.querySelectorAll('a[onclick*="changeAppealInNewTab"]');
+
+    appealLinks.forEach((link) => {
+        // Skip if button already added
+        if (link.parentElement.querySelector('.appeal-iframe-btn')) {
+            return;
+        }
+
+        // Extract parameters from onclick attribute
+        const onclickAttr = link.getAttribute('onclick');
+        const match = onclickAttr.match(/changeAppealInNewTab\('([^']+)',\s*(\d+),\s*(\d+)\)/);
+
+        if (!match) return;
+
+        const params = { param1: match[1], param2: match[2], param3: match[3] };
+
+        // Create new iframe button
+        const newButton = document.createElement('button');
+        newButton.textContent = 'Изменить в окне';
+        newButton.className = 'appeal-iframe-btn';
+        newButton.style.cssText = `
+            margin-left: 10px;
+            padding: 5px 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        `;
+
+        // Add hover effects
+        newButton.onmouseover = () => newButton.style.background = '#0056b3';
+        newButton.onmouseout = () => newButton.style.background = '#007bff';
+
+        // Add click handler
+        newButton.onclick = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Check if iframe already exists for this button
+            const existingIframe = document.querySelector('.appeal-iframe-container');
+            if (existingIframe) {
+                existingIframe.remove();
+            }
+
+            // Construct URL (same as changeAppealInNewTab function)
+            let url = window.location.origin + '/cgi-bin/mxcells/wcc_request_appl_support.change_request_appl?'
+                + 'ssn&c=' + params.param1
+                + '&usr$=' + params.param2
+                + '&request_id$=' + params.param3;
+
+            // Add global parameters if they exist
+            if (typeof globalParams !== 'undefined') {
+                if (globalParams.rck) url += '&rck&c=' + globalParams.rck;
+                if (globalParams.rcd) url += '&rcd&c=' + globalParams.rcd;
+                if (globalParams.interaction_id) url += '&interaction_id$=' + globalParams.interaction_id;
+            }
+
+            // Create iframe container
+            const iframeContainer = document.createElement('div');
+            iframeContainer.className = 'appeal-iframe-container';
+            iframeContainer.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 90%;
+                height: 80%;
+                background: white;
+                border: 2px solid #ccc;
+                border-radius: 8px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+                z-index: 10000;
+                display: flex;
+                flex-direction: column;
+            `;
+
+            // Create header with close button
+            const header = document.createElement('div');
+            header.style.cssText = `
+                padding: 10px 15px;
+                background: #f5f5f5;
+                border-bottom: 1px solid #ddd;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-radius: 6px 6px 0 0;
+            `;
+
+            const title = document.createElement('span');
+            title.textContent = 'Изменить обращение';
+            title.style.fontWeight = 'bold';
+
+            const closeButton = document.createElement('button');
+            closeButton.textContent = '✕';
+            closeButton.style.cssText = `
+                background: none;
+                border: none;
+                font-size: 18px;
+                cursor: pointer;
+                padding: 5px;
+                color: #666;
+            `;
+            closeButton.onclick = () => iframeContainer.remove();
+
+            header.appendChild(title);
+            header.appendChild(closeButton);
+
+            // Create iframe
+            const iframe = document.createElement('iframe');
+            iframe.src = url;
+            iframe.style.cssText = `
+                width: 100%;
+                height: 100%;
+                border: none;
+                flex: 1;
+            `;
+
+            // Create loading indicator
+            const loading = document.createElement('div');
+            loading.textContent = 'Загрузка...';
+            loading.style.cssText = `
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 16px;
+                color: #666;
+            `;
+
+            // Hide loading when iframe loads
+            iframe.onload = () => loading.style.display = 'none';
+
+            // Assemble iframe container
+            iframeContainer.appendChild(header);
+            iframeContainer.appendChild(loading);
+            iframeContainer.appendChild(iframe);
+
+            // Add to page
+            document.body.appendChild(iframeContainer);
+
+            // Add backdrop click to close
+            iframeContainer.addEventListener('click', (e) => {
+                if (e.target === iframeContainer) {
+                    iframeContainer.remove();
+                }
+            });
+        };
+
+        // Insert the new button after the original link
+        link.parentNode.insertBefore(newButton, link.nextSibling);
+    });
+
+    // Set up observer for dynamic content and tab loading
+    if (!window.appealObserverAdded) {
+        const observer = new MutationObserver((mutations) => {
+            // Check for tab content loading (like lazy_content_2448)
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                    mutation.addedNodes.forEach((node) => {
+                        if (node.nodeType === Node.ELEMENT_NODE) {
+                            // Check if it's a lazy content container that just loaded
+                            if (node.id && node.id.startsWith('lazy_content_') && node.textContent) {
+                                console.log(`Tab content loaded: ${node.id}`);
+                                setTimeout(addAppealIframeButtons, 200);
+                                return;
+                            }
+
+                            // Check for any lazy content containers that got populated
+                            const lazyContainers = node.querySelectorAll ? node.querySelectorAll('[id^="lazy_content_"]') : [];
+                            lazyContainers.forEach(container => {
+                                if (container.textContent && !container.dataset.appealButtonsAdded) {
+                                    console.log(`Tab content found: ${container.id}`);
+                                    container.dataset.appealButtonsAdded = 'true';
+                                    setTimeout(addAppealIframeButtons, 200);
+                                }
+                            });
+
+                            // Check for new appeal links in any added content
+                            if (node.querySelectorAll) {
+                                const newAppealLinks = node.querySelectorAll('a[onclick*="changeAppealInNewTab"]');
+                                if (newAppealLinks.length > 0) {
+                                    console.log(`Found ${newAppealLinks.length} new appeal links`);
+                                    setTimeout(addAppealIframeButtons, 100);
+                                }
+                            }
+                        }
+                    });
+                }
+
+                // Also check for attribute changes (like when content is dynamically loaded)
+                if (mutation.type === 'attributes' && mutation.target.id && mutation.target.id.startsWith('lazy_content_')) {
+                    if (mutation.target.textContent && !mutation.target.dataset.appealButtonsAdded) {
+                        console.log(`Tab content attribute changed: ${mutation.target.id}`);
+                        mutation.target.dataset.appealButtonsAdded = 'true';
+                        setTimeout(addAppealIframeButtons, 200);
+                    }
+                }
+            });
+
+            // Additional check for specific lazy content containers
+            const lazyContainers = document.querySelectorAll('[id^="lazy_content_"]');
+            lazyContainers.forEach(container => {
+                if (container.textContent && !container.dataset.appealButtonsAdded) {
+                    console.log(`Processing existing lazy content: ${container.id}`);
+                    container.dataset.appealButtonsAdded = 'true';
+                    setTimeout(addAppealIframeButtons, 100);
+                }
+            });
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: ['class', 'style', 'data-loaded']
+        });
+        window.appealObserverAdded = true;
+    }
+
+    console.log(`Added iframe buttons to ${appealLinks.length} appeal links`);
 }
