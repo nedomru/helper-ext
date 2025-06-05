@@ -563,13 +563,16 @@ async function handlePremiumSubmit() {
                 const flrAmount = isValidHours && result.PERC_FLR ? Math.round(baseSalary * (result.PERC_FLR / 100)) : "-";
                 const persAmount = isValidHours && result.PERS_PERCENT ? Math.round(baseSalary * (result.PERS_PERCENT / 100)) : "-";
                 const slAmount = isValidHours && result.SL_PERCENT ? Math.round(baseSalary * (result.SL_PERCENT / 100)) : "-";
+                const testingAmount = isValidHours && result.PERC_TESTING ? Math.round(baseSalary * (result.PERC_TESTING / 100)) : "-";
+                const tutorAmount = isValidHours && result.PERC_TUTORS ? Math.round(baseSalary * (result.PERC_TUTORS / 100)) : "-";
+                const thanksAmount = isValidHours && result.PERC_THANKS ? Math.round(baseSalary * (result.PERC_THANKS / 100)) : "-";
 
                 // Add CSI calculation for specialists
                 const csiAmount = inputField === "specialist" && isValidHours && result.PERC_CSI ?
                     Math.round(baseSalary * (result.PERC_CSI / 100)) : "-";
 
                 return {
-                    totalPremiumAmount, headAdjustAmount, gokAmount, flrAmount, persAmount, slAmount,
+                    totalPremiumAmount, headAdjustAmount, gokAmount, flrAmount, persAmount, slAmount, testingAmount,tutorAmount,thanksAmount,
                     ...(inputField === "specialist" ? { csiAmount } : {})
                 };
             };
@@ -607,14 +610,14 @@ async function handlePremiumSubmit() {
             </tr>
             <tr>
                 <th scope="row">Ручная правка</th>
-                <td colspan="${isValidHours ? '2' : '3'}" class="align-middle">
+                <td colspan="${isValidHours ? '3' : '4'}" class="align-middle">
                     ${result.HEAD_ADJUST ? result.HEAD_ADJUST : 0}
                 </td>
                 ${isValidHours ? `<td class="align-middle head-adjust-amount">${premiumAmounts.headAdjustAmount} ₽</td>` : ''}
             </tr>
             <tr>
                 <th scope="row">Наставничество</th>
-                <td colspan="${isValidHours ? '2' : '3'}" class="align-middle">
+                <td colspan="${isValidHours ? '3' : '4'}" class="align-middle">
                     ${result.PERC_TUTOR ? result.PERC_TUTOR : 0}
                 </td>
                 ${isValidHours ? `<td class="align-middle tutor-amount">${premiumAmounts.tutorAmount} ₽</td>` : ''}
