@@ -2589,7 +2589,7 @@ function addAppealIframeButtons() {
                 if (globalParams.interaction_id) url += '&interaction_id$i=' + globalParams.interaction_id;
             }
 
-            // Create iframe container
+            // Create iframe container with window functionality
             const iframeContainer = document.createElement('div');
             iframeContainer.className = 'appeal-iframe-container';
             iframeContainer.style.cssText = `
@@ -2597,8 +2597,10 @@ function addAppealIframeButtons() {
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
-                width: 70%;
-                height: 80%;
+                width: 800px;
+                height: 600px;
+                min-width: 100px;
+                min-height: 100px;
                 background: white;
                 border: 2px solid #ccc;
                 border-radius: 8px;
@@ -2606,38 +2608,259 @@ function addAppealIframeButtons() {
                 z-index: 10000;
                 display: flex;
                 flex-direction: column;
+                resize: both;
+                overflow: hidden;
             `;
 
-            // Create header with close button
+            // Window state management
+            let isMinimized = false;
+            let isMaximized = false;
+            let originalStyles = {};
+            let isDragging = false;
+            let dragOffset = { x: 0, y: 0 };
+
+            // Create header with window controls
             const header = document.createElement('div');
+            header.className = 'window-header';
             header.style.cssText = `
-                padding: 10px 15px;
-                background: #f5f5f5;
+                padding: 8px 15px;
+                background: linear-gradient(to bottom, #f8f8f8, #e8e8e8);
                 border-bottom: 1px solid #ddd;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
                 border-radius: 6px 6px 0 0;
+                cursor: move;
+                user-select: none;
+                height: 30px;
+                box-sizing: border-box;
             `;
 
             const title = document.createElement('span');
             title.textContent = 'Изменить обращение';
-            title.style.fontWeight = 'bold';
+            title.style.cssText = `
+                font-weight: bold;
+                font-size: 13px;
+                color: #333;
+                flex: 1;
+            `;
 
-            const closeButton = document.createElement('button');
-            closeButton.textContent = '✕';
-            closeButton.style.cssText = `
-                background: none;
-                border: none;
-                font-size: 18px;
+            // Window control buttons container
+            const controls = document.createElement('div');
+            controls.style.cssText = `
+                display: flex;
+                gap: 2px;
+            `;
+
+            // Minimize button
+            const minimizeButton = document.createElement('button');
+            minimizeButton.innerHTML = '─';
+            minimizeButton.title = 'Minimize';
+            minimizeButton.style.cssText = `
+                width: 20px;
+                height: 20px;
+                border: 1px solid #bbb;
+                background: linear-gradient(to bottom, #fff, #e0e0e0);
                 cursor: pointer;
-                padding: 5px;
+                font-size: 12px;
+                line-height: 1;
+                border-radius: 2px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            `;
+
+            // Maximize/Restore button
+            const maximizeButton = document.createElement('button');
+            maximizeButton.innerHTML = '□';
+            maximizeButton.title = 'Maximize';
+            maximizeButton.style.cssText = `
+                width: 20px;
+                height: 20px;
+                border: 1px solid #bbb;
+                background: linear-gradient(to bottom, #fff, #e0e0e0);
+                cursor: pointer;
+                font-size: 12px;
+                line-height: 1;
+                border-radius: 2px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            `;
+
+            // Close button
+            const closeButton = document.createElement('button');
+            closeButton.innerHTML = '✕';
+            closeButton.title = 'Close';
+            closeButton.style.cssText = `
+                width: 20px;
+                height: 20px;
+                border: 1px solid #bbb;
+                background: linear-gradient(to bottom, #fff, #e0e0e0);
+                cursor: pointer;
+                font-size: 12px;
+                line-height: 1;
+                border-radius: 2px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 color: #666;
             `;
-            closeButton.onclick = () => iframeContainer.remove();
+
+            // Button hover effects
+            [minimizeButton, maximizeButton, closeButton].forEach(btn => {
+                btn.addEventListener('mouseenter', () => {
+                    btn.style.background = 'linear-gradient(to bottom, #fff, #d0d0d0)';
+                });
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.background = 'linear-gradient(to bottom, #fff, #e0e0e0)';
+                });
+            });
+
+            // Close button special hover
+            closeButton.addEventListener('mouseenter', () => {
+                closeButton.style.background = 'linear-gradient(to bottom, #ff6b6b, #e63946)';
+                closeButton.style.color = 'white';
+            });
+            closeButton.addEventListener('mouseleave', () => {
+                closeButton.style.background = 'linear-gradient(to bottom, #fff, #e0e0e0)';
+                closeButton.style.color = '#666';
+            });
+
+            // Create minimized state container
+            const minimizedContent = document.createElement('div');
+            minimizedContent.style.cssText = `
+                display: none;
+                flex: 1;
+                align-items: center;
+                justify-content: center;
+                font-size: 12px;
+                color: #666;
+                font-style: italic;
+            `;
+            minimizedContent.textContent = 'Обращение свернуто';
+
+            // Window control functions
+            minimizeButton.onclick = (e) => {
+                e.stopPropagation();
+                if (isMinimized) {
+                    // Restore from minimize
+                    iframeContainer.style.height = originalStyles.height || '600px';
+                    iframeContainer.style.width = originalStyles.width || '800px';
+                    contentArea.style.display = 'flex';
+                    minimizedContent.style.display = 'none';
+                    minimizeButton.innerHTML = '─';
+                    minimizeButton.title = 'Minimize';
+                    isMinimized = false;
+                } else {
+                    // Minimize
+                    originalStyles.height = iframeContainer.style.height;
+                    originalStyles.width = iframeContainer.style.width;
+                    iframeContainer.style.height = '38px';
+                    iframeContainer.style.width = '300px';
+                    contentArea.style.display = 'none';
+                    minimizedContent.style.display = 'flex';
+                    minimizeButton.innerHTML = '□';
+                    minimizeButton.title = 'Restore';
+                    isMinimized = true;
+                }
+            };
+
+            maximizeButton.onclick = (e) => {
+                e.stopPropagation();
+                if (isMaximized) {
+                    // Restore from maximize
+                    iframeContainer.style.top = originalStyles.top || '50%';
+                    iframeContainer.style.left = originalStyles.left || '50%';
+                    iframeContainer.style.width = originalStyles.width || '800px';
+                    iframeContainer.style.height = originalStyles.height || '600px';
+                    iframeContainer.style.transform = originalStyles.transform || 'translate(-50%, -50%)';
+                    maximizeButton.innerHTML = '□';
+                    maximizeButton.title = 'Maximize';
+                    isMaximized = false;
+                } else {
+                    // Maximize
+                    originalStyles = {
+                        top: iframeContainer.style.top,
+                        left: iframeContainer.style.left,
+                        width: iframeContainer.style.width,
+                        height: iframeContainer.style.height,
+                        transform: iframeContainer.style.transform
+                    };
+                    iframeContainer.style.top = '0';
+                    iframeContainer.style.left = '0';
+                    iframeContainer.style.width = '100vw';
+                    iframeContainer.style.height = '100vh';
+                    iframeContainer.style.transform = 'none';
+                    maximizeButton.innerHTML = '❐';
+                    maximizeButton.title = 'Restore';
+                    isMaximized = true;
+                    isMinimized = false;
+                }
+            };
+
+            closeButton.onclick = (e) => {
+                e.stopPropagation();
+                iframeContainer.remove();
+            };
+
+            // Dragging functionality
+            header.addEventListener('mousedown', (e) => {
+                if (e.target === minimizeButton || e.target === maximizeButton || e.target === closeButton) {
+                    return;
+                }
+                if (isMaximized) return;
+
+                isDragging = true;
+                const rect = iframeContainer.getBoundingClientRect();
+                dragOffset.x = e.clientX - rect.left;
+                dragOffset.y = e.clientY - rect.top;
+
+                document.addEventListener('mousemove', handleDrag);
+                document.addEventListener('mouseup', stopDrag);
+                e.preventDefault();
+            });
+
+            function handleDrag(e) {
+                if (!isDragging || isMaximized) return;
+
+                const newLeft = e.clientX - dragOffset.x;
+                const newTop = e.clientY - dragOffset.y;
+
+                iframeContainer.style.left = newLeft + 'px';
+                iframeContainer.style.top = newTop + 'px';
+                iframeContainer.style.transform = 'none';
+            }
+
+            function stopDrag() {
+                isDragging = false;
+                document.removeEventListener('mousemove', handleDrag);
+                document.removeEventListener('mouseup', stopDrag);
+            }
+
+            // Double-click header to maximize/restore
+            header.addEventListener('dblclick', (e) => {
+                if (e.target === minimizeButton || e.target === maximizeButton || e.target === closeButton) {
+                    return;
+                }
+                maximizeButton.click();
+            });
+
+            // Assemble controls
+            controls.appendChild(minimizeButton);
+            controls.appendChild(maximizeButton);
+            controls.appendChild(closeButton);
 
             header.appendChild(title);
-            header.appendChild(closeButton);
+            header.appendChild(controls);
+
+            // Create content area
+            const contentArea = document.createElement('div');
+            contentArea.style.cssText = `
+                flex: 1;
+                position: relative;
+                overflow: hidden;
+            `;
 
             // Create iframe
             const iframe = document.createElement('iframe');
@@ -2646,7 +2869,6 @@ function addAppealIframeButtons() {
                 width: 100%;
                 height: 100%;
                 border: none;
-                flex: 1;
             `;
 
             // Create loading indicator
@@ -2659,24 +2881,29 @@ function addAppealIframeButtons() {
                 transform: translate(-50%, -50%);
                 font-size: 16px;
                 color: #666;
+                z-index: 1;
             `;
 
             // Hide loading when iframe loads
-            iframe.onload = () => loading.style.display = 'none';
+            let isIframeLoaded = false;
+            iframe.onload = () => {
+                loading.style.display = 'none';
+                isIframeLoaded = true;
+            };
 
             // Assemble iframe container
+            contentArea.appendChild(loading);
+            contentArea.appendChild(iframe);
             iframeContainer.appendChild(header);
-            iframeContainer.appendChild(loading);
-            iframeContainer.appendChild(iframe);
+            iframeContainer.appendChild(contentArea);
+            iframeContainer.appendChild(minimizedContent);
 
             // Add to page
             document.body.appendChild(iframeContainer);
 
-            // Add backdrop click to close
-            iframeContainer.addEventListener('click', (e) => {
-                if (e.target === iframeContainer) {
-                    iframeContainer.remove();
-                }
+            // Prevent default resize behavior conflicts
+            iframeContainer.addEventListener('mousedown', (e) => {
+                e.stopPropagation();
             });
         };
 
