@@ -2534,7 +2534,9 @@ async function infoCompensationButton() {
     }
 }
 
-
+/**
+ * Add iframe appeal button
+ */
 function addAppealIframeButtons() {
     // Find all anchor elements with the specific pattern
     const appealLinks = document.querySelectorAll('a[onclick*="changeAppealInNewTab"]');
@@ -2553,24 +2555,15 @@ function addAppealIframeButtons() {
 
         const params = { param1: match[1], param2: match[2], param3: match[3] };
 
-        // Create new iframe button
-        const newButton = document.createElement('button');
+        // Create new iframe button styled as a link
+        const newButton = document.createElement('a');
         newButton.textContent = 'Изменить в окне';
         newButton.className = 'appeal-iframe-btn';
+        newButton.href = '#';
         newButton.style.cssText = `
-            margin-left: 10px;
-            padding: 5px 10px;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
+            display: block;
             cursor: pointer;
-            font-size: 12px;
         `;
-
-        // Add hover effects
-        newButton.onmouseover = () => newButton.style.background = '#0056b3';
-        newButton.onmouseout = () => newButton.style.background = '#007bff';
 
         // Add click handler
         newButton.onclick = (e) => {
@@ -2583,17 +2576,17 @@ function addAppealIframeButtons() {
                 existingIframe.remove();
             }
 
-            // Construct URL (same as changeAppealInNewTab function)
-            let url = window.location.origin + '/cgi-bin/mxcells/wcc_request_appl_support.change_request_appl?'
-                + 'ssn&c=' + params.param1
-                + '&usr$=' + params.param2
-                + '&request_id$=' + params.param3;
+            // Construct URL with correct path and parameter format
+            let url = window.location.origin + '/cgi-bin/ppo/excells/wcc_request_appl_support.change_request_appl?'
+                + 'ssn$c=' + params.param1
+                + '&usr$i=' + params.param2
+                + '&request_id$i=' + params.param3;
 
             // Add global parameters if they exist
             if (typeof globalParams !== 'undefined') {
-                if (globalParams.rck) url += '&rck&c=' + globalParams.rck;
-                if (globalParams.rcd) url += '&rcd&c=' + globalParams.rcd;
-                if (globalParams.interaction_id) url += '&interaction_id$=' + globalParams.interaction_id;
+                if (globalParams.rck) url += '&rck$c=' + globalParams.rck;
+                if (globalParams.rcd) url += '&rcd$c=' + globalParams.rcd;
+                if (globalParams.interaction_id) url += '&interaction_id$i=' + globalParams.interaction_id;
             }
 
             // Create iframe container
@@ -2687,7 +2680,7 @@ function addAppealIframeButtons() {
             });
         };
 
-        // Insert the new button after the original link
+        // Insert the new button after the original link (positioned under it)
         link.parentNode.insertBefore(newButton, link.nextSibling);
     });
 
