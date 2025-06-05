@@ -70,6 +70,7 @@ const initializeFeatures = async (features) => {
                 features[key]();
             }
         });
+        addAppealIframeButtons()
     } catch (error) {
         error("[Хелпер] - Ошибка инициализации:", error);
     }
