@@ -45,25 +45,52 @@ async function setHelperAnticipation() {
     button.textContent = "Хелпер";
     let problems = 0;
 
-    // Define problem types to check for
-    const problemTypes = [{
-        name: "СПАС", selector: ".spas_body", textCheck: null, // No text check needed
-        logMessage: "Найден СПАС"
-    }, {
-        name: "Доступ",
-        selector: ".bl_antic_head_w",
-        textCheck: "Доступ отсутствует",
-        logMessage: "Найден закрытый доступ"
-    }, {
-        name: "Авария", selector: ".bl_antic_head_w", textCheck: "Аварии на адресе", logMessage: "Найдена авария"
-    }, {
-        name: "ППР", selector: ".bl_antic_head_w", textCheck: "ППР на адресе", logMessage: "Найден ППР"
-    }, {
-        name: "Особый", selector: ".bl_antic_head_w", textCheck: "Особый Клиент", logMessage: "Найден особый клиент"
-    }];
+    // Проверка на "Сервисный Инженер Для Кц"
+    const isServiceEngineer = () => {
+        const namcl = document.querySelector("#namcl b");
+        return namcl && namcl.textContent.trim() === "Сервисный Инженер Для Кц";
+    };
 
-    // Function to check and mark a problem
+    const foundTypes = new Set();
+
+    // Объявляем типы проблем
+    const problemTypes = [
+        {
+            name: "СПАС",
+            selector: ".spas_body",
+            textCheck: null,
+            logMessage: "Найден СПАС"
+        },
+        {
+            name: "Доступ",
+            selector: ".bl_antic_head_w",
+            textCheck: "Доступ отсутствует",
+            logMessage: "Найден закрытый доступ"
+        },
+        {
+            name: "Авария",
+            selector: ".bl_antic_head_w",
+            textCheck: "Аварии на адресе",
+            logMessage: "Найдена авария"
+        },
+        {
+            name: "ППР",
+            selector: ".bl_antic_head_w",
+            textCheck: "ППР на адресе",
+            logMessage: "Найден ППР"
+        },
+        {
+            name: "СИ",
+            selector: ".bl_antic_head_w",
+            textCheck: "Особый Клиент",
+            logMessage: "Найден особый клиент",
+            skipIfServiceEngineer: true
+        }
+    ];
+
     const markProblem = (type) => {
+        if (foundTypes.has(type.name)) return false;
+        foundTypes.add(type.name);
         button.innerHTML += ` | ${type.name}`;
         button.style.backgroundColor = "#cc3300";
         problems++;
@@ -71,17 +98,25 @@ async function setHelperAnticipation() {
         return true;
     };
 
-    // Check for existing elements first
+    // Отдельно обрабатываем Сервисного Инженера
+    if (isServiceEngineer()) {
+        button.innerHTML += ` | Инженер`;
+        button.style.backgroundColor = "#cc3300";
+        problems++;
+        info(`[Хелпер] - [АРМ] - [Сервисный инженер] Найден сервисный инженер`);
+    }
+
+    // Проверка существующих элементов
     problemTypes.forEach(type => {
+        if (type.skipIfServiceEngineer && isServiceEngineer()) return;
+
         const elements = document.querySelectorAll(type.selector);
-        if (elements && elements.length > 0) {
+        if (elements.length > 0) {
             if (!type.textCheck) {
-                // For elements without text check (like СПАС)
                 markProblem(type);
             } else {
-                // For elements that need text content verification
-                elements.forEach(element => {
-                    if (element.textContent.trim() === type.textCheck) {
+                elements.forEach(el => {
+                    if (el.textContent.trim() === type.textCheck) {
                         markProblem(type);
                     }
                 });
@@ -89,22 +124,20 @@ async function setHelperAnticipation() {
         }
     });
 
-    // Set up a single observer for all problem types
+    // Наблюдение за появляющимися элементами
     const observer = new MutationObserver(mutations => {
         for (const mutation of mutations) {
             if (mutation.type === "childList") {
                 mutation.addedNodes.forEach(node => {
                     if (node.nodeType !== Node.ELEMENT_NODE) return;
 
-                    // Check each node against all problem types
                     problemTypes.forEach(type => {
+                        if (type.skipIfServiceEngineer && isServiceEngineer()) return;
+
                         if (node.classList && node.classList.contains(type.selector.substring(1))) {
-                            // For elements without text check
                             if (!type.textCheck) {
                                 markProblem(type);
-                            }
-                            // For elements with text check
-                            else if (node.textContent.trim() === type.textCheck) {
+                            } else if (node.textContent.trim() === type.textCheck) {
                                 markProblem(type);
                             }
                         }
@@ -114,21 +147,19 @@ async function setHelperAnticipation() {
         }
     });
 
-    // Start observing with a single observer
     observer.observe(document.body, {childList: true, subtree: true});
 
-    // Set a single timeout to disconnect the observer
     setTimeout(() => {
         observer.disconnect();
     }, 3000);
 
-    // Set button color to green if no problems found
     if (problems === 0) {
         button.style.backgroundColor = "#008000";
     }
 
     info(`[Хелпер] - [АРМ] - [Предвосхищение] Предвосхищение загружено`);
 }
+
 
 /**
  * Initialize the filter and count display for client sessions
@@ -261,6 +292,19 @@ async function deleteTabs(tabList) {
  * Checks for special client, send alert if found
  */
 async function checkForSpecialClient() {
+    // Проверка на "Сервисный Инженер Для Кц"
+    const isServiceEngineer = () => {
+        const namcl = document.querySelector("#namcl b");
+        return namcl && namcl.textContent.trim() === "Сервисный Инженер Для Кц";
+    };
+
+    // Если найден "Сервисный Инженер Для Кц", выводим предупреждение и не проверяем дальше
+    if (isServiceEngineer()) {
+        alert("Внимание! Сервисный инженер!");
+        info(`[Хелпер] - [АРМ] - [Сервисный инженер] Найден сервисный инженер`);
+        return;
+    }
+
     const observerSpecial = new MutationObserver((mutationsList) => {
         for (const mutation of mutationsList) {
             if (mutation.type === "childList") {
@@ -289,6 +333,7 @@ async function checkForSpecialClient() {
         setTimeout(() => {
             observerSpecial.disconnect();
         }, 3000);
+
         const existingNodes = document.body.querySelectorAll(".bl_antic_head_w");
         existingNodes.forEach(checkSpecialClient);
     }
@@ -559,7 +604,7 @@ async function searchForOpenAppeals() {
                                 let isMaximized = false;
                                 let originalStyles = {};
                                 let isDragging = false;
-                                let dragOffset = { x: 0, y: 0 };
+                                let dragOffset = {x: 0, y: 0};
 
                                 // Create header with window controls
                                 const header = document.createElement('div');
