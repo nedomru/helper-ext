@@ -2539,8 +2539,7 @@ async function infoCompensationButton() {
  */
 function addAppealIframeButtons() {
     new MutationObserver(() => {
-        // Target the specific tab container (change the ID to match your target tab)
-        const container = document.getElementById("lazy_content_2448"); // Change this ID as needed
+        const container = document.getElementById("lazy_content_2448");
         if (!container?.textContent) return;
 
         // Check if already processed to avoid duplicate processing
