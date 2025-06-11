@@ -99,7 +99,7 @@ async function searchByAppeal() {
   });
 }
 
-// Поиск по логам
+// Search for agreement logs
 async function searchByLog() {
   new MutationObserver((mutations) => {
     const container = document.getElementById("clientlog");
@@ -145,7 +145,7 @@ async function searchByLog() {
   }).observe(document.body, { childList: true, subtree: true });
 }
 
-// Поиск по свойствам
+// Search for agreement flags
 async function searchByFlag() {
   const observer = new MutationObserver((mutations) => {
     const container = document.getElementById("lazy_content_2416");

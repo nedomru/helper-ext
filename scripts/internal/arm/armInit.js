@@ -137,6 +137,7 @@ const initializeExtension = async () => {
         await setHelperAnticipation();
 
         // Инициализация функций поиска и форматирования EQM
+        await searchForOpenAppeals();
         await searchByLog();
         await searchByFlag();
         await searchByAppeal();
