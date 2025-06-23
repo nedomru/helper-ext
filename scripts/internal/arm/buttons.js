@@ -1471,17 +1471,13 @@ async function leftFrame_fastAppeals() {
             step.dispatchEvent(changeEvent);
 
             waitForElement(".uni_load_obj_reason", (substep) => {
-                substep.value = "1046";
+                substep.value = "1267";
                 substep.dispatchEvent(changeEvent);
             });
 
             waitForElement(".uni_load_main_reason", (substep) => {
-                substep.value = "4205";
+                substep.value = "22264";
                 substep.dispatchEvent(changeEvent);
-            });
-
-            waitForElement(".uni_load_child_reason", (substep) => {
-                substep.value = "18303";
             });
 
             waitForElement(".comment_text", (substep) => {
