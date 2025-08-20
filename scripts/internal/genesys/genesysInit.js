@@ -7,7 +7,6 @@ const GENESYS_FEATURES = {
   core: {
     GENESYS_hideUselessButtons: hideUselessButtons,
     GENESYS_showFastButtons: initGenesysButtons,
-    GENESYS_showOCTPLineStatus: otpcLineStatus,
     GENESYS_chatColors: setupGenesysChatColors,
     GENESYS_chatSound: setupGenesysChatSound,
     GENESYS_showFlomaster: showFlomaster,
@@ -20,7 +19,6 @@ const GENESYS_FEATURES = {
   },
   lineStatus: {
     GENESYS_showLineStatus_nck1: "nck1",
-    GENESYS_showLineStatus_nck2: "nck2",
     GENESYS_showLineMessages: "GENESYS_showLineMessages"
   },
 };

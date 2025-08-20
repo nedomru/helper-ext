@@ -634,7 +634,7 @@ async function leftFrame_fastAppeals() {
         "Открытое": [], "Закрытое": [], "Быстрый чат": [],
     };
 
-    const settingsKeys = ["ARM_changeRequestFBLF_FastChat_Accident", "ARM_changeRequestFBLF_Open_VhodNRD", "ARM_changeRequestFBLF_Open_KCNCK2", "ARM_changeRequestFBLF_Open_KCNCK1", "ARM_changeRequestFBLF_Closed_NoPages", "ARM_changeRequestFBLF_Closed_NoSession", "ARM_changeRequestFBLF_Closed_LowSpeed", "ARM_changeRequestFBLF_Closed_Disconnections", "ARM_changeRequestFBLF_Closed_NoTV", "ARM_changeRequestFBLF_Open_Ticket", "ARM_changeRequestFBLF_Open_Youtube", "ARM_changeRequestFBLF_Closed_CancelSZ", "ARM_changeRequestFBLF_FastChat_NoDiagnostic", "ARM_changeRequestFBLF_FastChat_DZ", "ARM_changeRequestFBLF_Open_Abon", "ARM_changeRequestFBLF_Open_AbonPriost", "ARM_changeRequestFBLF_Closed_ServiceEng",];
+    const settingsKeys = ["ARM_changeRequestFBLF_FastChat_Accident", "ARM_changeRequestFBLF_Open_VhodNRD", "ARM_changeRequestFBLF_Open_KCNCK1", "ARM_changeRequestFBLF_Closed_NoPages", "ARM_changeRequestFBLF_Closed_NoSession", "ARM_changeRequestFBLF_Closed_LowSpeed", "ARM_changeRequestFBLF_Closed_Disconnections", "ARM_changeRequestFBLF_Closed_NoTV", "ARM_changeRequestFBLF_Open_Ticket", "ARM_changeRequestFBLF_Open_Youtube", "ARM_changeRequestFBLF_Closed_CancelSZ", "ARM_changeRequestFBLF_FastChat_NoDiagnostic", "ARM_changeRequestFBLF_FastChat_DZ", "ARM_changeRequestFBLF_Open_Abon", "ARM_changeRequestFBLF_Open_AbonPriost", "ARM_changeRequestFBLF_Closed_ServiceEng",];
 
     // Getting user settings
     const settings = await Promise.all(settingsKeys.map((key) => browser.storage.sync.get(key)),);
@@ -664,17 +664,7 @@ async function leftFrame_fastAppeals() {
 
     if (settings[2][settingsKeys[2]]) {
         buttons.push({
-            value: "КС НЦК2",
-            class: "helper helper-appeal-button",
-            action: handleKCNCK2Click,
-            category: "Открытое",
-            tooltip: "Продукт не изменяется. ОЦТП Исход > Контакт сорвался > ..."
-        });
-    }
-
-    if (settings[3][settingsKeys[3]]) {
-        buttons.push({
-            value: "КС НЦК1",
+            value: "КС",
             class: "helper helper-appeal-button",
             action: handleKCNCK1Click,
             category: "Открытое",
@@ -682,7 +672,7 @@ async function leftFrame_fastAppeals() {
         });
     }
 
-    if (settings[4][settingsKeys[4]]) {
+    if (settings[3][settingsKeys[3]]) {
         buttons.push({
             value: "Неоткрывашки",
             class: "helper helper-appeal-button",
@@ -692,7 +682,7 @@ async function leftFrame_fastAppeals() {
         });
     }
 
-    if (settings[5][settingsKeys[5]]) {
+    if (settings[4][settingsKeys[4]]) {
         buttons.push({
             value: "Нет сессии",
             class: "helper helper-appeal-button",
@@ -702,7 +692,7 @@ async function leftFrame_fastAppeals() {
         });
     }
 
-    if (settings[6][settingsKeys[6]]) {
+    if (settings[5][settingsKeys[5]]) {
         buttons.push({
             value: "Низкая",
             class: "helper helper-appeal-button",
@@ -712,7 +702,7 @@ async function leftFrame_fastAppeals() {
         });
     }
 
-    if (settings[7][settingsKeys[7]]) {
+    if (settings[6][settingsKeys[6]]) {
         buttons.push({
             value: "Разрывы",
             class: "helper helper-appeal-button",
@@ -722,7 +712,7 @@ async function leftFrame_fastAppeals() {
         });
     }
 
-    if (settings[8][settingsKeys[8]]) {
+    if (settings[7][settingsKeys[7]]) {
         buttons.push({
             value: "Нет вещания",
             class: "helper helper-appeal-button",
@@ -732,7 +722,7 @@ async function leftFrame_fastAppeals() {
         });
     }
 
-    if (settings[9][settingsKeys[9]]) {
+    if (settings[8][settingsKeys[8]]) {
         buttons.push({
             value: "Тикет",
             class: "helper helper-appeal-button",
@@ -742,7 +732,7 @@ async function leftFrame_fastAppeals() {
         });
     }
 
-    if (settings[10][settingsKeys[10]]) {
+    if (settings[9][settingsKeys[9]]) {
         buttons.push({
             value: "Youtube",
             class: "helper helper-appeal-button",
@@ -752,7 +742,7 @@ async function leftFrame_fastAppeals() {
         });
     }
 
-    if (settings[11][settingsKeys[11]]) {
+    if (settings[10][settingsKeys[10]]) {
         buttons.push({
             value: "Отмена СЗ",
             class: "helper helper-appeal-button",
@@ -762,7 +752,7 @@ async function leftFrame_fastAppeals() {
         });
     }
 
-    if (settings[12][settingsKeys[12]]) {
+    if (settings[11][settingsKeys[11]]) {
         buttons.push({
             value: "Без диагностики",
             class: "helper helper-appeal-button",
@@ -772,7 +762,7 @@ async function leftFrame_fastAppeals() {
         });
     }
 
-    if (settings[13][settingsKeys[13]]) {
+    if (settings[12][settingsKeys[12]]) {
         buttons.push({
             value: "Отключ ДЗ",
             class: "helper helper-appeal-button",
@@ -782,7 +772,7 @@ async function leftFrame_fastAppeals() {
         });
     }
 
-    if (settings[14][settingsKeys[14]]) {
+    if (settings[13][settingsKeys[13]]) {
         buttons.push({
             value: "Абон Деньги",
             class: "helper helper-appeal-button",
@@ -792,7 +782,7 @@ async function leftFrame_fastAppeals() {
         });
     }
 
-    if (settings[15][settingsKeys[15]]) {
+    if (settings[14][settingsKeys[14]]) {
         buttons.push({
             value: "Абон Приост",
             class: "helper helper-appeal-button",
@@ -802,7 +792,7 @@ async function leftFrame_fastAppeals() {
         });
     }
 
-    if (settings[16][settingsKeys[16]]) {
+    if (settings[15][settingsKeys[15]]) {
         buttons.push({
             value: "СИ",
             class: "helper helper-appeal-button",
@@ -1032,17 +1022,6 @@ async function leftFrame_fastAppeals() {
     async function handleKCNCK1Click() {
         const step = document.querySelector(".uni_reas_step");
         step.value = "2296";
-        step.dispatchEvent(changeEvent);
-
-        waitForElement(".uni_load_obj_reason", (substep) => {
-            substep.value = "2123";
-            substep.dispatchEvent(changeEvent);
-        });
-    }
-
-    async function handleKCNCK2Click() {
-        const step = document.querySelector(".uni_reas_step");
-        step.value = "1520";
         step.dispatchEvent(changeEvent);
 
         waitForElement(".uni_load_obj_reason", (substep) => {
@@ -1766,7 +1745,7 @@ async function fastButtonsChangeRequest() {
 
     const existingButton = document.getElementById("update_request_appl");
 
-    const settingsKeys = ["ARM_changeRequestFBCR_Open_KCNCK1", "ARM_changeRequestFBCR_Open_KCNCK2", "ARM_changeRequestFBCR_Open_TS", "ARM_changeRequestFBCR_Open_NRD", "ARM_changeRequestFBCR_Open_NTPISH", "ARM_changeRequestFBCR_Open_ABONISH",];
+    const settingsKeys = ["ARM_changeRequestFBCR_Open_KCNCK1", "ARM_changeRequestFBCR_Open_TS", "ARM_changeRequestFBCR_Open_NRD", "ARM_changeRequestFBCR_Open_NTPISH", "ARM_changeRequestFBCR_Open_ABONISH",];
 
     const settings = await Promise.all(settingsKeys.map((key) => browser.storage.sync.get(key)),);
 
@@ -1776,21 +1755,12 @@ async function fastButtonsChangeRequest() {
         const online_cs = document.createElement("input");
         online_cs.setAttribute("type", "button");
         online_cs.setAttribute("class", "btn btn-sm btn-info helper");
-        online_cs.setAttribute("value", "КС - НЦК1");
+        online_cs.setAttribute("value", "КС");
         online_cs.addEventListener("click", handleOnlineCSClick);
         buttons.push(online_cs);
     }
 
-    if (settings[1].ARM_changeRequestFBCR_Open_KCNCK2) {
-        const octp_cs = document.createElement("input");
-        octp_cs.setAttribute("type", "button");
-        octp_cs.setAttribute("class", "btn btn-sm btn-info helper");
-        octp_cs.setAttribute("value", "КС - НЦК2");
-        octp_cs.addEventListener("click", handleOCTPCSClick);
-        buttons.push(octp_cs);
-    }
-
-    if (settings[2].ARM_changeRequestFBCR_Open_TS) {
+    if (settings[1].ARM_changeRequestFBCR_Open_TS) {
         const ts_aao = document.createElement("input");
         ts_aao.setAttribute("type", "button");
         ts_aao.setAttribute("class", "btn btn-sm btn-danger helper");
@@ -1799,7 +1769,7 @@ async function fastButtonsChangeRequest() {
         buttons.push(ts_aao);
     }
 
-    if (settings[3].ARM_changeRequestFBCR_Open_NRD) {
+    if (settings[2].ARM_changeRequestFBCR_Open_NRD) {
         const nrd_ishod = document.createElement("input");
         nrd_ishod.setAttribute("type", "button");
         nrd_ishod.setAttribute("class", "btn btn-sm btn-danger helper");
@@ -1808,7 +1778,7 @@ async function fastButtonsChangeRequest() {
         buttons.push(nrd_ishod);
     }
 
-    if (settings[4].ARM_changeRequestFBCR_Open_NTPISH) {
+    if (settings[3].ARM_changeRequestFBCR_Open_NTPISH) {
         const ntp_ishod = document.createElement("input");
         ntp_ishod.setAttribute("type", "button");
         ntp_ishod.setAttribute("class", "btn btn-sm btn-warning helper");
@@ -1817,7 +1787,7 @@ async function fastButtonsChangeRequest() {
         buttons.push(ntp_ishod);
     }
 
-    if (settings[5].ARM_changeRequestFBCR_Open_ABONISH) {
+    if (settings[4].ARM_changeRequestFBCR_Open_ABONISH) {
         const abon_ishod = document.createElement("input");
         abon_ishod.setAttribute("type", "button");
         abon_ishod.setAttribute("class", "btn btn-sm btn-warning helper");

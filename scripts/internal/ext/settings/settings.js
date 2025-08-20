@@ -93,7 +93,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Загрузка сохраненных настроек
     const checkboxIds = [
         "GENESYS_showLineStatus_nck1",
-        "GENESYS_showLineStatus_nck2",
         "GENESYS_showFastButtons",
         "GENESYS_showFB_flomaster",
         "GENESYS_showFB_channelsktv",
@@ -128,14 +127,12 @@ document.addEventListener("DOMContentLoaded", async function () {
         "ARM_showHelperSMSButtons",
         "ARM_changeRequestFBCR",
         "ARM_changeRequestFBCR_Open_KCNCK1",
-        "ARM_changeRequestFBCR_Open_KCNCK2",
         "ARM_changeRequestFBCR_Open_NTPISH",
         "ARM_changeRequestFBCR_Open_ABONISH",
         "ARM_changeRequestFBCR_Open_TS",
         "ARM_changeRequestFBCR_Open_NRD",
         "ARM_changeRequestFBLF",
         "ARM_changeRequestFBLF_Open_KCNCK1",
-        "ARM_changeRequestFBLF_Open_KCNCK2",
         "ARM_changeRequestFBLF_Open_Abon",
         "ARM_changeRequestFBLF_Open_AbonPriost",
         "ARM_changeRequestFBLF_Open_VhodNRD",

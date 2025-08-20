@@ -18,7 +18,7 @@ async function initUserSettings() {
     /**
      * Initialize cached settings once
      */
-    userSettings = await getStorage(["GENESYS_showLineStatus_nck1", "GENESYS_showLineStatus_nck2", "GENESYS_showLineMessages"]);
+    userSettings = await getStorage(["GENESYS_showLineStatus_nck1", "GENESYS_showLineMessages"]);
 }
 
 initUserSettings();
@@ -60,9 +60,8 @@ async function socketConnect(sessionID) {
         info("[Генезис] WebSocket открыт.");
         reconnectAttempts = 0;
 
-        const settings = await getStorage(["GENESYS_showLineStatus_nck1", "GENESYS_showLineStatus_nck2"]);
-        if (settings.GENESYS_showLineStatus_nck1) addLineStatusDiv("line-status-nck1");
-        if (settings.GENESYS_showLineStatus_nck2) addLineStatusDiv("line-status-nck2");
+        const settings = await getStorage(["GENESYS_showLineStatus_nck1"]);
+        if (settings.GENESYS_showLineStatus_nck1) await addLineStatusDiv();
 
         socket.send(`42/ts-line-genesys-okcdb-ws,["id","${sessionID}"]`);
     };
@@ -107,7 +106,7 @@ async function socketConnect(sessionID) {
         isActive = false;
         warn(`[Генезис] WebSocket закрыт. Код: ${event.code}`);
 
-        [document.querySelector("#line-status-nck1"), document.querySelector("#line-status-nck2")].forEach(el => {
+        [document.querySelector("#line-status-combined")].forEach(el => {
             if (el) {
                 el.innerText = "Починить";
             }
@@ -138,7 +137,7 @@ async function manualReconnect() {
 }
 
 function handleAuthorizationFailure() {
-    const lineStats = document.querySelector("#line-status-nck1") || document.querySelector("#line-status-nck2");
+    const lineStats = document.querySelector("#line-status-combined");
     if (lineStats) lineStats.innerText = "Нет авторизации";
 
     showNotification("⚠️ Ошибка", "Требуется авторизация. Обнови страницу");
@@ -158,57 +157,83 @@ function showNotification(title, message) {
     });
 }
 
-async function addLineStatusDiv(id) {
+async function addLineStatusDiv() {
     /**
-     * Add DIV to show line status
-     * @param {int} id - Line number of showing status.
+     * Add single DIV to show combined line status for all levels
      */
-    if (document.querySelector(`#${id}`)) return;
+    if (document.querySelector("#line-status-combined")) return;
 
     const observer = new MutationObserver(() => {
         const title = document.querySelector(".title");
 
         if (title) {
             const containerDiv = document.createElement("div");
-            containerDiv.style.padding = "10px";
-            containerDiv.style.marginLeft = "10px";
-            containerDiv.style.fontSize = "15px";
-            containerDiv.style.border = "1px solid #949494";
-            containerDiv.style.backgroundColor = "#4c5961";
-            containerDiv.style.color = "white";
+            containerDiv.style.cssText = `
+                padding: 3px;
+                margin: 5px;
+                font-size: 14px;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                border: 2px solid #949494;
+                border-radius: 8px;
+                background: linear-gradient(135deg, #4c5961 0%, #3a4248 100%);
+                color: white;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+                position: relative;
+                overflow: hidden;
+            `;
+
             containerDiv.classList.add("helper-line-status");
-            containerDiv.style.cursor = "pointer";
-            containerDiv.style.transition = "background-color 0.2s ease";
+
+            // Add subtle animated background effect
+            containerDiv.style.setProperty('--shimmer', 'linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent)');
 
             // Add hover effect
             containerDiv.addEventListener("mouseover", () => {
-                containerDiv.style.backgroundColor = "#5a6971";
+                containerDiv.style.transform = "translateY(-1px)";
+                containerDiv.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.25)";
+                containerDiv.style.borderColor = "#6c7b7f";
             });
 
             containerDiv.addEventListener("mouseout", () => {
-                containerDiv.style.backgroundColor = "#4c5961";
+                containerDiv.style.transform = "translateY(0)";
+                containerDiv.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.15)";
+                containerDiv.style.borderColor = "#949494";
             });
 
-            const newDiv = document.createElement("div");
-            newDiv.id = id;
-            newDiv.style.display = "flex";
-            newDiv.style.alignItems = "center";
-            newDiv.style.pointerEvents = "none"; // Ensures clicks pass through to container
+            const statusDiv = document.createElement("div");
+            statusDiv.id = "line-status-combined";
+            statusDiv.style.cssText = `
+                pointer-events: none;
+                line-height: 1.4;
+            `;
 
-            // Add click handler to the entire container
+            // Add click handler to reconnect
             containerDiv.addEventListener("click", async () => {
+                containerDiv.style.opacity = "0.7";
                 await manualReconnect();
+                setTimeout(() => {
+                    containerDiv.style.opacity = "1";
+                }, 500);
             });
 
-            containerDiv.appendChild(newDiv);
+            // Add loading state initially
+            statusDiv.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="color: #868e96;">🔄 Загрузка статуса...</span>
+                </div>
+            `;
 
+            containerDiv.appendChild(statusDiv);
             title.parentNode.insertBefore(containerDiv, title.nextSibling);
             observer.disconnect();
         }
     });
 
     observer.observe(document.body, {
-        childList: true, subtree: true,
+        childList: true,
+        subtree: true,
     });
 }
 
@@ -232,6 +257,8 @@ function stripHtml(html) {
     return formattedHtml;
 }
 
+let lastNotificationMessage = null;
+let lastNotificationTime = 0;
 
 async function handleSocketMessages(data) {
     /**
@@ -239,42 +266,113 @@ async function handleSocketMessages(data) {
      * @param data jsonified socket message data
      */
     if (!data) return;
-    const lineStatsNCK1 = document.querySelector("#line-status-nck1");
-    const lineStatsNCK2 = document.querySelector("#line-status-nck2");
 
-    const {GENESYS_showLineStatus_nck1, GENESYS_showLineStatus_nck2, GENESYS_showLineMessages} = userSettings;
+    const {GENESYS_showLineStatus_nck1, GENESYS_showLineMessages} = userSettings;
 
-    const updateLineStats = (el, lineNumber, addEmoji = false) => {
-        if (!el || !data.waitingChats) return;
-        el.style.color = data.waitingChats[`nck${lineNumber}`] > 0 ? "red" : "white";
+    // Update line status if enabled
+    if (GENESYS_showLineStatus_nck1) {
+        updateLineStatus(data);
+    }
 
-        let contentToShow = `<span style="display: inline-flex; justify-content: center; width: 20px; height: 20px; background-color: #666666; border-radius: 50%; margin-right: 5px; font-size: 12px;">${lineNumber}</span>Слоты: ${data.chatCapacity[`nck${lineNumber}`].available}/${data.chatCapacity[`nck${lineNumber}`].max} | SL: ${data.daySl[`nck${lineNumber}`]}`;
-        if (data.waitingChats[`nck${lineNumber}`] > 0) {
-            contentToShow += ` | ОЧЕРЕДЬ: ${data.waitingChats[`nck${lineNumber}`]}`;
+    // Handle line messages - prevent spam by checking if message changed
+    if (GENESYS_showLineMessages && data.lastMessage && data.lastMessage.message) {
+        const currentMessage = data.lastMessage.message;
+        const currentTime = Date.now();
+
+        // Only show notification if message is different or enough time has passed (30 seconds)
+        if (currentMessage !== lastNotificationMessage || (currentTime - lastNotificationTime) > 30000) {
+            $.notify({
+                title: `<strong>👮‍♂️ ${data.lastMessage.author || 'Unknown'}</strong>`,
+                message: stripHtml(currentMessage)
+            }, {
+                style: 'lineMessage',
+                globalPosition: 'bottom right',
+                autoHideDelay: 15000,
+                showAnimation: 'fadeIn',
+                hideAnimation: 'fadeOut',
+                html: true
+            });
+
+            lastNotificationMessage = currentMessage;
+            lastNotificationTime = currentTime;
         }
-        if (addEmoji) {
-            contentToShow += data.serviceScheme === 1 ? ' ⛱️' : ' 🔥';
-        }
-        const newContent = `<p>${contentToShow}</p>`;
-        if (el.innerHTML !== newContent) {
-            el.innerHTML = DOMPurify.sanitize(newContent);
-        }
-    };
+    }
+}
 
-    GENESYS_showLineStatus_nck1 && updateLineStats(lineStatsNCK1, 1, true); // Emojis for NCK1 only
-    GENESYS_showLineStatus_nck2 && updateLineStats(lineStatsNCK2, 2, false); // No emojis for NCK2
+function updateLineStatus(data) {
+    /**
+     * Update the single line status div with all level data
+     * @param data socket data
+     */
+    const lineStatusDiv = document.querySelector("#line-status-combined");
+    if (!lineStatusDiv || !data.waitingChats || !data.chatCapacity) return;
 
-    if (GENESYS_showLineMessages && data.messageText) {
-        $.notify({
-            title: `<strong>👮‍♂️ ${data.authorName}</strong>`, message: stripHtml(data.messageText)
-        }, {
-            style: 'lineMessage',
-            globalPosition: 'bottom right',
-            autoHideDelay: 15000,
-            showAnimation: 'fadeIn',
-            hideAnimation: 'fadeOut',
-            html: true
-        });
+    console.debug(data);
+
+    const levels = [1, 2, 3];
+    let statusParts = [];
+    let hasQueue = false;
+
+    // Build status for each level
+    levels.forEach(levelNumber => {
+        const levelKey = `lvl${levelNumber}`;
+        const waitingCount = data.waitingChats[levelKey] || 0;
+        const levelCapacity = data.chatCapacity[levelKey];
+
+        if (levelCapacity) {
+            const availableSlots = levelCapacity.available || 0;
+            const maxSlots = levelCapacity.max || 0;
+
+            if (waitingCount > 0) {
+                hasQueue = true;
+            }
+
+            statusParts.push({
+                level: levelNumber,
+                available: availableSlots,
+                max: maxSlots,
+                waiting: waitingCount
+            });
+        }
+    });
+
+    // Build the display content
+    let contentParts = [];
+
+    // Add level status
+    statusParts.forEach(part => {
+        const levelColor = part.waiting > 0 ? '#ff6b6b' : '#51cf66';
+        const levelIcon = `<span style="display: inline-flex; justify-content: center; align-items: center; width: 22px; height: 22px; background: linear-gradient(135deg, ${levelColor}, ${levelColor}dd); border-radius: 50%; margin-right: 8px; font-size: 11px; font-weight: bold; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">${part.level}</span>`;
+        const slotText = `${part.available}/${part.max}`;
+        const queueText = part.waiting > 0 ? ` <span style="color: #ff6b6b; font-weight: bold;">💬 ${part.waiting}</span>` : '';
+
+        contentParts.push(`${levelIcon}${slotText}${queueText}`);
+    });
+
+    // Add SL and service scheme
+    const slValue = data.daySl || 'N/A';
+    const slColor = slValue === 'N/A' ? '#868e96' : (parseFloat(slValue) >= 80 ? '#51cf66' : '#ff6b6b');
+    const slText = `<span style="color: ${slColor}; font-weight: bold;">SL: ${slValue}%</span>`;
+
+    const schemeEmoji = data.serviceScheme === 1 ? '⛱️' : '🔥';
+    const schemeText = `<span style="font-size: 16px;">${schemeEmoji}</span>`;
+
+    // Combine all parts
+    const finalContent = `
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            ${contentParts.join('<span style="color: #868e96; margin: 0 5px;">|</span>')}
+            <span style="color: #868e96; margin: 0 5px;">|</span>
+            ${slText}
+            ${schemeText}
+        </div>
+    `;
+
+    // Set overall container color based on queue status
+    lineStatusDiv.parentElement.style.backgroundColor = hasQueue ? '#6c2e2e' : '#4c5961';
+    lineStatusDiv.parentElement.style.borderColor = hasQueue ? '#ff6b6b' : '#949494';
+
+    if (lineStatusDiv.innerHTML !== finalContent) {
+        lineStatusDiv.innerHTML = DOMPurify.sanitize(finalContent);
     }
 }
 
@@ -304,65 +402,3 @@ $.notify.addStyle('lineMessage', {
         }
     }
 });
-
-
-async function otpcLineStatus() {
-    /**
-     * Showing line status for OCTP
-     */
-    let lastStatus = ""; // Cache last status to prevent unnecessary DOM updates
-
-    async function getLineUpdate() {
-        const genesysTitle = document.querySelector(".title");
-        if (!genesysTitle) return;
-
-        try {
-            const response = await fetch("https://helper.chrsnv.ru/api/octp.json");
-
-            const data = await response.json();
-            if (!data.message) {
-                if (lastStatus !== "нет апдейтов") {
-                    genesysTitle.textContent = "НЦК2: нет апдейтов";
-                    lastStatus = "нет апдейтов";
-                    warn(`[Хелпер] - [Генезис] - [Аварийность] Изменений аварийности не найдено`,);
-                }
-                return;
-            }
-
-            const currentStatus = data.message;
-
-            // Always update tooltip time even if status hasn't changed
-            const isActive = currentStatus.includes("вкл") || currentStatus.includes("он");
-            const titleForStatus = `${isActive ? "2+2 / 3+1\n" : "4+6 / 5+5\n"}` + `Время изменения: ${data.messageTimestamp} ПРМ\n` + `Время проверки: ${data.lastFetchTime} ПРМ`;
-
-            genesysTitle.setAttribute("title", titleForStatus);
-
-            // Update other elements only if status changed
-            if (currentStatus !== lastStatus) {
-                lastStatus = currentStatus;
-
-                genesysTitle.style.textShadow = "2px 2px 4px rgba(0, 0, 0, 0.5)";
-                genesysTitle.textContent = `НЦК2: ${currentStatus}`;
-                genesysTitle.style.color = isActive ? "#FF0000" : "#00FF00";
-            }
-        } catch (error) {
-            error(`[Хелпер] - [Генезис] - [Аварийность] Ошибка:`, error);
-        }
-    }
-
-    // Initial setup
-    const observer = new MutationObserver((mutations, obs) => {
-        const genesysTitle = document.querySelector(".title");
-        if (genesysTitle) {
-            getLineUpdate();
-            obs.disconnect();
-        }
-    });
-
-    observer.observe(document.body, {childList: true, subtree: true});
-
-    // Regular updates every second
-    setInterval(getLineUpdate, 1000);
-
-    info(`[Хелпер] - [Генезис] - [Аварийность] Загружена аварийность НЦК2`,);
-}
