@@ -608,7 +608,7 @@ async function handlePremiumSubmit() {
                 <th scope="row">Кол-во чатов</th>
                 <td colspan="${isValidHours ? '4' : '3'}" class="align-middle">${result.TOTAL_CHATS ? result.TOTAL_CHATS : "-"}</td>
             </tr>
-            <tr>
+            <tr data-bs-toggle="tooltip" data-bs-placement="top" title="${result.COMMENTARY || ''}">
                 <th scope="row">Ручная правка</th>
                 <td colspan="${isValidHours ? '3' : '4'}" class="align-middle">
                     ${result.HEAD_ADJUST ? result.HEAD_ADJUST : 0}
