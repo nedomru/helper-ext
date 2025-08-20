@@ -80,7 +80,7 @@ async function setHelperAnticipation() {
             logMessage: "Найден ППР"
         },
         {
-            name: "СИ",
+            name: "Особик",
             selector: ".bl_antic_head_w",
             textCheck: "Особый Клиент",
             logMessage: "Найден особый клиент",
